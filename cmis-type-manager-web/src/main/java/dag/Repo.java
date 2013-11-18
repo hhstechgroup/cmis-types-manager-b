@@ -3,15 +3,15 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-@ManagedBean(name = "hello", eager = true)
+@ManagedBean(name = "repo", eager = true)
 @RequestScoped
-public class Hello {
+public class Repo {
     @EJB(name = "DagEJB")
     private Dag dag;
-    private String message = "Hello World!";
+    private String message = "Repo World!";
 
     public String getMessage() {
-        return dag.sayHey();
+        return dag.getAllFolders();
     }
 
     public void setMessage(String message) {

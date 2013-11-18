@@ -8,5 +8,5 @@ package dag;
  * To change this template use File | Settings | File Templates.
  */
 public interface Dag {
-    String sayHey();
+    String getAllFolders();
 }

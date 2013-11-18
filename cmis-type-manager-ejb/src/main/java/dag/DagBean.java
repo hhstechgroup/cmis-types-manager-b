@@ -24,18 +24,18 @@ public class DagBean implements Dag {
     }
 
     @Override
-    public String sayHey() {
+    public String getAllFolders() {
         String atomUrl = "http://winctrl-tdl6ti6:8080/chemistry-opencmis-server-inmemory-0.10.0/atom11";
         Map<String, String> parameter = new HashMap<String, String>();
-        List<String> folders = new ArrayList<String>();
         parameter.put(SessionParameter.USER, "");
         parameter.put(SessionParameter.PASSWORD, "");
         parameter.put(SessionParameter.ATOMPUB_URL, atomUrl);
         parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
         parameter.put(SessionParameter.REPOSITORY_ID, "A1");
         SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
-        Repository repository = sessionFactory.getRepositories(parameter).get(0);
         Session session = sessionFactory.createSession(parameter);
+//        Repository repository = sessionFactory.getRepositories(parameter).get(0);
+        List<String> folders = new ArrayList<String>();
         if (session != null) {
             Folder root = session.getRootFolder();
             ItemIterable<CmisObject> children = root.getChildren();
