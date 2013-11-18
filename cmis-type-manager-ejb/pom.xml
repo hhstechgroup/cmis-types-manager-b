@@ -23,7 +23,11 @@
     </repositories>
 
     <dependencies>
-
+        <dependency>
+            <groupId>org.apache.chemistry.opencmis</groupId>
+            <artifactId>chemistry-opencmis-client-impl</artifactId>
+            <version>0.10.0</version>
+        </dependency>
     </dependencies>
     
     <build>
