@@ -3,19 +3,54 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="fullscreen.xhtml">
+                template="fullscreen.xhtml"
+                xmlns:uib="http://engagepoint.com/uib">
     <ui:define name="leftMenu">
         <ui:include src="leftMenu.xhtml"/>
     </ui:define>
     <ui:define name="mainContent">
-        <h:form id="treeTableForm">
+        <h:form>
+            <h:dataTable value="#{contentBean.list}" var="item">
+                <h:column>#{item}</h:column>
+            </h:dataTable>
+        </h:form>
+        <h:form id="accordionForm">
+            <p:growl id="growl" showDetail="true"/>
 
-            <h:form>
-                <h:dataTable value="#{contentBean.list}" var="item">
-                    <h:column>#{item}</h:column>
-                </h:dataTable>
-            </h:form>
+            <p:accordionPanel  id="accordionPanel">
+                <p:tab id="accordionTab" title="Title">
+                    <h:outputText id="accordionText" value="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."/>
+                </p:tab>
+            </p:accordionPanel>
 
         </h:form>
+
+        <h:form prependId="false">
+            <uib:dataTable id="dataTable" var="car" rows="10" value="#{contentBean.list}" summary="basic table">
+                <f:facet name="header">
+                    <p> List of Cars</p>
+                </f:facet>
+                <uib:column>
+                    <f:facet name="header">
+                        Model
+                    </f:facet>
+                    <h:outputText value="#{contentBean.list}"/>
+                </uib:column>
+            </uib:dataTable>
+        </h:form>
+
+        <p:commandButton value="Show Modal" id="modalButton"
+                         onclick="jQuery('#basicModal').modal('show');return false;"/>
+
+        <uib:modal id="basicModal" header="Modal header">
+            <iframe title="iframe" width="480" height="360" src="//www.youtube.com/embed/b25J7MjE1n8?rel=0" frameborder="0"></iframe>
+            <f:facet name="footer">
+                <p:commandButton title="Cancel" id="cancelButton" mode="client" value="Cancel"
+                                 styleClass="secondary"
+                                 onclick="jQuery('#basicModal').modal('hide');return false;"/>
+                <p:commandButton title="Ok" id="okButton" mode="client" value="Ok"
+                                 onclick="jQuery('#basicModal').modal('hide');return false;"/>
+            </f:facet>
+        </uib:modal>
     </ui:define>
 </ui:composition>
