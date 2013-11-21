@@ -9,7 +9,7 @@ import java.util.List;
 @RequestScoped
 public class ContentBean {
     @EJB
-    private ContentManager manager;
+    private ContentManagerLocal manager;
 
     public List<String> getList() {
         return manager.getRootFolderContent();
