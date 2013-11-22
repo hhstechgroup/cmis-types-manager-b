@@ -1,12 +1,16 @@
 package dag;
 
-import org.apache.chemistry.opencmis.client.api.Folder;
-import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.client.api.SessionFactory;
+import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
+import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.commons.enums.BindingType;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Qnex.
@@ -16,12 +20,29 @@ import javax.ejb.Stateless;
 public class FolderFacade {
     private final SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
 
-    public Folder getRootFolder(LoginInfo loginInfo) {
-        return getSession(loginInfo).getRootFolder();
+    public List<String> getRootFolders(final LoginInfo loginInfo) {
+        Session session = getSession(loginInfo);
+        List<String> folders = new ArrayList<String>();
+        Folder root = session.getRootFolder();
+        ItemIterable<CmisObject> children = root.getChildren();
+        for (CmisObject child : children) {
+            folders.add(child.getName());
+        }
+        return folders;
     }
-    private Session getSession(LoginInfo loginInfo) {
 
-        return sessionFactory.createSession(loginInfo.parameters);
+    private Session getSession(final LoginInfo loginInfo) {
+        Map<String, String> parameters = new HashMap<String, String>() {
+            {
+                put(SessionParameter.USER, loginInfo.getUserName());
+                put(SessionParameter.USER, loginInfo.getUserName());
+                put(SessionParameter.PASSWORD, loginInfo.getPassword());
+                put(SessionParameter.ATOMPUB_URL, loginInfo.getUrl());
+                put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
+                put(SessionParameter.REPOSITORY_ID, "test");
+            }
+        };
+        return sessionFactory.createSession(parameters);
     }
 
 }
