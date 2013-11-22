@@ -74,6 +74,6 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>web</finalName>
+        <finalName>cmis-type-manager-web</finalName>
     </build>
 </project>

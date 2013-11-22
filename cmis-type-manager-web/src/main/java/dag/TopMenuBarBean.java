@@ -31,7 +31,6 @@ public class TopMenuBarBean {
         String viewId = viewRoot.getViewId();
         addMenuItem(viewId, "applyfor", "/hello1", "/#", "Item1");
         addMenuItem(viewId, "findaplan", "/hello2", "/#", "Item2");
-        addMenuItem(viewId, "hello1", "/hello3", "/#", "Item3");
     }
 
     private void addMenuItem(String viewId, String mID, String rootView, String address, String label) {

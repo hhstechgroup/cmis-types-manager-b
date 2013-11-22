@@ -14,6 +14,7 @@ import java.util.Map;
 
 @Stateless(name = "ContentManager")
 public class ContentManagerImpl implements ContentManager {
+
     public ContentManagerImpl() {
     }
 
@@ -24,6 +25,7 @@ public class ContentManagerImpl implements ContentManager {
         List<String> folders = new ArrayList<String>();
         if (session != null) {
             Folder root = session.getRootFolder();
+
             ItemIterable<CmisObject> children = root.getChildren();
             for (CmisObject child : children) {
                 folders.add("[" + child.getName() + "]" + " which is of type " + child.getType().getDisplayName());
