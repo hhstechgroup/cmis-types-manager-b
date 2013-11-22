@@ -1,4 +1,4 @@
-package dag;
+package com.engagepoint;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.SessionScoped;

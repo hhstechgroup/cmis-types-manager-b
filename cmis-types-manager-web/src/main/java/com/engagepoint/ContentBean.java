@@ -1,4 +1,4 @@
-package dag;
+package com.engagepoint;
 
 import javax.ejb.EJB;
 import javax.faces.bean.RequestScoped;

@@ -3,23 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>cmis-type-manager</artifactId>
-        <groupId>dag</groupId>
-        <version>1.0</version>
+        <artifactId>cmis-types-manager-b</artifactId>
+        <groupId>com.engagepoint</groupId>
+        <version>${global.version}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dag.cmis-type-manager</groupId>
-    <artifactId>cmis-type-manager-web</artifactId>
+    <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+    <artifactId>cmis-types-manager-web</artifactId>
     <packaging>war</packaging>
-
-    <repositories>
-        <repository>
-            <id>prime-repo</id>
-            <name>Prime Repo</name>
-            <url>http://repository.primefaces.org</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <!-- UI-BOOTSTRAP -->
@@ -37,9 +29,9 @@
         </dependency>
 
         <dependency>
-            <groupId>dag.cmis-type-manager</groupId>
-            <artifactId>cmis-type-manager-ejb</artifactId>
-            <version>1.0</version>
+            <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+            <artifactId>cmis-types-manager-ejb</artifactId>
+            <version>${global.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -72,8 +64,10 @@
             <artifactId>jsp-api</artifactId>
             <version>2.1</version>
         </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+        </dependency>
     </dependencies>
-    <build>
-        <finalName>web</finalName>
-    </build>
 </project>

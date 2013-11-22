@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cmis-types-manager-b</artifactId>
+        <groupId>com.engagepoint</groupId>
+        <version>${global.version}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+    <artifactId>cmis-types-manager-ear</artifactId>
+    <packaging>ear</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+            <artifactId>cmis-types-manager-ejb</artifactId>
+            <version>${global.version}</version>
+            <type>ejb</type>
+        </dependency>
+        <dependency>
+            <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+            <artifactId>cmis-types-manager-web</artifactId>
+            <version>${global.version}</version>
+            <type>war</type>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-ear-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <generateApplicationXml>true</generateApplicationXml>
+                    <modules>
+                        <webModule>
+                            <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+                            <artifactId>cmis-types-manager-web</artifactId>
+                            <contextRoot>/web</contextRoot>
+                        </webModule>
+                        <ejbModule>
+                            <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+                            <artifactId>cmis-types-manager-ejb</artifactId>
+                        </ejbModule>
+                    </modules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

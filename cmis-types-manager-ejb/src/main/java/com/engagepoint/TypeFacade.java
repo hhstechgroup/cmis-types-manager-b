@@ -1,4 +1,4 @@
-package dag;
+package com.engagepoint;
 
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
@@ -17,18 +17,13 @@ import java.util.Map;
  */
 @Stateless
 @LocalBean
-public class FolderFacade {
+public class TypeFacade {
     private final SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
 
-    public List<String> getRootFolders(final LoginInfo loginInfo) {
+    public List<Tree<ObjectType>> getRootFolders(final LoginInfo loginInfo) {
+        List<Tree<ObjectType>> trees = new ArrayList<Tree<ObjectType>>();
         Session session = getSession(loginInfo);
-        List<String> folders = new ArrayList<String>();
-        Folder root = session.getRootFolder();
-        ItemIterable<CmisObject> children = root.getChildren();
-        for (CmisObject child : children) {
-            folders.add(child.getName());
-        }
-        return folders;
+        return trees;
     }
 
     private Session getSession(final LoginInfo loginInfo) {
