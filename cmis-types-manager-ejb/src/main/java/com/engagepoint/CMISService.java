@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @Stateless
 @LocalBean
-public class FolderFacade {
+public class CMISService {
     private final SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
 
     public List<String> getRootFolders(final LoginInfo loginInfo) {
@@ -29,6 +29,10 @@ public class FolderFacade {
             folders.add(child.getName());
         }
         return folders;
+    }
+
+    public boolean isValidUser(final LoginInfo loginInfo) {
+        return (getSession(loginInfo) != null);
     }
 
     private Session getSession(final LoginInfo loginInfo) {

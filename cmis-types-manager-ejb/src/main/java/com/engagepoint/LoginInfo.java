@@ -13,7 +13,7 @@ public class LoginInfo {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public void setUsername(String userName) {
         this.userName = userName;
     }
 
@@ -33,7 +33,9 @@ public class LoginInfo {
         this.url = url;
     }
 
-    public boolean isEmpty(){
-        return ((userName == null) && (password == null) && (url == null));
+    public boolean isEmpty() {
+        return ((userName == null) ||
+                (password == null) ||
+                (url == null));
     }
 }

@@ -1,16 +1,15 @@
 package com.engagepoint;
 
 import javax.ejb.EJB;
-import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
-@Named("contentBean")
-@RequestScoped
-public class ContentBean {
+@Named
+public class ContentBean implements Serializable {
     @EJB
-    private FolderFacade folderService;
+    private CMISService folderService;
     @Inject
     private LoginBean loginBean;
 
