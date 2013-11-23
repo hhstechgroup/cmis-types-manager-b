@@ -12,15 +12,15 @@
         <h3>Login here</h3>
         <h:form id="login-form">
             <h:outputText value="username:"/>
-            <h:inputText value="#{loginBean.username}" id="username"/>
+            <h:inputText value="#{loginController.username}" id="username"/>
             <br/>
             <h:outputText value="password:"/>
-            <h:inputSecret value="#{loginBean.password}" id="password"/>
+            <h:inputSecret value="#{loginController.password}" id="password"/>
             <br/>
             <h:outputText value="url:"/>
-            <h:inputText value="#{loginBean.url}"  id="url"/>
+            <h:inputText value="#{loginController.url}"  id="url"/>
             <br/>
-            <h:commandButton id="button" value="Login" action="#{loginBean.doLogin}"/>
+            <h:commandButton id="button" value="Login" action="#{loginController.doLogin}"/>
             <br/>
             <br/>
         </h:form>

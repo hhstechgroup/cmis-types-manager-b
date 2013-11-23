@@ -29,8 +29,8 @@ public class TypeFacade {
     private Session getSession(final LoginInfo loginInfo) {
         Map<String, String> parameters = new HashMap<String, String>() {
             {
-                put(SessionParameter.USER, loginInfo.getUserName());
-                put(SessionParameter.USER, loginInfo.getUserName());
+                put(SessionParameter.USER, loginInfo.getUsername());
+                put(SessionParameter.USER, loginInfo.getUsername());
                 put(SessionParameter.PASSWORD, loginInfo.getPassword());
                 put(SessionParameter.ATOMPUB_URL, loginInfo.getUrl());
                 put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());

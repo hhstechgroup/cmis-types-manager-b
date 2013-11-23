@@ -9,7 +9,7 @@ public class LoginInfo {
     private String url;
 
 
-    public String getUserName() {
+    public String getUsername() {
         return userName;
     }
 

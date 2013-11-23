@@ -10,19 +10,22 @@ import java.io.Serializable;
  */
 @Named
 @SessionScoped
-public class LoginBean implements Serializable {
-    private LoginInfo loginInfo = new LoginInfo();
+public class LoginController implements Serializable {
     private String username;
     private String password;
     private String url;
     @EJB
     private CMISService service;
+    private LoginInfo loginInfo = new LoginInfo();
 
     public String doLogin() {
         loginInfo.setUsername(username);
         loginInfo.setPassword(password);
         loginInfo.setUrl(url);
-        return "index";
+        if (isValid()) {
+            return "index";
+        }
+        return "error";
     }
 
     public LoginInfo getLoginInfo() {
@@ -30,7 +33,7 @@ public class LoginBean implements Serializable {
     }
 
     public String getUsername() {
-        return username;
+        return loginInfo.getUsername();
     }
 
     public void setUsername(String username) {
@@ -54,6 +57,9 @@ public class LoginBean implements Serializable {
     }
 
     private boolean isValid() {
-        return service.isValidUser(loginInfo);
+        if (!loginInfo.isEmpty()) {
+            return service.isValidUser(loginInfo);
+        }
+        return false;
     }
 }
