@@ -8,7 +8,7 @@
           xmlns:cc-custom="http://java.sun.com/jsf/composite/components"
           markupType="html5"
           contentType="text/html"
-          showFooter="false"
+          showFooter="true"
           pageTitle="UI Bootstrap Demo"
           project="financials">
 
@@ -26,9 +26,7 @@
         </uib:pageHeaderFacet>
         <!-- /topMenu -->
         <!-- cc-loginForm:loginForm -->
-        <ui:remove>
-        <cc-custom:loginForm loginAction="#{loginBean.doLogin}" isLogged="#{loginBean.logged}" logoutAction="#{loginBean.doLogout}" url="#{loginBean.loginInfo.url}" login="#{loginBean.loginInfo.login}" password="#{loginBean.loginInfo.password}"/>
-        </ui:remove>
+
         <!-- /cc-loginForm:loginForm -->
         <!-- leftMenu -->
         <uib:pageMenuFacet>
@@ -37,7 +35,51 @@
         <!-- /leftMenu -->
         <!-- mainContent -->
         <uib:pageBodyFacet>
-            <ui:insert name="mainContent"/>
+            <p:outputPanel id="mainContent">
+
+                <ui:fragment rendered="#{!loginBean.logged}">
+                    <h:form id="loginForm">
+
+                        <p:panel id="pnl" header="Login in system" style="margin-bottom:10px;">
+                            <p:messages id="messages" />
+                            <h:panelGrid columns="3">
+                                <p:outputLabel for="login" value="Login:"/>
+                                <p:inputText id="login" value="#{loginBean.loginInfo.login}" required="true" label="login" size="50">
+                                    <f:validateLength minimum="4"/>
+                                    <p:watermark for="login" value="Login"/>
+                                </p:inputText>
+                                <p:message for="login"/>
+
+                                <p:outputLabel for="password" value="Password:"/>
+                                <p:inputText id="password" value="#{loginBean.loginInfo.password}" required="true" label="password" size="50">
+                                    <p:watermark for="password" value="Password"/>
+                                </p:inputText>
+                                <p:message for="password"/>
+
+                                <p:outputLabel for="URL" value="URL:"/>
+                                <p:inputText id="URL" value="#{loginBean.loginInfo.url}" required="true" label="URL" size="50">
+                                    <!--<f:validateRegex pattern="(/(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/)"/>-->
+                                    <p:watermark for="URL" value="Url"/>
+                                </p:inputText>
+                                <p:message for="URL"/>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:commandButton value="LOGIN" action="#{loginBean.doLogin}" update=":mainContent" />
+                    </h:form>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{loginBean.logged}">
+                    <h:form id="logoutForm">
+                        <h:outputText value="Hello, #{loginBean.loginInfo.login}"/>
+                        <p:commandButton value="LOGOUT" action="#{loginBean.doLogout}" update=":mainContent" />
+                    </h:form>
+                </ui:fragment>
+
+                <ui:insert name="mainContent"/>
+
+            </p:outputPanel>
+
         </uib:pageBodyFacet>
         <!-- /mainContent -->
     </uib:pageLayout>

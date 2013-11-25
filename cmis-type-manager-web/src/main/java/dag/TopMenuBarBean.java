@@ -29,8 +29,8 @@ public class TopMenuBarBean {
         model = new DefaultMenuModel();
         viewRoot = FacesContext.getCurrentInstance().getViewRoot();
         String viewId = viewRoot.getViewId();
-        addMenuItem(viewId, "applyfor", "/hello1", "/#", "Item1");
-        addMenuItem(viewId, "findaplan", "/hello2", "/#", "Item2");
+        addMenuItem(viewId, "dashboard", "/dashboard/", "index.xhtml", "Dahsboard");
+        addMenuItem(viewId, "configuration", "/configuration/", "index.xhtml", "Configuration");
     }
 
     private void addMenuItem(String viewId, String mID, String rootView, String address, String label) {

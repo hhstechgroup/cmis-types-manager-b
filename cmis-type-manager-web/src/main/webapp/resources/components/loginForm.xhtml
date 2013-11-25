@@ -18,37 +18,28 @@
     </cc:interface>
 
     <cc:implementation>
-        <ui:remove>
-        <uib:pageHeaderUtilityBarFacet>
-            <h:panelGrid columns="2" id="statusPanel" rendered="#{cc.attrs.isLogged}">
-                <h:outputText value="Wellcome #{cc.attrs.login} !"/>
-                <p:button action="#{cc.attrs.logoutAction}" style="margin-top: 5px;"
-                                 styleClass="secondary ml10 mr10" value="Log out"
-                        />
-            </h:panelGrid>
-        </uib:pageHeaderUtilityBarFacet>
-        </ui:remove>
-
-        <h:form id="blockUIForm" rendered="#{!cc.attrs.isLogged}">
+        <h:form id="blockUIForm" styleClass="mb20" rendered="#{!cc.attrs.isLogged}">
 
             <p:panel id="pnl" header="Login in system" style="margin-bottom:10px;">
-
+                <p:messages id="messages" />
                 <h:panelGrid columns="3">
                     <h:outputLabel for="login" value="Login: *"/>
                     <p:inputText id="login" value="#{cc.attrs.login}" required="true" label="login" size="50">
-                        <f:validateLength minimum="4"/>
+                        <!--<f:validateLength minimum="4"/>-->
                         <p:watermark for="login" value="Login"/>
                     </p:inputText>
                     <p:message for="login"/>
 
                     <h:outputLabel for="password" value="Password: *"/>
                     <p:inputText id="password" value="#{cc.attrs.password}" required="true" label="password" size="50">
+                        <!--<f:validateLength minimum="4"/>-->
                         <p:watermark for="password" value="Password"/>
                     </p:inputText>
                     <p:message for="password"/>
 
                     <h:outputLabel for="URL" value="URL: *"/>
                     <p:inputText id="URL" value="#{cc.attrs.url}" required="true" label="URL" size="50">
+                        <!--<f:validateLength minimum="4"/>-->
                         <p:watermark for="URL" value="URL"/>
                     </p:inputText>
                     <p:message for="URL"/>
