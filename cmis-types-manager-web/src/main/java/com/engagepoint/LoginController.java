@@ -2,6 +2,7 @@ package com.engagepoint;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -11,17 +12,13 @@ import java.io.Serializable;
 @Named
 @SessionScoped
 public class LoginController implements Serializable {
-    private String username;
-    private String password;
-    private String url;
     @EJB
-    private CMISService service;
+    private CmisService service;
     private LoginInfo loginInfo = new LoginInfo();
 
+
+
     public String doLogin() {
-        loginInfo.setUsername(username);
-        loginInfo.setPassword(password);
-        loginInfo.setUrl(url);
         if (isValid()) {
             return "index";
         }
@@ -37,29 +34,35 @@ public class LoginController implements Serializable {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        loginInfo.setUsername(username);
     }
 
     public String getPassword() {
-        return password;
+        return loginInfo.getPassword();
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        loginInfo.setPassword(password);
     }
 
     public String getUrl() {
-        return url;
+        return loginInfo.getUrl();
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        loginInfo.setUrl(url);
     }
 
-    private boolean isValid() {
+    public boolean isValid() {
         if (!loginInfo.isEmpty()) {
             return service.isValidUser(loginInfo);
         }
         return false;
+    }
+
+    public String logout() {
+        loginInfo.reset();
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "index";
     }
 }

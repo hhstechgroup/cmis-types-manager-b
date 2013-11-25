@@ -24,15 +24,17 @@ public class TopMenuBarBean {
     private MenuModel model;
     private UIViewRoot viewRoot;
 
+
+
     @PostConstruct
     public void initModel() {
         model = new DefaultMenuModel();
         viewRoot = FacesContext.getCurrentInstance().getViewRoot();
         String viewId = viewRoot.getViewId();
-        addMenuItem(viewId, "applyfor", "/hello1", "/#", "Item1");
-        addMenuItem(viewId, "findaplan", "/hello2", "/#", "Item2");
-        addMenuItem(viewId, "hello1", "/hello3", "/#", "Item3");
+        addMenuItem(viewId, "dashboard", "/dashboard/", "index.xhtml", "Dahsboard");
+        addMenuItem(viewId, "configuration", "/configuration/", "index.xhtml", "Configuration");
     }
+
 
     private void addMenuItem(String viewId, String mID, String rootView, String address, String label) {
         MenuItem menuItem = new MenuItem();

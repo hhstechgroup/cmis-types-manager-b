@@ -9,12 +9,12 @@ import java.util.List;
 @Named
 public class MainBean implements Serializable {
     @EJB
-    private CMISService service;
+    private CmisService service;
     @Inject
     private LoginController login;
 
     public List<String> getRootFolders() {
-//        TODO Find out what the problem is and put check
+//        TODO Find out what is the problem and put check
         LoginInfo loginInfo = login.getLoginInfo();
         List<String> folders = service.getRootFolders(loginInfo);
         return folders;

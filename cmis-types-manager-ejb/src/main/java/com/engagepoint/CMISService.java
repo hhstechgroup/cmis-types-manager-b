@@ -17,9 +17,7 @@ import java.util.Map;
  */
 @Stateless
 @LocalBean
-public class CMISService {
-    private final SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
-
+public class CmisService {
     public List<String> getRootFolders(final LoginInfo loginInfo) {
         Session session = getSession(loginInfo);
         List<String> folders = new ArrayList<String>();
@@ -36,6 +34,7 @@ public class CMISService {
     }
 
     private Session getSession(final LoginInfo loginInfo) {
+        SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
         Map<String, String> parameters = new HashMap<String, String>() {
             {
                 put(SessionParameter.USER, loginInfo.getUsername());

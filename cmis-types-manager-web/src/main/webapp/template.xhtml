@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uib:page xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:h="http://java.sun.com/jsf/html"
+          xmlns:f="http://java.sun.com/jsf/core"
+          xmlns:uib="http://engagepoint.com/uib"
+          xmlns:ui="http://java.sun.com/jsf/facelets"
+          xmlns:p="http://primefaces.org/ui"
+          markupType="html5"
+          contentType="text/html"
+          showFooter="true"
+          pageTitle="UI Bootstrap Demo"
+          project="financials">
+
+    <style type="text/css">
+        #logo img {
+            max-width: 100%;
+            margin-top: 30px !important;
+        }
+    </style>
+
+    <uib:pageLayout componentVersion="1.0.1">
+        <!-- topMenu -->
+        <uib:pageHeaderFacet hideHelpMenu="true" logo="img/logo.png" logoAltText="Team B">
+            <ui:include src="topmenubar.xhtml"/>
+        </uib:pageHeaderFacet>
+        <!-- /topMenu -->
+        <!-- cc-loginForm:loginForm -->
+
+        <!-- /cc-loginForm:loginForm -->
+        <!-- leftMenu -->
+        <uib:pageMenuFacet>
+            <ui:include src="leftMenu.xhtml"/>
+        </uib:pageMenuFacet>
+        <!-- /leftMenu -->
+        <!-- mainContent -->
+        <uib:pageBodyFacet>
+            <p:outputPanel id="mainContent">
+
+                <ui:fragment rendered="#{!loginController.valid}">
+                    <h:form id="loginForm">
+
+                        <p:panel id="pnl" header="Login in system" style="margin-bottom:10px;">
+                            <p:messages id="messages"/>
+                            <h:panelGrid columns="3">
+                                <p:outputLabel for="login" value="Login:"/>
+                                <p:inputText id="login" value="#{loginController.username}" required="true"
+                                             label="login" size="50">
+                                    <f:validateLength minimum="4"/>
+                                    <p:watermark for="login" value="Login"/>
+                                </p:inputText>
+                                <p:message for="login"/>
+
+                                <p:outputLabel for="password" value="Password:"/>
+                                <p:inputText id="password" value="#{loginController.password}" required="true"
+                                             label="password" size="50">
+                                    <f:validateLength minimum="4"/>
+                                    <p:watermark for="password" value="Password"/>
+                                </p:inputText>
+                                <p:message for="password"/>
+
+                                <p:outputLabel for="URL" value="URL:"/>
+                                <p:inputText id="URL" value="#{loginController.url}" required="true" label="URL"
+                                             size="50">
+                                    <f:validator validatorId="urlValidator"/>
+                                    <p:watermark for="URL" value="Url"/>
+                                </p:inputText>
+                                <p:message for="URL"/>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:commandButton value="LOGIN" action="#{loginController.doLogin}" update=":mainContent"/>
+                    </h:form>
+                </ui:fragment>
+
+                <ui:fragment rendered="#{loginController.valid}">
+                    <h:form id="logoutForm">
+                        <p:commandButton value="LOGOUT" action="#{loginController.logout}" update=":mainContent"/>
+                    </h:form>
+                    <ui:insert name="mainContent"/>
+                </ui:fragment>
+
+
+            </p:outputPanel>
+
+        </uib:pageBodyFacet>
+        <!-- /mainContent -->
+    </uib:pageLayout>
+
+</uib:page>

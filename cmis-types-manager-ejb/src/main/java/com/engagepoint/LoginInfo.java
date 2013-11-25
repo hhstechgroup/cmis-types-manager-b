@@ -33,6 +33,12 @@ public class LoginInfo {
         this.url = url;
     }
 
+    public void reset() {
+        userName = null;
+        password = null;
+        url = null;
+    }
+
     public boolean isEmpty() {
         return ((userName == null) ||
                 (password == null) ||

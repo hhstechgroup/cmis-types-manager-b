@@ -9,63 +9,23 @@
     <render-kit>
         <renderer>
             <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.SubTableRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapSubTableRenderer</renderer-class>
-        </renderer>
-
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
             <renderer-type>org.primefaces.component.MenuRenderer</renderer-type>
             <renderer-class>com.engagepoint.renderer.primefaces.BootStrapSubmenuRenderer</renderer-class>
-        </renderer>
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.AccordionPanelRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapAccordionRenderer</renderer-class>
         </renderer>
         <renderer>
             <component-family>org.primefaces.component</component-family>
             <renderer-type>org.primefaces.component.PanelRenderer</renderer-type>
             <renderer-class>com.engagepoint.renderer.primefaces.BootStrapPanelRenderer</renderer-class>
         </renderer>
-
         <renderer>
             <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.RowTogglerRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapRowTogglerRenderer</renderer-class>
-        </renderer>
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.TreeTableRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapTreeTableRenderer</renderer-class>
-        </renderer>
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.SelectCheckboxMenuRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapSelectCheckBoxMenuRenderer</renderer-class>
-        </renderer>
-
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.SelectOneMenuRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapSelectOneMenuRenderer</renderer-class>
-        </renderer>
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.SelectOneButtonRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapSelectOneButtonRenderer</renderer-class>
-        </renderer>
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapFileUploadRenderer</renderer-class>
-        </renderer>
-        <renderer>
-            <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.SelectOneRadioRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapSelectOneRadioRenderer</renderer-class>
+            <renderer-type>org.primefaces.component.AccordionPanelRenderer</renderer-type>
+            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapAccordionRenderer</renderer-class>
         </renderer>
     </render-kit>
-
+    <validator>
+        <validator-id>urlValidator</validator-id>
+        <validator-class>com.engagepoint.components.UrlValidator</validator-class>
+    </validator>
 
 </faces-config>
