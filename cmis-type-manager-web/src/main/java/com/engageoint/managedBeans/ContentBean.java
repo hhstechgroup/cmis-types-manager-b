@@ -1,4 +1,6 @@
-package dag;
+package com.engageoint.managedBeans;
+
+import dag.ContentManager;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;

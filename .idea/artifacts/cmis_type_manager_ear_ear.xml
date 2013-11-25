@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="cmis-type-manager-ear:ear">
+    <output-path>$PROJECT_DIR$/cmis-type-manager-ear/target</output-path>
+    <root id="archive" name="cmis-type-manager-ear-1.0.ear">
+      <element id="artifact" artifact-name="cmis-type-manager-ear:ear exploded" />
+    </root>
+  </artifact>
+</component>

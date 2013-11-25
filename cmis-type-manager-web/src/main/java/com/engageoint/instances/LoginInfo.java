@@ -1,4 +1,4 @@
-package dag;
+package com.engageoint.instances;
 
 import org.apache.commons.lang.StringUtils;
 

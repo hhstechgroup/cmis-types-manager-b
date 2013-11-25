@@ -1,4 +1,6 @@
-package dag;
+package com.engageoint.managedBeans;
+
+import com.engageoint.instances.LoginInfo;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;

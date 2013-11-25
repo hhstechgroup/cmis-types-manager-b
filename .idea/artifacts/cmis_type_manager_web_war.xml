@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="cmis-type-manager-web:war">
+    <output-path>$PROJECT_DIR$/cmis-type-manager-web/target</output-path>
+    <root id="archive" name="cmis-type-manager-web.war">
+      <element id="artifact" artifact-name="cmis-type-manager-web:war exploded" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ejb" name="cmis-type-manager-ejb:ejb exploded">
+    <output-path>$PROJECT_DIR$/cmis-type-manager-ejb/target/cmis-type-manager-ejb-1.0</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="cmis-type-manager-ejb/ejb/EJB" />
+      <element id="module-output" name="cmis-type-manager-ejb" />
+    </root>
+  </artifact>
+</component>

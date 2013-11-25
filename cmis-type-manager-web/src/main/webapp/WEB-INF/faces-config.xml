@@ -23,5 +23,8 @@
             <renderer-class>com.engagepoint.renderer.primefaces.BootStrapAccordionRenderer</renderer-class>
         </renderer>
     </render-kit>
-
+    <validator>
+        <validator-id>urlValidator</validator-id>
+        <validator-class>com.engageoint.components.UrlValidator</validator-class>
+    </validator>
 </faces-config>
