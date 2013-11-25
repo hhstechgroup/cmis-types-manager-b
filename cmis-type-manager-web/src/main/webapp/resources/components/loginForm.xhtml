@@ -1,0 +1,54 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:uib="http://engagepoint.com/uib"
+                xmlns:p="http://primefaces.org/ui">
+
+    <cc:interface componentType="com.engagepoint.component.loginForm">
+        <cc:attribute name="loginAction" required="true"/>
+        <cc:attribute name="isLogged" required="true"/>
+        <cc:attribute name="logoutAction" required="true"/>
+        <cc:attribute name="login" required="true"/>
+        <cc:attribute name="password" required="true"/>
+        <cc:attribute name="url" required="true"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <h:form id="blockUIForm" styleClass="mb20" rendered="#{!cc.attrs.isLogged}">
+
+            <p:panel id="pnl" header="Login in system" style="margin-bottom:10px;">
+                <p:messages id="messages" />
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="login" value="Login: *"/>
+                    <p:inputText id="login" value="#{cc.attrs.login}" required="true" label="login" size="50">
+                        <!--<f:validateLength minimum="4"/>-->
+                        <p:watermark for="login" value="Login"/>
+                    </p:inputText>
+                    <p:message for="login"/>
+
+                    <h:outputLabel for="password" value="Password: *"/>
+                    <p:inputText id="password" value="#{cc.attrs.password}" required="true" label="password" size="50">
+                        <!--<f:validateLength minimum="4"/>-->
+                        <p:watermark for="password" value="Password"/>
+                    </p:inputText>
+                    <p:message for="password"/>
+
+                    <h:outputLabel for="URL" value="URL: *"/>
+                    <p:inputText id="URL" value="#{cc.attrs.url}" required="true" label="URL" size="50">
+                        <!--<f:validateLength minimum="4"/>-->
+                        <p:watermark for="URL" value="URL"/>
+                    </p:inputText>
+                    <p:message for="URL"/>
+                </h:panelGrid>
+
+            </p:panel>
+            <p:commandButton id="pnlBtn2" value="LOGIN" update="blockUIForm" action="#{cc.attrs.loginAction}"/>
+            <p:blockUI block="pnl" widgetVar="bui"/>
+        </h:form>
+    </cc:implementation>
+
+</ui:composition>
