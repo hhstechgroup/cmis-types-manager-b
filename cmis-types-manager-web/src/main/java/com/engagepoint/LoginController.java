@@ -55,8 +55,7 @@ public class LoginController implements Serializable {
 
     public boolean isValid() {
         if (!loginInfo.isEmpty()) {
-            boolean test = service.isValidUser(loginInfo);
-            return test;
+            return service.isValidUser(loginInfo);
         }
         return false;
     }
