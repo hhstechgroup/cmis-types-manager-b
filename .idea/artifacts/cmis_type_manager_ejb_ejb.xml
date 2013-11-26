@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="ejb-jar" name="cmis-type-manager-ejb:ejb">
-    <output-path>$PROJECT_DIR$/cmis-type-manager-ejb/target</output-path>
-    <root id="archive" name="cmis-type-manager-ejb-1.0.jar">
-      <element id="artifact" artifact-name="cmis-type-manager-ejb:ejb exploded" />
-    </root>
-  </artifact>
-</component>
