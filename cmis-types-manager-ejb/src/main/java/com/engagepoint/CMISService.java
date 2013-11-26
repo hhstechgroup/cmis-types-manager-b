@@ -50,7 +50,7 @@ public class CmisService {
                 put(SessionParameter.PASSWORD, loginInfo.getPassword());
                 put(SessionParameter.ATOMPUB_URL, loginInfo.getUrl());
                 put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
-                put(SessionParameter.REPOSITORY_ID, "test");
+                put(SessionParameter.REPOSITORY_ID, "A1");
             }
         };
         Session session = null;

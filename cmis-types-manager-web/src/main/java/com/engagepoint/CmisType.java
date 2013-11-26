@@ -5,11 +5,12 @@ import java.util.List;
 /**
  * Created by Qnex.
  */
-public class Type {
+public class CmisType {
     private String name;
     private String id;
     private boolean isCreatable;
-    private List<Type> children;
+    private boolean isFileable;
+    private List<CmisType> children;
 
     public String getName() {
         return name;
@@ -36,11 +37,19 @@ public class Type {
     }
 
 
-    public List<Type> getChildren() {
+    public List<CmisType> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Type> children) {
+    public boolean isFileable() {
+        return isFileable;
+    }
+
+    public void setFileable(boolean fileable) {
+        isFileable = fileable;
+    }
+
+    public void setChildren(List<CmisType> children) {
         this.children = children;
     }
 }

@@ -2,17 +2,14 @@ package com.engagepoint;
 
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.client.api.Tree;
-import org.primefaces.event.NodeCollapseEvent;
-import org.primefaces.event.NodeExpandEvent;
-import org.primefaces.event.NodeSelectEvent;
-import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -28,6 +25,7 @@ public class TreeBean implements Serializable {
     @Inject
     private LoginController login;
     private TreeNode root;
+    private CmisType selectedType;
 
     private TreeNode selectedNode;
 
@@ -37,32 +35,41 @@ public class TreeBean implements Serializable {
         LoginInfo loginInfo = login.getLoginInfo();
         List<Tree<ObjectType>> trees = service.getTreeTypes(loginInfo);
        if (trees != null) {
-           List<Type> typeList = getListType(trees);
-           addTypesToTreeNode(typeList, root);
+           List<CmisType> cmisTypeList = getListType(trees);
+           addTypesToTreeNode(cmisTypeList, root);
         }
     }
 
+    protected void refreshPage() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        String refreshpage = fc.getViewRoot().getViewId();
+        ViewHandler ViewH =fc.getApplication().getViewHandler();
+        UIViewRoot UIV = ViewH.createView(fc,refreshpage);
+        UIV.setViewId(refreshpage);
+        fc.setViewRoot(UIV);
+    }
 
-    private List<Type> getListType(List<Tree<ObjectType>> treeList){
-        List<Type> typeList = new ArrayList<Type>();
+    private List<CmisType> getListType(List<Tree<ObjectType>> treeList){
+        List<CmisType> cmisTypeList = new ArrayList<CmisType>();
 
         for (Tree<ObjectType> tree : treeList) {
-            typeList.add(getTypeObject(tree.getItem()));
+            cmisTypeList.add(getTypeObject(tree.getItem()));
         }
-        return typeList;
+        return cmisTypeList;
     }
 
-    private Type getTypeObject(ObjectType objectType){
-        Type type = new Type();
-        type.setName(objectType.getDisplayName());
-        type.setId(objectType.getId());
-        type.setCreatable(objectType.isCreatable());
-        List<Type> children = new ArrayList<Type>();
+    private CmisType getTypeObject(ObjectType objectType){
+        CmisType cmisType = new CmisType();
+        cmisType.setName(objectType.getDisplayName());
+        cmisType.setId(objectType.getId());
+        cmisType.setCreatable(objectType.isCreatable());
+        cmisType.setFileable(objectType.isFileable());
+        List<CmisType> children = new ArrayList<CmisType>();
         for (ObjectType child : objectType.getChildren()) {
             children.add(getTypeObject(child));
         }
-        type.setChildren(children);
-        return type;
+        cmisType.setChildren(children);
+        return cmisType;
     }
 
 
@@ -76,43 +83,19 @@ public class TreeBean implements Serializable {
         return root;
     }
 
-    public TreeNode getSelectedNode() {
-        return selectedNode;
+    public CmisType getSelectedType() {
+        return selectedType;
     }
 
-    public void setSelectedNode(TreeNode selectedNode) {
-        this.selectedNode = selectedNode;
+    public void setSelectedType(CmisType selectedDocument) {
+        this.selectedType = selectedDocument;
     }
 
-    public void onNodeExpand(NodeExpandEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Expanded", event.getTreeNode().toString());
-
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    public void onNodeCollapse(NodeCollapseEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Collapsed", event.getTreeNode().toString());
-
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    public void onNodeSelect(NodeSelectEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", event.getTreeNode().toString());
-
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    public void onNodeUnselect(NodeUnselectEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Unselected", event.getTreeNode().toString());
-
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
-
-    private void addTypesToTreeNode(List<Type> types, TreeNode parent) {
-        for (Type type : types) {
-            TreeNode node = new DefaultTreeNode(type, parent);
-            if (!type.getChildren().isEmpty()) {
-                addTypesToTreeNode(type.getChildren(), node);
+    private void addTypesToTreeNode(List<CmisType> cmisTypes, TreeNode parent) {
+        for (CmisType cmisType : cmisTypes) {
+            TreeNode node = new DefaultTreeNode(cmisType, parent);
+            if (!cmisType.getChildren().isEmpty()) {
+                addTypesToTreeNode(cmisType.getChildren(), node);
             }
         }
     }

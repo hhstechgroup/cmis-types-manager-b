@@ -33,6 +33,7 @@ public class TopMenuBarBean {
         String viewId = viewRoot.getViewId();
         addMenuItem(viewId, "dashboard", "/dashboard/", "index.xhtml", "Dahsboard");
         addMenuItem(viewId, "configuration", "/configuration/", "index.xhtml", "Configuration");
+        addMenuItem(viewId, "block", "/configuration/", "index.xhtml", "");
     }
 
 
