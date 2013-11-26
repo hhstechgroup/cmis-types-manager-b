@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Named
@@ -35,10 +36,36 @@ public class TreeBean implements Serializable {
         root = new DefaultTreeNode("Root", null);
         LoginInfo loginInfo = login.getLoginInfo();
         List<Tree<ObjectType>> trees = service.getTreeTypes(loginInfo);
-        if (trees != null) {
-            addTypesToTreeNode(trees, root);
+       if (trees != null) {
+           List<Type> typeList = getListType(trees);
+           addTypesToTreeNode(typeList, root);
         }
     }
+
+
+    private List<Type> getListType(List<Tree<ObjectType>> treeList){
+        List<Type> typeList = new ArrayList<Type>();
+
+        for (Tree<ObjectType> tree : treeList) {
+            typeList.add(getTypeObject(tree.getItem()));
+        }
+        return typeList;
+    }
+
+    private Type getTypeObject(ObjectType objectType){
+        Type type = new Type();
+        type.setName(objectType.getDisplayName());
+        type.setId(objectType.getId());
+        type.setCreatable(objectType.isCreatable());
+        List<Type> children = new ArrayList<Type>();
+        for (ObjectType child : objectType.getChildren()) {
+            children.add(getTypeObject(child));
+        }
+        type.setChildren(children);
+        return type;
+    }
+
+
 
     public TreeBean() {
 
@@ -81,11 +108,11 @@ public class TreeBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    private void addTypesToTreeNode(List<Tree<ObjectType>> trees, TreeNode parent) {
-        for (Tree<ObjectType> tree : trees) {
-            TreeNode node = new DefaultTreeNode(tree.getItem().getDisplayName(), parent);
-            if (!tree.getChildren().isEmpty()) {
-                addTypesToTreeNode(tree.getChildren(), node);
+    private void addTypesToTreeNode(List<Type> types, TreeNode parent) {
+        for (Type type : types) {
+            TreeNode node = new DefaultTreeNode(type, parent);
+            if (!type.getChildren().isEmpty()) {
+                addTypesToTreeNode(type.getChildren(), node);
             }
         }
     }

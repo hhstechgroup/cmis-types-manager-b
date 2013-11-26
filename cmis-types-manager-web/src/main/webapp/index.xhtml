@@ -8,13 +8,38 @@
 
     <ui:define name="mainContent">
 
-        <h:form id="form">
 
-            <p:tree value="#{treeBean.root}" var="node" dynamic="true" cache="true" id="tree">
-                <p:treeNode>
-                    <h:outputText value="#{node}"/>
-                </p:treeNode>
-            </p:tree>
+        <h:form id="types">
+
+            <p:treeTable id="treetable" value="#{treeBean.root}" var="type">
+                <f:facet name="header">
+                    Document Viewer
+                </f:facet>
+
+                <p:column style="width:42%">
+                    <f:facet name="header">
+                        Name
+                    </f:facet>
+                    <h:outputText value="#{type.name}"/>
+                </p:column>
+
+                <p:column style="width:32%">
+                    <f:facet name="header">
+                        Id
+                    </f:facet>
+                    <h:outputText value="#{type.id}"/>
+                </p:column>
+
+                <p:column style="width:22%">
+                    <f:facet name="header">
+                       Creatable
+                    </f:facet>
+                    <h:outputText value="#{type.creatable}"/>
+                </p:column>
+
+
+            </p:treeTable>
+
 
         </h:form>
     </ui:define>
