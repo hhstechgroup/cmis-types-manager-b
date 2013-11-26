@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>cmis-types-manager-b</artifactId>
+        <groupId>com.engagepoint</groupId>
+        <version>${global.version}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+    <artifactId>cmis-types-manager-web</artifactId>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <!-- UI-BOOTSTRAP -->
+        <dependency>
+            <groupId>com.engagepoint</groupId>
+            <artifactId>ui-bootstrap-components</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <!-- /UI-BOOTSTRAP -->
+
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>3.5.8</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+            <artifactId>cmis-types-manager-ejb</artifactId>
+            <version>${global.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- JSF 2 -->
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <version>2.1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-impl</artifactId>
+            <version>2.1.11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+    </dependencies>
+</project>
