@@ -11,11 +11,9 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 /**
- * Created with IntelliJ IDEA.
  * User: sergii.serba
  * Date: 11/18/13
  * Time: 6:06 PM
- * To change this template use File | Settings | File Templates.
  */
 @ManagedBean(name = "topMenuBar")
 @RequestScoped
