@@ -12,6 +12,7 @@
         <module>cmis-types-manager-ejb</module>
         <module>cmis-types-manager-web</module>
         <module>cmis-types-manager-ear</module>
+        <module>cmis-types-manager-acceptence-tests</module>
     </modules>
 
     <repositories>
