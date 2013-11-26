@@ -29,6 +29,15 @@ public class CmisService {
         return folders;
     }
 
+    public List<Tree<ObjectType>> getTreeTypes(final LoginInfo loginInfo) {
+        Session session = getSession(loginInfo);
+        List<Tree<ObjectType>> descendants = null;
+        if (session != null) {
+            descendants = session.getTypeDescendants(null, -1, true);
+        }
+        return descendants;
+    }
+
     public boolean isValidUser(final LoginInfo loginInfo) {
         return (getSession(loginInfo) != null);
     }
@@ -38,14 +47,19 @@ public class CmisService {
         Map<String, String> parameters = new HashMap<String, String>() {
             {
                 put(SessionParameter.USER, loginInfo.getUsername());
-                put(SessionParameter.USER, loginInfo.getUsername());
                 put(SessionParameter.PASSWORD, loginInfo.getPassword());
                 put(SessionParameter.ATOMPUB_URL, loginInfo.getUrl());
                 put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
                 put(SessionParameter.REPOSITORY_ID, "test");
             }
         };
-        return sessionFactory.createSession(parameters);
+        Session session = null;
+        try {
+            session = sessionFactory.createSession(parameters);
+        } catch (Exception e) {
+
+        }
+        return session;
     }
 
 }

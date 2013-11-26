@@ -22,6 +22,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: javax:javaee-web-api:7.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.chemistry.opencmis:chemistry-opencmis-client-impl:0.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.chemistry.opencmis:chemistry-opencmis-client-api:0.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.chemistry.opencmis:chemistry-opencmis-commons-api:0.10.0" level="project" />
