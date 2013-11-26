@@ -17,12 +17,13 @@ public class LoginController implements Serializable {
     private LoginInfo loginInfo = new LoginInfo();
 
 
-
     public String doLogin() {
         if (isValid()) {
-            return "index";
+//            return "index";
         }
-        return "error";
+//        return "error";
+        return "index";
+
     }
 
     public LoginInfo getLoginInfo() {
