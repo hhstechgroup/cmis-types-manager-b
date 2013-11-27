@@ -29,25 +29,25 @@ public class TreeBean implements Serializable {
 
     private TreeNode selectedNode;
 
-    @PostConstruct
-    public void init() {
-        root = new DefaultTreeNode("Root", null);
-        LoginInfo loginInfo = login.getLoginInfo();
-        List<Tree<ObjectType>> trees = service.getTreeTypes(loginInfo);
-       if (trees != null) {
-           List<CmisType> cmisTypeList = getListType(trees);
-           addTypesToTreeNode(cmisTypeList, root);
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        root = new DefaultTreeNode("Root", null);
+//        LoginInfo loginInfo = login.getLoginInfo();
+//        List<Tree<ObjectType>> trees = service.getTreeTypes(loginInfo);
+//       if (trees != null) {
+//           List<CmisType> cmisTypeList = getListType(trees);
+//           addTypesToTreeNode(cmisTypeList, root);
+//        }
+//    }
 
-    protected void refreshPage() {
-        FacesContext fc = FacesContext.getCurrentInstance();
-        String refreshpage = fc.getViewRoot().getViewId();
-        ViewHandler ViewH =fc.getApplication().getViewHandler();
-        UIViewRoot UIV = ViewH.createView(fc,refreshpage);
-        UIV.setViewId(refreshpage);
-        fc.setViewRoot(UIV);
-    }
+//    protected void refreshPage() {
+//        FacesContext fc = FacesContext.getCurrentInstance();
+//        String refreshpage = fc.getViewRoot().getViewId();
+//        ViewHandler ViewH =fc.getApplication().getViewHandler();
+//        UIViewRoot UIV = ViewH.createView(fc,refreshpage);
+//        UIV.setViewId(refreshpage);
+//        fc.setViewRoot(UIV);
+//    }
 
     private List<CmisType> getListType(List<Tree<ObjectType>> treeList){
         List<CmisType> cmisTypeList = new ArrayList<CmisType>();
@@ -80,6 +80,13 @@ public class TreeBean implements Serializable {
     }
 
     public TreeNode getRoot() {
+        root = new DefaultTreeNode("Root", null);
+        LoginInfo loginInfo = login.getLoginInfo();
+        List<Tree<ObjectType>> trees = service.getTreeTypes(loginInfo);
+        if (trees != null) {
+            List<CmisType> cmisTypeList = getListType(trees);
+            addTypesToTreeNode(cmisTypeList, root);
+        }
         return root;
     }
 
