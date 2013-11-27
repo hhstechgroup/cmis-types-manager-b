@@ -39,9 +39,5 @@ public class LoginInfo {
         url = null;
     }
 
-    public boolean isEmpty() {
-        return ((userName == null) ||
-                (password == null) ||
-                (url == null));
-    }
+
 }

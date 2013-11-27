@@ -34,7 +34,6 @@
         <!-- mainContent -->
         <uib:pageBodyFacet>
             <p:outputPanel id="mainContent">
-
                 <ui:fragment rendered="#{!loginController.valid}">
                     <h:form id="loginForm">
 
@@ -76,12 +75,9 @@
                     </h:form>
                     <ui:insert name="mainContent"/>
                 </ui:fragment>
-
-
             </p:outputPanel>
 
         </uib:pageBodyFacet>
-        <!-- /mainContent -->
     </uib:pageLayout>
 
 </uib:page>

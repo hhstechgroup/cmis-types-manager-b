@@ -27,7 +27,7 @@ public class TreeBean implements Serializable {
     private TreeNode root;
     private CmisType selectedType;
 
-    private TreeNode selectedNode;
+
 
 //    @PostConstruct
 //    public void init() {
@@ -40,14 +40,6 @@ public class TreeBean implements Serializable {
 //        }
 //    }
 
-//    protected void refreshPage() {
-//        FacesContext fc = FacesContext.getCurrentInstance();
-//        String refreshpage = fc.getViewRoot().getViewId();
-//        ViewHandler ViewH =fc.getApplication().getViewHandler();
-//        UIViewRoot UIV = ViewH.createView(fc,refreshpage);
-//        UIV.setViewId(refreshpage);
-//        fc.setViewRoot(UIV);
-//    }
 
     private List<CmisType> getListType(List<Tree<ObjectType>> treeList){
         List<CmisType> cmisTypeList = new ArrayList<CmisType>();
@@ -82,7 +74,14 @@ public class TreeBean implements Serializable {
     public TreeNode getRoot() {
         root = new DefaultTreeNode("Root", null);
         LoginInfo loginInfo = login.getLoginInfo();
-        List<Tree<ObjectType>> trees = service.getTreeTypes(loginInfo);
+        List<Tree<ObjectType>> trees = null;
+
+        try {
+            trees = service.getTreeTypes(loginInfo);
+        } catch (CMISConnectException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
         if (trees != null) {
             List<CmisType> cmisTypeList = getListType(trees);
             addTypesToTreeNode(cmisTypeList, root);
