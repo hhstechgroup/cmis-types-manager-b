@@ -15,6 +15,7 @@ import java.util.Map;
 
 /**
  * Created by Qnex.
+ * 123
  */
 @Stateless
 @LocalBean
@@ -56,13 +57,10 @@ public class CmisService {
         };
         Session session = null;
         try {
-
             session = sessionFactory.createSession(parameters);
         } catch (RuntimeException e){
           throw new CMISConnectException(e.getMessage());
         }
-
-
         return session;
     }
 
