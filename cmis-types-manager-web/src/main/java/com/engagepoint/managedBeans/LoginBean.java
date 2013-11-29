@@ -1,19 +1,22 @@
-package com.engagepoint;
+package com.engagepoint.managedBeans;
+
+import com.engagepoint.CMISConnectException;
+import com.engagepoint.CmisService;
+import com.engagepoint.LoginInfo;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
-import javax.inject.Named;
 import java.io.Serializable;
 
 /**
  * Created by Qnex.
  */
-@Named
+@ManagedBean
 @SessionScoped
-public class LoginController implements Serializable {
+public class LoginBean implements Serializable {
     @EJB
     private CmisService service;
     private LoginInfo loginInfo = new LoginInfo();
@@ -51,15 +54,12 @@ public class LoginController implements Serializable {
         loginInfo.setUrl(url);
     }
 
-    public boolean isValid()  {
-
-            try {
-                return service.isValidUser(loginInfo);
-            } catch (CMISConnectException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
-
-
+    public boolean isValid() {
+        try {
+            return service.isValidUser(loginInfo);
+        } catch (CMISConnectException e) {
+            FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+        }
         return false;
     }
 
