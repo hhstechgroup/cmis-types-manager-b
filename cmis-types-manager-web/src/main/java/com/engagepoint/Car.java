@@ -5,6 +5,7 @@ package com.engagepoint;
  * Date: ${DATE}
  * Time: ${TIME}
  */
+//class is used only to have the data in the table metadata by itself it is not important
 public class Car {
     private String model;
     private int year;

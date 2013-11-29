@@ -1,4 +1,6 @@
-package com.engagepoint;
+package com.engagepoint.managedBeans;
+
+import com.engagepoint.Car;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -11,13 +13,10 @@ import java.util.UUID;
  * Date: ${DATE}
  * Time: ${TIME}
  */
+//class is used only to have the data in the table metadata is subject to further changes
     @ManagedBean
     @RequestScoped
 public class TableBean implements Serializable {
-
-
-
-
 
     private final static String[] colors;
 
