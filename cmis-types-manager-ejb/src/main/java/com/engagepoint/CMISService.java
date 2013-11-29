@@ -4,7 +4,6 @@ import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
-import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -20,7 +19,7 @@ import java.util.Map;
 @Stateless
 @LocalBean
 public class CmisService {
-    public List<String> getRootFolders(final LoginInfo loginInfo)throws CMISConnectException{
+    public List<String> getRootFolders(final LoginInfo loginInfo)throws CmisConnectException {
         Session session = getSession(loginInfo);
         List<String> folders = new ArrayList<String>();
         Folder root = session.getRootFolder();
@@ -31,7 +30,7 @@ public class CmisService {
         return folders;
     }
 
-    public List<Tree<ObjectType>> getTreeTypes(final LoginInfo loginInfo)throws CMISConnectException {
+    public List<Tree<ObjectType>> getTreeTypes(final LoginInfo loginInfo)throws CmisConnectException {
         Session session = getSession(loginInfo);
         List<Tree<ObjectType>> descendants = null;
         if (session != null) {
@@ -40,11 +39,11 @@ public class CmisService {
         return descendants;
     }
 
-    public boolean isValidUser(final LoginInfo loginInfo)throws CMISConnectException {
+    public boolean isValidUser(final LoginInfo loginInfo)throws CmisConnectException {
         return (getSession(loginInfo) != null);
     }
 
-    private Session getSession(final LoginInfo loginInfo) throws CMISConnectException {
+    private Session getSession(final LoginInfo loginInfo) throws CmisConnectException {
         SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
         Map<String, String> parameters = new HashMap<String, String>() {
             {
@@ -59,7 +58,7 @@ public class CmisService {
         try {
             session = sessionFactory.createSession(parameters);
         } catch (RuntimeException e){
-          throw new CMISConnectException(e.getMessage());
+          throw new CmisConnectException(e.getMessage());
         }
         return session;
     }

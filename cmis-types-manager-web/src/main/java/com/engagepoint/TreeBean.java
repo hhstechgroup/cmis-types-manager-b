@@ -5,12 +5,8 @@ import org.apache.chemistry.opencmis.client.api.Tree;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.application.ViewHandler;
-import javax.faces.component.UIViewRoot;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -18,27 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Named
-@RequestScoped
+@ViewScoped
 public class TreeBean implements Serializable {
     @EJB
     private CmisService service;
     @Inject
-    private LoginController login;
+    private LoginBean login;
     private TreeNode root;
     private CmisType selectedType;
-
-
-
-//    @PostConstruct
-//    public void init() {
-//        root = new DefaultTreeNode("Root", null);
-//        LoginInfo loginInfo = login.getLoginInfo();
-//        List<Tree<ObjectType>> trees = service.getTreeTypes(loginInfo);
-//       if (trees != null) {
-//           List<CmisType> cmisTypeList = getListType(trees);
-//           addTypesToTreeNode(cmisTypeList, root);
-//        }
-//    }
 
 
     private List<CmisType> getListType(List<Tree<ObjectType>> treeList){
@@ -78,7 +61,7 @@ public class TreeBean implements Serializable {
 
         try {
             trees = service.getTreeTypes(loginInfo);
-        } catch (CMISConnectException e) {
+        } catch (CmisConnectException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 

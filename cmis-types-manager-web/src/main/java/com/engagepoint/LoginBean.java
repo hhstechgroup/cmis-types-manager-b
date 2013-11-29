@@ -2,9 +2,7 @@ package com.engagepoint;
 
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import java.io.Serializable;
 
@@ -13,7 +11,7 @@ import java.io.Serializable;
  */
 @Named
 @SessionScoped
-public class LoginController implements Serializable {
+public class LoginBean implements Serializable {
     @EJB
     private CmisService service;
     private LoginInfo loginInfo = new LoginInfo();
@@ -51,13 +49,13 @@ public class LoginController implements Serializable {
         loginInfo.setUrl(url);
     }
 
-    public boolean isValid()  {
+    public boolean isValid() {
 
-            try {
-                return service.isValidUser(loginInfo);
-            } catch (CMISConnectException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            }
+        try {
+            return service.isValidUser(loginInfo);
+        } catch (CmisConnectException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
 
         return false;
