@@ -1,6 +1,6 @@
 package com.engagepoint.managedBeans;
 
-import com.engagepoint.CMISConnectException;
+import com.engagepoint.CmisConnectException;
 import com.engagepoint.CmisService;
 import com.engagepoint.LoginInfo;
 import com.engagepoint.pojos.CmisType;
@@ -59,7 +59,7 @@ public class TreeBean implements Serializable {
         List<Tree<ObjectType>> trees = null;
         try {
             trees = service.getTreeTypes(loginInfo);
-        } catch (CMISConnectException e) {
+        } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
         }
         if (trees != null) {
