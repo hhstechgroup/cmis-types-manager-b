@@ -5,6 +5,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +19,10 @@ public class UrlValidator implements Validator {
     private Pattern pattern;
     private Matcher matcher;
 
+
+
     public UrlValidator() {
+
         pattern = Pattern.compile(URL_PATTERN);
     }
 
@@ -30,5 +34,6 @@ public class UrlValidator implements Validator {
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
+
     }
 }

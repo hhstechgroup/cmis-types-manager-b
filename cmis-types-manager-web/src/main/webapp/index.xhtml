@@ -12,39 +12,51 @@
         <h:form id="types">
 
             <p:treeTable id="treetable" value="#{treeBean.root}" var="type">
-                <f:facet name="header">
-                    Types Viewer
-                </f:facet>
+            <f:facet name="header">
+            Types Viewer
+            </f:facet>
 
-                <p:column style="width:40%">
-                    <f:facet name="header">
-                        Name
-                    </f:facet>
-                    <h:outputText value="#{type.name}"/>
-                </p:column>
+            <p:column style="width:40%">
+            <f:facet name="header">
+            Name
+            </f:facet>
+            <h:outputText value="#{type.name}"/>
+            </p:column>
 
-                <p:column style="width:20%">
-                    <f:facet name="header">
-                        Id
-                    </f:facet>
-                    <h:outputText value="#{type.id}"/>
-                </p:column>
+            <p:column style="width:20%">
+            <f:facet name="header">
+            Id
+            </f:facet>
+            <h:outputText value="#{type.id}"/>
+            </p:column>
 
-                <p:column style="width:20%">
-                    <f:facet name="header">
-                       Creatable
-                    </f:facet>
-                    <h:outputText value="#{type.creatable}"/>
-                </p:column>
-                <p:column style="width:16%">
-                    <f:facet name="header">
-                       Fileable
-                    </f:facet>
-                    <h:outputText value="#{type.fileable}"/>
-                </p:column>
+            <p:column style="width:20%">
+            <f:facet name="header">
+            Creatable
+            </f:facet>
+            <h:outputText value="#{type.creatable}"/>
+            </p:column>
+            <p:column style="width:16%">
+            <f:facet name="header">
+            Fileable
+            </f:facet>
+            <h:outputText value="#{type.fileable}"/>
+            </p:column>
 
             </p:treeTable>
 
+            <uib:gridContainer>
+            <uib:gridRow fluid="true">
+            <uib:gridColumn column="6">
+                <uib:buttonGroup>
+                    <p:commandButton id="create" value="Greate" action="#{changeBean.goTo}" update=":mainContent"/>
+                    <p:commandButton id="update" value="Update" action="#{changeBean.goTo}" update=":mainContent"/>
+                    <p:commandButton id= "delete" value="Delete"  update=":mainContent"/>
+                    <p:commandButton id="view" value="View" action="#{changeBean.goTo}" update=":mainContent"/>
+                </uib:buttonGroup>
+            </uib:gridColumn>
+            </uib:gridRow>
+            </uib:gridContainer>
 
         </h:form>
     </ui:define>

@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="template.xhtml"
+                xmlns:uib="http://engagepoint.com/uib">
+
+    <ui:define name="mainContent">
+        <h:form>
+
+            <p:commandButton id="return" value="Return" action="#{changeBean.goToback}" update=":mainContent"/>
+            <p:accordionPanel id="accordionPanel" multiple="true">
+                <p:tab id="accordionTabAttributes" title="Attributes">
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <h:outputText id="outputTextView1" value="Description :"/>
+                        <p:inputText id="inputTextView1" value=""/>
+
+                        <h:outputText id="outputTextView2" value="Id :"/>
+                        <p:inputText id="inputTextView2" value=""/>
+
+                        <h:outputText id="outputTextView3" value="Local Namespace :"/>
+                        <p:inputText id="inputTextView3" value=""/>
+
+                        <h:outputText id="outputTextView4" value="Local Name :"/>
+                        <p:inputText id="inputTextView4" value=""/>
+
+                        <h:outputText id="outputTextView5" value="Querty Name :"/>
+                        <p:inputText id="inputTextView5" value=""/>
+
+                        <h:outputText id="outputTextView6" value="Base Type"/>
+                        <h:outputText id="inputTextView6" value=" CMIS Base Type"/>
+
+                        <h:outputText id="outputTextView7" value="Creatabel :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel"/>
+
+                        <h:outputText id="outputTextView8" value="Fileable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxFileable"/>
+
+                        <h:outputText id="outputTextView9" value="Queryable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxQueryable"/>
+
+                        <h:outputText id="outputTextView10" value="Included in super type queries :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxIst"/>
+
+                        <h:outputText id="outputTextView11" value="Full text indexed :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxFti"/>
+
+                        <h:outputText id="outputTextView12" value="ACL Contronable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxACL"/>
+
+                        <h:outputText id="outputTextView13" value="Policy contronable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxPC"/>
+
+                        <h:outputText id="outputTextView14" value="Type mutability"/>
+                        <h:outputText value="Create, Update, Delete"/>
+
+                        <h:outputText id="outputTextView15" value="Versionable :"/>
+                        <p:inputText id="inputTextView15" value=""/>
+
+                        <h:outputText id="outputTextView16" value="Content stream allowed :"/>
+                        <p:inputText id="inputTextView16" value=""/>
+
+                        <h:outputText id="outputTextView17" value="Allowed source type :"/>
+                        <p:inputText id="inputTextView17" value=""/>
+
+                        <h:outputText id="outputTextView18" value="Allowed target types :"/>
+                        <p:inputText id="inputTextView18" value=""/>
+
+                    </h:panelGrid>
+                </p:tab>
+
+
+                <p:tab id="accordionTabMetadate" title="Metadate">
+                    <p:dataTable var="car" value="#{tableBean.carsLarge}" scrollRows="20"
+                                 scrollable="true" liveScroll="true" scrollHeight="150" id="metadateTable">
+
+                        <f:facet name="header">
+                            <p> Table Metadate</p>
+                        </f:facet>
+
+                        <p:column headerText="Name">
+                            <h:outputText value="#{car.model}"/>
+                        </p:column>:column>
+
+                        <p:column headerText="Id"  >
+                            <h:outputText value="#{car.year}"/>
+                        </p:column>
+
+                        <p:column headerText="Description">
+                            <h:outputText value="#{car.manufacturer}"/>
+                        </p:column>
+
+                        <p:column headerText="Local Namespace">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Local Name">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Querty Name">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Type">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Cardinality">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Updatability">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Queryable">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Orderable">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Required">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Inherited">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Default Value">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Open Choise">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                        <p:column headerText="Choise">
+                            <h:outputText value="#{car.color}"/>
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:tab>
+            </p:accordionPanel>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
