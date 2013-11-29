@@ -4,6 +4,7 @@ import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
+import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -14,12 +15,11 @@ import java.util.Map;
 
 /**
  * Created by Qnex.
- * 123
  */
 @Stateless
 @LocalBean
 public class CmisService {
-    public List<String> getRootFolders(final LoginInfo loginInfo)throws CmisConnectException {
+    public List<String> getRootFolders(final LoginInfo loginInfo)throws CmisConnectException{
         Session session = getSession(loginInfo);
         List<String> folders = new ArrayList<String>();
         Folder root = session.getRootFolder();
@@ -39,7 +39,7 @@ public class CmisService {
         return descendants;
     }
 
-    public boolean isValidUser(final LoginInfo loginInfo)throws CmisConnectException {
+    public boolean isValidUser(final LoginInfo loginInfo) throws CmisConnectException {
         return (getSession(loginInfo) != null);
     }
 
@@ -54,11 +54,11 @@ public class CmisService {
                 put(SessionParameter.REPOSITORY_ID, "A1");
             }
         };
-        Session session = null;
+        Session session;
         try {
             session = sessionFactory.createSession(parameters);
-        } catch (RuntimeException e){
-          throw new CmisConnectException(e.getMessage());
+        } catch (RuntimeException e) {
+            throw new CmisConnectException(e.getMessage());
         }
         return session;
     }

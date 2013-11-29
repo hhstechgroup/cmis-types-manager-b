@@ -9,13 +9,7 @@
           showFooter="false"
           pageTitle="UI Bootstrap Demo"
           project="financials">
-
-    <style type="text/css">
-        #logo img {
-            max-width: 100%;
-            margin-top: 30px !important;
-        }
-    </style>
+    <h:outputStylesheet library="css" name="style.css" />
 
     <uib:pageLayout componentVersion="1.0.1">
         <!-- topMenu -->
@@ -23,9 +17,6 @@
             <ui:include src="topmenubar.xhtml"/>
         </uib:pageHeaderFacet>
         <!-- /topMenu -->
-        <!-- cc-loginForm:loginForm -->
-
-        <!-- /cc-loginForm:loginForm -->
         <!-- leftMenu -->
         <uib:pageMenuFacet>
             <ui:include src="leftMenu.xhtml"/>
@@ -36,9 +27,9 @@
             <p:outputPanel id="mainContent">
                 <ui:fragment rendered="#{!loginBean.valid}">
                     <h:form id="loginForm">
-
                         <p:panel id="pnl" header="Login in system" style="margin-bottom:10px;">
-                            <p:messages/>
+                            <p:messages id="exceptions" for="exceptions" showDetail="true" styleClass="ui-messages-error" severity="error"/>
+                            <p:messages id="messages" for="login,password,URL" />
                             <h:panelGrid columns="3">
                                 <p:outputLabel for="login" value="Login:"/>
                                 <p:inputText id="login" value="#{loginBean.username}" required="true"

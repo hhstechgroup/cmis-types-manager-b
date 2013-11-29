@@ -1,30 +1,36 @@
 package com.engagepoint;
 
+import com.engagepoint.CMISConnectException;
+import com.engagepoint.CmisService;
+import com.engagepoint.LoginInfo;
+import com.engagepoint.pojos.CmisType;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.client.api.Tree;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Named
+@ManagedBean
 @ViewScoped
 public class TreeBean implements Serializable {
     @EJB
     private CmisService service;
-    @Inject
+    @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private TreeNode root;
     private CmisType selectedType;
 
-
-    private List<CmisType> getListType(List<Tree<ObjectType>> treeList){
+    private List<CmisType> getListType(List<Tree<ObjectType>> treeList) {
         List<CmisType> cmisTypeList = new ArrayList<CmisType>();
 
         for (Tree<ObjectType> tree : treeList) {
@@ -33,7 +39,7 @@ public class TreeBean implements Serializable {
         return cmisTypeList;
     }
 
-    private CmisType getTypeObject(ObjectType objectType){
+    private CmisType getTypeObject(ObjectType objectType) {
         CmisType cmisType = new CmisType();
         cmisType.setName(objectType.getDisplayName());
         cmisType.setId(objectType.getId());
@@ -47,18 +53,15 @@ public class TreeBean implements Serializable {
         return cmisType;
     }
 
-
     public TreeNode getRoot() {
-        root = new DefaultTreeNode("Root", null);
+        this.root = new DefaultTreeNode("Root", null);
         LoginInfo loginInfo = login.getLoginInfo();
         List<Tree<ObjectType>> trees = null;
-
         try {
             trees = service.getTreeTypes(loginInfo);
-        } catch (CmisConnectException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (CMISConnectException e) {
+            FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
         }
-
         if (trees != null) {
             List<CmisType> cmisTypeList = getListType(trees);
             addTypesToTreeNode(cmisTypeList, root);
@@ -81,5 +84,17 @@ public class TreeBean implements Serializable {
                 addTypesToTreeNode(cmisType.getChildren(), node);
             }
         }
+    }
+
+    public LoginBean getLogin() {
+        return login;
+    }
+
+    public void setLogin(LoginBean login) {
+        this.login = login;
+    }
+
+    public void setRoot(TreeNode root) {
+        this.root = root;
     }
 }
