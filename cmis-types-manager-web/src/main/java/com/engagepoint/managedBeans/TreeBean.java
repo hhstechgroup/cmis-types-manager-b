@@ -1,7 +1,7 @@
 package com.engagepoint.managedBeans;
 
-import com.engagepoint.CmisConnectException;
-import com.engagepoint.CmisService;
+import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.services.CmisService;
 import com.engagepoint.LoginInfo;
 import com.engagepoint.pojos.CmisType;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
