@@ -6,6 +6,7 @@ package com.engagepoint;
  * Time: 6:59 PM
  */
 public class CmisConnectException extends Exception {
+
     public CmisConnectException(String message) {
         super(message);
     }
