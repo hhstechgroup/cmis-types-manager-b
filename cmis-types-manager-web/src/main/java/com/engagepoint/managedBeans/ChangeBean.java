@@ -1,4 +1,4 @@
-package com.engagepoint;
+package com.engagepoint.managedBeans;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
