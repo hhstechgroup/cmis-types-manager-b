@@ -48,12 +48,6 @@ public class TreeBean implements Serializable {
     }
 
 
-
-    public TreeBean() {
-
-
-    }
-
     public TreeNode getRoot() {
         root = new DefaultTreeNode("Root", null);
         LoginInfo loginInfo = login.getLoginInfo();
