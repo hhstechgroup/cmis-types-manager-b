@@ -1,6 +1,6 @@
 package com.engagepoint.managedBeans;
 
-import com.engagepoint.CMISConnectException;
+import com.engagepoint.CmisConnectException;
 import com.engagepoint.CmisService;
 import com.engagepoint.LoginInfo;
 
@@ -57,7 +57,7 @@ public class LoginBean implements Serializable {
     public boolean isValid() {
         try {
             return service.isValidUser(loginInfo);
-        } catch (CMISConnectException e) {
+        } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
         }
         return false;
