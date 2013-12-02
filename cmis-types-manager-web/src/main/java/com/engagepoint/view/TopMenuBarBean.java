@@ -1,4 +1,4 @@
-package com.engagepoint.managedBeans;
+package com.engagepoint.view;
 
 import org.primefaces.component.menuitem.MenuItem;
 import org.primefaces.model.DefaultMenuModel;

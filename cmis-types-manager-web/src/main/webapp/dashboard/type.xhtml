@@ -3,13 +3,13 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="template.xhtml"
+                template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
 
     <ui:define name="mainContent">
         <h:form>
 
-            <p:commandButton id="return" value="Return" action="#{changeBean.goToback}" update=":mainContent"/>
+            <!--<p:commandButton id="return" value="Return" styleClass="mb20" update=":mainContent"/>-->
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">

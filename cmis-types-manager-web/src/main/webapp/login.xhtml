@@ -1,0 +1,42 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="template.xhtml"
+                xmlns:uib="http://engagepoint.com/uib">
+
+    <ui:define name="mainContent">
+        <h:form id="loginForm">
+
+            <p:panel id="pnl" header="Login in system" style="margin-bottom:10px;">
+                <p:messages id="exceptions" for="exceptions" showDetail="true" styleClass="ui-messages-error" severity="error"/>
+                <h:panelGrid columns="3">
+                    <p:outputLabel for="login" value="Login:"/>
+                    <p:inputText id="login" value="#{loginBean.username}" required="true"
+                                 label="login" size="50">
+                        <f:validateLength minimum="4"/>
+                        <p:watermark for="login" value="Login"/>
+                    </p:inputText>
+                    <p:message for="login"/>
+
+                    <p:outputLabel for="password" value="Password:"/>
+                    <p:inputText id="password" value="#{loginBean.password}"  type="password" required="true"
+                                 label="password" size="50">
+                        <p:watermark for="password" value="Password"/>
+                    </p:inputText>
+                    <p:message for="password"/>
+
+                    <p:outputLabel for="URL" value="URL:"/>
+                    <p:inputText id="URL" value="#{loginBean.url}" required="true" label="URL"
+                                 size="50">
+                        <f:validator validatorId="urlValidator"/>
+                        <p:watermark for="URL" value="Url"/>
+                    </p:inputText>
+                    <p:message for="URL"/>
+                </h:panelGrid>
+            </p:panel>
+            <p:commandButton value="LOGIN" action="#{loginBean.doLogin}" update=":mainContent"/>
+        </h:form>
+    </ui:define>
+</ui:composition>

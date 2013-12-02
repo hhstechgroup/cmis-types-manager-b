@@ -6,6 +6,21 @@
 	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          id="WebApp_ID" version="2.5">
 
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.engagepoint.filters.LoginFilter</filter-class>
+    </filter>
+    <!-- Set the login filter to secure all the pages in the /secured/* path of the application  -->
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/dashboard/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/configuration/*</url-pattern>
+    </filter-mapping>
+
+
     <display-name>PrimeFaces Web Application</display-name>
 
     <!-- Change to "Production" when you are ready to deploy -->
@@ -45,6 +60,8 @@
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
-
+    <welcome-file-list>
+        <welcome-file>dashboard/index.xhtml</welcome-file>
+    </welcome-file-list>
 
 </web-app>

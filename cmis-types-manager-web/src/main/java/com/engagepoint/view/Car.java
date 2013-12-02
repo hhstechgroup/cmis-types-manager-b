@@ -1,4 +1,4 @@
-package com.engagepoint;
+package com.engagepoint.view;
 
 /**
  * User: ${Michael Vakulik}

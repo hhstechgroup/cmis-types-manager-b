@@ -1,6 +1,4 @@
-package com.engagepoint.managedBeans;
-
-import com.engagepoint.Car;
+package com.engagepoint.view;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;

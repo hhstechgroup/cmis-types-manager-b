@@ -25,47 +25,7 @@
         <!-- mainContent -->
         <uib:pageBodyFacet>
             <p:outputPanel id="mainContent">
-                <ui:fragment rendered="#{!loginBean.valid}">
-                    <h:form id="loginForm">
-                        <p:panel id="pnl" header="Login in system" style="margin-bottom:10px;">
-                            <p:messages id="exceptions" for="exceptions" showDetail="true" styleClass="ui-messages-error" severity="error"/>
-                            <p:messages id="messages" for="login,password,URL" />
-                            <h:panelGrid columns="3">
-                                <p:outputLabel for="login" value="Login:"/>
-                                <p:inputText id="login" value="#{loginBean.username}" required="true"
-                                             label="login" size="50">
-                                    <f:validateLength minimum="4"/>
-                                    <p:watermark for="login" value="Login"/>
-                                </p:inputText>
-                                <p:message for="login"/>
-
-                                <p:outputLabel for="password" value="Password:"/>
-                                <p:inputText id="password" value="#{loginBean.password}" type="password" required="true"
-                                             label="password" size="50">
-                                    <p:watermark for="password" value="Password"/>
-                                </p:inputText>
-                                <p:message for="password"/>
-
-                                <p:outputLabel for="URL" value="URL:"/>
-                                <p:inputText id="URL" value="#{loginBean.url}" required="true" label="URL"
-                                             size="50">
-                                    <f:validator validatorId="urlValidator"/>
-                                    <p:watermark for="URL" value="Url"/>
-                                </p:inputText>
-                                <p:message for="URL"/>
-                            </h:panelGrid>
-                        </p:panel>
-
-                        <p:commandButton value="LOGIN"  action="#{loginBean.doLogin}" update=":mainContent"/>
-                    </h:form>
-                </ui:fragment>
-
-                <ui:fragment rendered="#{loginBean.valid}">
-                    <h:form id="logoutForm">
-                        <p:commandButton value="LOGOUT" style="margin-left: 500px; margin-bottom: 30px" action="#{loginBean.logout}" update=":mainContent"/>
-                    </h:form>
                     <ui:insert name="mainContent"/>
-                </ui:fragment>
             </p:outputPanel>
 
         </uib:pageBodyFacet>

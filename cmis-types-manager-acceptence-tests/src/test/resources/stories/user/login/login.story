@@ -9,7 +9,7 @@ Scenario: authentification scenario
 When the user opens the default page
 When the user fills 'loginForm:login' field with 'test'
 When the user fills 'loginForm:password' field with 'test'
-When the user fills 'loginForm:URL' field with 'http://lab16:8080/chemistry-opencmis-server-inmemory-0.10.0/atom11'
+When the user fills 'loginForm:URL' field with 'http://lab13:8160/chemistry-opencmis-server-inmemory-0.10.0/atom11'
 When clicks on element with id/name/className 'loginForm:j_idt23'
 Then wait for element 'types:treetable' is visible
 When clicks on element with id/name/className 'logoutForm:j_idt25'
