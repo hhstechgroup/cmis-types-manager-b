@@ -20,15 +20,15 @@
                 </uib:gridColumn>
             </uib:gridRow>
         </uib:gridContainer>
-        <h:form id="form">
+        <h:form id="treeForm">
             <p:growl id="messages" showDetail="true" />
             <p:tree value="#{dashboardBean.root}" var="node" dynamic="true" cache="false"
                     selectionMode="single"  selection="#{dashboardBean.selectedNode}" id="tree">
 
-                <p:ajax event="expand" update=":form:messages" listener="#{dashboardBean.onNodeExpand}" />
-                <p:ajax event="collapse" update=":form:messages" listener="#{dashboardBean.onNodeCollapse}" />
-                <p:ajax event="select" update=":form:messages" listener="#{dashboardBean.onNodeSelect}" />
-                <p:ajax event="unselect" update=":form:messages" listener="#{dashboardBean.onNodeUnselect}" />
+                <p:ajax event="expand" update=":treeForm:messages" listener="#{dashboardBean.onNodeExpand}" />
+                <p:ajax event="collapse" update=":treeForm:messages" listener="#{dashboardBean.onNodeCollapse}" />
+                <p:ajax event="select" update=":treeForm:messages" listener="#{dashboardBean.onNodeSelect}" />
+                <p:ajax event="unselect" update=":treeForm:messages" listener="#{dashboardBean.onNodeUnselect}" />
 
                 <p:treeNode>
                     <h:outputText value="#{node}" />
