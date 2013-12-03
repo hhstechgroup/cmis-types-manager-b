@@ -1,8 +1,10 @@
 package com.engagepoint.services;
 
 import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
 
@@ -25,27 +27,27 @@ public class CmisService {
     @EJB
     private CmisConnection connection;
 
-    public List<CmisType> getTreeTypes(final UserInfo userInfo) throws CmisConnectException {
+    public List<TypeProxy> getTypeInfo(final UserInfo userInfo) throws CmisConnectException {
         Session session = getSession(userInfo);
         List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
-       // session.getBinding().close();
-        return getCmisTypes(descendants);
+        return getTypeProxies(descendants);
+    }
+
+    public Prototype getPrototypeById(final UserInfo userInfo, String typeId) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        ObjectType type = session.getTypeDefinition(typeId);
+        return getPrototype(type);
     }
 
     public List<String> getNamesOfRootFolders(final UserInfo userInfo) throws CmisConnectException {
         Session session = getSession(userInfo);
         List<String> folders = new ArrayList<String>();
         Folder root = session.getRootFolder();
-        session.getBinding().close();
         ItemIterable<CmisObject> children = root.getChildren();
         for (CmisObject child : children) {
             folders.add(child.getName());
         }
         return folders;
-    }
-
-    public boolean isUserExist(final UserInfo userInfo) throws CmisConnectException {
-        return (getSession(userInfo) != null);
     }
 
     public List<String> getRepositoriesNames(final UserInfo userInfo) throws CmisConnectException {
@@ -54,6 +56,30 @@ public class CmisService {
             repositoriesNames.add(repository.getName());
         }
         return repositoriesNames;
+    }
+
+    public void createType(final UserInfo userInfo, Prototype prototype) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        CmisTypeBuilder builder = new CmisTypeBuilder();
+        builder.setPrototype(prototype);
+        builder.buildType();
+        session.createType(builder.getType());
+    }
+
+    public void deleteType(final UserInfo userInfo, String typeId) throws CmisConnectException, CmisTypeDeleteException {
+        Session session = getSession(userInfo);
+        try {
+            ObjectType type = session.getTypeDefinition(typeId);
+            TypeMutability typeMutability = type.getTypeMutability();
+            if (typeMutability != null && Boolean.TRUE.equals(typeMutability.canDelete())) {
+                session.deleteType(type.getId());
+            } else {
+                throw new CmisTypeDeleteException("Type is not deleted") ;
+            }
+        } catch (Exception e) {
+            throw new CmisTypeDeleteException(e.getMessage());
+        }
+
     }
 
     public String getDefaultRepositoryIdName(final UserInfo userInfo) throws CmisConnectException {
@@ -66,6 +92,18 @@ public class CmisService {
         return defaultRepositoryId;
     }
 
+    public boolean isUserExist(final UserInfo userInfo) throws CmisConnectException {
+        return (getSession(userInfo) != null);
+    }
+
+    //TODO    @deprecated
+    public List<Prototype> getTreeTypes(final UserInfo userInfo) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
+        return getPrototypes(descendants);
+    }
+
+    //TODO Think about get repositories
     private List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
         List<Repository> repositories;
@@ -88,26 +126,54 @@ public class CmisService {
         return session;
     }
 
-    private List<CmisType> getCmisTypes(List<Tree<ObjectType>> treeList) {
-        List<CmisType> cmisTypeList = new ArrayList<CmisType>();
+    //TODO    @deprecated
+    private List<Prototype> getPrototypes(List<Tree<ObjectType>> treeList) {
+        List<Prototype> cmisTypeList = new ArrayList<Prototype>();
         for (Tree<ObjectType> tree : treeList) {
-            cmisTypeList.add(getCmisType(tree.getItem()));
+            cmisTypeList.add(getPrototype(tree.getItem()));
         }
         return cmisTypeList;
     }
 
-    private CmisType getCmisType(ObjectType objectType) {
-        CmisType cmisType = new CmisType();
-        cmisType.setName(objectType.getDisplayName());
-        cmisType.setId(objectType.getId());
-        cmisType.setCreatable(objectType.isCreatable());
-        cmisType.setFileable(objectType.isFileable());
-        List<CmisType> children = new ArrayList<CmisType>();
-        for (ObjectType child : objectType.getChildren()) {
-            children.add(getCmisType(child));
+    private Prototype getPrototype(ObjectType objectType) {
+        Prototype prototype = new Prototype();
+        prototype.setId(objectType.getId());
+        prototype.setBaseTypeId(objectType.getBaseTypeId().value());
+        prototype.setParentTypeId(objectType.getParentTypeId());
+        prototype.setLocalName(objectType.getLocalName());
+        prototype.setDisplayName(objectType.getDisplayName());
+        prototype.setQueryName(objectType.getQueryName());
+        prototype.setDescription(objectType.getDescription());
+        prototype.setLocalNamespace(objectType.getLocalNamespace());
+        prototype.setCreatable(objectType.isCreatable());
+        prototype.setQueryable(objectType.isQueryable());
+        prototype.setFileable(objectType.isFileable());
+        prototype.setControllableAcl(objectType.isControllableAcl());
+        prototype.setControllablePolicy(objectType.isControllablePolicy());
+        prototype.setFulltextIndexed(objectType.isFulltextIndexed());
+        prototype.setIncludedInSupertypeQuery(objectType.isIncludedInSupertypeQuery());
+        prototype.setPropertyDefinitions(objectType.getPropertyDefinitions());
+        return prototype;
+    }
+
+    private List<TypeProxy> getTypeProxies(List<Tree<ObjectType>> treeList) {
+        List<TypeProxy> cmisTypeList = new ArrayList<TypeProxy>();
+        for (Tree<ObjectType> tree : treeList) {
+            cmisTypeList.add(getTypeProxy(tree.getItem()));
         }
-        cmisType.setChildren(children);
-        return cmisType;
+        return cmisTypeList;
+    }
+
+    private TypeProxy getTypeProxy(ObjectType objectType) {
+        TypeProxy typeProxy = new TypeProxy();
+        typeProxy.setId(objectType.getId());
+        typeProxy.setDisplayName(objectType.getDisplayName());
+        List<TypeProxy> children = new ArrayList<TypeProxy>();
+        for (ObjectType child : objectType.getChildren()) {
+            children.add(getTypeProxy(child));
+        }
+        typeProxy.setChildren(children);
+        return typeProxy;
     }
 
     private Map<String, String> getParameters(final UserInfo userInfo) {

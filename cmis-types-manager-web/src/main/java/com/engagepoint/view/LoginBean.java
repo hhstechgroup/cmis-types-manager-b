@@ -22,7 +22,6 @@ import java.io.Serializable;
 public class LoginBean implements Serializable {
 
     private static final long serialVersionUID = 7765876811740798583L;
-
     @EJB
     private CmisService service;
     private UserInfo userInfo = new UserInfo();
@@ -58,10 +57,6 @@ public class LoginBean implements Serializable {
         HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         httpSession.setAttribute("sessionID", sessionID);
         return navigationBean.toLogin();
-    }
-
-    private boolean isValid() throws CmisConnectException {
-        return service.isUserExist(userInfo);
     }
 
     public String getUsername() {
@@ -110,5 +105,9 @@ public class LoginBean implements Serializable {
 
     public NavigationBean getNavigationBean() {
         return navigationBean;
+    }
+
+    private boolean isValid() throws CmisConnectException {
+        return service.isUserExist(userInfo);
     }
 }
