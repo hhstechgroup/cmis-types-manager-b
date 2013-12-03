@@ -31,14 +31,6 @@ public class LoginFilter implements Filter {
             String contextPath = ((HttpServletRequest) request).getContextPath();
             ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
         }
-
-/*        LoginBean loginBean = (LoginBean)((HttpServletRequest)request).getSession().getAttribute("loginBean");
-
-        if (loginBean == null || !loginBean.isLoggedIn()) {
-            String contextPath = ((HttpServletRequest)request).getContextPath();
-            ((HttpServletResponse)response).sendRedirect(contextPath + "/login.xhtml");
-        }*/
-
         chain.doFilter(request, response);
 
     }

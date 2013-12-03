@@ -29,7 +29,7 @@ public class TopMenuBarBean {
         model = new DefaultMenuModel();
         viewRoot = FacesContext.getCurrentInstance().getViewRoot();
         String viewId = viewRoot.getViewId();
-        addMenuItem(viewId, "dashboard", "/dashboard/", "index.xhtml", "Dahsboard");
+        addMenuItem(viewId, "dashboard", "/dashboard/", "index.xhtml", "Dashboard");
         addMenuItem(viewId, "configuration", "/configuration/", "index.xhtml", "Configuration");
         addMenuItem(viewId, "info", "/configuration/", "index.xhtml", "Info");
     }

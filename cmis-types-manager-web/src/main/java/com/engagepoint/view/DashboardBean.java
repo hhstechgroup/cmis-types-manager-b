@@ -33,7 +33,7 @@ import java.util.List;
  */
 @ManagedBean
 @ViewScoped
-public class DashbordBean implements Serializable {
+public class DashboardBean implements Serializable {
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")

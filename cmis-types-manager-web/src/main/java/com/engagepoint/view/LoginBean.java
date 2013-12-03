@@ -3,21 +3,21 @@ package com.engagepoint.view;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
-import com.engagepoint.view.NavigationBean;
 
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+
 
 /**
  * Created by Qnex.
  */
-@Named
+@ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
 
@@ -30,8 +30,8 @@ public class LoginBean implements Serializable {
 
     private boolean loggedIn;
 
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean = new NavigationBean();
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
 
     public String doLogin() {
         try {
@@ -54,6 +54,9 @@ public class LoginBean implements Serializable {
         loggedIn = false;
         userInfo.reset();
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        sessionID = "";
+        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        httpSession.setAttribute("sessionID", sessionID);
         return navigationBean.toLogin();
     }
 
@@ -103,5 +106,9 @@ public class LoginBean implements Serializable {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
     }
 }
