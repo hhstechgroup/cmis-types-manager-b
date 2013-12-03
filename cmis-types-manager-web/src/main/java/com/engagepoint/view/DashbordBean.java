@@ -40,6 +40,8 @@ public class DashbordBean implements Serializable {
     //private List<String> repositories;
     private String selectedType;
     private Boolean isShowDialog;
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
 
     @PostConstruct
     public void init() throws CmisConnectException {
@@ -68,16 +70,16 @@ public class DashbordBean implements Serializable {
 
     public String goTypePage() {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
-        return "type.xhtml?faces-redirect=true";
+        return navigationBean.toViewType();
     }
 
     public String goCreatePage() {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
-        return "create.xhtml?faces-redirect=true";
+        return navigationBean.toCreateType();
     }
 
     public String goToIndex() {
-        return "index.xhtml?faces-redirect=true";
+        return navigationBean.toMainPage();
     }
 
     public TreeNode getRoot() {

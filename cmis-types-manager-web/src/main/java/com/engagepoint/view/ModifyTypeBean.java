@@ -27,6 +27,8 @@ public class ModifyTypeBean implements Serializable {
     private LoginBean login;
     private Prototype prototype;
     private final String typeId;
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
 
     public LoginBean getLogin() {
         return login;
@@ -44,12 +46,11 @@ public class ModifyTypeBean implements Serializable {
             prototype.setParentTypeId(typeId);
             prototype.setBaseTypeId(typeId);
             service.createType(userInfo, prototype);
-            return "index.xhtml?faces-redirect=true";
         } catch (CmisConnectException e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
             FacesContext.getCurrentInstance().addMessage("exceptions", message);
-            return "";
         }
+        return navigationBean.toMainPage();
     }
 
     public Prototype getPrototype() {
