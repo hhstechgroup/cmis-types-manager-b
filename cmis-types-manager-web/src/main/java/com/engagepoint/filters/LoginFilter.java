@@ -3,6 +3,7 @@ package com.engagepoint.filters; /**
  * Date: 29.11.13
  * Time: 18:32
  */
+
 import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpSession;
 
 //@WebFilter(filterName = "Filter", urlPatterns = {"*.xhtml"})
 public class LoginFilter implements Filter {
+
+    String contextPath = "";
 
     public LoginFilter() {
     }
@@ -26,9 +29,9 @@ public class LoginFilter implements Filter {
 
         HttpSession session = ((HttpServletRequest) request).getSession(false);
         String sessionID = (session == null) ? null : (String) session.getAttribute("sessionID");
+        contextPath = ((HttpServletRequest) request).getContextPath();
 
         if (sessionID == null || sessionID.isEmpty()) {
-            String contextPath = ((HttpServletRequest) request).getContextPath();
             ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
         }
         chain.doFilter(request, response);
@@ -38,5 +41,9 @@ public class LoginFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    public String getContextPath() {
+        return contextPath;
     }
 }

@@ -11,7 +11,7 @@
           project="financials">
     <h:outputStylesheet library="css" name="style.css"/>
 
-    <uib:pageLayout componentVersion="1.0.1">
+    <uib:pageLayout componentVersion="1.0.2">
         <!-- topMenu -->
         <uib:pageHeaderFacet hideHelpMenu="true" logo="#{resource['img:logo.png']}" logoAltText="Team B">
             <ui:include src="topmenubar.xhtml"/>
@@ -21,23 +21,22 @@
         <uib:pageHeaderUtilityBarFacet>
             <uib:gridContainer rendered="#{loginBean.loggedIn}">
                 <uib:gridRow>
-                    <uib:gridColumn column="4">
+                    <uib:gridColumn column="6">
                         <h:form>
                             <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                                 <p:selectOneMenu value="#{repositoryBean.selectedRepoId}">
                                     <f:selectItems value="#{repositoryBean.repositoryList}"/>
-                                    <p:ajax event="change" update=":mainContent"
+                                    <p:ajax event="change" update="-mainContent"
                                             listener="#{repositoryBean.updateMainContent}"/>
                                 </p:selectOneMenu>
                             </h:panelGrid>
                         </h:form>
                     </uib:gridColumn>
-                    <uib:gridColumn column="2">
-                        <h:form styleClass="fl-right">
+                    <uib:gridColumn column="6">
+                        <h:form styleClass="fl-right" id="logoutForm">
                             <p:messages id="messages"/>
                             <h:outputText value="Welcome #{loginBean.userInfo.username} !"/>
-                            <p:commandButton action="#{loginBean.logout}" style="margin-top: 4px;"
-                                             styleClass="secondary" value="Log out"
+                            <p:commandButton id="logoutBtn" action="#{loginBean.logout}" styleClass="secondary" value="Log out"
                                     />
 
                         </h:form>
