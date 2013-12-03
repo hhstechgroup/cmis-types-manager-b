@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="../template.xhtml"
+                xmlns:uib="http://engagepoint.com/uib">
+
+    <ui:define name="mainContent">
+        <h:form>
+
+
+            <p:accordionPanel id="accordionPanel" multiple="true">
+                <p:tab id="accordionTabAttributes" title="Attributes">
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <h:outputText id="outputTextView15" value="Display name :"/>
+                        <p:inputText id="inputTextView15" value="#{modifyTypeBean.prototype.displayName}"/>
+
+                        <h:outputText id="outputTextView1" value="Description :"/>
+                        <p:inputText id="inputTextView1"  value="#{modifyTypeBean.prototype.description}"/>
+
+                        <h:outputText id="outputTextView2" value="Id :"/>
+                        <p:inputText id="inputTextView2"  value="#{modifyTypeBean.prototype.id}"/>
+
+                        <h:outputText id="outputTextView3" value="Local Namespace :"/>
+                        <p:inputText id="inputTextView3"  value="#{modifyTypeBean.prototype.localNamespace}"/>
+
+                        <h:outputText id="outputTextView4" value="Local Name :"/>
+                        <p:inputText id="inputTextView4"  value="#{modifyTypeBean.prototype.localName}"/>
+
+                        <h:outputText id="outputTextView5" value="Querty Name :"/>
+                        <p:inputText id="inputTextView5"  value="#{modifyTypeBean.prototype.queryName}"/>
+
+                        <h:outputText id="outputTextView6" value="Base Type"/>
+                        <h:outputText id="inputTextView6" value="#{modifyTypeBean.typeId}"/>
+
+                        <h:outputText id="outputTextView7" value="Creatabel :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel"  value="#{modifyTypeBean.prototype.creatable}"/>
+
+                        <h:outputText id="outputTextView8" value="Fileable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxFileable"  value="#{modifyTypeBean.prototype.fileable}"/>
+
+                        <h:outputText id="outputTextView9" value="Queryable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxQueryable"  value="#{modifyTypeBean.prototype.queryable}"/>
+
+                        <h:outputText id="outputTextView10" value="Included in super type queries :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxIst"  value="#{modifyTypeBean.prototype.includedInSupertypeQuery}"/>
+
+                        <h:outputText id="outputTextView11" value="Full text indexed :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxFti"  value="#{modifyTypeBean.prototype.fulltextIndexed}"/>
+
+                        <h:outputText id="outputTextView12" value="ACL Contronable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxACL"  value="#{modifyTypeBean.prototype.controllableAcl}"/>
+
+                        <h:outputText id="outputTextView13" value="Policy contronable :"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxPC"  value="#{modifyTypeBean.prototype.controllablePolicy}"/>
+
+                        <h:outputText id="outputTextView14" value="Type mutability"/>
+                        <h:outputText value="Create, Update, Delete"/>
+
+                    </h:panelGrid>
+                </p:tab>
+            </p:accordionPanel>
+
+            <p:commandButton value="Create Type" action="#{modifyTypeBean.createType}" update=":mainContent"/>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
