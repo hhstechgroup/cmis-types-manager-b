@@ -147,4 +147,20 @@ public class DashbordBean implements Serializable {
     public void show() {
         this.isShowDialog = true;
     }
+
+    public String deleteType() {
+        try {
+            UserInfo userInfo = login.getUserInfo();
+            service.deleteType(userInfo, selectedType);
+            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type" + selectedType, ""));
+        } catch (CmisConnectException e) {
+            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+        } catch (CmisTypeDeleteException e) {
+            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType + "> cannot be deleted", ""));
+        }
+
+
+        this.isShowDialog = false;
+        return "";
+    }
 }

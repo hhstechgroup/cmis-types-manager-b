@@ -4,6 +4,7 @@ import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -34,6 +35,7 @@ public class LoginBean implements Serializable {
 
     public String doLogin() {
         try {
+            userInfo.setRepositoryId(service.getDefaultRepositoryIdName(userInfo));
             if (isValid()) {
                 sessionID = String.valueOf(Math.random() * 1000);
                 HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
