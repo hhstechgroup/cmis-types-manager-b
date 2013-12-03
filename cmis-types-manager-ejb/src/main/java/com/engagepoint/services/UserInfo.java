@@ -17,8 +17,7 @@ public class UserInfo {
         userName = "";
         password = "";
         url = "";
-        //TODO My. change hardecode repository
-        this.repositoryId = "";//"A1";
+        this.repositoryId = "";
     }
 
     public String getUsername() {

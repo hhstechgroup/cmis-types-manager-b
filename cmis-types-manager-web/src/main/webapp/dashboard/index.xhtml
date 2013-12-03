@@ -6,35 +6,45 @@
                 template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
     <ui:define name="mainContent">
-
-
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
                     <uib:buttonGroup>
-                        <p:commandButton id="create" value="Create" action="#{navigation.toCreateType}" update=":mainContent"/>
-                        <p:commandButton id="update" value="Update" action="#{navigation.toUpdateType}" update=":mainContent"/>
-                        <p:commandButton id= "delete" value="Delete"  update=":mainContent"/>
-                        <p:commandButton id="view" value="View" action="#{navigation.toViewType}" update=":mainContent"/>
-                        <p:selectOneMenu id="selectRepo" value="#{repositoryBean.selectedRepo}"  >
-                            <f:selectItems value="#{repositoryBean.repositoryList}"/>
-                        </p:selectOneMenu>
+                        <p:commandButton id="create" value="Create" action="#{navigation.toCreateType}"
+                                         update=":mainContent"/>
+                        <p:commandButton id="update" value="Update" action="#{navigation.toUpdateType}"
+                                         update=":mainContent"/>
+                        <p:commandButton id="delete" value="Delete" update=":mainContent"/>
+                        <p:commandButton id="view" value="View" action="#{navigation.toViewType}"
+                                         update=":mainContent"/>
                     </uib:buttonGroup>
+
+                    <h:form>
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:selectOneMenu value="#{repositoryBean.selectedRepoId}">
+                                <f:selectItems value="#{repositoryBean.repositoryList}"/>
+                                <p:ajax event="change" update=":mainContent" listener="#{repositoryBean.updateMainContent}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:form>
                 </uib:gridColumn>
             </uib:gridRow>
         </uib:gridContainer>
-        <h:form id="form">
-            <p:growl id="messages" showDetail="true" />
-            <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
-                    selectionMode="single"  selection="#{dashbordBean.selectedNode}" id="tree">
 
-                <p:ajax event="expand" update=":form:messages" listener="#{dashbordBean.onNodeExpand}" />
-                <p:ajax event="collapse" update=":form:messages" listener="#{dashbordBean.onNodeCollapse}" />
-                <p:ajax event="select" update=":form:messages" listener="#{dashbordBean.onNodeSelect}" />
-                <p:ajax event="unselect" update=":form:messages" listener="#{dashbordBean.onNodeUnselect}" />
+
+        <h:form id="form">
+            <p:messages for="repoChanged" closable="true"/>
+            <p:messages id="messages" showDetail="true"/>
+            <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
+                    selectionMode="single" selection="#{dashbordBean.selectedNode}" id="tree">
+
+                <p:ajax event="expand" update=":form:messages" listener="#{dashbordBean.onNodeExpand}"/>
+                <p:ajax event="collapse" update=":form:messages" listener="#{dashbordBean.onNodeCollapse}"/>
+                <p:ajax event="select" update=":form:messages" listener="#{dashbordBean.onNodeSelect}"/>
+                <p:ajax event="unselect" update=":form:messages" listener="#{dashbordBean.onNodeUnselect}"/>
 
                 <p:treeNode>
-                    <h:outputText value="#{node}" />
+                    <h:outputText value="#{node}"/>
                 </p:treeNode>
             </p:tree>
 

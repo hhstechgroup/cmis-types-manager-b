@@ -41,18 +41,18 @@ public class DashbordBean implements Serializable {
 
     private TreeNode root;
     private TreeNode selectedNode;
-    private List<String> repositories;
+//    private List<String> repositories;
 
     @PostConstruct
     public void init() throws CmisConnectException {
         System.out.println("init DashbordBean!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        initSelector();
+//        initSelector();
         initTreeTable();
     }
 
-    private void initSelector() throws CmisConnectException {
-        repositories = service.getRepositoriesNames(login.getUserInfo());
-    }
+//    private void initSelector() throws CmisConnectException {
+//        repositories = service.getRepositoriesNames(login.getUserInfo());
+//    }
 
     private void initTreeTable() throws CmisConnectException {
         UserInfo userInfo = login.getUserInfo();
@@ -106,10 +106,10 @@ public class DashbordBean implements Serializable {
             }
         }
     }
-
-    public List<String> getRepositories() {
-        return repositories;
-    }
+//
+//    public List<String> getRepositories() {
+//        return repositories;
+//    }
 
     public LoginBean getLogin() {
         return login;

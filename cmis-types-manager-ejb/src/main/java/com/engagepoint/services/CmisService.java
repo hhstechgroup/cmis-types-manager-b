@@ -49,14 +49,17 @@ public class CmisService {
     }
 
     //getRepositoriesNames not using:
-    public List<String> getRepositoriesNames(final UserInfo userInfo) throws CmisConnectException {
-        List<String> repositoriesNames = new ArrayList<String>();
-        for (Repository repository : getRepositories(userInfo)) {
-            repositoriesNames.add(repository.getName());
-        }
-
-        return repositoriesNames;
-    }
+//    public List<Repository> getRepositoriesNames(final UserInfo userInfo) throws CmisConnectException {
+//        List<String> repositoriesNames = new ArrayList<String>();
+//        for (Repository repository : getRepositories(userInfo)) {
+//            repositoriesNames.add(repository.getId());
+//        }
+//        List<Repository> repositories = new ArrayList<Repository>();
+//        for (Repository repository : getRepositories(userInfo)) {
+//            repositories.add(repository);
+//        }
+//        return getRepositories(userInfo);
+//    }
 
     public String getDefaultRepositoryIdName(final UserInfo userInfo) throws CmisConnectException {
         int firstRepositoryId = 0;
@@ -68,7 +71,7 @@ public class CmisService {
         return defaultRepositoryId;
     }
 
-    private List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
+    public List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
         //TODO My. cleen
         System.out.println("!!!!!!!!!!!!!!!!!!Before" + parameters.size());
