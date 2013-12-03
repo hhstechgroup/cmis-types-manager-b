@@ -50,13 +50,13 @@ public class CmisService {
         return folders;
     }
 
-    public List<String> getRepositoriesNames(final UserInfo userInfo) throws CmisConnectException {
-        List<String> repositoriesNames = new ArrayList<String>();
-        for (Repository repository : getRepositories(userInfo)) {
-            repositoriesNames.add(repository.getName());
-        }
-        return repositoriesNames;
-    }
+//    public List<String> getRepositoriesNames(final UserInfo userInfo) throws CmisConnectException {
+//        List<String> repositoriesNames = new ArrayList<String>();
+//        for (Repository repository : getRepositories(userInfo)) {
+//            repositoriesNames.add(repository.getName());
+//        }
+//        return repositoriesNames;
+//    }
 
     public void createType(final UserInfo userInfo, Prototype prototype) throws CmisConnectException {
         Session session = getSession(userInfo);
@@ -104,7 +104,7 @@ public class CmisService {
     }
 
     //TODO Think about get repositories
-    private List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
+    public List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
         List<Repository> repositories;
         try {

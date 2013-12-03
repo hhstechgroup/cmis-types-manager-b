@@ -1,5 +1,6 @@
 package com.engagepoint.view;
 
+
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import com.engagepoint.services.CmisService;
@@ -36,7 +37,7 @@ public class DashbordBean implements Serializable {
     private LoginBean login;
     private TreeNode root;
     private TreeNode selectedNode;
-    private List<String> repositories;
+    //private List<String> repositories;
     private String selectedType;
     private Boolean isShowDialog;
     @ManagedProperty(value = "#{navigation}")
@@ -44,22 +45,18 @@ public class DashbordBean implements Serializable {
 
     @PostConstruct
     public void init() throws CmisConnectException {
-        initSelector();
+        System.out.println("init DashbordBean!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        initSelector();
         initTreeTable();
         this.isShowDialog = false;
     }
 
-    public LoginBean getLogin() {
-        return login;
-    }
+//    private void initSelector() throws CmisConnectException {
+//        repositories = service.getRepositoriesNames(login.getUserInfo());
+//    }
+    
 
-    public void setLogin(LoginBean login) {
-        this.login = login;
-    }
-
-    private void initSelector() throws CmisConnectException {
-        repositories = service.getRepositoriesNames(login.getUserInfo());
-    }
+   
 
     private void initTreeTable() throws CmisConnectException {
         root = new DefaultTreeNode("Root", null);
@@ -127,14 +124,22 @@ public class DashbordBean implements Serializable {
             }
         }
     }
-
-    public List<String> getRepositories() {
-        return repositories;
-    }
+//
+//    public List<String> getRepositories() {
+//        return repositories;
+//    }
 
 
     public Boolean getShowDialog() {
         return isShowDialog;
+    }
+
+    public LoginBean getLogin() {
+        return login;
+    }
+
+    public void setLogin(LoginBean login) {
+        this.login = login;
     }
 
     public void hide() {
@@ -143,9 +148,8 @@ public class DashbordBean implements Serializable {
 
     public void show() {
         this.isShowDialog = true;
-
     }
-    //TODO edit typeId to display name
+
     public String deleteType() {
         try {
             UserInfo userInfo = login.getUserInfo();

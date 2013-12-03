@@ -17,7 +17,7 @@ public class UserInfo {
         userName = "";
         password = "";
         url = "";
-        this.repositoryId = "A1";
+        this.repositoryId = "";
     }
 
     public String getUsername() {
