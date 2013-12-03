@@ -34,11 +34,21 @@
                         <p:commandButton id= "deleteButton" value="Delete" action="#{dashbordBean.show}" update=":deleteForm" />
                         <p:commandButton id="view" value="View" action="#{dashbordBean.goTypePage}" update=":mainContent"/>
                     </uib:buttonGroup>
+
+                    <h:form>
+                        <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                            <p:selectOneMenu value="#{repositoryBean.selectedRepoId}">
+                                <f:selectItems value="#{repositoryBean.repositoryList}"/>
+                                <p:ajax event="change" update=":mainContent" listener="#{repositoryBean.updateMainContent}"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                    </h:form>
                 </uib:gridColumn>
             </uib:gridRow>
         </uib:gridContainer>
         <h:form id="form">
-            <p:growl id="messages" showDetail="true" />
+            <p:messages for="repoChanged" closable="true"/>
+            <p:messages id="messages" showDetail="true"/>
             <p:tree value="#{dashbordBean.root}" var="node" dynamic="true"  cache="false"
                     selectionMode="single"  selection="#{dashbordBean.selectedNode}" id="tree">
 
