@@ -9,7 +9,7 @@
           showFooter="false"
           pageTitle="UI Bootstrap Demo"
           project="financials">
-    <h:outputStylesheet library="css" name="style.css" />
+    <h:outputStylesheet library="css" name="style.css"/>
 
     <uib:pageLayout componentVersion="1.0.1">
         <!-- topMenu -->
@@ -19,14 +19,31 @@
         <!-- /topMenu -->
 
         <uib:pageHeaderUtilityBarFacet>
-            <h:form rendered="#{loginBean.loggedIn}" styleClass="fl-right">
-                <p:messages id="messages"/>
-                <h:outputText value="Welcome #{loginBean.userInfo.username} !"/>
-                <p:commandButton action="#{loginBean.logout}" style="margin-top: 4px;"
-                                 styleClass="secondary" value="Log out"
-                        />
+            <uib:gridContainer rendered="#{loginBean.loggedIn}">
+                <uib:gridRow>
+                    <uib:gridColumn column="4">
+                        <h:form>
+                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                <p:selectOneMenu value="#{repositoryBean.selectedRepoId}">
+                                    <f:selectItems value="#{repositoryBean.repositoryList}"/>
+                                    <p:ajax event="change" update=":mainContent"
+                                            listener="#{repositoryBean.updateMainContent}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                        </h:form>
+                    </uib:gridColumn>
+                    <uib:gridColumn column="2">
+                        <h:form styleClass="fl-right">
+                            <p:messages id="messages"/>
+                            <h:outputText value="Welcome #{loginBean.userInfo.username} !"/>
+                            <p:commandButton action="#{loginBean.logout}" style="margin-top: 4px;"
+                                             styleClass="secondary" value="Log out"
+                                    />
 
-            </h:form>
+                        </h:form>
+                    </uib:gridColumn>
+                </uib:gridRow>
+            </uib:gridContainer>
         </uib:pageHeaderUtilityBarFacet>
 
         <!-- leftMenu -->
@@ -37,6 +54,7 @@
         <!-- mainContent -->
         <uib:pageBodyFacet>
             <p:outputPanel id="mainContent">
+                <p:messages id="messages" closable="true"/>
                 <ui:insert name="mainContent"/>
             </p:outputPanel>
 
