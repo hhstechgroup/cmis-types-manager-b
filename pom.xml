@@ -40,7 +40,7 @@
 
 
     <properties>
-        <global.version>1.0-SNAPSHOT</global.version>
+        <global.version>1.0.2-SNAPSHOT</global.version>
     </properties>
 
     <dependencyManagement>
