@@ -16,6 +16,9 @@
                         <p:commandButton id="update" value="Update" action="#{navigation.toUpdateType}" update=":mainContent"/>
                         <p:commandButton id= "delete" value="Delete"  update=":mainContent"/>
                         <p:commandButton id="view" value="View" action="#{navigation.toViewType}" update=":mainContent"/>
+                        <p:selectOneMenu id="selectRepo" value="#{repositoryBean.selectedRepo}"  >
+                            <f:selectItems value="#{repositoryBean.repositoryList}"/>
+                        </p:selectOneMenu>
                     </uib:buttonGroup>
                 </uib:gridColumn>
             </uib:gridRow>

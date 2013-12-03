@@ -31,7 +31,7 @@ public class CmisService {
        // session.getBinding().close();
         return getCmisTypes(descendants);
     }
-
+       //getNamesOfRootFolders not using:
     public List<String> getNamesOfRootFolders(final UserInfo userInfo) throws CmisConnectException {
         Session session = getSession(userInfo);
         List<String> folders = new ArrayList<String>();
@@ -48,11 +48,13 @@ public class CmisService {
         return (getSession(userInfo) != null);
     }
 
+    //getRepositoriesNames not using:
     public List<String> getRepositoriesNames(final UserInfo userInfo) throws CmisConnectException {
         List<String> repositoriesNames = new ArrayList<String>();
         for (Repository repository : getRepositories(userInfo)) {
             repositoriesNames.add(repository.getName());
         }
+
         return repositoriesNames;
     }
 
@@ -68,6 +70,10 @@ public class CmisService {
 
     private List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
+        //TODO My. cleen
+        System.out.println("!!!!!!!!!!!!!!!!!!Before" + parameters.size());
+        parameters.remove(SessionParameter.REPOSITORY_ID);
+        System.out.println("!!!!!!!!!!!!!!!!!!After" + parameters.size());
         List<Repository> repositories;
         try {
             repositories = connection.getSessionFactory().getRepositories(parameters);

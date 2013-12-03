@@ -38,6 +38,7 @@ public class DashbordBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
+
     private TreeNode root;
     private TreeNode selectedNode;
     private List<String> repositories;
