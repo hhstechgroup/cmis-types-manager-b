@@ -9,7 +9,7 @@
     <ui:define name="mainContent">
         <h:form>
 
-            <p:commandButton id="return" value="Return" action="#{dashbordBean.goToIndex}" update=":mainContent"/>
+            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage2}" update=":mainContent"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
