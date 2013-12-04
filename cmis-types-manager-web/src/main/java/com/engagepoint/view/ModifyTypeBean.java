@@ -45,7 +45,9 @@ public class ModifyTypeBean implements Serializable {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
             FacesContext.getCurrentInstance().addMessage("exceptions", message);
         }
-        return navigationBean.toMainPage();
+        finally {
+            return navigationBean.toMainPage();
+        }
     }
 
     public Prototype getPrototype() {
