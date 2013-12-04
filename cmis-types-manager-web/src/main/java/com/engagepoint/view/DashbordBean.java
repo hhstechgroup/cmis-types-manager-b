@@ -43,19 +43,24 @@ public class DashbordBean implements Serializable {
     private NavigationBean navigationBean;
 
     @PostConstruct
-    public void init() throws CmisConnectException {
+    public void init() {
         initTreeTable();
         this.isShowDialog = false;
     }
    
 
-    private void initTreeTable() throws CmisConnectException {
+    private void initTreeTable() {
         root = new DefaultTreeNode("Root", null);
-        UserInfo userInfo = login.getUserInfo();
-        List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
-        int firstTypeId = 0;
-        selectedType = typeProxies.get(firstTypeId);
-        addTypesToTree(typeProxies, root);
+        try {
+            UserInfo userInfo = login.getUserInfo();
+            List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
+            int firstTypeId = 0;
+            selectedType = typeProxies.get(firstTypeId);
+            addTypesToTree(typeProxies, root);
+        } catch (CmisConnectException e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(),"");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 
     public String goTypePage() {
@@ -137,8 +142,11 @@ public class DashbordBean implements Serializable {
 
     public String deleteType() {
         try {
+            int firstTypeId = 0;
             UserInfo userInfo = login.getUserInfo();
+            List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
             service.deleteType(userInfo, selectedType);
+            selectedType = typeProxies.get(firstTypeId);
             FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type" + selectedType.getDisplayName(), ""));
         } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
