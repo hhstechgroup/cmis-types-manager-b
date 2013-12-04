@@ -4,7 +4,6 @@ import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import org.apache.chemistry.opencmis.client.api.Repository;
 
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -12,9 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import java.io.Serializable;
-
 import javax.faces.model.SelectItem;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,7 @@ public class RepositoryBean implements Serializable {
         try {
             repositories = service.getRepositories(loginBean.getUserInfo());
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+            FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
         }
         repositoryList = new ArrayList<SelectItem>();
         for (Repository repo : repositories) {
@@ -53,9 +51,7 @@ public class RepositoryBean implements Serializable {
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
-        FacesContext.getCurrentInstance().addMessage("repoChanged", new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED , null));
-        System.out.println("SELECTED ID=" + selectedRepoId);
-        System.out.println("getRepositoryId=========" + loginBean.getUserInfo().getRepositoryId());
+        FacesContext.getCurrentInstance().addMessage("repoChanged", new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED , ""));
     }
 
     public String getSelectedRepoId() {
