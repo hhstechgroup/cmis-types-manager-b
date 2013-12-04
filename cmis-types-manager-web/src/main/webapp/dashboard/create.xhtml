@@ -8,8 +8,7 @@
 
     <ui:define name="mainContent">
         <h:form>
-
-            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}"/>
+            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
@@ -61,12 +60,10 @@
 
                         <h:outputText id="outputTextView14" value="Type mutability"/>
                         <h:outputText value="Create, Update, Delete"/>
-
                     </h:panelGrid>
                 </p:tab>
             </p:accordionPanel>
-
-            <p:commandButton value="Create Type" action="#{modifyTypeBean.createType}" update="-mainContent"/>
+            <p:commandButton value="Create Type" action="#{modifyTypeBean.createType}" update="-mainContent" styleClass="mt20"/>
         </h:form>
 
     </ui:define>

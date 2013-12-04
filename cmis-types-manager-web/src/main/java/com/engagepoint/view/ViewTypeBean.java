@@ -50,7 +50,7 @@ public class ViewTypeBean implements Serializable {
             prototype = service.getPrototypeById(userInfo, type);
         } catch (CmisConnectException e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
-            FacesContext.getCurrentInstance().addMessage("exceptions", message);
+            FacesContext.getCurrentInstance().addMessage(null, message);
         }
     }
 

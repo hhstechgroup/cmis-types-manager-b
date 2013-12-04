@@ -47,7 +47,6 @@ public class DashbordBean implements Serializable {
         initTreeTable();
         this.isShowDialog = false;
     }
-   
 
     private void initTreeTable() {
         root = new DefaultTreeNode("Root", null);
@@ -101,9 +100,6 @@ public class DashbordBean implements Serializable {
 
     public void onNodeSelect(NodeSelectEvent event) {
         selectedType = (TypeProxy) event.getTreeNode().getData();
-        String summary = "Selected " + selectedType.getDisplayName();
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, event.getTreeNode().toString());
-        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
     public void onNodeUnselect(NodeUnselectEvent event) {
@@ -146,12 +142,13 @@ public class DashbordBean implements Serializable {
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
             service.deleteType(userInfo, selectedType);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), ""));
+            initTreeTable();
             selectedType = typeProxies.get(firstTypeId);
-            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type" + selectedType.getDisplayName(), ""));
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
         } catch (CmisTypeDeleteException e) {
-            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", ""));
         }
         this.isShowDialog = false;
         return "";
@@ -167,5 +164,13 @@ public class DashbordBean implements Serializable {
 
     private void setParameterToFlash() {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
+    }
+
+    public TypeProxy getSelectedType() {
+        return selectedType;
+    }
+
+    public void setSelectedType(TypeProxy selectedType) {
+        this.selectedType = selectedType;
     }
 }
