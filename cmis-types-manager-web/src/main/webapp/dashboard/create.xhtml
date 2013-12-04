@@ -9,7 +9,7 @@
     <ui:define name="mainContent">
         <h:form>
 
-
+            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
@@ -32,8 +32,11 @@
                         <h:outputText id="outputTextView5" value="Querty Name :"/>
                         <p:inputText id="inputTextView5"  value="#{modifyTypeBean.prototype.queryName}"/>
 
-                        <h:outputText id="outputTextView6" value="Base Type"/>
-                        <h:outputText id="inputTextView6" value="#{modifyTypeBean.typeId}"/>
+                        <h:outputText id="outputTextView16" value="Base Type"/>
+                        <h:outputText id="inputTextView16" value="#{modifyTypeBean.baseType}"/>
+
+                        <h:outputText id="outputTextView6" value="Parent Type"/>
+                        <h:outputText id="inputTextView6" value="#{modifyTypeBean.parentType}"/>
 
                         <h:outputText id="outputTextView7" value="Creatabel :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxCreatabel"  value="#{modifyTypeBean.prototype.creatable}"/>

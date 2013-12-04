@@ -4,7 +4,6 @@ import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
 
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -16,7 +15,9 @@ import java.io.Serializable;
 
 
 /**
- * Created by Qnex.
+ * User: AlexDenisenko
+ * Date: 15/11/13
+ * Time: 2:29 AM
  */
 @ManagedBean
 @SessionScoped

@@ -21,19 +21,22 @@
         <uib:gridContainer>
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
-                    <uib:buttonGroup>
-                        <p:commandButton id="create" value="Create" action="#{dashbordBean.goCreatePage}"
-                                         update="-mainContent"/>
-                        <p:commandButton id="update" value="Update" action="#{dashbordBean.goTypePage}"
-                                         update="-mainContent"/>
-                        <p:commandButton id="deleteButton" value="Delete" action="#{dashbordBean.show}"
-                                         update="-deleteForm"/>
-                        <p:commandButton id="view" value="View" action="#{dashbordBean.goTypePage}"
-                                         update="-mainContent"/>
-                    </uib:buttonGroup>
+                    <h:form>
+                        <uib:buttonGroup>
+                            <p:commandButton id="create" value="Create" action="#{dashbordBean.goCreatePage}"
+                                             update="-mainContent"/>
+                            <p:commandButton id="update" value="Update" action="#{dashbordBean.goTypePage}"
+                                             update="-mainContent"/>
+                            <p:commandButton id="deleteButton" value="Delete" action="#{dashbordBean.show}"
+                                             update="-deleteForm"/>
+                            <p:commandButton id="view" value="View" action="#{dashbordBean.goTypePage}"
+                                             update="-mainContent"/>
+                        </uib:buttonGroup>
+                    </h:form>
                 </uib:gridColumn>
             </uib:gridRow>
         </uib:gridContainer>
+
         <h:form>
             <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
                     selectionMode="single" selection="#{dashbordBean.selectedNode}" id="tree">

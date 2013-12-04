@@ -3,7 +3,9 @@ package com.engagepoint.services;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * Created by Qnex.
+ * User: AlexDenisenko
+ * Date: 28.12.13
+ * Time: 10:02
  */
 public class UserInfo {
 

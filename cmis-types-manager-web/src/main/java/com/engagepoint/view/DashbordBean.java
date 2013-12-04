@@ -24,7 +24,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * User: alexdenisenko
+ * User: AlexDenisenko
  * Date: 11/24/13
  * Time: 0:24 PM
  */
@@ -37,44 +37,34 @@ public class DashbordBean implements Serializable {
     private LoginBean login;
     private TreeNode root;
     private TreeNode selectedNode;
-    //private List<String> repositories;
-    private String selectedType;
+    private TypeProxy selectedType;
     private Boolean isShowDialog;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
     @PostConstruct
     public void init() throws CmisConnectException {
-        System.out.println("init DashbordBean!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//        initSelector();
         initTreeTable();
         this.isShowDialog = false;
     }
-
-//    private void initSelector() throws CmisConnectException {
-//        repositories = service.getRepositoriesNames(login.getUserInfo());
-//    }
-    
-
    
 
     private void initTreeTable() throws CmisConnectException {
         root = new DefaultTreeNode("Root", null);
         UserInfo userInfo = login.getUserInfo();
-//        List<CmisType> types = service.getTreeTypes(userInfo);
         List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
         int firstTypeId = 0;
-        selectedType = typeProxies.get(firstTypeId).getId();
+        selectedType = typeProxies.get(firstTypeId);
         addTypesToTree(typeProxies, root);
     }
 
     public String goTypePage() {
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
+        setParameterToFlash();
         return navigationBean.toViewType();
     }
 
     public String goCreatePage() {
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
+        setParameterToFlash();
         return navigationBean.toCreateType();
     }
 
@@ -105,9 +95,9 @@ public class DashbordBean implements Serializable {
     }
 
     public void onNodeSelect(NodeSelectEvent event) {
-        TypeProxy typeProxy = (TypeProxy) event.getTreeNode().getData();
-        selectedType = typeProxy.getId();
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Selected", event.getTreeNode().toString());
+        selectedType = (TypeProxy) event.getTreeNode().getData();
+        String summary = "Selected " + selectedType.getDisplayName();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, event.getTreeNode().toString());
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
@@ -124,11 +114,6 @@ public class DashbordBean implements Serializable {
             }
         }
     }
-//
-//    public List<String> getRepositories() {
-//        return repositories;
-//    }
-
 
     public Boolean getShowDialog() {
         return isShowDialog;
@@ -154,15 +139,27 @@ public class DashbordBean implements Serializable {
         try {
             UserInfo userInfo = login.getUserInfo();
             service.deleteType(userInfo, selectedType);
-            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type" + selectedType, ""));
+            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type" + selectedType.getDisplayName(), ""));
         } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
         } catch (CmisTypeDeleteException e) {
-            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType + "> cannot be deleted", ""));
+            FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", ""));
         }
 
 
         this.isShowDialog = false;
         return "";
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
+
+    private void setParameterToFlash() {
+        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
     }
 }

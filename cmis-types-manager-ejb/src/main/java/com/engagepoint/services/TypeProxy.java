@@ -3,13 +3,14 @@ package com.engagepoint.services;
 import java.util.List;
 
 /**
- * User: Qnex
+ * User: AlexDenisenko
  * Date: 02.12.13
  * Time: 22:40
  */
 public class TypeProxy {
     private String id;
     private String displayName;
+    private String baseType;
 
     private List<TypeProxy> children;
 
@@ -36,5 +37,13 @@ public class TypeProxy {
 
     public void setChildren(List<TypeProxy> children) {
         this.children = children;
+    }
+
+    public String getBaseType() {
+        return baseType;
+    }
+
+    public void setBaseType(String baseType) {
+        this.baseType = baseType;
     }
 }

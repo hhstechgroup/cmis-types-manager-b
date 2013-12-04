@@ -7,7 +7,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 
 /**
- * User: Qnex
+ * User: AlexDenisenko
  * Date: 29.11.13
  * Time: 11:37
  */

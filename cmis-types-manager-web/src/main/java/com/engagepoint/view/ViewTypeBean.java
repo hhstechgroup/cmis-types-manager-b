@@ -3,6 +3,7 @@ package com.engagepoint.view;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.Prototype;
+import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 
@@ -29,7 +30,7 @@ public class ViewTypeBean implements Serializable {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private Prototype prototype;
-    private final String typeId;
+    private final TypeProxy type;
 
     public LoginBean getLogin() {
         return login;
@@ -39,14 +40,14 @@ public class ViewTypeBean implements Serializable {
     }
 
     public ViewTypeBean() {
-        typeId = (String) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
+        type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
     }
 
     @PostConstruct
     public void TypeBean() {
         UserInfo userInfo = login.getUserInfo();
         try {
-            prototype = service.getPrototypeById(userInfo, typeId);
+            prototype = service.getPrototypeById(userInfo, type);
         } catch (CmisConnectException e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
             FacesContext.getCurrentInstance().addMessage("exceptions", message);

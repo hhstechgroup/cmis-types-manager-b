@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * User: alexdenisenko
+ * User: AlexDenisenko
  * Date: 18/15/13
  * Time: 1:34 PM
  */
@@ -33,10 +33,10 @@ public class CmisService {
         return getTypeProxies(descendants);
     }
 
-    public Prototype getPrototypeById(final UserInfo userInfo, String typeId) throws CmisConnectException {
+    public Prototype getPrototypeById(final UserInfo userInfo, TypeProxy type) throws CmisConnectException {
         Session session = getSession(userInfo);
-        ObjectType type = session.getTypeDefinition(typeId);
-        return getPrototype(type);
+        ObjectType objectType = session.getTypeDefinition(type.getId());
+        return getPrototype(objectType);
     }
 
     public List<String> getNamesOfRootFolders(final UserInfo userInfo) throws CmisConnectException {
@@ -50,14 +50,6 @@ public class CmisService {
         return folders;
     }
 
-//    public List<String> getRepositoriesNames(final UserInfo userInfo) throws CmisConnectException {
-//        List<String> repositoriesNames = new ArrayList<String>();
-//        for (Repository repository : getRepositories(userInfo)) {
-//            repositoriesNames.add(repository.getName());
-//        }
-//        return repositoriesNames;
-//    }
-
     public void createType(final UserInfo userInfo, Prototype prototype) throws CmisConnectException {
         Session session = getSession(userInfo);
         CmisTypeBuilder builder = new CmisTypeBuilder();
@@ -66,10 +58,10 @@ public class CmisService {
         session.createType(builder.getType());
     }
 
-    public void deleteType(final UserInfo userInfo, String typeId) throws CmisConnectException, CmisTypeDeleteException {
+    public void deleteType(final UserInfo userInfo, TypeProxy proxy) throws CmisConnectException, CmisTypeDeleteException {
         Session session = getSession(userInfo);
         try {
-            ObjectType type = session.getTypeDefinition(typeId);
+            ObjectType type = session.getTypeDefinition(proxy.getId());
             TypeMutability typeMutability = type.getTypeMutability();
             if (typeMutability != null && Boolean.TRUE.equals(typeMutability.canDelete())) {
                 session.deleteType(type.getId());
@@ -93,7 +85,7 @@ public class CmisService {
     }
 
     public boolean isUserExist(final UserInfo userInfo) throws CmisConnectException {
-        return (getSession(userInfo) != null);
+        return getSession(userInfo) != null;
     }
 
     //TODO    @deprecated
@@ -168,6 +160,7 @@ public class CmisService {
         TypeProxy typeProxy = new TypeProxy();
         typeProxy.setId(objectType.getId());
         typeProxy.setDisplayName(objectType.getDisplayName());
+        typeProxy.setBaseType(objectType.getBaseTypeId().value());
         List<TypeProxy> children = new ArrayList<TypeProxy>();
         for (ObjectType child : objectType.getChildren()) {
             children.add(getTypeProxy(child));

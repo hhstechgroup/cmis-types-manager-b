@@ -3,6 +3,7 @@ package com.engagepoint.view;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.Prototype;
+import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
 
 import javax.ejb.EJB;
@@ -26,25 +27,19 @@ public class ModifyTypeBean implements Serializable {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private Prototype prototype;
-    private final String typeId;
+    private final TypeProxy type;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
-    public LoginBean getLogin() {
-        return login;
-    }
-    public void setLogin(LoginBean login) {
-        this.login = login;
-    }
     public ModifyTypeBean() {
-        typeId = (String) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
+        type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
         prototype = new Prototype();
     }
     public String createType() {
         UserInfo userInfo = login.getUserInfo();
         try {
-            prototype.setParentTypeId(typeId);
-            prototype.setBaseTypeId(typeId);
+            prototype.setParentTypeId(type.getId());
+            prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
         } catch (CmisConnectException e) {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
@@ -61,7 +56,26 @@ public class ModifyTypeBean implements Serializable {
         this.prototype = prototype;
     }
 
-    public String getTypeId() {
-        return typeId;
+    public String getBaseType() {
+        return type.getBaseType();
+    }
+
+    public String getParentType() {
+        return type.getId();
+    }
+
+    public LoginBean getLogin() {
+        return login;
+    }
+    public void setLogin(LoginBean login) {
+        this.login = login;
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
     }
 }

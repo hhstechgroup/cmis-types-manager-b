@@ -5,7 +5,9 @@ import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import java.util.Map;
 
 /**
- * Created by Qnex.
+ * User: AlexDenisenko
+ * Date: 03.12.13
+ * Time: 15:09
  */
 public class Prototype {
     private String id;

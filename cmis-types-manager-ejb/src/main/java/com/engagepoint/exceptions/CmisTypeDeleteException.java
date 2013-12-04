@@ -1,7 +1,7 @@
 package com.engagepoint.exceptions;
 
 /**
- * User: Qnex
+ * User: AlexDenisenko
  * Date: 03.12.13
  * Time: 14:02
  */
