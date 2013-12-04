@@ -48,8 +48,8 @@ public class LoginBean implements Serializable {
             }
         } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+            return navigationBean.toLogin();
         }
-        return "";
     }
 
     public String logout() {
