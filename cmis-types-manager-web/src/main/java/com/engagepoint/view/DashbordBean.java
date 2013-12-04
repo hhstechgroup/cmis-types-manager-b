@@ -137,8 +137,11 @@ public class DashbordBean implements Serializable {
 
     public String deleteType() {
         try {
+            int firstTypeId = 0;
             UserInfo userInfo = login.getUserInfo();
+            List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
             service.deleteType(userInfo, selectedType);
+            selectedType = typeProxies.get(firstTypeId);
             FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type" + selectedType.getDisplayName(), ""));
         } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
