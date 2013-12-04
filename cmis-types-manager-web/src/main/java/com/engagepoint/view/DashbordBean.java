@@ -148,8 +148,6 @@ public class DashbordBean implements Serializable {
         } catch (CmisTypeDeleteException e) {
             FacesContext.getCurrentInstance().addMessage("infoPanel", new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", ""));
         }
-
-
         this.isShowDialog = false;
         return "";
     }
