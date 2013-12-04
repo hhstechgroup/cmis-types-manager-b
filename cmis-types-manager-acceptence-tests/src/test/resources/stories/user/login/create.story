@@ -12,7 +12,3 @@
 !--When the user fills 'loginForm-URL' field with 'http://lab13:8160/chemistry-opencmis-server-inmemory-0.10.0/atom11'
 !--When clicks on element with id/name/className 'loginForm-loginBut'
 !--Then wait for element 'treeForm' is visible
-!--When clicks on element with id/name/className 'logoutBtn'
-!--Then wait for element 'loginForm' is visible
-
-
