@@ -43,19 +43,24 @@ public class DashbordBean implements Serializable {
     private NavigationBean navigationBean;
 
     @PostConstruct
-    public void init() throws CmisConnectException {
+    public void init() {
         initTreeTable();
         this.isShowDialog = false;
     }
    
 
-    private void initTreeTable() throws CmisConnectException {
+    private void initTreeTable() {
         root = new DefaultTreeNode("Root", null);
-        UserInfo userInfo = login.getUserInfo();
-        List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
-        int firstTypeId = 0;
-        selectedType = typeProxies.get(firstTypeId);
-        addTypesToTree(typeProxies, root);
+        try {
+            UserInfo userInfo = login.getUserInfo();
+            List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
+            int firstTypeId = 0;
+            selectedType = typeProxies.get(firstTypeId);
+            addTypesToTree(typeProxies, root);
+        } catch (CmisConnectException e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(),"");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 
     public String goTypePage() {

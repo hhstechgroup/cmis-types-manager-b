@@ -17,7 +17,6 @@
 
 
         </h:form>
-        <p:messages id="infoPanel" for="infoPanel" showDetail="true" autoUpdate="true" closable="true"/>
         <uib:gridContainer>
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
@@ -37,12 +36,12 @@
             </uib:gridRow>
         </uib:gridContainer>
 
-        <h:form  id="treeForm" >
+        <h:form id="treeForm">
             <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
                     selectionMode="single" selection="#{dashbordBean.selectedNode}" id="tree">
 
-                <p:ajax event="expand" update="-messages" listener="#{dashbordBean.onNodeExpand}"/>
-                <p:ajax event="collapse" update="-messages" listener="#{dashbordBean.onNodeCollapse}"/>
+                <p:ajax event="expand"  listener="#{dashbordBean.onNodeExpand}"/>
+                <p:ajax event="collapse"  listener="#{dashbordBean.onNodeCollapse}"/>
                 <p:ajax event="select" update="-messages" listener="#{dashbordBean.onNodeSelect}"/>
                 <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
 
