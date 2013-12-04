@@ -19,7 +19,6 @@ I want to perform logout
 So that I can logout and see login page
 
 Scenario: logout scenario
-When the user opens the 'dashboard/index.xhtml' page
 When clicks on element with id/name/className 'logoutForm-logoutBtn'
 Then wait for element 'loginForm' is visible
 
