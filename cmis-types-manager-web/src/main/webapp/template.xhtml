@@ -23,9 +23,9 @@
             <uib:gridContainer rendered="#{loginBean.loggedIn}">
                 <uib:gridRow>
                     <uib:gridColumn column="6">
-                        <h:form>
+                        <h:form id="changeRepositoryForm">
                             <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                <p:selectOneMenu value="#{repositoryBean.selectedRepoId}">
+                                <p:selectOneMenu value="#{repositoryBean.selectedRepoId}" id="changeRepositoryMenu">
                                     <f:selectItems value="#{repositoryBean.repositoryList}"/>
                                     <p:ajax event="change" update="-mainContent"
                                             listener="#{repositoryBean.updateMainContent}"/>
