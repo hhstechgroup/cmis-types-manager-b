@@ -12,6 +12,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -47,7 +50,11 @@ public class LoginBean implements Serializable {
                 return navigationBean.toLogin();
             }
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+            String message = e.getMessage().toString();
+            if (e.getMessage().equals("Unexpected document! Received: something unknown")){
+                message = "The repository on this URL doesn't exist!";
+            }
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
             return navigationBean.toLogin();
         }
     }

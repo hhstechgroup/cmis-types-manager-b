@@ -45,10 +45,10 @@
 }
 
 .ui-messages {
-    position: fixed;
-    top: 5%;
-    right: 3%;
+    position: relative;
+    left: 45%;
     z-index: 1100;
+    width: 50%;
     height: auto;
 }
 
