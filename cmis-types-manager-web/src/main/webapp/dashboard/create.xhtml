@@ -7,14 +7,15 @@
                 xmlns:uib="http://engagepoint.com/uib">
 
     <ui:define name="mainContent">
-        <h:form  id="createForm">
-            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
+        <h:form>
+
+            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
 
-                        <h:outputText id="outputTextView" value="Display name :"/>
-                        <p:inputText id="inputTextView" value="#{modifyTypeBean.prototype.displayName}"/>
+                        <h:outputText id="outputTextView15" value="Display name :"/>
+                        <p:inputText id="inputTextView15" value="#{modifyTypeBean.prototype.displayName}"/>
 
                         <h:outputText id="outputTextView1" value="Description :"/>
                         <p:inputText id="inputTextView1"  value="#{modifyTypeBean.prototype.description}"/>
@@ -60,10 +61,12 @@
 
                         <h:outputText id="outputTextView14" value="Type mutability"/>
                         <h:outputText value="Create, Update, Delete"/>
+
                     </h:panelGrid>
                 </p:tab>
             </p:accordionPanel>
-            <p:commandButton id="createTypeBtm" value="Create Type" action="#{modifyTypeBean.createType}" update="-mainContent" styleClass="mt20"/>
+
+            <p:commandButton value="Create Type" action="#{modifyTypeBean.createType}" update="-mainContent"/>
         </h:form>
 
     </ui:define>
