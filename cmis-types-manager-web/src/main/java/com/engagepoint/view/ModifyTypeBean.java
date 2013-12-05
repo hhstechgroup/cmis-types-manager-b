@@ -35,17 +35,19 @@ public class ModifyTypeBean implements Serializable {
         type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
         prototype = new Prototype();
     }
+
     public String createType() {
         UserInfo userInfo = login.getUserInfo();
         try {
             prototype.setParentTypeId(type.getId());
             prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", ""));
+            return navigationBean.toMainPage();
         } catch (CmisConnectException e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
-            FacesContext.getCurrentInstance().addMessage("exceptions", message);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
         }
-        return navigationBean.toMainPage();
+        return "";
     }
 
     public Prototype getPrototype() {
@@ -67,6 +69,7 @@ public class ModifyTypeBean implements Serializable {
     public LoginBean getLogin() {
         return login;
     }
+
     public void setLogin(LoginBean login) {
         this.login = login;
     }

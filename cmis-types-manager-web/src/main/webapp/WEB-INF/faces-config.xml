@@ -33,4 +33,7 @@
         <validator-class>com.engagepoint.components.UrlValidator</validator-class>
     </validator>
 
+    <lifecycle>
+        <phase-listener>com.engagepoint.components.MultiPageMessagesSupport</phase-listener>
+    </lifecycle>
 </faces-config>

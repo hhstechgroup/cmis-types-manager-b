@@ -40,7 +40,7 @@ public class RepositoryBean implements Serializable {
         try {
             repositories = service.getRepositories(loginBean.getUserInfo());
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage("exceptions", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
         }
         repositoryList = new ArrayList<SelectItem>();
         for (Repository repo : repositories) {
@@ -51,7 +51,7 @@ public class RepositoryBean implements Serializable {
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
-        FacesContext.getCurrentInstance().addMessage("repoChanged", new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED , ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED , ""));
     }
 
     public String getSelectedRepoId() {
