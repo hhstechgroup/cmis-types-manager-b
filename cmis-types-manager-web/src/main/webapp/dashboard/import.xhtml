@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="../template.xhtml"
+                xmlns:uib="http://engagepoint.com/uib">
+
+    <ui:define name="mainContent">
+
+    <h:form enctype="multipart/form-data">
+        <uib:gridContainer>
+            <uib:gridRow fluid="true">
+                <uib:gridColumn column="6">
+                    <p:fileUpload id="File" value="#{uploadListener.file}"
+                                  required="true" requiredMessage="File is required" mode="simple"
+                                  update="File;msg_configFile;UploadInput">
+                    </p:fileUpload>
+                </uib:gridColumn>
+                <uib:gridColumn column="6">
+                    <p:commandButton value="Upload" ajax="false" actionListener="#{uploadListener.upload}"/>
+                </uib:gridColumn>
+            </uib:gridRow>
+        </uib:gridContainer>
+    </h:form>
+
+
+
+        </ui:define>
+</ui:composition>

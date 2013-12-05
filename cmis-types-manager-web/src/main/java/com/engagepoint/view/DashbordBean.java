@@ -76,6 +76,7 @@ public class DashbordBean implements Serializable {
         return navigationBean.toMainPage();
     }
 
+
     public TreeNode getRoot() {
         return root;
     }
