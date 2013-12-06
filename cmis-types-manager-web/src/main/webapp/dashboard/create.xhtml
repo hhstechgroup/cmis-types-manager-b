@@ -14,14 +14,14 @@
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
 
-                        <h:outputText id="outputTextView" value="Display name :"/>
-                        <p:inputText id="inputTextView" value="#{modifyTypeBean.prototype.displayName}"/>
+                        <h:outputText id="outputTextView" value="Display name :*"/>
+                        <p:inputText id="inputTextView" value="#{modifyTypeBean.prototype.displayName}" required="true" requiredMessage="Please! Enter Display name"/>
 
                         <h:outputText id="outputTextView1" value="Description :"/>
                         <p:inputText id="inputTextView1"  value="#{modifyTypeBean.prototype.description}"/>
 
-                        <h:outputText id="outputTextView2" value="Id :"/>
-                        <p:inputText id="inputTextView2"  value="#{modifyTypeBean.prototype.id}"/>
+                        <h:outputText id="outputTextView2" value="Id :*"/>
+                        <p:inputText id="inputTextView2"  value="#{modifyTypeBean.prototype.id}" required="true" requiredMessage="Please! Enter Id"/>
 
                         <h:outputText id="outputTextView3" value="Local Namespace :"/>
                         <p:inputText id="inputTextView3"  value="#{modifyTypeBean.prototype.localNamespace}"/>
