@@ -32,6 +32,8 @@ public class ModifyTypeBean implements Serializable {
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
+    private MessagesBean messagesBean = new MessagesBean();
+
     public ModifyTypeBean() {
         type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
         prototype = new Prototype();
@@ -43,14 +45,13 @@ public class ModifyTypeBean implements Serializable {
             prototype.setParentTypeId(type.getId());
             prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", ""));
-            return navigationBean.toMainPage();
+            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", "");
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
+            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
         } catch (CmisCreateException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
+            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
         }
-        return "";
+        return navigationBean.toMainPage();
     }
 
     public Prototype getPrototype() {

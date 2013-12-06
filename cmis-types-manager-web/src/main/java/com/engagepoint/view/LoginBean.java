@@ -37,6 +37,8 @@ public class LoginBean implements Serializable {
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
+    private MessagesBean messagesBean = new MessagesBean();
+
     public String doLogin() {
         try {
             userInfo.setRepositoryId(service.getDefaultRepositoryIdName(userInfo));
@@ -54,7 +56,7 @@ public class LoginBean implements Serializable {
             if (e.getMessage().equals("Unexpected document! Received: something unknown")){
                 message = "The repository on this URL doesn't exist!";
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, message, null));
+            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, message, "");
             return navigationBean.toLogin();
         }
     }

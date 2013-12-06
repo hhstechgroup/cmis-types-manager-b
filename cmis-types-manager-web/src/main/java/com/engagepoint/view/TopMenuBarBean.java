@@ -22,8 +22,6 @@ public class TopMenuBarBean {
     private MenuModel model;
     private UIViewRoot viewRoot;
 
-
-
     @PostConstruct
     public void initModel() {
         model = new DefaultMenuModel();
@@ -33,7 +31,6 @@ public class TopMenuBarBean {
         addMenuItem(viewId, "configuration", "/configuration/", "index.xhtml", "Configuration");
         addMenuItem(viewId, "info", "/configuration/", "index.xhtml", "Info");
     }
-
 
     private void addMenuItem(String viewId, String mID, String rootView, String address, String label) {
         MenuItem menuItem = new MenuItem();
