@@ -8,13 +8,16 @@
 
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deletePanel" header="Selected : #{dashbordBean.selectedType.displayName}! Delete type ?"
-                     rendered="#{dashbordBean.showDialog}">
+            <p:panel id="deletePanel" header="Delete type ?" rendered="#{dashbordBean.showDialog}">
+
                 <p:commandButton id="b1" value="Yes" action="#{dashbordBean.deleteType}" update="-mainContent"/>
                 <p:commandButton id="b2" value="No" action="#{dashbordBean.hide}" update="-mainContent"/>
+
             </p:panel>
+
+
         </h:form>
-        <uib:gridContainer styleClass="mb20">
+        <uib:gridContainer>
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
                     <h:form>
@@ -36,12 +39,13 @@
         <h:form id="treeForm">
             <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
                     selectionMode="single" selection="#{dashbordBean.selectedNode}" id="tree">
-                <ui:remove>
-                    <p:ajax event="expand" listener="#{dashbordBean.onNodeExpand}"/>
-                    <p:ajax event="collapse" listener="#{dashbordBean.onNodeCollapse}"/>
-                    <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
-                </ui:remove>
+
+                <p:ajax event="expand"  listener="#{dashbordBean.onNodeExpand}"/>
+                <p:ajax event="collapse"  listener="#{dashbordBean.onNodeCollapse}"/>
                 <p:ajax event="select" update="-messages" listener="#{dashbordBean.onNodeSelect}"/>
+                <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
+
+
                 <p:treeNode>
                     <h:outputText value="#{node.displayName}"/>
                 </p:treeNode>

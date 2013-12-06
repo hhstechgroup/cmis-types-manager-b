@@ -14,13 +14,13 @@
         </renderer>
         <renderer>
             <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.PanelRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapPanelRenderer</renderer-class>
+            <renderer-type>org.primefaces.component.FileUploadRenderer</renderer-type>
+            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapFileUploadRenderer</renderer-class>
         </renderer>
         <renderer>
             <component-family>org.primefaces.component</component-family>
-            <renderer-type>org.primefaces.component.AccordionPanelRenderer</renderer-type>
-            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapAccordionRenderer</renderer-class>
+            <renderer-type>org.primefaces.component.PanelRenderer</renderer-type>
+            <renderer-class>com.engagepoint.renderer.primefaces.BootStrapPanelRenderer</renderer-class>
         </renderer>
         <renderer>
             <component-family>org.primefaces.component</component-family>

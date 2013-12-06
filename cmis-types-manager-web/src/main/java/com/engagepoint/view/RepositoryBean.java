@@ -39,19 +39,19 @@ public class RepositoryBean implements Serializable {
     public void init() {
         try {
             repositories = service.getRepositories(loginBean.getUserInfo());
+            repositoryList = new ArrayList<SelectItem>();
+            for (Repository repo : repositories) {
+                repositoryList.add(new SelectItem(repo.getId(), repo.getName()));
+            }
+            selectedRepoId = repositories.get(0).getId();
         } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
         }
-        repositoryList = new ArrayList<SelectItem>();
-        for (Repository repo : repositories) {
-            repositoryList.add(new SelectItem(repo.getId(), repo.getName()));
-        }
-        selectedRepoId = repositories.get(0).getId();
     }
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED , ""));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED, ""));
     }
 
     public String getSelectedRepoId() {

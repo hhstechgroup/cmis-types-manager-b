@@ -18,6 +18,7 @@ public class NavigationBean implements Serializable {
     private static final String TO_UPDATE_TYPE = "type?faces-redirect=true";
     private static final String TO_VIEW_TYPE = "type?faces-redirect=true";
 
+
     public String toLogin(){
         return TO_LOGIN;
     }
@@ -37,4 +38,5 @@ public class NavigationBean implements Serializable {
     public String toViewType(){
         return TO_VIEW_TYPE;
     }
+
 }

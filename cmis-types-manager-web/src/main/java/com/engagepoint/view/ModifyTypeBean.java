@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.Prototype;
 import com.engagepoint.services.TypeProxy;
@@ -43,10 +44,13 @@ public class ModifyTypeBean implements Serializable {
             prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", ""));
+            return navigationBean.toMainPage();
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
+        } catch (CmisCreateException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
         }
-        return navigationBean.toMainPage();
+        return "";
     }
 
     public Prototype getPrototype() {

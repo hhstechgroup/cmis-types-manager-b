@@ -7,15 +7,15 @@
                 xmlns:uib="http://engagepoint.com/uib">
 
     <ui:define name="mainContent">
-        <h:form>
+        <h:form id="viewForm">
 
             <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
 
-                        <h:outputText id="outputTextView15" value="Display name :"/>
-                        <p:inputText id="inputTextView15" disabled="true" value="#{viewTypeBean.prototype.displayName}"/>
+                        <h:outputText id="outputTextView" value="Display name :"/>
+                        <p:inputText id="inputTextView" disabled="true" value="#{viewTypeBean.prototype.displayName}"/>
 
                         <h:outputText id="outputTextView1" value="Description :"/>
                         <p:inputText id="inputTextView1" disabled="true" value="#{viewTypeBean.prototype.description}"/>
