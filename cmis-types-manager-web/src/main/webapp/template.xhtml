@@ -36,7 +36,8 @@
                     <uib:gridColumn column="6">
                         <h:form styleClass="fl-right" id="logoutForm">
                             <h:outputText value="Welcome #{loginBean.userInfo.username}!" style="font-size: 16px"/>
-                            <p:commandButton id="logoutBtn" action="#{loginBean.logout}" styleClass="secondary" value="Log out"
+                            <p:commandButton id="logoutBtn" action="#{loginBean.logout}" styleClass="secondary"
+                                             value="Log out"
                                     />
                         </h:form>
                     </uib:gridColumn>
@@ -46,7 +47,9 @@
 
         <!-- leftMenu -->
         <uib:pageMenuFacet>
-            <ui:include src="dashboard/leftMenu.xhtml"/>
+            <ui:insert name="leftMenu">
+                <ui:include src="leftMenu.xhtml"/>
+            </ui:insert>
         </uib:pageMenuFacet>
         <!-- /leftMenu -->
         <!-- mainContent -->
