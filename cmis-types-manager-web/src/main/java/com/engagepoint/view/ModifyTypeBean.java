@@ -43,11 +43,10 @@ public class ModifyTypeBean implements Serializable {
             prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", ""));
-            return navigationBean.toMainPage();
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
         }
-        return "";
+        return navigationBean.toMainPage();
     }
 
     public Prototype getPrototype() {

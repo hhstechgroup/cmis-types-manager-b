@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-//@WebFilter(filterName = "Filter", urlPatterns = {"*.xhtml"})
 public class LoginFilter implements Filter {
 
     String contextPath = "";
