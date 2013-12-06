@@ -29,6 +29,9 @@ public class ViewTypeBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
+
+    private MessagesBean messagesBean = new MessagesBean();
+
     private Prototype prototype;
     private final TypeProxy type;
 
@@ -49,8 +52,7 @@ public class ViewTypeBean implements Serializable {
         try {
             prototype = service.getPrototypeById(userInfo, type);
         } catch (CmisConnectException e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(),"");
         }
     }
 

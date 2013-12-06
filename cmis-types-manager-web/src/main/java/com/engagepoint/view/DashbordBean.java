@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 
+import com.engagepoint.components.MultiPageMessagesSupport;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import com.engagepoint.services.CmisService;
@@ -43,6 +44,8 @@ public class DashbordBean implements Serializable {
     private NavigationBean navigationBean;
     private static final String TREE_DATA = "Root";
 
+    private MessagesBean messagesBean = new MessagesBean();
+
     @PostConstruct
     public void init() {
         initTree();
@@ -58,8 +61,7 @@ public class DashbordBean implements Serializable {
             selectedType = typeProxies.get(firstTypeId);
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(),"");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
         }
     }
 
@@ -91,13 +93,11 @@ public class DashbordBean implements Serializable {
     }
 
     public void onNodeExpand(NodeExpandEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Expanded", event.getTreeNode().toString());
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Expanded", event.getTreeNode().toString());
     }
 
     public void onNodeCollapse(NodeCollapseEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Collapsed", event.getTreeNode().toString());
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Collapsed", event.getTreeNode().toString());
     }
 
     public void onNodeSelect(NodeSelectEvent event) {
@@ -105,8 +105,7 @@ public class DashbordBean implements Serializable {
     }
 
     public void onNodeUnselect(NodeUnselectEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Unselected", event.getTreeNode().toString());
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Unselected", event.getTreeNode().toString());
     }
 
     private void addTypesToTree(List<TypeProxy> cmisTypes, TreeNode parent) {
@@ -144,13 +143,13 @@ public class DashbordBean implements Serializable {
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
             service.deleteType(userInfo, selectedType);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), ""));
+            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), "");
             initTree();
             selectedType = typeProxies.get(firstTypeId);
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "");
         } catch (CmisTypeDeleteException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", ""));
+            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", "");
         }
         this.isShowDialog = false;
         return "";

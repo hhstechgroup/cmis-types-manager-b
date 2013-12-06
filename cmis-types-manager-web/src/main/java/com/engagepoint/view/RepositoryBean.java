@@ -35,6 +35,8 @@ public class RepositoryBean implements Serializable {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
 
+    private MessagesBean messagesBean = new MessagesBean();
+
     @PostConstruct
     public void init() {
         try {
@@ -45,13 +47,13 @@ public class RepositoryBean implements Serializable {
             }
             selectedRepoId = repositories.get(0).getId();
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "");
         }
     }
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED, ""));
+        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED, "");
     }
 
     public String getSelectedRepoId() {
