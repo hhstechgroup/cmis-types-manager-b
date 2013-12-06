@@ -50,7 +50,7 @@ public class CmisService {
         return folders;
     }
 
-    public void createType(final UserInfo userInfo, Prototype prototype) throws CmisConnectException {
+    public void createType(final UserInfo userInfo, Prototype prototype)  throws CmisConnectException {
         Session session = getSession(userInfo);
         CmisTypeBuilder builder = new CmisTypeBuilder();
         builder.setPrototype(prototype);
