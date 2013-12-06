@@ -29,8 +29,8 @@
                         <h:outputText id="outputTextView4" value="Local Name :"/>
                         <p:inputText id="inputTextView4"  value="#{modifyTypeBean.prototype.localName}"/>
 
-                        <h:outputText id="outputTextView5" value="Querty Name :"/>
-                        <p:inputText id="inputTextView5"  value="#{modifyTypeBean.prototype.queryName}"/>
+                        <h:outputText id="outputTextView5" value="Query Name :"/>
+                        <p:inputText id="inputTextView5"  value="#{modifyTypeBean.prototype.queryName}" />
 
                         <h:outputText id="outputTextView16" value="Base Type"/>
                         <h:outputText id="inputTextView16" value="#{modifyTypeBean.baseType}"/>
@@ -39,10 +39,10 @@
                         <h:outputText id="inputTextView6" value="#{modifyTypeBean.parentType}"/>
 
                         <h:outputText id="outputTextView7" value="Creatabel :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel"  value="#{modifyTypeBean.prototype.creatable}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel" disabled="#{modifyTypeBean.isSecondary()}"  value="#{modifyTypeBean.prototype.creatable}"/>
 
                         <h:outputText id="outputTextView8" value="Fileable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFileable"  value="#{modifyTypeBean.prototype.fileable}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxFileable" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.fileable}"/>
 
                         <h:outputText id="outputTextView9" value="Queryable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxQueryable"  value="#{modifyTypeBean.prototype.queryable}"/>
@@ -54,10 +54,12 @@
                         <p:selectBooleanCheckbox id="selectCheckboxFti"  value="#{modifyTypeBean.prototype.fulltextIndexed}"/>
 
                         <h:outputText id="outputTextView12" value="ACL Contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxACL"  value="#{modifyTypeBean.prototype.controllableAcl}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxACL" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.controllableAcl}">
+                            <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Can't change"/>
+                        </p:selectBooleanCheckbox>
 
                         <h:outputText id="outputTextView13" value="Policy contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxPC"  value="#{modifyTypeBean.prototype.controllablePolicy}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxPC" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.controllablePolicy}"/>
 
                         <h:outputText id="outputTextView14" value="Type mutability"/>
                         <h:outputText value="Create, Update, Delete"/>
