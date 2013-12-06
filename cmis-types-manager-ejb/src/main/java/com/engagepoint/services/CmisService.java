@@ -1,6 +1,7 @@
 package com.engagepoint.services;
 
 import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
@@ -50,12 +51,16 @@ public class CmisService {
         return folders;
     }
 
-    public void createType(final UserInfo userInfo, Prototype prototype)  throws CmisConnectException {
+    public void createType(final UserInfo userInfo, Prototype prototype) throws CmisConnectException, CmisCreateException {
         Session session = getSession(userInfo);
         CmisTypeBuilder builder = new CmisTypeBuilder();
         builder.setPrototype(prototype);
         builder.buildType();
-        session.createType(builder.getType());
+        try {
+            session.createType(builder.getType());
+        } catch (RuntimeException e) {
+            throw new CmisCreateException(e.getMessage());
+        }
     }
 
     public void deleteType(final UserInfo userInfo, TypeProxy proxy) throws CmisConnectException, CmisTypeDeleteException {
@@ -151,19 +156,19 @@ public class CmisService {
     private List<TypeProxy> getTypeProxies(List<Tree<ObjectType>> treeList) {
         List<TypeProxy> cmisTypeList = new ArrayList<TypeProxy>();
         for (Tree<ObjectType> tree : treeList) {
-            cmisTypeList.add(getTypeProxy(tree.getItem()));
+            cmisTypeList.add(getTypeProxyFromCmis(tree.getItem()));
         }
         return cmisTypeList;
     }
 
-    private TypeProxy getTypeProxy(ObjectType objectType) {
+    private TypeProxy getTypeProxyFromCmis(ObjectType objectType) {
         TypeProxy typeProxy = new TypeProxy();
         typeProxy.setId(objectType.getId());
         typeProxy.setDisplayName(objectType.getDisplayName());
         typeProxy.setBaseType(objectType.getBaseTypeId().value());
         List<TypeProxy> children = new ArrayList<TypeProxy>();
         for (ObjectType child : objectType.getChildren()) {
-            children.add(getTypeProxy(child));
+            children.add(getTypeProxyFromCmis(child));
         }
         typeProxy.setChildren(children);
         return typeProxy;

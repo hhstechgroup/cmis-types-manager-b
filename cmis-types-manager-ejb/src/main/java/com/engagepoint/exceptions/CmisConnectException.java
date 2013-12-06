@@ -9,6 +9,5 @@ public class CmisConnectException extends Exception {
 
     public CmisConnectException(String message) {
         super(message);
-        //
     }
 }

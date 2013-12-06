@@ -41,15 +41,16 @@ public class DashbordBean implements Serializable {
     private Boolean isShowDialog;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
+    private static final String TREE_DATA = "Root";
 
     @PostConstruct
     public void init() {
-        initTreeTable();
+        initTree();
         this.isShowDialog = false;
     }
 
-    private void initTreeTable() {
-        root = new DefaultTreeNode("Root", null);
+    private void initTree() {
+        root = new DefaultTreeNode(TREE_DATA, null);
         try {
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
@@ -144,7 +145,7 @@ public class DashbordBean implements Serializable {
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
             service.deleteType(userInfo, selectedType);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), ""));
-            initTreeTable();
+            initTree();
             selectedType = typeProxies.get(firstTypeId);
         } catch (CmisConnectException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
