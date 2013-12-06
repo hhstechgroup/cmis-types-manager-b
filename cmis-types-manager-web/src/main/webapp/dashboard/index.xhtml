@@ -8,13 +8,13 @@
 
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deleteTypePanel" header="Delete type ?" rendered="#{dashbordBean.showTypeDialog}">
+            <p:panel id="deleteTypePanel" header="Do you want to delete type ?" rendered="#{dashbordBean.showTypeDialog}">
 
                 <p:commandButton id="accept" value="Yes" action="#{dashbordBean.deleteType}" update="-mainContent"/>
                 <p:commandButton id="decline" value="No" action="#{dashbordBean.hideDialog}" update="-mainContent"/>
 
             </p:panel>
-            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type ?" rendered="#{dashbordBean.showSubtypeDialog}">
+            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. All subtypes will be deleted also. Agree ?" rendered="#{dashbordBean.showSubtypeDialog}">
 
                 <p:commandButton id="accept2" value="Yes" action="#{dashbordBean.deleteTypeWithSubtypes}" update="-mainContent"/>
                 <p:commandButton id="decline2" value="No" action="#{dashbordBean.hideDialog}" update="-mainContent"/>
