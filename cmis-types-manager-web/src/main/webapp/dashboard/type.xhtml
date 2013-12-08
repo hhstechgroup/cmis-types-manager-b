@@ -62,19 +62,62 @@
 
                     </h:panelGrid>
                 </p:tab>
-                <p:tab id="accordionTabMetadate" title="Metadate">
-                    <p:dataTable var="property" value="#{viewTypeBean.propertyDefinitions}" scrollRows="20"
-                                 scrollable="true" liveScroll="true" scrollHeight="150" id="metadateTable">
+                <p:tab id="accordionTabMetadate" title="Metadata">
+                    <p:dataTable var="car" value="#{tableBean.carsLarge}" editable="true" scrollable="true" scrollWidth="630" scrollHeight="200" id="dataTable3">
 
-                        <p:column headerText="Name">
-                            <h:outputText value="#{property}"/>
-                        </p:column>:column>
+                        <p:column headerText="Model" footerText="Model">
+                            <h:outputText value="#{car.model}" />
+                        </p:column>
+
+                        <p:column headerText="Year" footerText="Year">
+                            <h:outputText value="#{car.year}" />
+                        </p:column>
+
+                        <p:column headerText="Manufacturer" footerText="Manufacturer">
+                            <h:outputText value="#{car.manufacturer}" />
+                        </p:column>
+
+                        <p:column headerText="Color" footerText="Color">
+                            <h:outputText value="#{car.color}" />
+                        </p:column>
+
+                        <p:column headerText="Model" footerText="Model">
+                            <h:outputText value="#{car.model}" />
+                        </p:column>
+
+                        <p:column headerText="Year" footerText="Year">
+                            <h:outputText value="#{car.year}" />
+                        </p:column>
+
+                        <p:column headerText="Manufacturer" footerText="Manufacturer">
+                            <h:outputText value="#{car.manufacturer}" />
+                        </p:column>
+
+                        <p:column headerText="Color" footerText="Color">
+                            <h:outputText value="#{car.color}" />
+                        </p:column>
+
+                        <p:column headerText="Model" footerText="Model">
+                            <h:outputText value="#{car.model}" />
+                        </p:column>
+
+                        <p:column headerText="Year" footerText="Year">
+                            <h:outputText value="#{car.year}" />
+                        </p:column>
+
+                        <p:column headerText="Manufacturer" footerText="Manufacturer">
+                            <h:outputText value="#{car.manufacturer}" />
+                        </p:column>
+
+                        <p:column headerText="Color" footerText="Color">
+                            <h:outputText value="#{car.color}" />
+                        </p:column>
 
                     </p:dataTable>
+
 
                 </p:tab>
             </p:accordionPanel>
         </h:form>
-
     </ui:define>
 </ui:composition>

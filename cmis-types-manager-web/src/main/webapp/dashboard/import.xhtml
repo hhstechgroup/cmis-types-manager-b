@@ -12,13 +12,13 @@
             <p:fileUpload
                     label="Select type"
                     mode="advanced"
-                    fileUploadListener="#{importBean.upload}"
+                    fileUploadListener="#{importTypeBean.upload}"
                     allowTypes="/(\.|\/)(xml|json)$/"
                     auto="true"/>
         </h:form>
 
         <h:form>
-            <p:commandButton id="createTypeBtm" value="Import" action="#{importBean.importTypes}" update="-mainContent"/>
+            <p:commandButton id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}" update="-mainContent"/>
         </h:form>
 
 

@@ -1,5 +1,6 @@
 package com.engagepoint.view;
 
+import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.CmisService;
@@ -7,11 +8,9 @@ import com.engagepoint.services.UserInfo;
 import org.primefaces.event.FileUploadEvent;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,7 +22,7 @@ import java.io.InputStream;
  */
 @ManagedBean
 @ViewScoped
-public class ImportBean {
+public class ImportTypeBean {
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -31,11 +30,11 @@ public class ImportBean {
     private InputStream stream;
 
     public void upload(FileUploadEvent event) {
-        printMessage(event.getFile().getFileName() + " is uploaded.");
+        Message.print(event.getFile().getFileName() + " is uploaded.");
         try {
             stream = event.getFile().getInputstream();
         } catch (IOException e) {
-            printMessage(e.getMessage());
+            Message.print(e.getMessage());
         }
     }
 
@@ -44,16 +43,16 @@ public class ImportBean {
         try {
             if (stream != null) {
                 service.importType(userInfo, stream);
-                printMessage("Type imported successful!");
+                Message.print("Type imported successful!");
             } else {
-                printMessage("File is not selected");
+                Message.print("File is not selected");
             }
         } catch (CmisConnectException e) {
-            printMessage(e.getMessage());
+            Message.print(e.getMessage());
         } catch (XMLStreamException e) {
-            printMessage(e.getMessage());
+            Message.print(e.getMessage());
         } catch (CmisCreateException e) {
-            printMessage(e.getMessage());
+            Message.print(e.getMessage());
 
         }
     }
@@ -64,9 +63,5 @@ public class ImportBean {
 
     public void setLogin(LoginBean login) {
         this.login = login;
-    }
-
-    private void printMessage(String message) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, message, ""));
     }
 }

@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 
+import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import com.engagepoint.services.CmisService;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @ManagedBean
 @ViewScoped
-public class DashbordBean implements Serializable {
+public class TypesManagerBean implements Serializable {
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -58,8 +59,7 @@ public class DashbordBean implements Serializable {
             selectedType = typeProxies.get(firstTypeId);
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, e.getMessage(),"");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+            Message.print(e.getMessage());
         }
     }
 
@@ -144,13 +144,13 @@ public class DashbordBean implements Serializable {
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
             service.deleteType(userInfo, selectedType);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), ""));
+            Message.print("Deleted type " + selectedType.getDisplayName());
             initTree();
             selectedType = typeProxies.get(firstTypeId);
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+            Message.print(e.getMessage());
         } catch (CmisTypeDeleteException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", ""));
+            Message.print("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
         }
         this.isShowDialog = false;
         return "";
