@@ -4,16 +4,14 @@ import org.primefaces.event.RowEditEvent;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 @ManagedBean(name = "item")
-@SessionScoped
+@ViewScoped
 public class Item implements Serializable {
-
-    private static final long serialVersionUID = 1L;
     private String item;
     private Integer qty;
     private Double price;

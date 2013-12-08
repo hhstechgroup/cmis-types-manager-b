@@ -43,6 +43,11 @@ public class CmisService {
         ObjectType objectType = session.getTypeDefinition(type.getId());
         return getPrototype(objectType);
     }
+//  TODO add catch exception
+    public TypeDefinition getTypeDefinition(final UserInfo userInfo, TypeProxy type) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        return session.getTypeDefinition(type.getId());
+    }
 
     public List<String> getNamesOfRootFolders(final UserInfo userInfo) throws CmisConnectException {
         Session session = getSession(userInfo);

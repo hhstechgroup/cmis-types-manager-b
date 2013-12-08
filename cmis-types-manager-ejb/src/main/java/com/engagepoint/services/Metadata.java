@@ -7,6 +7,6 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractPropertyDe
  * Date: 08.12.13
  * Time: 16:29
  */
-public class PropertyDefinitionImpl<T> extends AbstractPropertyDefinition<T> {
+public class Metadata<T> extends AbstractPropertyDefinition<T> {
 
 }

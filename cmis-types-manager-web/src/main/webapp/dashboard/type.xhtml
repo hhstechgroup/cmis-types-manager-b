@@ -15,102 +15,106 @@
                     <h:panelGrid columns="2" cellpadding="5">
 
                         <h:outputText id="outputTextView" value="Display name :"/>
-                        <p:inputText id="inputTextView" disabled="true" value="#{viewTypeBean.prototype.displayName}"/>
+                        <h:outputText id="inputTextView" disabled="true" value="#{viewTypeBean.definition.displayName}"/>
 
                         <h:outputText id="outputTextView1" value="Description :"/>
-                        <p:inputText id="inputTextView1" disabled="true" value="#{viewTypeBean.prototype.description}"/>
+                        <h:outputText id="inputTextView1" disabled="true" value="#{viewTypeBean.definition.description}"/>
 
 
                         <h:outputText id="outputTextView2" value="Id :"/>
-                        <p:inputText id="inputTextView2" disabled="true" value="#{viewTypeBean.prototype.id}"/>
+                        <h:outputText id="inputTextView2" disabled="true" value="#{viewTypeBean.definition.id}"/>
 
                         <h:outputText id="outputTextView3" value="Local Namespace :"/>
-                        <p:inputText id="inputTextView3" disabled="true" value="#{viewTypeBean.prototype.localNamespace}"/>
+                        <h:outputText id="inputTextView3" disabled="true" value="#{viewTypeBean.definition.localNamespace}"/>
 
                         <h:outputText id="outputTextView4" value="Local Name :"/>
-                        <p:inputText id="inputTextView4" disabled="true" value="#{viewTypeBean.prototype.localName}"/>
+                        <h:outputText id="inputTextView4" disabled="true" value="#{viewTypeBean.definition.localName}"/>
 
                         <h:outputText id="outputTextView5" value="Querty Name :"/>
-                        <p:inputText id="inputTextView5" disabled="true" value="#{viewTypeBean.prototype.queryName}"/>
+                        <h:outputText id="inputTextView5" disabled="true" value="#{viewTypeBean.definition.queryName}"/>
 
                         <h:outputText id="outputTextView16" value="Base Type"/>
-                        <h:outputText id="inputTextView16" value="#{viewTypeBean.prototype.baseTypeId}"/>
+                        <h:outputText id="inputTextView16" value="#{viewTypeBean.definition.baseTypeId}"/>
 
                         <h:outputText id="outputTextView7" value="Creatabel :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel" disabled="true" value="#{viewTypeBean.prototype.creatable}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel" disabled="true" value="#{viewTypeBean.definition.isCreatable()}"/>
 
                         <h:outputText id="outputTextView8" value="Fileable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFileable" disabled="true" value="#{viewTypeBean.prototype.fileable}}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxFileable" disabled="true" value="#{viewTypeBean.definition.isFileable()}}"/>
 
                         <h:outputText id="outputTextView9" value="Queryable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxQueryable" disabled="true" value="#{viewTypeBean.prototype.queryable}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxQueryable" disabled="true" value="#{viewTypeBean.definition.isQueryable()}"/>
 
                         <h:outputText id="outputTextView10" value="Included in super type queries :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxIst" disabled="true" value="#{viewTypeBean.prototype.includedInSupertypeQuery}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxIst" disabled="true" value="#{viewTypeBean.definition.isIncludedInSupertypeQuery()}"/>
 
                         <h:outputText id="outputTextView11" value="Full text indexed :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFti" disabled="true" value="#{viewTypeBean.prototype.fulltextIndexed}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxFti" disabled="true" value="#{viewTypeBean.definition.isFulltextIndexed()}"/>
 
                         <h:outputText id="outputTextView12" value="ACL Contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxACL" disabled="true" value="#{viewTypeBean.prototype.controllableAcl}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxACL" disabled="true" value="#{viewTypeBean.definition.isControllableAcl()}"/>
 
                         <h:outputText id="outputTextView13" value="Policy contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxPC" disabled="true" value="#{viewTypeBean.prototype.controllablePolicy}"/>
+                        <p:selectBooleanCheckbox id="selectCheckboxPC" disabled="true" value="#{viewTypeBean.definition.isControllablePolicy()}"/>
 
                         <h:outputText id="outputTextView14" value="Type mutability"/>
                         <h:outputText value="Create, Update, Delete"/>
 
                     </h:panelGrid>
                 </p:tab>
-                <p:tab id="accordionTabMetadate" title="Metadata">
-                    <p:dataTable var="car" value="#{tableBean.carsLarge}" editable="true" scrollable="true" scrollWidth="630" scrollHeight="200" id="dataTable3">
+                <p:tab id="accordionTabMetadate" title="Metadate">
+                    <p:dataTable var="property" value="#{viewTypeBean.propertyDefinitions}" scrollable="true" scrollWidth="630" scrollHeight="200" id="dataTable3">
 
-                        <p:column headerText="Model" footerText="Model">
-                            <h:outputText value="#{car.model}" />
+                        <p:column headerText="Name">
+                            <h:outputText value="#{property.displayName}" />
                         </p:column>
 
-                        <p:column headerText="Year" footerText="Year">
-                            <h:outputText value="#{car.year}" />
+                        <p:column headerText="Id">
+                            <h:outputText value="#{property.id}" />
                         </p:column>
 
-                        <p:column headerText="Manufacturer" footerText="Manufacturer">
-                            <h:outputText value="#{car.manufacturer}" />
+                        <p:column headerText="Description" >
+                            <h:outputText value="#{property.description}" />
                         </p:column>
 
-                        <p:column headerText="Color" footerText="Color">
-                            <h:outputText value="#{car.color}" />
+                        <p:column headerText="Local namespace">
+                            <h:outputText value="#{property.localNamespace}" />
                         </p:column>
 
-                        <p:column headerText="Model" footerText="Model">
-                            <h:outputText value="#{car.model}" />
+                        <p:column headerText="Local name">
+                            <h:outputText value="#{property.localName}" />
                         </p:column>
 
-                        <p:column headerText="Year" footerText="Year">
-                            <h:outputText value="#{car.year}" />
+                        <p:column headerText="Query name" >
+                            <h:outputText value="#{property.queryName}" />
                         </p:column>
 
-                        <p:column headerText="Manufacturer" footerText="Manufacturer">
-                            <h:outputText value="#{car.manufacturer}" />
+                        <p:column headerText="Type">
+                            <h:outputText value="#{property.propertyType}" />
                         </p:column>
 
-                        <p:column headerText="Color" footerText="Color">
-                            <h:outputText value="#{car.color}" />
+                        <p:column headerText="Cardinality" >
+                            <h:outputText value="#{property.cardinality}" />
                         </p:column>
 
-                        <p:column headerText="Model" footerText="Model">
-                            <h:outputText value="#{car.model}" />
+                        <p:column headerText="Updatability" >
+                            <h:outputText value="#{property.updatability}" />
                         </p:column>
 
-                        <p:column headerText="Year" footerText="Year">
-                            <h:outputText value="#{car.year}" />
+                        <p:column headerText="Quaryable" >
+                            <h:outputText value="#{property.isQueryable()}" />
                         </p:column>
 
-                        <p:column headerText="Manufacturer" footerText="Manufacturer">
-                            <h:outputText value="#{car.manufacturer}" />
+                        <p:column headerText="Orderable" >
+                            <h:outputText value="#{property.isOrderable()}" />
                         </p:column>
 
-                        <p:column headerText="Color" footerText="Color">
-                            <h:outputText value="#{car.color}" />
+                        <p:column headerText="Requaried" >
+                            <h:outputText value="#{property.isRequired()}" />
+                        </p:column>
+
+                        <p:column headerText="Inheried" >
+                            <h:outputText value="#{property.isInherited()}" />
                         </p:column>
 
                     </p:dataTable>
