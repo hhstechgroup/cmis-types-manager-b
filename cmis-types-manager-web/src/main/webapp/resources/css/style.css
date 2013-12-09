@@ -35,7 +35,6 @@
     box-shadow: 0px 0px 8px #85b2cb;
     cursor: pointer;
     padding: 3px 5px;
-    border-radius: 4px;
 }
 
 #deleteForm {
@@ -44,6 +43,28 @@
     top: 30%;
     left: 15%;
     box-shadow: 1px 1px 6px #333;
+}
+
+.ui-messages {
+    position: fixed;
+    top: 5%;
+    right: 3%;
+    z-index: 1100;
+    height: auto;
+}
+
+.ui-messages-close {
+    right: 5px;
+}
+
+.ui-tree .ui-tree-container li .ui-treenode-content:hover .ui-tree-toggler.ui-icon-triangle-1-e {
+    margin: 2px 2px 0px 3px !important;
+    border-top-color: transparent !important;
+    border-left: 6px solid rgb(165, 163, 155) !important;
+}
+
+.ui-tree .ui-tree-container li .ui-treenode-content:hover .ui-tree-toggler {
+    border-left: 6px solid rgb(165, 163, 155) !important;
 }
 
 #deleteForm-accept{
