@@ -7,6 +7,7 @@ import com.engagepoint.services.Prototype;
 import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -28,21 +29,45 @@ public class ModifyTypeBean implements Serializable {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private Prototype prototype;
-    private final TypeProxy type;
+    private TypeProxy type;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
-    private MessagesBean messagesBean = new MessagesBean();
+
+
+    @ManagedProperty(value = "#{messagesBean}")
+    private MessagesBean messagesBean;
+
+    private String secondaryId = "cmis:secondary";
+
 
     public ModifyTypeBean() {
+
+
+    }
+
+    @PostConstruct
+    public void init(){
         type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
         prototype = new Prototype();
+        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Type" + type.getDisplayName() + "is Secondary and fields Creatabel, Fileable, ACL Contronable,Policy contronable can't be changes!", "");
+    }
+
+    public Boolean isSecondary() {
+        if (type.getBaseType().equals(secondaryId))
+            return true;
+        else
+            return false;
     }
 
     public String createType() {
         UserInfo userInfo = login.getUserInfo();
         try {
-            prototype.setParentTypeId(type.getId());
+            if (type.getBaseType().equals(secondaryId))
+                prototype.setParentTypeId(secondaryId);
+            else
+                prototype.setParentTypeId(type.getId());
+
             prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
             messagesBean.addMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", "");
@@ -63,11 +88,15 @@ public class ModifyTypeBean implements Serializable {
     }
 
     public String getBaseType() {
-        return type.getBaseType();
+       return type.getBaseType();
+
     }
 
     public String getParentType() {
-        return type.getId();
+        if (type.getBaseType().equals(secondaryId))
+            return secondaryId;
+        else
+            return type.getId();
     }
 
     public LoginBean getLogin() {
@@ -85,4 +114,13 @@ public class ModifyTypeBean implements Serializable {
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
     }
+
+    public MessagesBean getMessagesBean() {
+        return messagesBean;
+    }
+
+    public void setMessagesBean(MessagesBean messagesBean) {
+        this.messagesBean = messagesBean;
+    }
+
 }

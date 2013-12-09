@@ -1,7 +1,6 @@
 package com.engagepoint.view;
 
 
-import com.engagepoint.components.MultiPageMessagesSupport;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import com.engagepoint.services.CmisService;
@@ -39,7 +38,8 @@ public class DashbordBean implements Serializable {
     private TreeNode root;
     private TreeNode selectedNode;
     private TypeProxy selectedType;
-    private Boolean isShowDialog;
+    private Boolean isShowTypeDialog;
+    private Boolean isShowSubtypeDialog;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
     private static final String TREE_DATA = "Root";
@@ -49,7 +49,8 @@ public class DashbordBean implements Serializable {
     @PostConstruct
     public void init() {
         initTree();
-        this.isShowDialog = false;
+        isShowTypeDialog = false;
+        isShowSubtypeDialog = false;
     }
 
     private void initTree() {
@@ -117,8 +118,16 @@ public class DashbordBean implements Serializable {
         }
     }
 
-    public Boolean getShowDialog() {
-        return isShowDialog;
+    public Boolean getShowTypeDialog() {
+        return isShowTypeDialog;
+    }
+
+    public Boolean getShowSubtypeDialog() {
+        return isShowSubtypeDialog;
+    }
+
+    public void setShowSubtypeDialog(Boolean showSubtypeDialog) {
+        isShowSubtypeDialog = showSubtypeDialog;
     }
 
     public LoginBean getLogin() {
@@ -129,12 +138,17 @@ public class DashbordBean implements Serializable {
         this.login = login;
     }
 
-    public void hide() {
-        this.isShowDialog = false;
+    public void hideDialog() {
+        isShowTypeDialog = false;
+        isShowSubtypeDialog = false;
     }
 
-    public void show() {
-        this.isShowDialog = true;
+    public void showTypeDialog() {
+        isShowTypeDialog = true;
+    }
+
+    public void showSubtypeDialog() {
+        this.isShowSubtypeDialog = true;
     }
 
     public String deleteType() {
@@ -142,17 +156,33 @@ public class DashbordBean implements Serializable {
             int firstTypeId = 0;
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
-            service.deleteType(userInfo, selectedType);
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), "");
-            initTree();
-            selectedType = typeProxies.get(firstTypeId);
+            if (typeHasSubtypes(selectedType) && !isShowSubtypeDialog) {
+//                messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Selected type " + selectedType.getDisplayName() + " has subtypes", "");
+                isShowSubtypeDialog = true;
+                isShowTypeDialog = false;
+            } else {
+                service.deleteType(userInfo, selectedType);
+                messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), "");
+                initTree();
+                selectedType = typeProxies.get(firstTypeId);
+                isShowSubtypeDialog = false;
+                isShowTypeDialog = false;
+            }
         } catch (CmisConnectException e) {
             messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "");
         } catch (CmisTypeDeleteException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, "The type <"+ selectedType.getDisplayName() + "> cannot be deleted", "");
+            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, "The type <" + selectedType.getDisplayName() + "> cannot be deleted", "");
         }
-        this.isShowDialog = false;
         return "";
+//        return navigationBean.toMainPage();
+    }
+
+    public void deleteTypeWithSubtypes() {
+        deleteType();
+    }
+
+    public boolean typeHasSubtypes(TypeProxy proxy) {
+        return proxy.getChildren().isEmpty() ? false : true;
     }
 
     public NavigationBean getNavigationBean() {
