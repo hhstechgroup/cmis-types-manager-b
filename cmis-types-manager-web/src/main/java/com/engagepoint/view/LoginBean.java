@@ -1,11 +1,13 @@
 package com.engagepoint.view;
 
+import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
@@ -22,24 +24,21 @@ import java.io.Serializable;
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
-
-    private static final long serialVersionUID = 7765876811740798583L;
+    private Logger log = LoggerFactory.getLogger(LoginBean.class);
     @EJB
     private CmisService service;
-    private UserInfo userInfo = new UserInfo();
-    private String sessionID;
-
-    private boolean loggedIn;
-
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
+    private UserInfo userInfo = new UserInfo();
+    private String sessionID;
+    private boolean loggedIn;
 
     public String doLogin() {
         try {
             userInfo.setRepositoryId(service.getDefaultRepositoryIdName(userInfo));
             if (isValid()) {
                 sessionID = String.valueOf(Math.random() * 1000);
-                HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+                HttpSession httpSession = getHttpSession();
                 httpSession.setAttribute("sessionID", sessionID);
                 loggedIn = true;
                 return navigationBean.toMainPage();
@@ -47,7 +46,8 @@ public class LoginBean implements Serializable {
                 return navigationBean.toLogin();
             }
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+            Message.printError(e.getMessage());
+            log.error("Unable to login", e);
             return navigationBean.toLogin();
         }
     }
@@ -57,7 +57,7 @@ public class LoginBean implements Serializable {
         userInfo.reset();
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         sessionID = "";
-        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        HttpSession httpSession = getHttpSession();
         httpSession.setAttribute("sessionID", sessionID);
         return navigationBean.toLogin();
     }
@@ -108,6 +108,10 @@ public class LoginBean implements Serializable {
 
     public NavigationBean getNavigationBean() {
         return navigationBean;
+    }
+
+    private HttpSession getHttpSession() {
+        return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     }
 
     private boolean isValid() throws CmisConnectException {

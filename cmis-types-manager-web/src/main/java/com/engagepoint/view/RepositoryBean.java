@@ -1,16 +1,17 @@
 package com.engagepoint.view;
 
+import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import org.apache.chemistry.opencmis.client.api.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,8 +25,8 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class RepositoryBean implements Serializable {
+    private Logger log = LoggerFactory.getLogger(RepositoryBean.class);
     private static final String REPO_CHANGED = "Repository changed successfully";
-
     @EJB
     private CmisService service;
     private List<Repository> repositories;
@@ -45,13 +46,14 @@ public class RepositoryBean implements Serializable {
             }
             selectedRepoId = repositories.get(0).getId();
         } catch (CmisConnectException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), ""));
+            Message.printError(e.getMessage());
+            log.error("Unable to initialization repositories", e);
         }
     }
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, REPO_CHANGED, ""));
+        Message.printInfo(REPO_CHANGED);
     }
 
     public String getSelectedRepoId() {

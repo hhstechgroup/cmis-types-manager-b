@@ -6,6 +6,8 @@ import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
 import org.primefaces.event.FileUploadEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -23,6 +25,7 @@ import java.io.InputStream;
 @ManagedBean
 @ViewScoped
 public class ImportTypeBean {
+    private Logger log = LoggerFactory.getLogger(ImportTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -30,30 +33,33 @@ public class ImportTypeBean {
     private InputStream stream;
 
     public void upload(FileUploadEvent event) {
-        Message.print(event.getFile().getFileName() + " is uploaded.");
         try {
+            Message.printInfo(event.getFile().getFileName() + " is uploaded.");
             stream = event.getFile().getInputstream();
         } catch (IOException e) {
-            Message.print(e.getMessage());
+            Message.printInfo(e.getMessage());
+            log.error("Unable to upload file", e);
         }
     }
 
     public void importTypes() {
-        UserInfo userInfo = login.getUserInfo();
         try {
+            UserInfo userInfo = login.getUserInfo();
             if (stream != null) {
                 service.importType(userInfo, stream);
-                Message.print("Type imported successful!");
+                Message.printInfo("Type imported successful!");
             } else {
-                Message.print("File is not selected");
+                Message.printInfo("File is not selected");
             }
         } catch (CmisConnectException e) {
-            Message.print(e.getMessage());
+            Message.printInfo(e.getMessage());
+            log.error("Error while import type", e);
         } catch (XMLStreamException e) {
-            Message.print(e.getMessage());
+            Message.printInfo(e.getMessage());
+            log.error("Error while pars file", e);
         } catch (CmisCreateException e) {
-            Message.print(e.getMessage());
-
+            Message.printInfo(e.getMessage());
+            log.error("Unable to create type", e);
         }
     }
 

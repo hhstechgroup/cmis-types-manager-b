@@ -18,11 +18,8 @@ import javax.faces.context.FacesContext;
 @ManagedBean(name = "topMenuBar")
 @RequestScoped
 public class TopMenuBarBean {
-
     private MenuModel model;
     private UIViewRoot viewRoot;
-
-
 
     @PostConstruct
     public void initModel() {

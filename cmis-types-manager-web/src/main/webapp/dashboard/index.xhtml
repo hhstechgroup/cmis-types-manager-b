@@ -8,10 +8,10 @@
 
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deletePanel" header="Delete type ?" rendered="#{typesManagerBean.isShowDeleteDialog()}">
+            <p:panel id="deletePanel" header="Delete type select type?" rendered="#{typesManagerBean.isShowDeleteDialog()}">
 
-                <p:commandButton id="b1" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
                 <p:commandButton id="b2" value="No" action="#{typesManagerBean.hideDeleteDialog}" update="-mainContent"/>
+                <p:commandButton id="b1" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
 
             </p:panel>
 

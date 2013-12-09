@@ -35,6 +35,7 @@
     box-shadow: 0px 0px 8px #85b2cb;
     cursor: pointer;
     padding: 3px 5px;
+    border-radius: 4px;
 }
 
 #deleteForm {
@@ -66,67 +67,3 @@
     border-left: 6px solid rgb(165, 163, 155) !important;
 }
 
-.ui-datatable table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.ui-datatable .ui-datatable thead th, .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
-    padding: 4px 10px;
-    overflow: hidden;
-    white-space: nowrap;
-    border-width: 1px;
-    border-style: solid;
-}
-
-.ui-datatable tbody td {
-    border-color: inherit;
-}
-
-.ui-datatable .ui-sortable-column {
-    cursor: pointer;
-}
-
-.ui-datatable tr.ui-state-highlight {
-    cursor: pointer;
-}
-
-.ui-datatable .ui-selection-column .ui-chkbox-all {
-    display: block;
-    margin: 0px auto;
-    width: 16px;
-    height: 16px;
-}
-
-.ui-datatable-scrollable table {
-    table-layout: fixed;
-}
-
-.ui-datatable-scrollable-body {
-    overflow: auto;
-}
-
-.ui-datatable-scrollable-header, .ui-datatable-scrollable-footer {
-    overflow: hidden;
-    border: 0px none;
-}
-
-.ui-datatable-scrollable .ui-datatable-scrollable-header, .ui-datatable-scrollable .ui-datatable-scrollable-footer {
-    position: relative;
-}
-
-.ui-datatable-scrollable .ui-datatable-scrollable-header td {
-    font-weight: normal;
-}
-
-.ui-datatable-scrollable-body::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 15px;
-    background-color: transparent;
-}
-
-.ui-datatable-scrollable-body::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: 1px solid white;
-    background-color: rgba(194, 194, 194, .5);
-}

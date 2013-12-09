@@ -92,7 +92,7 @@ public class CmisService {
             } else {
                 throw new CmisTypeDeleteException("Type is not deleted");
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new CmisTypeDeleteException(e.getMessage());
         }
 

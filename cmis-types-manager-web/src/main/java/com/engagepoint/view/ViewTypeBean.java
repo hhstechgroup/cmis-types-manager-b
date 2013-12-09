@@ -1,21 +1,25 @@
 package com.engagepoint.view;
 
+import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,12 +30,28 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class ViewTypeBean implements Serializable {
+    private Logger log = LoggerFactory.getLogger(ViewTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    private TypeDefinition definition;
-    private final TypeProxy type;
+    private TypeDefinition typeDefinition;
+    private TypeProxy type;
+
+    public ViewTypeBean() {
+        getParametersFromFlash();
+    }
+
+    @PostConstruct
+    public void TypeBean() {
+        try {
+            UserInfo userInfo = login.getUserInfo();
+            typeDefinition = service.getTypeDefinition(userInfo, type);
+        } catch (CmisConnectException e) {
+            Message.printError(e.getMessage());
+            log.error("Unable to initialization type view", e);
+        }
+    }
 
     public LoginBean getLogin() {
         return login;
@@ -40,29 +60,19 @@ public class ViewTypeBean implements Serializable {
         this.login = login;
     }
 
-    public ViewTypeBean() {
-        type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
-    }
-
-    @PostConstruct
-    public void TypeBean() {
-        UserInfo userInfo = login.getUserInfo();
-        try {
-            definition = service.getTypeDefinition(userInfo, type);
-        } catch (CmisConnectException e) {
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null);
-            FacesContext.getCurrentInstance().addMessage(null, message);
-        }
-    }
-
-
     public List<PropertyDefinition> getPropertyDefinitions() {
-        List<PropertyDefinition> test = new ArrayList<PropertyDefinition>(definition.getPropertyDefinitions().values());
-        return new ArrayList<PropertyDefinition>(definition.getPropertyDefinitions().values());
+        Collection<PropertyDefinition<?>> values = typeDefinition.getPropertyDefinitions().values();
+        return new ArrayList<PropertyDefinition>(values);
     }
 
-    public TypeDefinition getDefinition() {
-        return definition;
+
+    public TypeDefinition getTypeDefinition() {
+        return typeDefinition;
+    }
+
+    private void getParametersFromFlash() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        type = (TypeProxy) externalContext.getFlash().get("selectedType");
     }
 
 }

@@ -9,12 +9,8 @@
     <ui:define name="mainContent">
 
         <h:form enctype="multipart/form-data">
-            <p:fileUpload
-                    label="Select type"
-                    mode="advanced"
-                    fileUploadListener="#{importTypeBean.upload}"
-                    allowTypes="/(\.|\/)(xml|json)$/"
-                    auto="true"/>
+            <p:fileUpload fileUploadListener="#{importTypeBean.upload}" mode="advanced" dragDropSupport="false"
+                          update="-mainContent" sizeLimit="1000000" fileLimit="1" allowTypes="/(\.|\/)(xml|json)$/" />
         </h:form>
 
         <h:form>
