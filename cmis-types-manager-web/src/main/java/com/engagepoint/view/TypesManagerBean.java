@@ -133,7 +133,7 @@ public class TypesManagerBean implements Serializable {
                 initTree();
                 selectedType = typeProxies.get(firstTypeId);
             }
-            } catch (CmisConnectException e) {
+        } catch (CmisConnectException e) {
             Message.printInfo(e.getMessage());
             log.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
@@ -163,6 +163,7 @@ public class TypesManagerBean implements Serializable {
     public void hideDeleteTypeDialog() {
         this.isShowTypeDialog = false;
     }
+
     public void showDeleteSubtypesDialog() {
         this.isShowSubtypeDialog = true;
     }

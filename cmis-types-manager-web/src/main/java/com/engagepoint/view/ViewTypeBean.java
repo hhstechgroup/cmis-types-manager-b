@@ -49,13 +49,14 @@ public class ViewTypeBean implements Serializable {
             typeDefinition = service.getTypeDefinition(userInfo, type);
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to initialization type view", e);
+            log.error("Unable to initialise type view", e);
         }
     }
 
     public LoginBean getLogin() {
         return login;
     }
+
     public void setLogin(LoginBean login) {
         this.login = login;
     }

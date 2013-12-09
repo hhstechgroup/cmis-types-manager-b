@@ -7,24 +7,18 @@
                 xmlns:uib="http://engagepoint.com/uib">
 
     <ui:define name="mainContent">
-        <h:form id="deleteForm">
-            <p:panel id="deleteTypePanel" header="Delete select type?" rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
 
+        <h:form id="deleteForm">
+            <p:panel id="deleteTypePanel" header="Do you want to delete selected type?" rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
                 <p:commandButton id="b2" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}" update="-mainContent"/>
                 <p:commandButton id="b1" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
-
             </p:panel>
-            <p:panel id="deleteSubtypesPanel" header="This type would be deleted with subtypes. Agree ?" rendered="#{dashbordBean.showSubtypeDialog}">
-
-            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?" rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
-
+            <p:panel id="deleteSubtypesPanel" header="This type would be deleted with subtypes. Delete?" rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
                 <p:commandButton id="accept2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}" update="-mainContent"/>
                 <p:commandButton id="decline2" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
-
             </p:panel>
-
-
         </h:form>
+
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
