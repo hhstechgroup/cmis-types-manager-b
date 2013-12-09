@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 
+import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import com.engagepoint.services.CmisService;
@@ -12,10 +13,11 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.NodeUnselectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -30,39 +32,37 @@ import java.util.List;
  */
 @ManagedBean
 @ViewScoped
-public class DashbordBean implements Serializable {
+public class TypesManagerBean implements Serializable {
+    private Logger log = LoggerFactory.getLogger(TypesManagerBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
     private TreeNode root;
     private TreeNode selectedNode;
     private TypeProxy selectedType;
-    private Boolean isShowTypeDialog;
-    private Boolean isShowSubtypeDialog;
-    @ManagedProperty(value = "#{navigation}")
-    private NavigationBean navigationBean;
+    private Boolean isShowDeleteDialog;
     private static final String TREE_DATA = "Root";
-
-    private MessagesBean messagesBean = new MessagesBean();
 
     @PostConstruct
     public void init() {
         initTree();
-        isShowTypeDialog = false;
-        isShowSubtypeDialog = false;
+        hideDeleteDialog();
     }
 
     private void initTree() {
-        root = new DefaultTreeNode(TREE_DATA, null);
         try {
+            root = new DefaultTreeNode(TREE_DATA, null);
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
             int firstTypeId = 0;
             selectedType = typeProxies.get(firstTypeId);
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
+            Message.printInfo(e.getMessage());
+            log.error("Unable to initialization tree", e);
         }
     }
 
@@ -94,11 +94,11 @@ public class DashbordBean implements Serializable {
     }
 
     public void onNodeExpand(NodeExpandEvent event) {
-        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Expanded", event.getTreeNode().toString());
+        Message.printInfo("Expanded", event.getTreeNode().toString());
     }
 
     public void onNodeCollapse(NodeCollapseEvent event) {
-        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Collapsed", event.getTreeNode().toString());
+        Message.printInfo("Collapsed", event.getTreeNode().toString());
     }
 
     public void onNodeSelect(NodeSelectEvent event) {
@@ -106,28 +106,7 @@ public class DashbordBean implements Serializable {
     }
 
     public void onNodeUnselect(NodeUnselectEvent event) {
-        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Unselected", event.getTreeNode().toString());
-    }
-
-    private void addTypesToTree(List<TypeProxy> cmisTypes, TreeNode parent) {
-        for (TypeProxy cmisType : cmisTypes) {
-            TreeNode node = new DefaultTreeNode(cmisType, parent);
-            if (!cmisType.getChildren().isEmpty()) {
-                addTypesToTree(cmisType.getChildren(), node);
-            }
-        }
-    }
-
-    public Boolean getShowTypeDialog() {
-        return isShowTypeDialog;
-    }
-
-    public Boolean getShowSubtypeDialog() {
-        return isShowSubtypeDialog;
-    }
-
-    public void setShowSubtypeDialog(Boolean showSubtypeDialog) {
-        isShowSubtypeDialog = showSubtypeDialog;
+        Message.printInfo("Unselected", event.getTreeNode().toString());
     }
 
     public LoginBean getLogin() {
@@ -138,59 +117,36 @@ public class DashbordBean implements Serializable {
         this.login = login;
     }
 
-    public void hideDialog() {
-        isShowTypeDialog = false;
-        isShowSubtypeDialog = false;
-    }
-
-    public void showTypeDialog() {
-        isShowTypeDialog = true;
-    }
-
-    public void showSubtypeDialog() {
-        this.isShowSubtypeDialog = true;
-    }
-
     public String deleteType() {
         try {
             int firstTypeId = 0;
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
-            if (typeHasSubtypes(selectedType) && !isShowSubtypeDialog) {
-//                messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Selected type " + selectedType.getDisplayName() + " has subtypes", "");
-                isShowSubtypeDialog = true;
-                isShowTypeDialog = false;
-            } else {
-                service.deleteType(userInfo, selectedType);
-                messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Deleted type " + selectedType.getDisplayName(), "");
-                initTree();
-                selectedType = typeProxies.get(firstTypeId);
-                isShowSubtypeDialog = false;
-                isShowTypeDialog = false;
-            }
+            service.deleteType(userInfo, selectedType);
+            Message.printInfo("Deleted type " + selectedType.getDisplayName());
+            initTree();
+            selectedType = typeProxies.get(firstTypeId);
         } catch (CmisConnectException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), "");
+            Message.printInfo(e.getMessage());
+            log.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_ERROR, "The type <" + selectedType.getDisplayName() + "> cannot be deleted", "");
+            Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+            log.error("Unable to delete type", e);
         }
+        hideDeleteDialog();
         return "";
-//        return navigationBean.toMainPage();
     }
 
-    public void deleteTypeWithSubtypes() {
-        deleteType();
+    public Boolean isShowDeleteDialog() {
+        return isShowDeleteDialog;
     }
 
-    public boolean typeHasSubtypes(TypeProxy proxy) {
-        return proxy.getChildren().isEmpty() ? false : true;
+    public void showDeleteDialog() {
+        this.isShowDeleteDialog = true;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
-    }
-
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void hideDeleteDialog() {
+        this.isShowDeleteDialog = false;
     }
 
     private void setParameterToFlash() {
@@ -203,5 +159,22 @@ public class DashbordBean implements Serializable {
 
     public void setSelectedType(TypeProxy selectedType) {
         this.selectedType = selectedType;
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
+
+    private void addTypesToTree(List<TypeProxy> types, TreeNode parent) {
+        for (TypeProxy type : types) {
+            TreeNode node = new DefaultTreeNode(type, parent);
+            if (!type.getChildren().isEmpty()) {
+                addTypesToTree(type.getChildren(), node);
+            }
+        }
     }
 }

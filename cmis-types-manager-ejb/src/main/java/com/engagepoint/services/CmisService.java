@@ -4,7 +4,9 @@ import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
+import org.apache.chemistry.opencmis.client.util.TypeUtils;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
@@ -12,6 +14,8 @@ import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.xml.stream.XMLStreamException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +43,11 @@ public class CmisService {
         ObjectType objectType = session.getTypeDefinition(type.getId());
         return getPrototype(objectType);
     }
+//  TODO add catch exception
+    public TypeDefinition getTypeDefinition(final UserInfo userInfo, TypeProxy type) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        return session.getTypeDefinition(type.getId());
+    }
 
     public List<String> getNamesOfRootFolders(final UserInfo userInfo) throws CmisConnectException {
         Session session = getSession(userInfo);
@@ -63,6 +72,16 @@ public class CmisService {
         }
     }
 
+    public void importType(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
+        Session session = getSession(userInfo);
+        TypeDefinition typeDefinition = TypeUtils.readFromXML(stream);
+        try {
+            session.createType(typeDefinition);
+        } catch (RuntimeException e) {
+            throw new CmisCreateException(e.getMessage());
+        }
+    }
+
     public void deleteType(final UserInfo userInfo, TypeProxy proxy) throws CmisConnectException, CmisTypeDeleteException {
         Session session = getSession(userInfo);
         try {
@@ -71,9 +90,9 @@ public class CmisService {
             if (typeMutability != null && Boolean.TRUE.equals(typeMutability.canDelete())) {
                 session.deleteType(type.getId());
             } else {
-                throw new CmisTypeDeleteException("Type is not deleted") ;
+                throw new CmisTypeDeleteException("Type is not deleted");
             }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             throw new CmisTypeDeleteException(e.getMessage());
         }
 

@@ -16,8 +16,6 @@ import java.util.Map;
  * Time: 2:48 PM
  */
 public class MultiPageMessagesSupport implements PhaseListener {
-
-    private static final long serialVersionUID = 1250469273857785274L;
     private static final String sessionToken = "MULTI_PAGE_MESSAGES_SUPPORT";
 
     @Override
@@ -25,11 +23,6 @@ public class MultiPageMessagesSupport implements PhaseListener {
         return PhaseId.ANY_PHASE;
     }
 
-    /*
-     * Check to see if we are "naturally" in the RENDER_RESPONSE phase. If we
-     * have arrived here and the response is already complete, then the page is
-     * not going to show up: don't display messages yet.
-     */
     @Override
     public void beforePhase(final PhaseEvent event) {
         FacesContext facesContext = event.getFacesContext();
@@ -42,9 +35,6 @@ public class MultiPageMessagesSupport implements PhaseListener {
         }
     }
 
-    /*
-     * Save messages into the session after every phase.
-     */
     @Override
     public void afterPhase(final PhaseEvent event) {
         if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES ||

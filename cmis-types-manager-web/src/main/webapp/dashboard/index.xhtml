@@ -6,37 +6,29 @@
                 template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
 
-
-
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deleteTypePanel" header="Do you want to delete type ?" rendered="#{dashbordBean.showTypeDialog}">
+            <p:panel id="deletePanel" header="Delete type select type?" rendered="#{typesManagerBean.isShowDeleteDialog()}">
 
-                <p:commandButton id="accept" value="Yes" action="#{dashbordBean.deleteType}" update="-mainContent"/>
-                <p:commandButton id="decline" value="No" action="#{dashbordBean.hideDialog}" update="-mainContent"/>
-
-            </p:panel>
-            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. All subtypes will be deleted also. Agree ?" rendered="#{dashbordBean.showSubtypeDialog}">
-
-                <p:commandButton id="accept2" value="Yes" action="#{dashbordBean.deleteTypeWithSubtypes}" update="-mainContent"/>
-                <p:commandButton id="decline2" value="No" action="#{dashbordBean.hideDialog}" update="-mainContent"/>
+                <p:commandButton id="b2" value="No" action="#{typesManagerBean.hideDeleteDialog}" update="-mainContent"/>
+                <p:commandButton id="b1" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
 
             </p:panel>
 
 
         </h:form>
-        <uib:gridContainer>
+        <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
                     <h:form>
                         <uib:buttonGroup>
-                            <p:commandButton id="create" value="Create" action="#{dashbordBean.goCreatePage}"
+                            <p:commandButton id="create" value="Create" action="#{typesManagerBean.goCreatePage}"
                                              update="-mainContent"/>
-                            <p:commandButton id="update" value="Update" action="#{dashbordBean.goTypePage}"
+                            <p:commandButton id="update" value="Update" action="#{typesManagerBean.goTypePage}"
                                              update="-mainContent"/>
-                            <p:commandButton id="deleteButton" value="Delete" action="#{dashbordBean.showTypeDialog}"
+                            <p:commandButton id="deleteButton" value="Delete" action="#{typesManagerBean.showDeleteDialog}"
                                              update="-deleteForm"/>
-                            <p:commandButton id="view" value="View" action="#{dashbordBean.goTypePage}"
+                            <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
                                              update="-mainContent"/>
                         </uib:buttonGroup>
                     </h:form>
@@ -45,13 +37,13 @@
         </uib:gridContainer>
 
         <h:form id="treeForm">
-            <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
-                    selectionMode="single" selection="#{dashbordBean.selectedNode}" id="tree">
+            <p:tree value="#{typesManagerBean.root}" var="node" dynamic="true" cache="false"
+                    selectionMode="single" selection="#{typesManagerBean.selectedNode}" id="tree">
 
-                <p:ajax event="expand"  listener="#{dashbordBean.onNodeExpand}"/>
-                <p:ajax event="collapse"  listener="#{dashbordBean.onNodeCollapse}"/>
-                <p:ajax event="select" update="-messages" listener="#{dashbordBean.onNodeSelect}"/>
-                <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
+                <p:ajax event="expand"  listener="#{typesManagerBean.onNodeExpand}"/>
+                <p:ajax event="collapse"  listener="#{typesManagerBean.onNodeCollapse}"/>
+                <p:ajax event="select" update="-messages" listener="#{typesManagerBean.onNodeSelect}"/>
+                <p:ajax event="unselect" update="-messages" listener="#{typesManagerBean.onNodeUnselect}"/>
 
 
                 <p:treeNode>
