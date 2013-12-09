@@ -1,18 +1,21 @@
 package com.engagepoint.view;
 
+import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.Prototype;
 import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
 
@@ -24,31 +27,20 @@ import java.io.Serializable;
 @ManagedBean
 @ViewScoped
 public class ModifyTypeBean implements Serializable {
+    private Logger log = LoggerFactory.getLogger(ModifyTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    private Prototype prototype;
-    private TypeProxy type;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
-
-
-
-    @ManagedProperty(value = "#{messagesBean}")
-    private MessagesBean messagesBean;
-
+    private Prototype prototype;
+    private TypeProxy type;
     private String secondaryId = "cmis:secondary";
 
-
-    public ModifyTypeBean() {
-
-
-    }
-
     @PostConstruct
-    public void init(){
-        type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
+    public void init() {
+        getParametersFromFlash();
         prototype = new Prototype();
     }
 
@@ -60,23 +52,27 @@ public class ModifyTypeBean implements Serializable {
     }
 
     public String createType() {
-        UserInfo userInfo = login.getUserInfo();
         try {
-            if (type.getBaseType().equals(secondaryId))
+            UserInfo userInfo = login.getUserInfo();
+            if (type.getBaseType().equals(secondaryId)) {
                 prototype.setParentTypeId(secondaryId);
-            else
+            } else {
                 prototype.setParentTypeId(type.getId());
-
+            }
             prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", "");
+            Message.printInfo(prototype.getDisplayName() + " type created!");
+            return navigationBean.toMainPage();
         } catch (CmisConnectException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
+            Message.printInfo(e.getMessage());
+            log.error("Unable to create type", e);
         } catch (CmisCreateException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
+            Message.printInfo(e.getMessage());
+            log.error("Error while create type", e);
         }
-        return navigationBean.toMainPage();
+        return "";
     }
+
 
     public Prototype getPrototype() {
         return prototype;
@@ -87,8 +83,7 @@ public class ModifyTypeBean implements Serializable {
     }
 
     public String getBaseType() {
-       return type.getBaseType();
-
+        return type.getBaseType();
     }
 
     public String getParentType() {
@@ -114,12 +109,8 @@ public class ModifyTypeBean implements Serializable {
         this.navigationBean = navigationBean;
     }
 
-    public MessagesBean getMessagesBean() {
-        return messagesBean;
+    private void getParametersFromFlash() {
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        type = (TypeProxy) externalContext.getFlash().get("selectedType");
     }
-
-    public void setMessagesBean(MessagesBean messagesBean) {
-        this.messagesBean = messagesBean;
-    }
-
 }
