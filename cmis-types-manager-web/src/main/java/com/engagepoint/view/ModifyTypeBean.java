@@ -10,6 +10,7 @@ import com.engagepoint.services.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -35,16 +36,29 @@ public class ModifyTypeBean implements Serializable {
     private NavigationBean navigationBean;
     private Prototype prototype;
     private TypeProxy type;
+    private String secondaryId = "cmis:secondary";
 
-    public ModifyTypeBean() {
+    @PostConstruct
+    public void init() {
         getParametersFromFlash();
         prototype = new Prototype();
+    }
+
+    public Boolean isSecondary() {
+        if (type.getBaseType().equals(secondaryId))
+            return true;
+        else
+            return false;
     }
 
     public String createType() {
         try {
             UserInfo userInfo = login.getUserInfo();
-            prototype.setParentTypeId(type.getId());
+            if (type.getBaseType().equals(secondaryId)) {
+                prototype.setParentTypeId(secondaryId);
+            } else {
+                prototype.setParentTypeId(type.getId());
+            }
             prototype.setBaseTypeId(type.getBaseType());
             service.createType(userInfo, prototype);
             Message.printInfo(prototype.getDisplayName() + " type created!");
@@ -59,6 +73,7 @@ public class ModifyTypeBean implements Serializable {
         return "";
     }
 
+
     public Prototype getPrototype() {
         return prototype;
     }
@@ -72,7 +87,10 @@ public class ModifyTypeBean implements Serializable {
     }
 
     public String getParentType() {
-        return type.getId();
+        if (type.getBaseType().equals(secondaryId))
+            return secondaryId;
+        else
+            return type.getId();
     }
 
     public LoginBean getLogin() {

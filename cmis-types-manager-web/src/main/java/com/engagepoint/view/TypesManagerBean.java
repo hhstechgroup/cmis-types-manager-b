@@ -43,13 +43,15 @@ public class TypesManagerBean implements Serializable {
     private TreeNode root;
     private TreeNode selectedNode;
     private TypeProxy selectedType;
-    private Boolean isShowDeleteDialog;
+    private Boolean isShowTypeDialog;
+    private Boolean isShowSubtypeDialog;
     private static final String TREE_DATA = "Root";
 
     @PostConstruct
     public void init() {
         initTree();
-        hideDeleteDialog();
+        hideDeleteTypeDialog();
+        hideDeleteSubtypeDialog();
     }
 
     private void initTree() {
@@ -117,36 +119,56 @@ public class TypesManagerBean implements Serializable {
         this.login = login;
     }
 
-    public String deleteType() {
+    public void deleteType() {
         try {
             int firstTypeId = 0;
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
-            service.deleteType(userInfo, selectedType);
-            Message.printInfo("Deleted type " + selectedType.getDisplayName());
-            initTree();
-            selectedType = typeProxies.get(firstTypeId);
-        } catch (CmisConnectException e) {
+            if (typeHasSubtypes(selectedType) && !isShowSubtypeDialog) {
+                showDeleteSubtypesDialog();
+                hideDeleteTypeDialog();
+            } else {
+                service.deleteType(userInfo, selectedType);
+                Message.printInfo("Deleted type " + selectedType.getDisplayName());
+                initTree();
+                selectedType = typeProxies.get(firstTypeId);
+            }
+            } catch (CmisConnectException e) {
             Message.printInfo(e.getMessage());
             log.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
             Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
             log.error("Unable to delete type", e);
         }
-        hideDeleteDialog();
-        return "";
+        hideDeleteTypeDialog();
+        hideDeleteSubtypeDialog();
     }
 
-    public Boolean isShowDeleteDialog() {
-        return isShowDeleteDialog;
+    public boolean typeHasSubtypes(TypeProxy proxy) {
+        return !proxy.getChildren().isEmpty();
     }
 
-    public void showDeleteDialog() {
-        this.isShowDeleteDialog = true;
+    public Boolean isShowDeleteTypeDialog() {
+        return isShowTypeDialog;
     }
 
-    public void hideDeleteDialog() {
-        this.isShowDeleteDialog = false;
+    public Boolean isShowDeleteSubtypeDialog() {
+        return isShowSubtypeDialog;
+    }
+
+    public void showDeleteTypeDialog() {
+        this.isShowTypeDialog = true;
+    }
+
+    public void hideDeleteTypeDialog() {
+        this.isShowTypeDialog = false;
+    }
+    public void showDeleteSubtypesDialog() {
+        this.isShowSubtypeDialog = true;
+    }
+
+    public void hideDeleteSubtypeDialog() {
+        this.isShowSubtypeDialog = false;
     }
 
     private void setParameterToFlash() {

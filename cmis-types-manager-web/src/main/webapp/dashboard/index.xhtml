@@ -8,10 +8,17 @@
 
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deletePanel" header="Delete type select type?" rendered="#{typesManagerBean.isShowDeleteDialog()}">
+            <p:panel id="deleteTypePanel" header="Delete select type?" rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
 
-                <p:commandButton id="b2" value="No" action="#{typesManagerBean.hideDeleteDialog}" update="-mainContent"/>
+                <p:commandButton id="b2" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}" update="-mainContent"/>
                 <p:commandButton id="b1" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
+
+            </p:panel>
+
+            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?" rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
+
+                <p:commandButton id="accept2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}" update="-mainContent"/>
+                <p:commandButton id="decline2" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
 
             </p:panel>
 
@@ -26,7 +33,7 @@
                                              update="-mainContent"/>
                             <p:commandButton id="update" value="Update" action="#{typesManagerBean.goTypePage}"
                                              update="-mainContent"/>
-                            <p:commandButton id="deleteButton" value="Delete" action="#{typesManagerBean.showDeleteDialog}"
+                            <p:commandButton id="deleteButton" value="Delete" action="#{typesManagerBean.showDeleteTypeDialog}"
                                              update="-deleteForm"/>
                             <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
                                              update="-mainContent"/>
