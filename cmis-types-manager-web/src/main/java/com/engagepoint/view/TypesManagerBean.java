@@ -33,22 +33,30 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class TypesManagerBean implements Serializable {
+
     private Logger log = LoggerFactory.getLogger(TypesManagerBean.class);
+
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
+
+    private UserInfo userInfo;
     private TreeNode root;
     private TreeNode selectedNode;
     private TypeProxy selectedType;
+    private List<TypeProxy> typeProxies;
     private Boolean isShowTypeDialog;
     private Boolean isShowSubtypeDialog;
+
     private static final String TREE_DATA = "Root";
+    private static final int FIRST_TYPE_ID = 0;
 
     @PostConstruct
     public void init() {
+        userInfo = login.getUserInfo();
         initTree();
         hideDeleteTypeDialog();
         hideDeleteSubtypeDialog();
@@ -57,14 +65,12 @@ public class TypesManagerBean implements Serializable {
     private void initTree() {
         try {
             root = new DefaultTreeNode(TREE_DATA, null);
-            UserInfo userInfo = login.getUserInfo();
-            List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
-            int firstTypeId = 0;
-            selectedType = typeProxies.get(firstTypeId);
+            typeProxies = service.getTypeInfo(userInfo);
+            selectedType = typeProxies.get(FIRST_TYPE_ID);
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
             Message.printInfo(e.getMessage());
-            log.error("Unable to initialization tree", e);
+            log.error("Unable to initialise tree", e);
         }
     }
 
@@ -77,11 +83,6 @@ public class TypesManagerBean implements Serializable {
         setParameterToFlash();
         return navigationBean.toCreateType();
     }
-
-    public String goToIndex() {
-        return navigationBean.toMainPage();
-    }
-
 
     public TreeNode getRoot() {
         return root;
@@ -120,28 +121,47 @@ public class TypesManagerBean implements Serializable {
     }
 
     public void deleteType() {
-        try {
-            int firstTypeId = 0;
-            UserInfo userInfo = login.getUserInfo();
-            List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
-            if (typeHasSubtypes(selectedType) && !isShowSubtypeDialog) {
-                showDeleteSubtypesDialog();
-                hideDeleteTypeDialog();
-            } else {
+        if (typeHasSubtypes(selectedType)){
+            showDeleteSubtypesDialog();
+        }
+        if (!isShowSubtypeDialog) {
+            try {
                 service.deleteType(userInfo, selectedType);
                 Message.printInfo("Deleted type " + selectedType.getDisplayName());
                 initTree();
-                selectedType = typeProxies.get(firstTypeId);
+            } catch (CmisConnectException e) {
+                Message.printInfo(e.getMessage());
+                log.error("Error while deleting type", e);
+            } catch (CmisTypeDeleteException e) {
+                Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+                log.error("Unable to delete type", e);
             }
-        } catch (CmisConnectException e) {
-            Message.printInfo(e.getMessage());
-            log.error("Error while deleting type", e);
-        } catch (CmisTypeDeleteException e) {
-            Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
-            log.error("Unable to delete type", e);
         }
-        hideDeleteTypeDialog();
+    }
+
+    public void deleteType(UserInfo userInfo, TypeProxy selectedType) {
+        if (typeHasSubtypes(selectedType)) {
+            List<TypeProxy> selectedTypeChildren = selectedType.getChildren();
+            for (TypeProxy selectedTypeChild : selectedTypeChildren) {
+                deleteType(userInfo, selectedTypeChild);
+            }
+        }
+            try {
+                service.deleteType(userInfo, selectedType);
+                Message.printInfo("Deleted type " + selectedType.getDisplayName());
+            } catch (CmisConnectException e) {
+                Message.printInfo(e.getMessage());
+                log.error("Error while deleting type", e);
+            } catch (CmisTypeDeleteException e) {
+                Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+                log.error("Unable to delete type", e);
+            }
+    }
+
+    public void deleteTypeWithSubtypes() {
+        deleteType(userInfo, selectedType);
         hideDeleteSubtypeDialog();
+        initTree();
     }
 
     public boolean typeHasSubtypes(TypeProxy proxy) {
@@ -165,7 +185,12 @@ public class TypesManagerBean implements Serializable {
     }
 
     public void showDeleteSubtypesDialog() {
-        this.isShowSubtypeDialog = true;
+        if (!isShowSubtypeDialog) {
+            this.isShowSubtypeDialog = true;
+            hideDeleteTypeDialog();
+        } else {
+            this.isShowSubtypeDialog = false;
+        }
     }
 
     public void hideDeleteSubtypeDialog() {

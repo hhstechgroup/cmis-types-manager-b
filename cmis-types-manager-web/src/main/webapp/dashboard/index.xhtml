@@ -10,12 +10,12 @@
 
         <h:form id="deleteForm">
             <p:panel id="deleteTypePanel" header="Do you want to delete selected type?" rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
-                <p:commandButton id="b2" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}" update="-mainContent"/>
-                <p:commandButton id="b1" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
+                <p:commandButton id="accept" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
+                <p:commandButton id="decline" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}" update="-mainContent"/>
             </p:panel>
             <p:panel id="deleteSubtypesPanel" header="This type would be deleted with subtypes. Delete?" rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
-                <p:commandButton id="accept2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}" update="-mainContent"/>
-                <p:commandButton id="decline2" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
+                <p:commandButton id="accept2" value="Yes" action="#{typesManagerBean.deleteTypeWithSubtypes}" update="-mainContent"/>
+                <p:commandButton id="decline2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}" update="-mainContent"/>
             </p:panel>
         </h:form>
 
