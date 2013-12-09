@@ -50,7 +50,6 @@ public class ModifyTypeBean implements Serializable {
     public void init(){
         type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
         prototype = new Prototype();
-        messagesBean.addMessage(FacesMessage.SEVERITY_INFO, "Type" + type.getDisplayName() + "is Secondary and fields Creatabel, Fileable, ACL Contronable,Policy contronable can't be changes!", "");
     }
 
     public Boolean isSecondary() {
