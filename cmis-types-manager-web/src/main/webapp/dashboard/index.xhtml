@@ -28,7 +28,7 @@
         <uib:gridContainer>
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
-                    <h:form>
+                    <h:form id="commandForm">
                         <uib:buttonGroup>
                             <p:commandButton id="create" value="Create" action="#{dashbordBean.goCreatePage}"
                                              update="-mainContent"/>
@@ -54,8 +54,8 @@
                 <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
 
 
-                <p:treeNode>
-                    <h:outputText value="#{node.displayName}"/>
+                <p:treeNode id="node">
+                    <h:outputText id="nodeText" value="#{node.displayName}"/>
                 </p:treeNode>
             </p:tree>
 

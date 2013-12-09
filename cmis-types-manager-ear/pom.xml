@@ -11,6 +11,7 @@
     <groupId>com.engagepoint.cmis-types-manager-b</groupId>
     <artifactId>cmis-types-manager-ear</artifactId>
     <packaging>ear</packaging>
+    <version>${global.version}</version>
     <dependencies>
         <dependency>
             <groupId>com.engagepoint.cmis-types-manager-b</groupId>
