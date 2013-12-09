@@ -54,8 +54,8 @@
                 <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
 
 
-                <p:treeNode>
-                    <h:outputText value="#{node.displayName}"/>
+                <p:treeNode id="node">
+                    <h:outputText id="nodeValue" value="#{node.displayName}"/>
                 </p:treeNode>
             </p:tree>
 
