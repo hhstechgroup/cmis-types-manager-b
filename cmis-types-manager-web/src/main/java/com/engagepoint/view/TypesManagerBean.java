@@ -39,7 +39,7 @@ public class TypesManagerBean implements Serializable {
     private TreeNode root;
     private TreeNode selectedNode;
     private TypeProxy selectedType;
-    private Boolean isShowDialog;
+    private Boolean isShowDeleteDialog = false;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
     private static final String TREE_DATA = "Root";
@@ -47,7 +47,6 @@ public class TypesManagerBean implements Serializable {
     @PostConstruct
     public void init() {
         initTree();
-        this.isShowDialog = false;
     }
 
     private void initTree() {
@@ -118,24 +117,12 @@ public class TypesManagerBean implements Serializable {
         }
     }
 
-    public Boolean getShowDialog() {
-        return isShowDialog;
-    }
-
     public LoginBean getLogin() {
         return login;
     }
 
     public void setLogin(LoginBean login) {
         this.login = login;
-    }
-
-    public void hide() {
-        this.isShowDialog = false;
-    }
-
-    public void show() {
-        this.isShowDialog = true;
     }
 
     public String deleteType() {
@@ -152,7 +139,7 @@ public class TypesManagerBean implements Serializable {
         } catch (CmisTypeDeleteException e) {
             Message.print("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
         }
-        this.isShowDialog = false;
+        hideDeleteDialog();
         return "";
     }
 
@@ -162,6 +149,18 @@ public class TypesManagerBean implements Serializable {
 
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
+    }
+
+    public Boolean isShowDeleteDialog() {
+        return isShowDeleteDialog;
+    }
+
+    public void showDeleteDialog() {
+        this.isShowDeleteDialog = true;
+    }
+
+    public void hideDeleteDialog() {
+        this.isShowDeleteDialog = false;
     }
 
     private void setParameterToFlash() {

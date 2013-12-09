@@ -13,71 +13,61 @@
 </h:head>
 <h:body>
 
-                <p:dataTable var="car" value="#{tableBean.carsLarge}" scrollable="true" scrollWidth="630" scrollHeight="200" id="dataTable3">
+    <p:dataTable var="property" value="#{viewTypeBean.propertyDefinitions}" scrollable="true" scrollWidth="630" scrollHeight="200" id="dataTable3">
 
-                    <p:column headerText="Model" footerText="Model">
-                        <h:outputText value="#{car.model}" />
-                    </p:column>
+        <p:column headerText="Name">
+            <h:outputText value="#{property.displayName}" />
+        </p:column>
 
-                    <p:column headerText="Year" footerText="Year">
-                        <h:outputText value="#{car.year}" />
-                    </p:column>
+        <p:column headerText="Id">
+            <h:outputText value="#{property.id}" />
+        </p:column>
 
-                    <p:column headerText="Manufacturer" footerText="Manufacturer">
-                        <h:outputText value="#{car.manufacturer}" />
-                    </p:column>
+        <p:column headerText="Description" >
+            <h:outputText value="#{property.description}" />
+        </p:column>
 
-                    <p:column headerText="Color" footerText="Color">
-                        <h:outputText value="#{car.color}" />
-                    </p:column>
+        <p:column headerText="Local namespace">
+            <h:outputText value="#{property.localNamespace}" />
+        </p:column>
 
-                    <p:column headerText="Model" footerText="Model">
-                        <h:outputText value="#{car.model}" />
-                    </p:column>
+        <p:column headerText="Local name">
+            <h:outputText value="#{property.localName}" />
+        </p:column>
 
-                    <p:column headerText="Year" footerText="Year">
-                        <h:outputText value="#{car.year}" />
-                    </p:column>
+        <p:column headerText="Query name" >
+            <h:outputText value="#{property.queryName}" />
+        </p:column>
 
-                    <p:column headerText="Manufacturer" footerText="Manufacturer">
-                        <h:outputText value="#{car.manufacturer}" />
-                    </p:column>
+        <p:column headerText="Type">
+            <h:outputText value="#{property.propertyType}" />
+        </p:column>
 
-                    <p:column headerText="Color" footerText="Color">
-                        <h:outputText value="#{car.color}" />
-                    </p:column>
+        <p:column headerText="Cardinality" >
+            <h:outputText value="#{property.cardinality}" />
+        </p:column>
 
-                    <p:column headerText="Model" footerText="Model">
-                        <h:outputText value="#{car.model}" />
-                    </p:column>
+        <p:column headerText="Updatability" >
+            <h:outputText value="#{property.updatability}" />
+        </p:column>
 
-                    <p:column headerText="Year" footerText="Year">
-                        <h:outputText value="#{car.year}" />
-                    </p:column>
+        <p:column headerText="Quaryable" >
+            <h:outputText value="#{property.isQueryable()}" />
+        </p:column>
 
-                    <p:column headerText="Manufacturer" footerText="Manufacturer">
-                        <h:outputText value="#{car.manufacturer}" />
-                    </p:column>
+        <p:column headerText="Orderable" >
+            <h:outputText value="#{property.isOrderable()}" />
+        </p:column>
 
-                    <p:column headerText="Color" footerText="Color">
-                        <h:outputText value="#{car.color}" />
-                    </p:column>
-                    <p:column headerText="Model" footerText="Model">
-                        <h:outputText value="#{car.model}" />
-                    </p:column>
+        <p:column headerText="Requaried" >
+            <h:outputText value="#{property.isRequired()}" />
+        </p:column>
 
-                    <p:column headerText="Year" footerText="Year">
-                        <h:outputText value="#{car.year}" />
-                    </p:column>
+        <p:column headerText="Inheried" >
+            <h:outputText value="#{property.isInherited()}" />
+        </p:column>
 
-                    <p:column headerText="Manufacturer" footerText="Manufacturer">
-                        <h:outputText value="#{car.manufacturer}" />
-                    </p:column>
+    </p:dataTable>
 
-                    <p:column headerText="Color" footerText="Color">
-                        <h:outputText value="#{car.color}" />
-                    </p:column>
-
-                </p:dataTable>
 </h:body>
 </html>
