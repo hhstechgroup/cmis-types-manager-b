@@ -48,6 +48,7 @@ public class Item implements Serializable {
     public void setOrder(OrderBean order) {
         this.order = order;
     }
+
     private static final ArrayList<OrderBean> orderList = new ArrayList<OrderBean>();
 
     public ArrayList<OrderBean> getOrderList() {
@@ -63,8 +64,9 @@ public class Item implements Serializable {
         price = 0.0;
         return null;
     }
+
     public void onEdit(RowEditEvent event) {
-        FacesMessage msg = new FacesMessage("Item Edited",((OrderBean) event.getObject()).getItem());
+        FacesMessage msg = new FacesMessage("Item Edited", ((OrderBean) event.getObject()).getItem());
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 

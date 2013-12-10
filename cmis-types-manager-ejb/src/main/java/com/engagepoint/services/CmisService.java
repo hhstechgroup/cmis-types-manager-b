@@ -86,6 +86,7 @@ public class CmisService {
         Session session = getSession(userInfo);
         try {
             ObjectType type = session.getTypeDefinition(proxy.getId());
+
             TypeMutability typeMutability = type.getTypeMutability();
             if (typeMutability != null && Boolean.TRUE.equals(typeMutability.canDelete())) {
                 session.deleteType(type.getId());

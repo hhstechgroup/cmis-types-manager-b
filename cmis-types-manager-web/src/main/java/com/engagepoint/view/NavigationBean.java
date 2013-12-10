@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Date: 12/2/13
  * Time: 1:44 PM
  */
-@ManagedBean(name="navigation")
+@ManagedBean(name = "navigation")
 @SessionScoped
 public class NavigationBean implements Serializable {
     private static final String TO_LOGIN = "/login?faces-redirect=true";
@@ -19,23 +19,23 @@ public class NavigationBean implements Serializable {
     private static final String TO_VIEW_TYPE = "type?faces-redirect=true";
 
 
-    public String toLogin(){
+    public String toLogin() {
         return TO_LOGIN;
     }
 
-    public String toMainPage(){
+    public String toMainPage() {
         return TO_MAIN_PAGE;
     }
 
-    public String toCreateType(){
+    public String toCreateType() {
         return TO_CREATE_TYPE;
     }
 
-    public String toUpdateType(){
+    public String toUpdateType() {
         return TO_UPDATE_TYPE;
     }
 
-    public String toViewType(){
+    public String toViewType() {
         return TO_VIEW_TYPE;
     }
 
