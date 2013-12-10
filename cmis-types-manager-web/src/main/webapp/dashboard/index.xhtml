@@ -22,7 +22,7 @@
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
-                    <h:form>
+                    <h:form id="commandForm">
                         <uib:buttonGroup>
                             <p:commandButton id="create" value="Create" action="#{typesManagerBean.goCreatePage}"
                                              update="-mainContent"/>
@@ -48,8 +48,8 @@
                 <p:ajax event="unselect" update="-messages" listener="#{typesManagerBean.onNodeUnselect}"/>
 
 
-                <p:treeNode>
-                    <h:outputText value="#{node.displayName}"/>
+                <p:treeNode id="node">
+                    <h:outputText id="nodeText" value="#{node.displayName}"/>
                 </p:treeNode>
             </p:tree>
 
