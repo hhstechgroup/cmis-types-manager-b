@@ -167,7 +167,8 @@
 
                     <configuration>
                         <properties>
-                            <cargo.servlet.port>8080</cargo.servlet.port>
+                            <cargo.servlet.port>17081</cargo.servlet.port>
+                            <cargo.rmi.port>17082</cargo.rmi.port>
                             <!--for using debug-->
                             <cargo.jvmargs>
                                 <!--Xdebug-->
