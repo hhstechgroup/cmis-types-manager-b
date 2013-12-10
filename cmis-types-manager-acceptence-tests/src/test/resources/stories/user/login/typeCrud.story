@@ -21,10 +21,10 @@ When the user clicks on element with id/name/className 'selectCheckboxFileable'
 When the user clicks on element with id/name/className 'selectCheckboxQueryable'
 When clicks on element with id/name/className 'createTypeBtm'
 When the user clicks on element with id/name/className 'ui-icon-close'
+When the user opens all tree with className 'ui-tree-toggler'
 
 Scenario: view type scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When the user clicks on element with id/name/className 'ui-tree-toggler'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-view'
 Then wait for element 'viewForm' is visible
@@ -33,11 +33,12 @@ Then wait for element 'treeForm' is visible
 
 Scenario: delete type scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When the user clicks on element with id/name/className 'ui-tree-toggler'
+When the user opens all tree with className 'ui-tree-toggler'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-deleteButton'
 Then wait for element 'deleteForm' is visible
 When the user clicks on element with id/name/className 'deleteForm-accept'
+When the user clicks on element with id/name/className 'ui-icon-close'
 
 Scenario: logout scenario
 When clicks on element with id/name/className 'logoutForm-logoutBtn'

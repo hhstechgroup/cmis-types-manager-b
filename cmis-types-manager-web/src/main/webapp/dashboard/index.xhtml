@@ -5,20 +5,29 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
+    <ui:define name="leftMenu">
+        <ui:include src="leftMenu.xhtml"/>
+    </ui:define>
 
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deleteTypePanel" header="Delete select type?" rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
+            <p:panel id="deleteTypePanel" header="Delete select type?"
+                     rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
 
-                <p:commandButton id="b2" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}" update="-mainContent"/>
-                <p:commandButton id="b1" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
+                <p:commandButton id="accept" styleClass="mr10" value="Yes" action="#{typesManagerBean.deleteType}"
+                                 update="-mainContent"/>
+                <p:commandButton id="decline" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}"
+                                 update="-mainContent"/>
 
             </p:panel>
 
-            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?" rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
+            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?"
+                     rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
 
-                <p:commandButton id="accept2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}" update="-mainContent"/>
-                <p:commandButton id="decline2" value="Yes" action="#{typesManagerBean.deleteType}" update="-mainContent"/>
+                <p:commandButton id="accept2" value="Yes" action="#{typesManagerBean.deleteType}"
+                                 update="-mainContent"/>
+                <p:commandButton id="decline2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}"
+                                 update="-mainContent"/>
 
             </p:panel>
 
@@ -33,7 +42,8 @@
                                              update="-mainContent"/>
                             <p:commandButton id="update" value="Update" action="#{typesManagerBean.goTypePage}"
                                              update="-mainContent"/>
-                            <p:commandButton id="deleteButton" value="Delete" action="#{typesManagerBean.showDeleteTypeDialog}"
+                            <p:commandButton id="deleteButton" value="Delete"
+                                             action="#{typesManagerBean.showDeleteTypeDialog}"
                                              update="-deleteForm"/>
                             <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
                                              update="-mainContent"/>
@@ -47,8 +57,8 @@
             <p:tree value="#{typesManagerBean.root}" var="node" dynamic="true" cache="false"
                     selectionMode="single" selection="#{typesManagerBean.selectedNode}" id="tree">
 
-                <p:ajax event="expand"  listener="#{typesManagerBean.onNodeExpand}"/>
-                <p:ajax event="collapse"  listener="#{typesManagerBean.onNodeCollapse}"/>
+                <p:ajax event="expand" listener="#{typesManagerBean.onNodeExpand}"/>
+                <p:ajax event="collapse" listener="#{typesManagerBean.onNodeCollapse}"/>
                 <p:ajax event="select" update="-messages" listener="#{typesManagerBean.onNodeSelect}"/>
                 <p:ajax event="unselect" update="-messages" listener="#{typesManagerBean.onNodeUnselect}"/>
 
