@@ -77,6 +77,7 @@ public class CmisService {
         return typeDef;
     }
 
+//    TODO check on null
     private Map<String, PropertyDefinition<?>> getPropertyDefinitionMap(List<TypeProperty> properties) {
         Map<String, PropertyDefinition<?>> propertyDefinitionMap = new LinkedHashMap<String, PropertyDefinition<?>>();
         for (TypeProperty property : properties) {

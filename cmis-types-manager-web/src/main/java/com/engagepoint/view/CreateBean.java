@@ -4,6 +4,9 @@ import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.*;
+import org.apache.chemistry.opencmis.commons.enums.Cardinality;
+import org.apache.chemistry.opencmis.commons.enums.PropertyType;
+import org.apache.chemistry.opencmis.commons.enums.Updatability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,12 +33,21 @@ public class CreateBean implements Serializable {
     private Type type;
     private List<TypeProperty> typeProperties;
     private TypeProxy typeProxy;
+    private List<String> cardinalityValues;
+    private List<String> propertyTypeValues;
+    private List<String> updatabilityValues;
+
 
     public CreateBean() {
         getParametersFromFlash();
         typeProperties = new ArrayList<TypeProperty>();
         type = new Type();
+//        TODO optimization this methods
+        setCardinalityValuesToList();
+        setPropertyTypeValuesToList();
+        setUpdatabilityValuesToList();
     }
+
 
 
     public String addAction() {
@@ -113,8 +125,43 @@ public class CreateBean implements Serializable {
         return typeProperties;
     }
 
+    public List<String> getUpdatabilityValues() {
+        return updatabilityValues;
+    }
+
+    public List<String> getCardinalitylityValues() {
+        return cardinalityValues;
+    }
+
+    public List<String> getPropertyTypeValuesValues() {
+        return  propertyTypeValues;
+    }
+
+
+
     private void getParametersFromFlash() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         typeProxy = (TypeProxy) externalContext.getFlash().get("selectedType");
+    }
+
+    private void setCardinalityValuesToList() {
+        cardinalityValues = new ArrayList<String>();
+        for (Cardinality cardinality : Cardinality.values()) {
+            cardinalityValues.add(cardinality.value());
+        }
+    }
+
+    private void setPropertyTypeValuesToList() {
+        propertyTypeValues = new ArrayList<String>();
+        for (PropertyType cardinality : PropertyType.values()) {
+            propertyTypeValues.add(cardinality.value());
+        }
+    }
+
+    private void setUpdatabilityValuesToList() {
+        updatabilityValues = new ArrayList<String>();
+        for (Updatability updatability : Updatability.values()) {
+            updatabilityValues.add(updatability.value());
+        }
     }
 }

@@ -132,6 +132,7 @@ public class TypesManagerBean implements Serializable {
                 Message.printInfo("Deleted type " + selectedType.getDisplayName());
                 initTree();
                 selectedType = typeProxies.get(firstTypeId);
+                hideDeleteSubtypeDialog();
             }
             } catch (CmisConnectException e) {
             Message.printInfo(e.getMessage());
@@ -141,7 +142,7 @@ public class TypesManagerBean implements Serializable {
             log.error("Unable to delete type", e);
         }
         hideDeleteTypeDialog();
-        hideDeleteSubtypeDialog();
+
     }
 
     public boolean typeHasSubtypes(TypeProxy proxy) {
@@ -171,7 +172,7 @@ public class TypesManagerBean implements Serializable {
         this.isShowSubtypeDialog = false;
     }
 
-    private void setParameterToFlash() {
+    private void  setParameterToFlash() {
         FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
     }
 

@@ -132,9 +132,15 @@
                             <h:outputText value="#{property.cardinality}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.cardinality}" style="width:100%" label="Year"/>
+                            <h:selectOneMenu value="#{property.cardinality}" >
+                                <f:selectItems value="#{createBean.cardinalitylityValues}"
+                                               var="cardinality"
+                                               itemLabel="#{cardinality}"
+                                               itemValue="#{cardinality}" />
+                            </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
+
                 </p:column>
 
                 <p:column headerText="Updatability" style="width:10%">
@@ -143,7 +149,12 @@
                             <h:outputText value="#{property.updatability}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.updatability}" style="width:100%" label="Year"/>
+                            <h:selectOneMenu value="#{property.updatability}" >
+                                <f:selectItems value="#{createBean.updatabilityValues}"
+                                               var="updatability"
+                                               itemLabel="#{updatability}"
+                                               itemValue="#{updatability}" />
+                            </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -153,7 +164,12 @@
                             <h:outputText value="#{property.propertyType}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.propertyType}" style="width:100%" label="Year"/>
+                            <h:selectOneMenu value="#{property.propertyType}" >
+                                <f:selectItems value="#{createBean.propertyTypeValuesValues}"
+                                               var="propertyType"
+                                               itemLabel="#{propertyType}"
+                                               itemValue="#{propertyType}" />
+                            </h:selectOneMenu>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
