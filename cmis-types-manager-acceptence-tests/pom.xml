@@ -21,6 +21,7 @@
         <thucydides.version>0.9.204</thucydides.version>
         <thucydides.project.key>acceptancetest-cmis-type-manager_THUCJBEHAVE</thucydides.project.key>
         <skipTests>false</skipTests>
+        <cmis.version>0.10.0</cmis.version>
     </properties>
 
     <dependencies>
@@ -54,13 +55,33 @@
             <type>ear</type>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <id>src-dependencies</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>acceptancetest-base</includeArtifactIds>
+                            <classifier>sources</classifier>
+                            <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+                            <outputDirectory>${project.build.directory}/generated-test-sources</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.12</version>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>false</skip>
                     <systemPropertyVariables>
                         <webdriver.driver>${webdriver.driver}</webdriver.driver>
                         <maven.test.failure.ignore>true</maven.test.failure.ignore>
@@ -75,156 +96,109 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>net.thucydides.maven.plugins</groupId>
+                <artifactId>maven-thucydides-plugin</artifactId>
+                <version>${thucydides.version}</version>
+                <configuration>
+                    <projectKey>${thucydides.project.key}</projectKey>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.thucydides</groupId>
+                        <artifactId>thucydides-core</artifactId>
+                        <version>${thucydides.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>${project.groupId}</groupId>
+                        <artifactId>${project.artifactId}</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>thucydides-reports</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>aggregate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--cargo plugin-->
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.4.5</version>
+
+                <executions>
+                    <execution>
+                        <id>start-container</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>stop-container</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipTests}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <container>
+                        <containerId>glassfish3x</containerId>
+                        <zipUrlInstaller>
+                            <url>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</url>
+                            <downloadDir>${user.home}/.m2/cargo/containers</downloadDir>
+                        </zipUrlInstaller>
+                    </container>
+
+                    <configuration>
+                        <properties>
+                            <cargo.servlet.port>8080</cargo.servlet.port>
+                            <!--for using debug-->
+                            <cargo.jvmargs>
+                                <!--Xdebug-->
+                                <!--Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18000-->
+                                <!--Xnoagent-->
+                                <!--Djava.compiler=NONE-->
+                            </cargo.jvmargs>
+                        </properties>
+                    </configuration>
+
+                    <deployables>
+                        <!-- OpenCMIS Server InMemory -->
+                        <deployable>
+                            <groupId>org.apache.chemistry.opencmis</groupId>
+                            <artifactId>chemistry-opencmis-server-inmemory</artifactId>
+                            <type>war</type>
+                            <!--<properties>-->
+                            <!--<context>/server</context>-->
+                            <!--</properties>-->
+                        </deployable>
+                        <!-- browser-showcase -->
+                        <deployable>
+                            <groupId>com.engagepoint.cmis-types-manager-b</groupId>
+                            <artifactId>cmis-types-manager-ear</artifactId>
+                            <type>ear</type>
+                        </deployable>
+                    </deployables>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>build-with-acceptance-tests</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.1</version>
-                        <executions>
-                            <execution>
-                                <id>src-dependencies</id>
-                                <phase>generate-test-sources</phase>
-                                <goals>
-                                    <goal>unpack-dependencies</goal>
-                                </goals>
-                                <configuration>
-                                    <includeArtifactIds>acceptancetest-base</includeArtifactIds>
-                                    <classifier>sources</classifier>
-                                    <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
-                                    <outputDirectory>${project.build.directory}/generated-test-sources</outputDirectory>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>2.12</version>
-                        <configuration>
-                            <skip>false</skip>
-                            <systemPropertyVariables>
-                                <webdriver.driver>${webdriver.driver}</webdriver.driver>
-                                <maven.test.failure.ignore>true</maven.test.failure.ignore>
-                            </systemPropertyVariables>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>net.thucydides.maven.plugins</groupId>
-                        <artifactId>maven-thucydides-plugin</artifactId>
-                        <version>${thucydides.version}</version>
-                        <configuration>
-                            <projectKey>${thucydides.project.key}</projectKey>
-                        </configuration>
-                        <dependencies>
-                            <dependency>
-                                <groupId>net.thucydides</groupId>
-                                <artifactId>thucydides-core</artifactId>
-                                <version>${thucydides.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>${project.groupId}</groupId>
-                                <artifactId>${project.artifactId}</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                        </dependencies>
-                        <executions>
-                            <execution>
-                                <id>thucydides-reports</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>aggregate</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
 
-                    <!--cargo plugin-->
-                    <plugin>
-                        <groupId>org.codehaus.cargo</groupId>
-                        <artifactId>cargo-maven2-plugin</artifactId>
-                        <version>1.4.5</version>
-
-                        <executions>
-                            <execution>
-                                <id>start-container</id>
-                                <phase>pre-integration-test</phase>
-                                <goals>
-                                    <goal>start</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>${skipTests}</skip>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>stop-container</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>${skipTests}</skip>
-                                </configuration>
-                            </execution>
-                        </executions>
-
-                        <configuration>
-                            <container>
-                                <containerId>glassfish3x</containerId>
-                                <zipUrlInstaller>
-                                    <url>http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2.zip</url>
-                                    <downloadDir>${user.home}/.m2/cargo/containers</downloadDir>
-                                </zipUrlInstaller>
-                            </container>
-
-                            <configuration>
-                                <properties>
-                                    <cargo.servlet.port>8080</cargo.servlet.port>
-                                    <!--for using debug-->
-                                    <cargo.jvmargs>
-                                        <!--Xdebug-->
-                                        <!--Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18000-->
-                                        <!--Xnoagent-->
-                                        <!--Djava.compiler=NONE-->
-                                    </cargo.jvmargs>
-                                </properties>
-                            </configuration>
-
-                            <deployables>
-                                <!-- OpenCMIS Server InMemory -->
-                                <deployable>
-                                    <groupId>org.apache.chemistry.opencmis</groupId>
-                                    <artifactId>chemistry-opencmis-server-inmemory</artifactId>
-                                    <type>war</type>
-                                    <!--<properties>-->
-                                        <!--<context>/server</context>-->
-                                    <!--</properties>-->
-                                </deployable>
-                                <!-- browser-showcase -->
-                                <deployable>
-                                    <groupId>com.engagepoint.cmis-types-manager-b</groupId>
-                                    <artifactId>cmis-types-manager-ear</artifactId>
-                                    <type>ear</type>
-                                </deployable>
-                            </deployables>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 </project>
