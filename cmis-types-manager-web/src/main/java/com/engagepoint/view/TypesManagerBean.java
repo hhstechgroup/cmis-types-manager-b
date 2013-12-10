@@ -124,11 +124,12 @@ public class TypesManagerBean implements Serializable {
         if (typeHasSubtypes(selectedType)){
             showDeleteSubtypesDialog();
         }
-        if (!isShowSubtypeDialog) {
+        else if (!isShowSubtypeDialog) {
             try {
                 service.deleteType(userInfo, selectedType);
                 Message.printInfo("Deleted type " + selectedType.getDisplayName());
                 initTree();
+                hideDeleteTypeDialog();
             } catch (CmisConnectException e) {
                 Message.printInfo(e.getMessage());
                 log.error("Error while deleting type", e);
