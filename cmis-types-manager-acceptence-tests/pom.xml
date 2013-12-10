@@ -21,7 +21,6 @@
         <thucydides.version>0.9.204</thucydides.version>
         <thucydides.project.key>acceptancetest-cmis-type-manager_THUCJBEHAVE</thucydides.project.key>
         <skipTests>false</skipTests>
-        <cmis.version>0.10.0</cmis.version>
     </properties>
 
     <dependencies>
