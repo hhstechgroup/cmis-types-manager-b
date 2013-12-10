@@ -15,6 +15,8 @@ public class Item implements Serializable {
     private String item;
     private Integer qty;
     private Double price;
+    private static final ArrayList<OrderBean> orderList = new ArrayList<OrderBean>();
+
     OrderBean order;
 
     public String getItem() {
@@ -44,11 +46,9 @@ public class Item implements Serializable {
     public OrderBean getOrder() {
         return order;
     }
-
     public void setOrder(OrderBean order) {
         this.order = order;
     }
-    private static final ArrayList<OrderBean> orderList = new ArrayList<OrderBean>();
 
     public ArrayList<OrderBean> getOrderList() {
         return orderList;
@@ -57,7 +57,6 @@ public class Item implements Serializable {
     public String addAction() {
         OrderBean orderitem = new OrderBean(this.item, this.qty, this.price);
         orderList.add(orderitem);
-
         item = "";
         qty = 0;
         price = 0.0;

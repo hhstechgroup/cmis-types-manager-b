@@ -6,9 +6,10 @@ import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.util.TypeUtils;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
-import org.apache.chemistry.opencmis.commons.enums.BindingType;
+import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
 
 import javax.ejb.EJB;
@@ -16,10 +17,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.xml.stream.XMLStreamException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: AlexDenisenko
@@ -38,12 +36,8 @@ public class CmisService {
         return getTypeProxies(descendants);
     }
 
-    public Prototype getPrototypeById(final UserInfo userInfo, TypeProxy type) throws CmisConnectException {
-        Session session = getSession(userInfo);
-        ObjectType objectType = session.getTypeDefinition(type.getId());
-        return getPrototype(objectType);
-    }
-//  TODO add catch exception
+
+    //  TODO add catch exception
     public TypeDefinition getTypeDefinition(final UserInfo userInfo, TypeProxy type) throws CmisConnectException {
         Session session = getSession(userInfo);
         return session.getTypeDefinition(type.getId());
@@ -60,16 +54,47 @@ public class CmisService {
         return folders;
     }
 
-    public void createType(final UserInfo userInfo, Prototype prototype) throws CmisConnectException, CmisCreateException {
+
+    public void createType(final UserInfo userInfo, Type type) throws CmisConnectException, CmisCreateException {
         Session session = getSession(userInfo);
-        CmisTypeBuilder builder = new CmisTypeBuilder();
-        builder.setPrototype(prototype);
-        builder.buildType();
+        TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
-            session.createType(builder.getType());
+            session.createType(typeDefinition);
         } catch (RuntimeException e) {
             throw new CmisCreateException(e.getMessage());
         }
+    }
+
+    private TypeDefinition getTypeDefinition(Type type) {
+        TypeDefinitionImpl typeDef = new TypeDefinitionImpl();
+        typeDef.setDescription(type.getDescription());
+        typeDef.setId(type.getId());
+        typeDef.setDisplayName(type.getDisplayName());
+        typeDef.setLocalName(type.getLocalName());
+        typeDef.setBaseTypeId(BaseTypeId.fromValue(type.getBaseTypeId()));
+        typeDef.setParentTypeId(type.getParentTypeId());
+        typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
+        return typeDef;
+    }
+
+    private Map<String, PropertyDefinition<?>> getPropertyDefinitionMap(List<TypeProperty> properties) {
+        Map<String, PropertyDefinition<?>> propertyDefinitionMap = new LinkedHashMap<String, PropertyDefinition<?>>();
+        for (TypeProperty property : properties) {
+            PropertyDefinitionImpl definition = new PropertyDefinitionImpl();
+            definition.setId(property.getId());
+            definition.setDisplayName(property.getDisplayName());
+            definition.setLocalName(property.getLocalName());
+            definition.setQueryName(property.getQueryName());
+            definition.setCardinality(Cardinality.fromValue(property.getCardinality()));
+            definition.setPropertyType(PropertyType.fromValue(property.getPropertyType()));
+            definition.setIsRequired(property.getRequired());
+            definition.setIsInherited(property.getInherited());
+            definition.setUpdatability(Updatability.fromValue(property.getUpdatability()));
+            definition.setIsOrderable(property.getOrderable());
+            definition.setLocalNamespace(property.getLocalNamespace());
+            propertyDefinitionMap.put(property.getId(), definition);
+        }
+        return propertyDefinitionMap;
     }
 
     public void importType(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
@@ -112,12 +137,6 @@ public class CmisService {
         return getSession(userInfo) != null;
     }
 
-    //TODO    @deprecated
-    public List<Prototype> getTreeTypes(final UserInfo userInfo) throws CmisConnectException {
-        Session session = getSession(userInfo);
-        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
-        return getPrototypes(descendants);
-    }
 
     //TODO Think about get repositories
     public List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
@@ -142,35 +161,6 @@ public class CmisService {
         return session;
     }
 
-    //TODO    @deprecated
-    private List<Prototype> getPrototypes(List<Tree<ObjectType>> treeList) {
-        List<Prototype> cmisTypeList = new ArrayList<Prototype>();
-        for (Tree<ObjectType> tree : treeList) {
-            cmisTypeList.add(getPrototype(tree.getItem()));
-        }
-        return cmisTypeList;
-    }
-
-    private Prototype getPrototype(ObjectType objectType) {
-        Prototype prototype = new Prototype();
-        prototype.setId(objectType.getId());
-        prototype.setBaseTypeId(objectType.getBaseTypeId().value());
-        prototype.setParentTypeId(objectType.getParentTypeId());
-        prototype.setLocalName(objectType.getLocalName());
-        prototype.setDisplayName(objectType.getDisplayName());
-        prototype.setQueryName(objectType.getQueryName());
-        prototype.setDescription(objectType.getDescription());
-        prototype.setLocalNamespace(objectType.getLocalNamespace());
-        prototype.setCreatable(objectType.isCreatable());
-        prototype.setQueryable(objectType.isQueryable());
-        prototype.setFileable(objectType.isFileable());
-        prototype.setControllableAcl(objectType.isControllableAcl());
-        prototype.setControllablePolicy(objectType.isControllablePolicy());
-        prototype.setFulltextIndexed(objectType.isFulltextIndexed());
-        prototype.setIncludedInSupertypeQuery(objectType.isIncludedInSupertypeQuery());
-        prototype.setPropertyDefinitions(objectType.getPropertyDefinitions());
-        return prototype;
-    }
 
     private List<TypeProxy> getTypeProxies(List<Tree<ObjectType>> treeList) {
         List<TypeProxy> cmisTypeList = new ArrayList<TypeProxy>();

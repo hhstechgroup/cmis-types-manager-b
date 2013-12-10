@@ -7,75 +7,132 @@
                 xmlns:uib="http://engagepoint.com/uib">
 
     <ui:define name="mainContent">
-        <h:form id="createForm">
+        <h:form id="form">
 
-            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb10"/>
-            <p:accordionPanel id="accordionPanel" multiple="true">
-                <p:tab id="accordionTabAttributes" title="Attributes">
-                    <h:panelGrid columns="2" cellpadding="5">
+            <p:dataTable var="property" value="#{createBean.typeProperties}"  id="carList" editable="true">
+                <f:facet  name="header">
+                    <uib:gridContainer  >
+                        <uib:gridRow fluid="true">
+                            <uib:gridColumn column="6">
+                                <uib:aligner align="right">
+                                    <p:commandButton id="newSourceSystemButton" value="Add Source System"
+                                                     styleClass="small blue"
+                                                     icon="ui-icon-document"
+                                                     action="#{createBean.addAction}"
+                                                     update="-form"
+                                                     oncomplete="trigerEdit();"
+                                            />
+                                </uib:aligner>
+                            </uib:gridColumn>
+                        </uib:gridRow>
+                    </uib:gridContainer>
+                </f:facet>
+                <p:column headerText="Id" style="width:10%">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.id}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.id}" style="width:100%"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                        <h:outputText id="outputTextView" value="Display name :*"/>
-                        <p:inputText id="inputTextView" value="#{modifyTypeBean.prototype.displayName}" required="true" requiredMessage="Please! Enter Display name"/>
+                <p:column headerText="LocalName" style="width:10%">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.localName}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                        <h:outputText id="outputTextView1" value="Description :"/>
-                        <p:inputText id="inputTextView1"  value="#{modifyTypeBean.prototype.description}"/>
+                <p:column headerText="Query Name" style="width:10%">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.queryName}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.queryName}" style="width:100%" label="Year"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                        <h:outputText id="outputTextView2" value="Id :*"/>
-                        <p:inputText id="inputTextView2"  value="#{modifyTypeBean.prototype.id}" required="true" requiredMessage="Please! Enter Id"/>
+                <p:column headerText="Local Name" style="width:10%">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.localName}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                        <h:outputText id="outputTextView3" value="Local Namespace :"/>
-                        <p:inputText id="inputTextView3"  value="#{modifyTypeBean.prototype.localNamespace}"/>
+                <p:column headerText="Cardinality" style="width:10%">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.cardinality}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.cardinality}" style="width:100%" label="Year"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-                        <h:outputText id="outputTextView4" value="Local Name :"/>
-                        <p:inputText id="inputTextView4"  value="#{modifyTypeBean.prototype.localName}"/>
+                <p:column headerText="Updatability" style="width:10%">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.updatability}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.updatability}" style="width:100%" label="Year"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Property type" style="width:10%">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.propertyType}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.propertyType}" style="width:100%" label="Year"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column style="width:10%">
+                    <p:rowEditor />
+                    <p:commandButton styleClass="custom" icon="ui-icon-close"
+                                     action="#{createBean.deleteAction(property)}"
+                                     title="Delete" alt="Delete"
+                                     update="carList" >
+                    </p:commandButton>
+                </p:column>
 
-                        <h:outputText id="outputTextView5" value="Query Name :"/>
-                        <p:inputText id="inputTextView5"  value="#{modifyTypeBean.prototype.queryName}" />
 
-                        <h:outputText id="outputTextView16" value="Base Type"/>
-                        <h:outputText id="inputTextView16" value="#{modifyTypeBean.baseType}"/>
+            </p:dataTable>
+            <p:commandButton id="create" value="Create" action="#{createBean.createType}"/>
 
-                        <h:outputText id="outputTextView6" value="Parent Type"/>
-                        <h:outputText id="inputTextView6" value="#{modifyTypeBean.parentType}"/>
-
-                        <h:outputText id="outputTextView7" value="Creatabel :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel" disabled="#{modifyTypeBean.isSecondary()}"  value="#{modifyTypeBean.prototype.creatable}">
-                                <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
-
-                        <h:outputText id="outputTextView8" value="Fileable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFileable" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.fileable}">
-                            <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
-
-                        <h:outputText id="outputTextView9" value="Queryable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxQueryable"  value="#{modifyTypeBean.prototype.queryable}"/>
-
-                        <h:outputText id="outputTextView10" value="Included in super type queries :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxIst"  value="#{modifyTypeBean.prototype.includedInSupertypeQuery}"/>
-
-                        <h:outputText id="outputTextView11" value="Full text indexed :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFti"  value="#{modifyTypeBean.prototype.fulltextIndexed}"/>
-
-                        <h:outputText id="outputTextView12" value="ACL Contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxACL" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.controllableAcl}">
-                            <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
-
-                        <h:outputText id="outputTextView13" value="Policy contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxPC" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.controllablePolicy}">
-                            <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
-
-                        <h:outputText id="outputTextView14" value="Type mutability"/>
-                        <h:outputText value="Create, Update, Delete"/>
-
-                    </h:panelGrid>
-                </p:tab>
-            </p:accordionPanel>
-
-            <p:commandButton  styleClass="mt10" id="createTypeBtm" value="Create Type" action="#{modifyTypeBean.createType}" update="-mainContent"/>
+            <p:confirmDialog id="deleteConfirmDialog" message="Are you sure you want to delete selected Source System?"
+                             header="Delete Source System"
+                             severity="alert" widgetVar="deleteSourceSystemConfirmation">
+                <p:commandButton value="No" onclick="deleteSourceSystemConfirmation.hide()"
+                                 type="button" styleClass="secondary"/>
+                <p:commandButton value="Yes"
+                                 oncomplete="deleteSourceSystemConfirmation.hide()" update="-form"/>
+            </p:confirmDialog>
         </h:form>
+        <h:outputScript>
+
+            var trigerEdit = function(){
+            $('.ui-datatable-data tr:last').find('.ui-icon-pencil').trigger('click')}
+
+        </h:outputScript>
+
+
+
 
     </ui:define>
 </ui:composition>

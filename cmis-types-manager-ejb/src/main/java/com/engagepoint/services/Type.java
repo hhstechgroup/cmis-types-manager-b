@@ -1,15 +1,13 @@
 package com.engagepoint.services;
 
-import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
-
-import java.util.Map;
+import java.util.List;
 
 /**
  * User: AlexDenisenko
  * Date: 03.12.13
  * Time: 15:09
  */
-public class Prototype {
+public class Type {
     private String id;
     private String localName;
     private String localNamespace;
@@ -26,7 +24,8 @@ public class Prototype {
     private boolean isControllablePolicy;
     private boolean isControllableAcl;
 
-    private Map<String, PropertyDefinition<?>> propertyDefinitions;
+    private List<TypeProperty> properties;
+
 
     public String getLocalName() {
         return localName;
@@ -148,11 +147,12 @@ public class Prototype {
         isControllableAcl = controllableAcl;
     }
 
-    public Map<String, PropertyDefinition<?>> getPropertyDefinitions() {
-        return propertyDefinitions;
+
+    public List<TypeProperty> getProperties() {
+        return properties;
     }
 
-    public void setPropertyDefinitions(Map<String, PropertyDefinition<?>> propertyDefinitions) {
-        this.propertyDefinitions = propertyDefinitions;
+    public void setProperties(List<TypeProperty> properties) {
+        this.properties = properties;
     }
 }
