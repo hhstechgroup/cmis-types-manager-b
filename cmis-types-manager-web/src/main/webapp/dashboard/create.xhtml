@@ -84,51 +84,51 @@
                         </uib:gridRow>
                     </uib:gridContainer>
                 </f:facet>
-                <p:column headerText="Id" style="width:10%">
+                <p:column headerText="Id" >
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{property.id}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.id}" style="width:100%"/>
+                            <p:inputText value="#{property.id}" />
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="LocalName" style="width:10%">
+                <p:column headerText="LocalName" >
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{property.localName}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+                            <p:inputText value="#{property.localName}"  label="Year"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Query Name" style="width:10%">
+                <p:column headerText="Query Name" >
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{property.queryName}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.queryName}" style="width:100%" label="Year"/>
+                            <p:inputText value="#{property.queryName}"  label="Year"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Local Name" style="width:10%">
+                <p:column headerText="Local Name" >
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{property.localName}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+                            <p:inputText value="#{property.localName}"  label="Year"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
 
-                <p:column headerText="Cardinality" style="width:10%">
+                <p:column headerText="Cardinality" >
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{property.cardinality}" />
@@ -145,7 +145,7 @@
 
                 </p:column>
 
-                <p:column headerText="Updatability" style="width:10%">
+                <p:column headerText="Updatability" >
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{property.updatability}" />
@@ -160,7 +160,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column headerText="Property type" style="width:10%">
+                <p:column headerText="Property type" >
                     <p:cellEditor>
                         <f:facet name="output">
                             <h:outputText value="#{property.propertyType}" />
@@ -175,7 +175,7 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column style="width:10%">
+                <p:column >
                     <p:rowEditor />
                     <p:commandButton styleClass="custom" icon="ui-icon-close"
                                      action="#{createBean.deleteAction(property)}"
