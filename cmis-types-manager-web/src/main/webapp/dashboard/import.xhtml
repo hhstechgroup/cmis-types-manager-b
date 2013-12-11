@@ -8,8 +8,8 @@
 
     <ui:define name="mainContent">
         <div id="importHeader">Import types</div>
-        <h:form enctype="multipart/form-data">
-            <p:fileUpload fileUploadListener="#{importTypeBean.upload}" mode="advanced" dragDropSupport="true"
+        <h:form id="importForm" enctype="multipart/form-data">
+            <p:fileUpload fileUploadListener="#{importTypeBean.upload}" label="Select file" mode="advanced" dragDropSupport="true"
                         auto="true" update="-mainContent" sizeLimit="100000" allowTypes="/(\.|\/)(xml|json)$/" />
         </h:form>
 
