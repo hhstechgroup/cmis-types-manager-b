@@ -23,7 +23,7 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class CreateBean implements Serializable {
-    private Logger log = LoggerFactory.getLogger(ModifyTypeBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -54,7 +54,7 @@ public class CreateBean implements Serializable {
             type.setControllablePolicy(typeDefinition.isControllablePolicy());
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to initialise type view", e);
+            LOGGER.error("Unable to initialise type view", e);
         }
 
         if (hide()){
@@ -132,10 +132,10 @@ public class CreateBean implements Serializable {
             return navigationBean.toMainPage();
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to create type", e);
+            LOGGER.error("Unable to create type", e);
         } catch (CmisCreateException e) {
             Message.printError(e.getMessage());
-            log.error("Error while create type", e);
+            LOGGER.error("Error while create type", e);
         }
         return "";
     }
@@ -175,10 +175,6 @@ public class CreateBean implements Serializable {
         return list;
     }
     public boolean hide(){
-        if(typeProxy.getBaseType().equals(secondary)){
-            return true;
-        }   else{
-            return false;
-        }
+        return typeProxy.getBaseType().equals(secondary);
     }
 }

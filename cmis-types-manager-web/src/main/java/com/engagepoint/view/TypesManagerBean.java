@@ -37,9 +37,7 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class TypesManagerBean implements Serializable {
-
-    private Logger log = LoggerFactory.getLogger(TypesManagerBean.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypesManagerBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -78,7 +76,7 @@ public class TypesManagerBean implements Serializable {
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to initialise tree", e);
+            LOGGER.error("Unable to initialise tree", e);
         }
     }
 
@@ -141,10 +139,10 @@ public class TypesManagerBean implements Serializable {
             }
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Error while deleting type", e);
+            LOGGER.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
             Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
-            log.error("Unable to delete type", e);
+            LOGGER.error("Unable to delete type", e);
         }
     }
 
@@ -160,10 +158,10 @@ public class TypesManagerBean implements Serializable {
             Message.printInfo("Deleted type " + selectedType.getDisplayName());
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Error while deleting type", e);
+            LOGGER.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
             Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
-            log.error("Unable to delete type", e);
+            LOGGER.error("Unable to delete type", e);
         }
     }
 

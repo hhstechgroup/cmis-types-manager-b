@@ -32,7 +32,7 @@ import java.util.*;
 @Stateless
 @LocalBean
 public class CmisService {
-    private Logger log = LoggerFactory.getLogger(CmisService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmisService.class);
     @EJB
     private CmisConnection connection;
 
@@ -131,7 +131,7 @@ public class CmisService {
         } catch (RuntimeException e) {
             throw new CmisCreateException(e.getMessage());
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -149,7 +149,7 @@ public class CmisService {
         } catch (RuntimeException e) {
             throw new CmisCreateException(e.getMessage());
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -165,6 +165,7 @@ public class CmisService {
                 throw new CmisTypeDeleteException("Type is not deleted");
             }
         } catch (RuntimeException e) {
+            LOGGER.error(e.getMessage(), e);
             throw new CmisTypeDeleteException(e.getMessage());
         }
 
@@ -184,8 +185,6 @@ public class CmisService {
         return getSession(userInfo) != null;
     }
 
-
-    //TODO Think about get repositories
     public List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
         List<Repository> repositories;
@@ -203,6 +202,7 @@ public class CmisService {
         try {
             session = connection.getSessionFactory().createSession(parameters);
         } catch (CmisBaseException e) {
+            LOGGER.error(e.getMessage(), e);
             throw new CmisConnectException(e.getMessage());
         }
         return session;
@@ -245,9 +245,7 @@ public class CmisService {
     public void exportType(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException {
         Session session = getSession(userInfo);
         try {
-
             TypeUtils.writeToXML(session.getTypeDefinition(typeId),out);
-
         } catch (XMLStreamException e) {
             System.out.println(e.toString());
         }
