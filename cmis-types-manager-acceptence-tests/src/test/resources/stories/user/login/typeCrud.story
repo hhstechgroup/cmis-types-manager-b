@@ -9,7 +9,7 @@ Then wait for element 'treeForm' is visible
 Scenario: create type scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When clicks on element with id/name/className 'commandForm-create'
-Then wait for element 'form' is visible
+Then wait for element 'createTypeForm' is visible
 When the user fills 'inputTextView' field with 'test1'
 When the user fills 'inputTextView1' field with 'test1'
 When the user fills 'inputTextView2' field with 'test1'
