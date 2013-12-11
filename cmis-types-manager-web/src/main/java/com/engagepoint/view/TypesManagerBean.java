@@ -66,7 +66,11 @@ public class TypesManagerBean implements Serializable {
         try {
             root = new DefaultTreeNode(TREE_DATA, null);
             typeProxies = service.getTypeInfo(userInfo);
+            if(navigationBean.getTypeProxy()== null) {
             selectedType = typeProxies.get(FIRST_TYPE_ID);
+            }else {
+            selectedType =navigationBean.getTypeProxy();
+            }
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
@@ -74,14 +78,14 @@ public class TypesManagerBean implements Serializable {
         }
     }
 
-    public String goTypePage() {
-        setParameterToFlash();
-        return navigationBean.toViewType();
+       public String goTypePage() {
+        navigationBean.setTypeProxy(selectedType);
+       return navigationBean.toViewType();
     }
 
-    public String goCreatePage() {
-        setParameterToFlash();
-        return navigationBean.toCreateType();
+       public String goCreatePage() {
+           navigationBean.setTypeProxy(selectedType);
+       return navigationBean.toCreateType();
     }
 
     public TreeNode getRoot() {
@@ -198,9 +202,6 @@ public class TypesManagerBean implements Serializable {
         this.isShowSubtypeDialog = false;
     }
 
-    private void setParameterToFlash() {
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
-    }
 
     public TypeProxy getSelectedType() {
         return selectedType;

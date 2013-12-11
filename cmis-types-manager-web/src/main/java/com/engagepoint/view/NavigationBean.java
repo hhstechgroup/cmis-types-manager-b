@@ -1,5 +1,7 @@
 package com.engagepoint.view;
 
+import com.engagepoint.services.TypeProxy;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
@@ -18,7 +20,15 @@ public class NavigationBean implements Serializable {
     private static final String TO_CREATE_TYPE = "create?faces-redirect=true";
     private static final String TO_UPDATE_TYPE = "type?faces-redirect=true";
     private static final String TO_VIEW_TYPE = "type?faces-redirect=true";
+    private TypeProxy typeProxy;
 
+    public TypeProxy getTypeProxy() {
+        return typeProxy;
+    }
+
+    public void setTypeProxy(TypeProxy typeProxy) {
+        this.typeProxy = typeProxy;
+    }
 
     public String toLogin() {
         return TO_LOGIN;

@@ -37,14 +37,25 @@ public class ViewTypeBean implements Serializable {
     private LoginBean login;
     private TypeDefinition typeDefinition;
     private TypeProxy type;
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
 
     public ViewTypeBean() {
-        getParametersFromFlash();
+
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
     }
 
     @PostConstruct
     public void TypeBean() {
         try {
+            type = navigationBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, type);
         } catch (CmisConnectException e) {
@@ -71,10 +82,7 @@ public class ViewTypeBean implements Serializable {
         return typeDefinition;
     }
 
-    private void getParametersFromFlash() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        type = (TypeProxy) externalContext.getFlash().get("selectedType");
-    }
+
 
 }
 
