@@ -21,7 +21,11 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
 
@@ -226,5 +230,28 @@ public class TypesManagerBean implements Serializable {
                 addTypesToTree(type.getChildren(), node);
             }
         }
+    }
+    public String exportType() {
+
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        //externalContext.responseReset(); // Some JSF component library or some Filter might have set some headers in the buffer beforehand. We want to get rid of them, else it may collide.
+        externalContext.setResponseContentType("application/xml"); // Check http://www.iana.org/assignments/media-types for all types. Use if necessary ExternalContext#getMimeType() for auto-detection based on filename.
+        externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedType.getId() + "\""); //
+        //File file = new File(selectedType.getId() + ".xml");
+        try {
+            OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+            service.exportType(userInfo, responseOutputStream, selectedType.getId());
+            responseOutputStream.flush();
+            responseOutputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (CmisConnectException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        facesContext.responseComplete();
+        return "";
     }
 }
