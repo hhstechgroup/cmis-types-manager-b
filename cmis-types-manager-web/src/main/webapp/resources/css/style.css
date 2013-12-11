@@ -37,6 +37,10 @@
     padding: 3px 5px;
 }
 
+#treeForm {
+    font-size: 16px;
+}
+
 #deleteForm {
     position: absolute;
     z-index: 1000;
@@ -44,6 +48,8 @@
     left: 15%;
     box-shadow: 1px 1px 6px #333;
 }
+
+
 
 /*.ui-messages {*/
     /*position: fixed;*/
@@ -69,4 +75,10 @@
 
 #deleteForm-accept{
     margin-right: 10px;
+}
+#form-accordionPanel-metadataTable {
+    width: 100%;
+}
+#form-accordionPanel-metadataTabel-j_idt23{
+    width:100%;
 }

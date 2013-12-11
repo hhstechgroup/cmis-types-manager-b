@@ -69,7 +69,7 @@ public class TypesManagerBean implements Serializable {
             selectedType = typeProxies.get(FIRST_TYPE_ID);
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Unable to initialise tree", e);
         }
     }
@@ -121,22 +121,22 @@ public class TypesManagerBean implements Serializable {
     }
 
     public void deleteType() {
-        if (typeHasSubtypes(selectedType)){
+        if (typeHasSubtypes(selectedType)) {
             showDeleteSubtypesDialog();
         }
-        else if (!isShowSubtypeDialog) {
-            try {
+        try {
+            if (!isShowSubtypeDialog) {
                 service.deleteType(userInfo, selectedType);
                 Message.printInfo("Deleted type " + selectedType.getDisplayName());
                 initTree();
                 hideDeleteTypeDialog();
-            } catch (CmisConnectException e) {
-                Message.printInfo(e.getMessage());
-                log.error("Error while deleting type", e);
-            } catch (CmisTypeDeleteException e) {
-                Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
-                log.error("Unable to delete type", e);
             }
+        } catch (CmisConnectException e) {
+            Message.printError(e.getMessage());
+            log.error("Error while deleting type", e);
+        } catch (CmisTypeDeleteException e) {
+            Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+            log.error("Unable to delete type", e);
         }
     }
 
@@ -147,16 +147,16 @@ public class TypesManagerBean implements Serializable {
                 deleteType(userInfo, selectedTypeChild);
             }
         }
-            try {
-                service.deleteType(userInfo, selectedType);
-                Message.printInfo("Deleted type " + selectedType.getDisplayName());
-            } catch (CmisConnectException e) {
-                Message.printInfo(e.getMessage());
-                log.error("Error while deleting type", e);
-            } catch (CmisTypeDeleteException e) {
-                Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
-                log.error("Unable to delete type", e);
-            }
+        try {
+            service.deleteType(userInfo, selectedType);
+            Message.printInfo("Deleted type " + selectedType.getDisplayName());
+        } catch (CmisConnectException e) {
+            Message.printError(e.getMessage());
+            log.error("Error while deleting type", e);
+        } catch (CmisTypeDeleteException e) {
+            Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+            log.error("Unable to delete type", e);
+        }
     }
 
     public void deleteTypeWithSubtypes() {

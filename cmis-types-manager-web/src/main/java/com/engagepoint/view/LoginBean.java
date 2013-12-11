@@ -94,6 +94,10 @@ public class LoginBean implements Serializable {
         this.loggedIn = loggedIn;
     }
 
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
     }
@@ -104,10 +108,6 @@ public class LoginBean implements Serializable {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
-    }
-
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
     }
 
     private HttpSession getHttpSession() {

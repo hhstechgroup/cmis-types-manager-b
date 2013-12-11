@@ -6,76 +6,213 @@
                 template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
 
-    <ui:define name="mainContent">
-        <h:form id="createForm">
+<ui:define name="mainContent">
+    <h:form id="form">
+        <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
+        <p:accordionPanel id="accordionPanel" multiple="true">
+            <p:tab id="accordionTabAttributes" title="Attributes">
+                <h:panelGrid columns="2" cellpadding="5">
 
-            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb10"/>
-            <p:accordionPanel id="accordionPanel" multiple="true">
-                <p:tab id="accordionTabAttributes" title="Attributes">
-                    <h:panelGrid columns="2" cellpadding="5">
+                    <h:outputText id="outputTextView" value="Display name :"/>
+                    <p:inputText id="inputTextView" value="#{createBean.type.displayName}"/>
 
-                        <h:outputText id="outputTextView" value="Display name :*"/>
-                        <p:inputText id="inputTextView" value="#{modifyTypeBean.prototype.displayName}" required="true" requiredMessage="Please! Enter Display name"/>
+                    <h:outputText id="outputTextView1" value="Description :"/>
+                    <p:inputText id="inputTextView1" value="#{createBean.type.description}"/>
 
-                        <h:outputText id="outputTextView1" value="Description :"/>
-                        <p:inputText id="inputTextView1"  value="#{modifyTypeBean.prototype.description}"/>
+                    <h:outputText id="outputTextView2" value="Id :"/>
+                    <p:inputText id="inputTextView2" value="#{createBean.type.id}"/>
 
-                        <h:outputText id="outputTextView2" value="Id :*"/>
-                        <p:inputText id="inputTextView2"  value="#{modifyTypeBean.prototype.id}" required="true" requiredMessage="Please! Enter Id"/>
+                    <h:outputText id="outputTextView3" value="Local Namespace :"/>
+                    <p:inputText id="inputTextView3" value="#{createBean.type.localNamespace}"/>
 
-                        <h:outputText id="outputTextView3" value="Local Namespace :"/>
-                        <p:inputText id="inputTextView3"  value="#{modifyTypeBean.prototype.localNamespace}"/>
+                    <h:outputText id="outputTextView4" value="Local Name :"/>
+                    <p:inputText id="inputTextView4" value="#{createBean.type.localName}"/>
 
-                        <h:outputText id="outputTextView4" value="Local Name :"/>
-                        <p:inputText id="inputTextView4"  value="#{modifyTypeBean.prototype.localName}"/>
+                    <h:outputText id="outputTextView5" value="Querty Name :"/>
+                    <p:inputText id="inputTextView5" value="#{createBean.type.queryName}"/>
 
-                        <h:outputText id="outputTextView5" value="Query Name :"/>
-                        <p:inputText id="inputTextView5"  value="#{modifyTypeBean.prototype.queryName}" />
+                    <h:outputText id="outputTextView16" value="Base Type"/>
+                    <h:outputText id="inputTextView16" value="#{createBean.baseType}"/>
 
-                        <h:outputText id="outputTextView16" value="Base Type"/>
-                        <h:outputText id="inputTextView16" value="#{modifyTypeBean.baseType}"/>
+                    <h:outputText id="outputTextView6" value="Parent Type"/>
+                    <h:outputText id="inputTextView6" value="#{createBean.parentType}"/>
 
-                        <h:outputText id="outputTextView6" value="Parent Type"/>
-                        <h:outputText id="inputTextView6" value="#{modifyTypeBean.parentType}"/>
+                    <h:outputText id="outputTextView7" value="Creatabel :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxCreatabel" value="#{createBean.type.creatable}"/>
 
-                        <h:outputText id="outputTextView7" value="Creatabel :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel" disabled="#{modifyTypeBean.isSecondary()}"  value="#{modifyTypeBean.prototype.creatable}">
-                                <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
+                    <h:outputText id="outputTextView8" value="Fileable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxFileable" value="#{createBean.type.fileable}"/>
 
-                        <h:outputText id="outputTextView8" value="Fileable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFileable" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.fileable}">
-                            <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
+                    <h:outputText id="outputTextView9" value="Queryable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxQueryable" value="#{createBean.type.queryable}"/>
 
-                        <h:outputText id="outputTextView9" value="Queryable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxQueryable"  value="#{modifyTypeBean.prototype.queryable}"/>
+                    <h:outputText id="outputTextView10" value="Included in super type queries :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxIst"
+                                             value="#{createBean.type.includedInSupertypeQuery}"/>
 
-                        <h:outputText id="outputTextView10" value="Included in super type queries :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxIst"  value="#{modifyTypeBean.prototype.includedInSupertypeQuery}"/>
+                    <h:outputText id="outputTextView11" value="Full text indexed :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxFti" value="#{createBean.type.fulltextIndexed}"/>
 
-                        <h:outputText id="outputTextView11" value="Full text indexed :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFti"  value="#{modifyTypeBean.prototype.fulltextIndexed}"/>
+                    <h:outputText id="outputTextView12" value="ACL Contronable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxACL" value="#{createBean.type.controllableAcl}"/>
 
-                        <h:outputText id="outputTextView12" value="ACL Contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxACL" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.controllableAcl}">
-                            <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
+                    <h:outputText id="outputTextView13" value="Policy contronable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxPC" value="#{createBean.type.controllablePolicy}"/>
 
-                        <h:outputText id="outputTextView13" value="Policy contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxPC" disabled="#{modifyTypeBean.isSecondary()}" value="#{modifyTypeBean.prototype.controllablePolicy}">
-                            <h:outputText rendered="#{modifyTypeBean.isSecondary()}" value="Unchangeable"/>
-                        </p:selectBooleanCheckbox>
+                    <h:outputText id="outputTextView14" value="Type mutability"/>
+                    <h:outputText value="Create, Update, Delete"/>
+                </h:panelGrid>
+            </p:tab>
 
-                        <h:outputText id="outputTextView14" value="Type mutability"/>
-                        <h:outputText value="Create, Update, Delete"/>
 
-                    </h:panelGrid>
-                </p:tab>
-            </p:accordionPanel>
+            <p:tab id="accordionTabMetadata" title="Metadata">
+                <p:dataTable  var="property" value="#{createBean.typeProperties}"
+                              id="metadataTabel"
+                              editable="true"
+                             >
+                <f:facet  name="header">
+                    <uib:gridContainer>
+                        <uib:gridRow fluid="true">
+                            <uib:gridColumn column="6">
+                                <h:outputText value="Metadata tabel"/>
+                                <uib:aligner align="right">
+                                    <p:commandButton id="newSourceSystemButton" value="Add New Line"
+                                                     styleClass="small blue"
+                                                     icon="ui-icon-document"
+                                                     action="#{createBean.addAction}"
+                                                     update="-form"
+                                                     oncomplete="trigerEdit();"
+                                            />
+                                </uib:aligner>
+                            </uib:gridColumn>
+                        </uib:gridRow>
+                    </uib:gridContainer>
+                </f:facet>
 
-            <p:commandButton  styleClass="mt10" id="createTypeBtm" value="Create Type" action="#{modifyTypeBean.createType}" update="-mainContent"/>
-        </h:form>
+                <p:column headerText="Id" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.id}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.id}" />
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
 
-    </ui:define>
+                <p:column headerText="LocalName" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.localName}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.localName}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Query Name" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.queryName}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.queryName}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Local Name" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.localName}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{property.localName}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Cardinality" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.cardinality}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{property.cardinality}" >
+                                <f:selectItems value="#{createBean.cardinalitylityValues}"
+                                               var="cardinality"
+                                               itemLabel="#{cardinality}"
+                                               itemValue="#{cardinality}" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+
+                </p:column>
+
+                <p:column headerText="Updatability" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.updatability}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{property.updatability}" >
+                                <f:selectItems value="#{createBean.updatabilityValues}"
+                                               var="updatability"
+                                               itemLabel="#{updatability}"
+                                               itemValue="#{updatability}" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Property type" >
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{property.propertyType}" />
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:selectOneMenu value="#{property.propertyType}" >
+                                <f:selectItems value="#{createBean.propertyTypeValuesValues}"
+                                               var="propertyType"
+                                               itemLabel="#{propertyType}"
+                                               itemValue="#{propertyType}" />
+                            </h:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column headerText="Action" >
+                    <p:rowEditor />
+                    <p:commandButton styleClass="custom" icon="ui-icon-close"
+                                     action="#{createBean.deleteAction(property)}"
+                                     title="Delete" alt="Delete"
+                                     update="metadataTabel" >
+                    </p:commandButton>
+                </p:column>
+
+
+            </p:dataTable></p:tab>
+        </p:accordionPanel>
+
+        <p:confirmDialog id="deleteConfirmDialog" message="Are you sure you want to delete selected Source System?"
+                         header="Delete Source System"
+                         severity="alert" widgetVar="deleteSourceSystemConfirmation">
+            <p:commandButton value="No" onclick="deleteSourceSystemConfirmation.hide()"
+                             type="button" styleClass="secondary"/>
+            <p:commandButton value="Yes"
+                             oncomplete="deleteSourceSystemConfirmation.hide()" update="-form"/>
+        </p:confirmDialog>
+
+        <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}" update="-mainContent"
+                         styleClass="mt20"/>
+
+    </h:form>
+
+    <h:outputScript>
+
+        var trigerEdit = function(){
+        $('.ui-datatable-data tr:last').find('.ui-icon-pencil').trigger('click')}
+
+    </h:outputScript>
+
+</ui:define>
 </ui:composition>

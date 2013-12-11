@@ -13,61 +13,152 @@
 </h:head>
 <h:body>
 
-    <p:dataTable var="property" value="#{viewTypeBean.propertyDefinitions}" scrollable="true" scrollWidth="630" scrollHeight="200" id="dataTable3">
+<h:panelGrid columns="2" cellpadding="5">
 
-        <p:column headerText="Name">
-            <h:outputText value="#{property.displayName}" />
-        </p:column>
+    <h:outputText id="outputTextView" value="Display name :*"/>
+    <p:inputText id="inputTextView" value="#{createBean.type.displayName}" />
 
-        <p:column headerText="Id">
-            <h:outputText value="#{property.id}" />
-        </p:column>
+    <h:outputText id="outputTextView1" value="Description :"/>
+    <p:inputText id="inputTextView1"  value="#{createBean.type.description}"/>
 
-        <p:column headerText="Description" >
-            <h:outputText value="#{property.description}" />
-        </p:column>
+    <h:outputText id="outputTextView2" value="Id :*"/>
+    <p:inputText id="inputTextView2"  value="#{createBean.type.id}"/>
 
-        <p:column headerText="Local namespace">
-            <h:outputText value="#{property.localNamespace}" />
-        </p:column>
+    <h:outputText id="outputTextView3" value="Local Namespace :"/>
+    <p:inputText id="inputTextView3"  value="#{createBean.type.localNamespace}"/>
 
-        <p:column headerText="Local name">
-            <h:outputText value="#{property.localName}" />
-        </p:column>
+    <h:outputText id="outputTextView4" value="Local Name :"/>
+    <p:inputText id="inputTextView4"  value="#{createBean.type.localName}"/>
 
-        <p:column headerText="Query name" >
-            <h:outputText value="#{property.queryName}" />
-        </p:column>
+    <h:outputText id="outputTextView5" value="Query Name :"/>
+    <p:inputText id="inputTextView5"  value="#{createBean.type.queryName}" />
 
-        <p:column headerText="Type">
-            <h:outputText value="#{property.propertyType}" />
-        </p:column>
 
-        <p:column headerText="Cardinality" >
-            <h:outputText value="#{property.cardinality}" />
-        </p:column>
 
-        <p:column headerText="Updatability" >
-            <h:outputText value="#{property.updatability}" />
-        </p:column>
+    <h:outputText id="outputTextView14" value="Type mutability"/>
+    <h:outputText value="Create, Update, Delete"/>
 
-        <p:column headerText="Quaryable" >
-            <h:outputText value="#{property.isQueryable()}" />
-        </p:column>
+</h:panelGrid>
 
-        <p:column headerText="Orderable" >
-            <h:outputText value="#{property.isOrderable()}" />
-        </p:column>
 
-        <p:column headerText="Requaried" >
-            <h:outputText value="#{property.isRequired()}" />
-        </p:column>
 
-        <p:column headerText="Inheried" >
-            <h:outputText value="#{property.isInherited()}" />
-        </p:column>
+<p:growl id="messages" showDetail="true"/>
 
-    </p:dataTable>
+ <h:form id="form">
+<p:dataTable var="property" value="#{createBean.propertyDefinitionList}" scrollable="true"  id="carList" editable="true">
+    <f:facet  name="header">
+        <uib:gridContainer  >
+            <uib:gridRow fluid="true">
+                <uib:gridColumn column="6">
+                    <uib:aligner align="right">
+                        <p:commandButton id="newSourceSystemButton" value="Add Source System"
+                                         styleClass="small blue"
+                                         icon="ui-icon-document"
+                                         action="#{createBean.addAction}"
+                                         update="-form"
+                                         oncomplete="trigerEdit();"
+                                />
+                    </uib:aligner>
+                </uib:gridColumn>
+            </uib:gridRow>
+        </uib:gridContainer>
+    </f:facet>
+    <p:ajax event="rowEdit" listener="#{createBean.onEdit}"  />
+    <p:ajax event="rowEditCancel" listener="#{createBean.onCancel}"  />
+    <p:column headerText="Model" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.id}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.id}" style="width:100%"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Year" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.localName}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Year" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.queryName}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.queryName}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Year" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.localName}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Manufacturer" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.cardinality}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.cardinality}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Color" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.updatability}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.updatability}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+    <p:column headerText="Color" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.propertyType}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.propertyType}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+    <p:column style="width:10%">
+        <p:rowEditor />
+        <p:commandButton styleClass="custom" icon="ui-icon-close"
+                         action="#{createBean.deleteAction(property)}"
+                         title="Delete" alt="Delete"
+                         update="carList">
+        </p:commandButton>
+    </p:column>
+
+
+</p:dataTable>
+     <p:commandButton id="create" value="Create" action="#{createBean.createType}"/>
+</h:form>
+    <h:outputScript>
+
+    var trigerEdit = function(){
+        $('.ui-datatable-scrollable-body tr:last').find('.ui-icon-pencil').trigger('click')}
+
+</h:outputScript>
 
 </h:body>
 </html>

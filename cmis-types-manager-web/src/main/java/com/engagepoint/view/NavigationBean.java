@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class NavigationBean implements Serializable {
     private static final String TO_LOGIN = "/login?faces-redirect=true";
     private static final String TO_MAIN_PAGE = "/dashboard/index?faces-redirect=true";
+    private static final String TO_MAIN_PAGE2 = "index?faces-redirect=true";
     private static final String TO_CREATE_TYPE = "create?faces-redirect=true";
     private static final String TO_UPDATE_TYPE = "type?faces-redirect=true";
     private static final String TO_VIEW_TYPE = "type?faces-redirect=true";
@@ -25,6 +26,10 @@ public class NavigationBean implements Serializable {
 
     public String toMainPage() {
         return TO_MAIN_PAGE;
+    }
+
+    public String toMainPage2() {
+        return TO_MAIN_PAGE2;
     }
 
     public String toCreateType() {
