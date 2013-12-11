@@ -47,8 +47,8 @@ public class ImportTypeBean {
 
     public void importTypes() {
         try {
-            UserInfo userInfo = login.getUserInfo();
             if (stream != null) {
+                UserInfo userInfo = login.getUserInfo();
                 if (fileName.contains("xml")) {
                     service.importTypeFromXml(userInfo, stream);
                 } else {
