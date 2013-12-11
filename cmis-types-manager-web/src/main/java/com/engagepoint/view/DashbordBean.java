@@ -48,6 +48,7 @@ public class DashbordBean implements Serializable {
 
     @PostConstruct
     public void init() {
+
         initTree();
         this.isShowDialog = false;
     }
@@ -57,8 +58,13 @@ public class DashbordBean implements Serializable {
         try {
             UserInfo userInfo = login.getUserInfo();
             List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
+
             int firstTypeId = 0;
+            if(navigationBean.getTypeProxy()==null){           // Save and get selectedType
             selectedType = typeProxies.get(firstTypeId);
+            }else
+            selectedType = navigationBean.getTypeProxy();
+
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
             messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
@@ -66,12 +72,12 @@ public class DashbordBean implements Serializable {
     }
 
     public String goTypePage() {
-        setParameterToFlash();
+        navigationBean.setTypeProxy(selectedType);
         return navigationBean.toViewType();
     }
 
     public String goCreatePage() {
-        setParameterToFlash();
+        navigationBean.setTypeProxy(selectedType);
         return navigationBean.toCreateType();
     }
 
@@ -163,9 +169,6 @@ public class DashbordBean implements Serializable {
         this.navigationBean = navigationBean;
     }
 
-    private void setParameterToFlash() {
-        FacesContext.getCurrentInstance().getExternalContext().getFlash().put("selectedType", selectedType);
-    }
 
     public TypeProxy getSelectedType() {
         return selectedType;

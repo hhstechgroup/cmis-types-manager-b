@@ -6,7 +6,9 @@ import com.engagepoint.services.CmisService;
 import com.engagepoint.services.Prototype;
 import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
+import org.primefaces.model.TreeNode;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -14,6 +16,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * User: AlexDenisenko
@@ -28,17 +31,25 @@ public class ModifyTypeBean implements Serializable {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private Prototype prototype;
-    private final TypeProxy type;
+    private TypeProxy type;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
+
+
 
     private MessagesBean messagesBean = new MessagesBean();
 
     public ModifyTypeBean() {
-        type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
-        prototype = new Prototype();
+
+
     }
 
+    @PostConstruct
+    public void init() {
+        type = navigationBean.getTypeProxy();
+
+        prototype = new Prototype();
+    }
     public String createType() {
         UserInfo userInfo = login.getUserInfo();
         try {
@@ -85,4 +96,5 @@ public class ModifyTypeBean implements Serializable {
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
     }
+
 }

@@ -10,8 +10,6 @@
     </ui:define>
 
 
-
-
     <ui:define name="mainContent">
         <h:form id="deleteForm">
             <p:panel id="deletePanel" header="Delete type ?" rendered="#{dashbordBean.showDialog}">
@@ -43,14 +41,15 @@
         </uib:gridContainer>
 
         <h:form id="treeForm">
+            <ui:remove>
+                <h:inputText id="currentSelected" value=""/>
+            </ui:remove>
             <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
                     selectionMode="single" selection="#{dashbordBean.selectedNode}" id="tree">
-
-                <p:ajax event="expand"  listener="#{dashbordBean.onNodeExpand}"/>
-                <p:ajax event="collapse"  listener="#{dashbordBean.onNodeCollapse}"/>
+                <p:ajax event="expand" listener="#{dashbordBean.onNodeExpand}"/>
+                <p:ajax event="collapse" listener="#{dashbordBean.onNodeCollapse}"/>
                 <p:ajax event="select" update="-messages" listener="#{dashbordBean.onNodeSelect}"/>
                 <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
-
 
                 <p:treeNode id="node">
                     <h:outputText id="nodeValue" value="#{node.displayName}"/>

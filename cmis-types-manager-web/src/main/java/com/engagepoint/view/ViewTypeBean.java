@@ -29,11 +29,13 @@ public class ViewTypeBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
 
     private MessagesBean messagesBean = new MessagesBean();
 
     private Prototype prototype;
-    private final TypeProxy type;
+    private TypeProxy type;
 
     public LoginBean getLogin() {
         return login;
@@ -43,11 +45,12 @@ public class ViewTypeBean implements Serializable {
     }
 
     public ViewTypeBean() {
-        type = (TypeProxy) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("selectedType");
+
     }
 
     @PostConstruct
     public void TypeBean() {
+        type = navigationBean.getTypeProxy();
         UserInfo userInfo = login.getUserInfo();
         try {
             prototype = service.getPrototypeById(userInfo, type);
@@ -64,5 +67,40 @@ public class ViewTypeBean implements Serializable {
         return prototype.getPropertyDefinitions().values();
     }
 
+    public CmisService getService() {
+        return service;
+    }
+
+    public void setService(CmisService service) {
+        this.service = service;
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
+
+    public MessagesBean getMessagesBean() {
+        return messagesBean;
+    }
+
+    public void setMessagesBean(MessagesBean messagesBean) {
+        this.messagesBean = messagesBean;
+    }
+
+    public void setPrototype(Prototype prototype) {
+        this.prototype = prototype;
+    }
+
+    public TypeProxy getType() {
+        return type;
+    }
+
+    public void setType(TypeProxy type) {
+        this.type = type;
+    }
 }
 
