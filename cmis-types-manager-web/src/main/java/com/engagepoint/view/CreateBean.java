@@ -4,12 +4,14 @@ import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.*;
+import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
 import org.apache.chemistry.opencmis.commons.enums.Updatability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -32,11 +34,29 @@ public class CreateBean implements Serializable {
     private NavigationBean navigationBean;
     private Type type;
     private List<TypeProperty> typeProperties;
+    private TypeDefinition typeDefinition;
     private TypeProxy typeProxy;
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
 
+    @PostConstruct
+    public void initPageParameters() {
+        try {
+            UserInfo userInfo = login.getUserInfo();
+            typeDefinition = service.getTypeDefinition(userInfo, typeProxy);
+            type.setCreatable(typeDefinition.isCreatable());
+            type.setFileable(typeDefinition.isFileable());
+            type.setQueryable(typeDefinition.isQueryable());
+            type.setIncludedInSupertypeQuery(typeDefinition.isIncludedInSupertypeQuery());
+            type.setFulltextIndexed(typeDefinition.isFulltextIndexed());
+            type.setControllableAcl(typeDefinition.isControllableAcl());
+            type.setControllablePolicy(typeDefinition.isControllablePolicy());
+        } catch (CmisConnectException e) {
+            Message.printError(e.getMessage());
+            log.error("Unable to initialise type view", e);
+        }
+    }
 
     public CreateBean() {
         getParametersFromFlash();
@@ -129,9 +149,8 @@ public class CreateBean implements Serializable {
     }
 
     public List<String> getPropertyTypeValuesValues() {
-        return  propertyTypeValues;
+        return propertyTypeValues;
     }
-
 
 
     private void getParametersFromFlash() {
