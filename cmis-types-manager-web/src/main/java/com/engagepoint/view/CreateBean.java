@@ -102,10 +102,10 @@ public class CreateBean implements Serializable {
             Message.printInfo(type.getDisplayName() + " type created!");
             return navigationBean.toMainPage();
         } catch (CmisConnectException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Unable to create type", e);
         } catch (CmisCreateException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Error while create type", e);
         }
         return "";
