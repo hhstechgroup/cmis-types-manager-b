@@ -80,6 +80,15 @@ public class CmisService {
         typeDef.setLocalName(type.getLocalName());
         typeDef.setBaseTypeId(BaseTypeId.fromValue(type.getBaseTypeId()));
         typeDef.setParentTypeId(type.getParentTypeId());
+        typeDef.setQueryName(type.getQueryName());
+        typeDef.setIsControllablePolicy(type.isControllablePolicy());
+        typeDef.setIsControllableAcl(type.isControllableAcl());
+        typeDef.setIsCreatable(type.isCreatable());
+        typeDef.setIsFileable(type.isFileable());
+        typeDef.setIsQueryable(type.isQueryable());
+        typeDef.setIsFulltextIndexed(type.isFulltextIndexed());
+        typeDef.setIsIncludedInSupertypeQuery(type.isIncludedInSupertypeQuery());
+
         if (type.getProperties() != null) {
             typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
         }
