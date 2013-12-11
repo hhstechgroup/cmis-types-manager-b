@@ -1,12 +1,7 @@
 package com.engagepoint.view;
 
-import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
-import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.CmisService;
-import com.engagepoint.services.Prototype;
 import com.engagepoint.services.TypeProxy;
-import com.engagepoint.services.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,14 +29,12 @@ public class ModifyTypeBean implements Serializable {
     private LoginBean login;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
-    private Prototype prototype;
     private TypeProxy type;
     private String secondaryId = "cmis:secondary";
 
     @PostConstruct
     public void init() {
         getParametersFromFlash();
-        prototype = new Prototype();
     }
 
     public Boolean isSecondary() {
@@ -51,36 +44,11 @@ public class ModifyTypeBean implements Serializable {
             return false;
     }
 
-    public String createType() {
-        try {
-            UserInfo userInfo = login.getUserInfo();
-            if (type.getBaseType().equals(secondaryId)) {
-                prototype.setParentTypeId(secondaryId);
-            } else {
-                prototype.setParentTypeId(type.getId());
-            }
-            prototype.setBaseTypeId(type.getBaseType());
-            service.createType(userInfo, prototype);
-            Message.printInfo(prototype.getDisplayName() + " type created!");
-            return navigationBean.toMainPage();
-        } catch (CmisConnectException e) {
-            Message.printInfo(e.getMessage());
-            log.error("Unable to create type", e);
-        } catch (CmisCreateException e) {
-            Message.printInfo(e.getMessage());
-            log.error("Error while create type", e);
-        }
-        return "";
+    public void createType() {
+
     }
 
 
-    public Prototype getPrototype() {
-        return prototype;
-    }
-
-    public void setPrototype(Prototype prototype) {
-        this.prototype = prototype;
-    }
 
     public String getBaseType() {
         return type.getBaseType();

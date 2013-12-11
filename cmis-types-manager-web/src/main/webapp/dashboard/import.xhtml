@@ -8,23 +8,20 @@
 
     <ui:define name="mainContent">
 
-    <h:form enctype="multipart/form-data">
-        <uib:gridContainer>
-            <uib:gridRow fluid="true">
-                <uib:gridColumn column="6">
-                    <p:fileUpload id="File" value="#{uploadListener.file}"
-                                  required="true" requiredMessage="File is required" mode="simple"
-                                  update="File;msg_configFile;UploadInput">
-                    </p:fileUpload>
-                </uib:gridColumn>
-                <uib:gridColumn column="6">
-                    <p:commandButton value="Upload" ajax="false" actionListener="#{uploadListener.upload}"/>
-                </uib:gridColumn>
-            </uib:gridRow>
-        </uib:gridContainer>
-    </h:form>
+        <h:form enctype="multipart/form-data">
+            <p:fileUpload
+                    dragDropSupport="true"
+                    label="Select type"
+                    mode="advanced"
+                    sizeLimit="1000000"
+                    fileUploadListener="#{importTypeBean.upload}"
+                    allowTypes="/(\.|\/)(xml|json)$/"
+                    auto="true"/>
+        </h:form>
 
+        <h:form>
+            <p:commandButton id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}" update="-mainContent"/>
+        </h:form>
 
-
-        </ui:define>
+    </ui:define>
 </ui:composition>
