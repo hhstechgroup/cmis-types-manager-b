@@ -7,10 +7,10 @@
                 xmlns:uib="http://engagepoint.com/uib">
 
     <ui:define name="mainContent">
-
+        <span style="font-size: 14px;">Import types</span>
         <h:form enctype="multipart/form-data">
-            <p:fileUpload fileUploadListener="#{importTypeBean.upload}" mode="advanced" dragDropSupport="false"
-                       cancelLabel="true" auto="true" update="-mainContent" sizeLimit="100000" allowTypes="/(\.|\/)(xml|json)$/" />
+            <p:fileUpload fileUploadListener="#{importTypeBean.upload}" mode="advanced" dragDropSupport="true"
+                        auto="true" update="-mainContent" sizeLimit="100000" allowTypes="/(\.|\/)(xml|json)$/" />
         </h:form>
 
         <h:form>

@@ -86,3 +86,11 @@
 #form-accordionPanel-metadataTabel-j_idt23{
     width:100%;
 }
+
+.fileupload-content {
+     width: 700px;
+}
+.ui-state-error {
+    margin-left: 20px;
+}
+
