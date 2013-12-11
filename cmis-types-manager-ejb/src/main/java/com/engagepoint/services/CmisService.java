@@ -21,6 +21,7 @@ import javax.ejb.Stateless;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -80,6 +81,16 @@ public class CmisService {
         typeDef.setLocalName(type.getLocalName());
         typeDef.setBaseTypeId(BaseTypeId.fromValue(type.getBaseTypeId()));
         typeDef.setParentTypeId(type.getParentTypeId());
+        typeDef.setQueryName(type.getQueryName());
+        typeDef.setIsControllablePolicy(type.isControllablePolicy());
+        typeDef.setIsControllableAcl(type.isControllableAcl());
+        typeDef.setIsCreatable(type.isCreatable());
+        typeDef.setIsFileable(type.isFileable());
+        typeDef.setIsQueryable(type.isQueryable());
+        typeDef.setIsFulltextIndexed(type.isFulltextIndexed());
+        typeDef.setIsIncludedInSupertypeQuery(type.isIncludedInSupertypeQuery());
+        typeDef.setLocalNamespace(type.getLocalNamespace());
+
         if (type.getProperties() != null) {
             typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
         }
@@ -229,6 +240,17 @@ public class CmisService {
                 put(SessionParameter.REPOSITORY_ID, userInfo.getRepositoryId());
             }
         };
+    }
+
+    public void exportType(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        try {
+
+            TypeUtils.writeToXML(session.getTypeDefinition(typeId),out);
+
+        } catch (XMLStreamException e) {
+            System.out.println(e.toString());
+        }
     }
 
 }

@@ -24,7 +24,7 @@
             <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?"
                      rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
 
-                <p:commandButton id="accept2" value="Yes" action="#{typesManagerBean.deleteType}"
+                <p:commandButton id="accept2" value="Yes" styleClass="mr10" action="#{typesManagerBean.deleteType}"
                                  update="-mainContent"/>
                 <p:commandButton id="decline2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}"
                                  update="-mainContent"/>
@@ -35,7 +35,7 @@
         </h:form>
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
-                <uib:gridColumn column="6">
+                <uib:gridColumn column="8">
                     <h:form id="commandForm">
                         <uib:buttonGroup>
                             <p:commandButton id="create" value="Create" action="#{typesManagerBean.goCreatePage}"
@@ -46,6 +46,8 @@
                                              action="#{typesManagerBean.showDeleteTypeDialog}"
                                              update="-deleteForm"/>
                             <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
+                                             update="-mainContent"/>
+                            <p:commandButton id="export" value="Export" ajax="false" action="#{typesManagerBean.exportType}"
                                              update="-mainContent"/>
                         </uib:buttonGroup>
                     </h:form>

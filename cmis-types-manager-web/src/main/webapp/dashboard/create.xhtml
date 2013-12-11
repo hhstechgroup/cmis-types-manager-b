@@ -7,19 +7,21 @@
                 xmlns:uib="http://engagepoint.com/uib">
 
 <ui:define name="mainContent">
+<h:form>
+    <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
+</h:form>
 <h:form id="createTypeForm">
-<p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
 <p:accordionPanel id="accordionPanel" multiple="true">
     <p:tab id="accordionTabAttributes" title="Attributes">
         <h:panelGrid columns="2" cellpadding="5">
 
-            <h:outputText id="outputTextView" value="Display name :"/>
-            <p:inputText id="inputTextView" value="#{createBean.type.displayName}"/>
+            <h:outputText id="outputTextView" value="Display name *:"/>
+            <p:inputText id="inputTextView" value="#{createBean.type.displayName}" required="true" requiredMessage="Please, enter display name"/>
 
             <h:outputText id="outputTextView1" value="Description :"/>
             <p:inputText id="inputTextView1" value="#{createBean.type.description}"/>
 
-            <h:outputText id="outputTextView2" value="Id :"/>
+            <h:outputText id="outputTextView2" value="Id *:" required="true" requiredMessage="Please, enter id"/>
             <p:inputText id="inputTextView2" value="#{createBean.type.id}"/>
 
             <h:outputText id="outputTextView3" value="Local Namespace :"/>
@@ -31,17 +33,17 @@
             <h:outputText id="outputTextView5" value="Querty Name :"/>
             <p:inputText id="inputTextView5" value="#{createBean.type.queryName}"/>
 
-            <h:outputText id="outputTextView16" value="Base Type"/>
+            <h:outputText id="outputTextView16" value="Base Type" />
             <h:outputText id="inputTextView16" value="#{createBean.baseType}"/>
 
-            <h:outputText id="outputTextView6" value="Parent Type"/>
-            <h:outputText id="inputTextView6" value="#{createBean.parentType}"/>
+            <h:outputText id="outputTextView6" value="Parent Type" rendered="#{!createBean.hide()}"/>
+            <h:outputText id="inputTextView6" value="#{createBean.parentType}" rendered="#{!createBean.hide()}"/>
 
-            <h:outputText id="outputTextView7" value="Creatabel :"/>
-            <p:selectBooleanCheckbox id="selectCheckboxCreatabel" value="#{createBean.type.creatable}"/>
+            <h:outputText id="outputTextView7" value="Creatabel :" rendered="#{!createBean.hide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxCreatabel" value="#{createBean.type.creatable}" rendered="#{!createBean.hide()}"/>
 
-            <h:outputText id="outputTextView8" value="Fileable :"/>
-            <p:selectBooleanCheckbox id="selectCheckboxFileable" value="#{createBean.type.fileable}"/>
+            <h:outputText id="outputTextView8" value="Fileable :" rendered="#{!createBean.hide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxFileable" value="#{createBean.type.fileable}" rendered="#{!createBean.hide()}"/>
 
             <h:outputText id="outputTextView9" value="Queryable :"/>
             <p:selectBooleanCheckbox id="selectCheckboxQueryable" value="#{createBean.type.queryable}"/>
@@ -53,11 +55,11 @@
             <h:outputText id="outputTextView11" value="Full text indexed :"/>
             <p:selectBooleanCheckbox id="selectCheckboxFti" value="#{createBean.type.fulltextIndexed}"/>
 
-            <h:outputText id="outputTextView12" value="ACL Contronable :"/>
-            <p:selectBooleanCheckbox id="selectCheckboxACL" value="#{createBean.type.controllableAcl}"/>
+            <h:outputText id="outputTextView12" value="ACL Contronable :" rendered="#{!createBean.hide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxACL" value="#{createBean.type.controllableAcl}" rendered="#{!createBean.hide()}"/>
 
-            <h:outputText id="outputTextView13" value="Policy contronable :"/>
-            <p:selectBooleanCheckbox id="selectCheckboxPC" value="#{createBean.type.controllablePolicy}"/>
+            <h:outputText id="outputTextView13" value="Policy contronable :" rendered="#{!createBean.hide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxPC" value="#{createBean.type.controllablePolicy}" rendered="#{!createBean.hide()}"/>
 
             <h:outputText id="outputTextView14" value="Type mutability"/>
             <h:outputText value="Create, Update, Delete"/>
