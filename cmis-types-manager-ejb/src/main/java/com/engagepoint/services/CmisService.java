@@ -21,6 +21,7 @@ import javax.ejb.Stateless;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -238,6 +239,17 @@ public class CmisService {
                 put(SessionParameter.REPOSITORY_ID, userInfo.getRepositoryId());
             }
         };
+    }
+
+    public void exportType(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        try {
+
+            TypeUtils.writeToXML(session.getTypeDefinition(typeId),out);
+
+        } catch (XMLStreamException e) {
+            System.out.println(e.toString());
+        }
     }
 
 }
