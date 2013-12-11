@@ -43,12 +43,8 @@ public class CreateBean implements Serializable {
     @PostConstruct
     public void init(){
         typeProxy = navigationBean.getTypeProxy();
-    }
-
-    @PostConstruct
-    public void initPageParameters() {
+        UserInfo userInfo = login.getUserInfo();
         try {
-            UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, typeProxy);
             type.setCreatable(typeDefinition.isCreatable());
             type.setFileable(typeDefinition.isFileable());
@@ -154,16 +150,8 @@ public class CreateBean implements Serializable {
     }
 
     public List<String> getPropertyTypeValuesValues() {
-        return propertyTypeValues;
+        return  propertyTypeValues;
     }
-
-
-
-    private void getParametersFromFlash() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        typeProxy = (TypeProxy) externalContext.getFlash().get("selectedType");
-    }
-
 
     private void setValuesToLists() {
         cardinalityValues = getValuesForSelectOneMenu(Cardinality.values());
