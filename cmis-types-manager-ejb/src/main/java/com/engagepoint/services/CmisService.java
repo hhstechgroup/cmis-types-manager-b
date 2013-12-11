@@ -11,11 +11,15 @@ import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
 import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
+import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -27,6 +31,7 @@ import java.util.*;
 @Stateless
 @LocalBean
 public class CmisService {
+    private Logger log = LoggerFactory.getLogger(CmisService.class);
     @EJB
     private CmisConnection connection;
 
@@ -36,11 +41,13 @@ public class CmisService {
         return getTypeProxies(descendants);
     }
 
-
-    //  TODO add catch exception
     public TypeDefinition getTypeDefinition(final UserInfo userInfo, TypeProxy type) throws CmisConnectException {
         Session session = getSession(userInfo);
-        return session.getTypeDefinition(type.getId());
+        try {
+            return session.getTypeDefinition(type.getId());
+        } catch (Exception e) {
+            throw new CmisConnectException(e.getMessage());
+        }
     }
 
     public List<String> getNamesOfRootFolders(final UserInfo userInfo) throws CmisConnectException {
@@ -73,38 +80,65 @@ public class CmisService {
         typeDef.setLocalName(type.getLocalName());
         typeDef.setBaseTypeId(BaseTypeId.fromValue(type.getBaseTypeId()));
         typeDef.setParentTypeId(type.getParentTypeId());
-        typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
+        if (type.getProperties() != null) {
+            typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
+        }
         return typeDef;
     }
 
-//    TODO check on null
     private Map<String, PropertyDefinition<?>> getPropertyDefinitionMap(List<TypeProperty> properties) {
         Map<String, PropertyDefinition<?>> propertyDefinitionMap = new LinkedHashMap<String, PropertyDefinition<?>>();
         for (TypeProperty property : properties) {
-            PropertyDefinitionImpl definition = new PropertyDefinitionImpl();
-            definition.setId(property.getId());
-            definition.setDisplayName(property.getDisplayName());
-            definition.setLocalName(property.getLocalName());
-            definition.setQueryName(property.getQueryName());
-            definition.setCardinality(Cardinality.fromValue(property.getCardinality()));
-            definition.setPropertyType(PropertyType.fromValue(property.getPropertyType()));
-            definition.setIsRequired(property.getRequired());
-            definition.setIsInherited(property.getInherited());
-            definition.setUpdatability(Updatability.fromValue(property.getUpdatability()));
-            definition.setIsOrderable(property.getOrderable());
-            definition.setLocalNamespace(property.getLocalNamespace());
-            propertyDefinitionMap.put(property.getId(), definition);
+            PropertyDefinitionImpl propertyDef = new PropertyDefinitionImpl();
+            propertyDef.setId(property.getId());
+            propertyDef.setDisplayName(property.getDisplayName());
+            propertyDef.setLocalName(property.getLocalName());
+            propertyDef.setQueryName(property.getQueryName());
+            propertyDef.setCardinality(Cardinality.fromValue(property.getCardinality().toLowerCase()));
+            propertyDef.setPropertyType(PropertyType.fromValue(property.getPropertyType().toLowerCase()));
+            propertyDef.setIsRequired(property.getRequired());
+            propertyDef.setIsInherited(property.getInherited());
+            propertyDef.setUpdatability(Updatability.fromValue(property.getUpdatability().toLowerCase()));
+            propertyDef.setIsOrderable(property.getOrderable());
+            propertyDef.setLocalNamespace(property.getLocalNamespace());
+            propertyDefinitionMap.put(property.getId(), propertyDef);
         }
         return propertyDefinitionMap;
     }
 
-    public void importType(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
-        Session session = getSession(userInfo);
-        TypeDefinition typeDefinition = TypeUtils.readFromXML(stream);
+    public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
         try {
-            session.createType(typeDefinition);
+            Session session = getSession(userInfo);
+            try {
+                TypeDefinition typeDefinition = TypeUtils.readFromXML(stream);
+                session.createType(typeDefinition);
+            } finally {
+                if (stream != null) {
+                    stream.close();
+                }
+            }
         } catch (RuntimeException e) {
             throw new CmisCreateException(e.getMessage());
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
+    public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws CmisConnectException, CmisCreateException, JSONParseException {
+        try {
+            Session session = getSession(userInfo);
+            try {
+                TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
+                session.createType(typeDefinition);
+            } finally {
+                if (stream != null) {
+                    stream.close();
+                }
+            }
+        } catch (RuntimeException e) {
+            throw new CmisCreateException(e.getMessage());
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
         }
     }
 

@@ -42,13 +42,8 @@ public class CreateBean implements Serializable {
         getParametersFromFlash();
         typeProperties = new ArrayList<TypeProperty>();
         type = new Type();
-//        TODO optimization this methods
-        setCardinalityValuesToList();
-        setPropertyTypeValuesToList();
-        setUpdatabilityValuesToList();
+        setValuesToLists();
     }
-
-
 
     public String addAction() {
         TypeProperty property = new TypeProperty();
@@ -144,24 +139,18 @@ public class CreateBean implements Serializable {
         typeProxy = (TypeProxy) externalContext.getFlash().get("selectedType");
     }
 
-    private void setCardinalityValuesToList() {
-        cardinalityValues = new ArrayList<String>();
-        for (Cardinality cardinality : Cardinality.values()) {
-            cardinalityValues.add(cardinality.value());
-        }
+
+    private void setValuesToLists() {
+        cardinalityValues = getValuesForSelectOneMenu(Cardinality.values());
+        updatabilityValues = getValuesForSelectOneMenu(Updatability.values());
+        propertyTypeValues = getValuesForSelectOneMenu(PropertyType.values());
     }
 
-    private void setPropertyTypeValuesToList() {
-        propertyTypeValues = new ArrayList<String>();
-        for (PropertyType cardinality : PropertyType.values()) {
-            propertyTypeValues.add(cardinality.value());
+    private List<String> getValuesForSelectOneMenu(Enum[] values) {
+        List<String> list = new ArrayList<String>();
+        for (Enum value : values) {
+            list.add(value.name());
         }
-    }
-
-    private void setUpdatabilityValuesToList() {
-        updatabilityValues = new ArrayList<String>();
-        for (Updatability updatability : Updatability.values()) {
-            updatabilityValues.add(updatability.value());
-        }
+        return list;
     }
 }
