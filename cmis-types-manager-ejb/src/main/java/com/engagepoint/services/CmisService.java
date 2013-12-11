@@ -89,6 +89,7 @@ public class CmisService {
         typeDef.setIsQueryable(type.isQueryable());
         typeDef.setIsFulltextIndexed(type.isFulltextIndexed());
         typeDef.setIsIncludedInSupertypeQuery(type.isIncludedInSupertypeQuery());
+        typeDef.setLocalNamespace(type.getLocalNamespace());
 
         if (type.getProperties() != null) {
             typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
