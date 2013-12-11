@@ -4,6 +4,7 @@ import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.*;
+import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
 import org.apache.chemistry.opencmis.commons.enums.Updatability;
@@ -33,21 +34,36 @@ public class CreateBean implements Serializable {
     private NavigationBean navigationBean;
     private Type type;
     private List<TypeProperty> typeProperties;
+    private TypeDefinition typeDefinition;
     private TypeProxy typeProxy;
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
 
+    @PostConstruct
+    public void init(){
+        typeProxy = navigationBean.getTypeProxy();
+        UserInfo userInfo = login.getUserInfo();
+        try {
+            typeDefinition = service.getTypeDefinition(userInfo, typeProxy);
+            type.setCreatable(typeDefinition.isCreatable());
+            type.setFileable(typeDefinition.isFileable());
+            type.setQueryable(typeDefinition.isQueryable());
+            type.setIncludedInSupertypeQuery(typeDefinition.isIncludedInSupertypeQuery());
+            type.setFulltextIndexed(typeDefinition.isFulltextIndexed());
+            type.setControllableAcl(typeDefinition.isControllableAcl());
+            type.setControllablePolicy(typeDefinition.isControllablePolicy());
+        } catch (CmisConnectException e) {
+            Message.printError(e.getMessage());
+            log.error("Unable to initialise type view", e);
+        }
+    }
 
     public CreateBean() {
         typeProperties = new ArrayList<TypeProperty>();
         type = new Type();
         setValuesToLists();
 
-    }
-    @PostConstruct
-    public void init(){
-        typeProxy = navigationBean.getTypeProxy();
     }
 
     public String addAction() {
