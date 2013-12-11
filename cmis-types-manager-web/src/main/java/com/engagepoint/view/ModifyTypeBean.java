@@ -34,7 +34,7 @@ public class ModifyTypeBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        getParametersFromFlash();
+       type = navigationBean.getTypeProxy();
     }
 
     public Boolean isSecondary() {
@@ -77,8 +77,5 @@ public class ModifyTypeBean implements Serializable {
         this.navigationBean = navigationBean;
     }
 
-    private void getParametersFromFlash() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        type = (TypeProxy) externalContext.getFlash().get("selectedType");
-    }
+
 }

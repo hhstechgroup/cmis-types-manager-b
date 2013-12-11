@@ -41,6 +41,11 @@ public class CreateBean implements Serializable {
     private List<String> updatabilityValues;
 
     @PostConstruct
+    public void init(){
+        typeProxy = navigationBean.getTypeProxy();
+    }
+
+    @PostConstruct
     public void initPageParameters() {
         try {
             UserInfo userInfo = login.getUserInfo();
@@ -59,10 +64,10 @@ public class CreateBean implements Serializable {
     }
 
     public CreateBean() {
-        getParametersFromFlash();
         typeProperties = new ArrayList<TypeProperty>();
         type = new Type();
         setValuesToLists();
+
     }
 
     public String addAction() {
@@ -151,6 +156,7 @@ public class CreateBean implements Serializable {
     public List<String> getPropertyTypeValuesValues() {
         return propertyTypeValues;
     }
+
 
 
     private void getParametersFromFlash() {
