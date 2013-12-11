@@ -4,7 +4,6 @@ import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.*;
-import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
 import org.apache.chemistry.opencmis.commons.enums.Updatability;
@@ -39,6 +38,7 @@ public class CreateBean implements Serializable {
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
+    private String secondary = "cmis:secondary";
 
     @PostConstruct
     public void init(){
@@ -64,6 +64,18 @@ public class CreateBean implements Serializable {
         type = new Type();
         setValuesToLists();
 
+
+    }
+    @PostConstruct
+    public void init(){
+        typeProxy = navigationBean.getTypeProxy();
+        if (hide()){
+            typeProxy.setId(secondary);
+            type.setCreatable(false);
+            type.setFileable(false);
+            type.setControllableAcl(false);
+            type.setControllablePolicy(false);
+        }
     }
 
     public String addAction() {
@@ -165,5 +177,12 @@ public class CreateBean implements Serializable {
             list.add(value.name());
         }
         return list;
+    }
+    public boolean hide(){
+        if(typeProxy.getBaseType().equals(secondary)){
+            return true;
+        }   else{
+            return false;
+        }
     }
 }
