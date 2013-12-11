@@ -66,13 +66,17 @@
 
 
             <p:tab id="accordionTabMetadata" title="Metadata">
-                <p:dataTable var="property" value="#{createBean.typeProperties}"  id="carList" editable="true">
+                <p:dataTable  var="property" value="#{createBean.typeProperties}"
+                              id="metadataTabel"
+                              editable="true"
+                             >
                 <f:facet  name="header">
-                    <uib:gridContainer  >
+                    <uib:gridContainer>
                         <uib:gridRow fluid="true">
                             <uib:gridColumn column="6">
+                                <h:outputText value="Metadata tabel"/>
                                 <uib:aligner align="right">
-                                    <p:commandButton id="newSourceSystemButton" value="Add Source System"
+                                    <p:commandButton id="newSourceSystemButton" value="Add New Line"
                                                      styleClass="small blue"
                                                      icon="ui-icon-document"
                                                      action="#{createBean.addAction}"
@@ -84,6 +88,7 @@
                         </uib:gridRow>
                     </uib:gridContainer>
                 </f:facet>
+
                 <p:column headerText="Id" >
                     <p:cellEditor>
                         <f:facet name="output">
@@ -101,7 +106,7 @@
                             <h:outputText value="#{property.localName}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.localName}"  label="Year"/>
+                            <p:inputText value="#{property.localName}"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -112,7 +117,7 @@
                             <h:outputText value="#{property.queryName}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.queryName}"  label="Year"/>
+                            <p:inputText value="#{property.queryName}"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -123,7 +128,7 @@
                             <h:outputText value="#{property.localName}" />
                         </f:facet>
                         <f:facet name="input">
-                            <p:inputText value="#{property.localName}"  label="Year"/>
+                            <p:inputText value="#{property.localName}"/>
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
@@ -175,12 +180,12 @@
                         </f:facet>
                     </p:cellEditor>
                 </p:column>
-                <p:column >
+                <p:column headerText="Action" >
                     <p:rowEditor />
                     <p:commandButton styleClass="custom" icon="ui-icon-close"
                                      action="#{createBean.deleteAction(property)}"
                                      title="Delete" alt="Delete"
-                                     update="carList" >
+                                     update="metadataTabel" >
                     </p:commandButton>
                 </p:column>
 
