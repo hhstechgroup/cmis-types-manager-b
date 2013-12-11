@@ -40,7 +40,7 @@ public class ImportTypeBean {
             Message.printInfo(fileName + " is uploaded.");
             stream = event.getFile().getInputstream();
         } catch (IOException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Unable to upload file", e);
         }
     }
@@ -59,16 +59,16 @@ public class ImportTypeBean {
                 Message.printInfo("File is not selected");
             }
         } catch (CmisConnectException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Error while import type", e);
         } catch (XMLStreamException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Error while pars file", e);
         } catch (CmisCreateException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Error while pars file", e);
         } catch (JSONParseException e) {
-            Message.printInfo(e.getMessage());
+            Message.printError(e.getMessage());
             log.error("Unable to create type", e);
         }
     }
