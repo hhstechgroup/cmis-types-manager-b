@@ -79,7 +79,7 @@
                         <uib:gridColumn column="12">
                             <h:outputText styleClass="fl-left" value="Metadata tabel"/>
                             <p:commandButton id="newSourceSystemButton" value="Add New Line"
-                                             styleClass="small blue fl-right"
+                                             styleClass="fl-right small blue"
                                              icon="ui-icon-document"
                                              action="#{createBean.addAction}"
                                              update="-createTypeForm"
@@ -96,7 +96,7 @@
                 </uib:gridContainer>
             </f:facet>
 
-            <p:column headerText="Id" resizable="false" colspan="10">
+            <p:column headerText="Id">
                 <p:cellEditor>
                     <f:facet name="output">
                         <h:outputText value="#{property.id}"/>

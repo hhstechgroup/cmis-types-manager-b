@@ -49,6 +49,10 @@
     box-shadow: 1px 1px 6px #333;
 }
 
+#createTypeForm-accordionPanel-metadataTabel .ui-datatable-scrollable-header-box th{
+    text-align: center;
+}
+
 
 
 /*.ui-messages {*/
