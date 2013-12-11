@@ -135,7 +135,7 @@ public class TypesManagerBean implements Serializable {
             Message.printInfo(e.getMessage());
             log.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
-            Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+            Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
             log.error("Unable to delete type", e);
         }
     }
@@ -154,7 +154,7 @@ public class TypesManagerBean implements Serializable {
             Message.printInfo(e.getMessage());
             log.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
-            Message.printInfo("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+            Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
             log.error("Unable to delete type", e);
         }
     }

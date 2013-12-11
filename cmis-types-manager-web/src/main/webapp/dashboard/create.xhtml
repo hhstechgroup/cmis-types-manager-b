@@ -6,65 +6,67 @@
                 template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
 
-    <ui:define name="mainContent">
-        <h:form  id="form">
-            <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
-            <p:accordionPanel id="accordionPanel" multiple="true">
-                <p:tab id="accordionTabAttributes" title="Attributes">
-                    <h:panelGrid columns="2" cellpadding="5">
+<ui:define name="mainContent">
+    <h:form id="form">
+        <p:commandButton id="return" value="Return" action="#{navigation.toMainPage}" styleClass="mb20"/>
+        <p:accordionPanel id="accordionPanel" multiple="true">
+            <p:tab id="accordionTabAttributes" title="Attributes">
+                <h:panelGrid columns="2" cellpadding="5">
 
-                        <h:outputText id="outputTextView" value="Display name :"/>
-                        <p:inputText id="inputTextView" value="#{createBean.type.displayName}"/>
+                    <h:outputText id="outputTextView" value="Display name :"/>
+                    <p:inputText id="inputTextView" value="#{createBean.type.displayName}"/>
 
-                        <h:outputText id="outputTextView1" value="Description :"/>
-                        <p:inputText id="inputTextView1"  value="#{createBean.type.description}"/>
+                    <h:outputText id="outputTextView1" value="Description :"/>
+                    <p:inputText id="inputTextView1" value="#{createBean.type.description}"/>
 
-                        <h:outputText id="outputTextView2" value="Id :"/>
-                        <p:inputText id="inputTextView2"  value="#{createBean.type.id}"/>
+                    <h:outputText id="outputTextView2" value="Id :"/>
+                    <p:inputText id="inputTextView2" value="#{createBean.type.id}"/>
 
-                        <h:outputText id="outputTextView3" value="Local Namespace :"/>
-                        <p:inputText id="inputTextView3"  value="#{createBean.type.localNamespace}"/>
+                    <h:outputText id="outputTextView3" value="Local Namespace :"/>
+                    <p:inputText id="inputTextView3" value="#{createBean.type.localNamespace}"/>
 
-                        <h:outputText id="outputTextView4" value="Local Name :"/>
-                        <p:inputText id="inputTextView4"  value="#{createBean.type.localName}"/>
+                    <h:outputText id="outputTextView4" value="Local Name :"/>
+                    <p:inputText id="inputTextView4" value="#{createBean.type.localName}"/>
 
-                        <h:outputText id="outputTextView5" value="Querty Name :"/>
-                        <p:inputText id="inputTextView5"  value="#{createBean.type.queryName}"/>
+                    <h:outputText id="outputTextView5" value="Querty Name :"/>
+                    <p:inputText id="inputTextView5" value="#{createBean.type.queryName}"/>
 
-                        <h:outputText id="outputTextView16" value="Base Type"/>
-                        <h:outputText id="inputTextView16" value="#{createBean.baseType}"/>
+                    <h:outputText id="outputTextView16" value="Base Type"/>
+                    <h:outputText id="inputTextView16" value="#{createBean.baseType}"/>
 
-                        <h:outputText id="outputTextView6" value="Parent Type"/>
-                        <h:outputText id="inputTextView6" value="#{createBean.parentType}"/>
+                    <h:outputText id="outputTextView6" value="Parent Type"/>
+                    <h:outputText id="inputTextView6" value="#{createBean.parentType}"/>
 
-                        <h:outputText id="outputTextView7" value="Creatabel :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel"  value="#{createBean.type.creatable}"/>
+                    <h:outputText id="outputTextView7" value="Creatabel :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxCreatabel" value="#{createBean.type.creatable}"/>
 
-                        <h:outputText id="outputTextView8" value="Fileable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFileable"  value="#{createBean.type.fileable}"/>
+                    <h:outputText id="outputTextView8" value="Fileable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxFileable" value="#{createBean.type.fileable}"/>
 
-                        <h:outputText id="outputTextView9" value="Queryable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxQueryable"  value="#{createBean.type.queryable}"/>
+                    <h:outputText id="outputTextView9" value="Queryable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxQueryable" value="#{createBean.type.queryable}"/>
 
-                        <h:outputText id="outputTextView10" value="Included in super type queries :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxIst"  value="#{createBean.type.includedInSupertypeQuery}"/>
+                    <h:outputText id="outputTextView10" value="Included in super type queries :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxIst"
+                                             value="#{createBean.type.includedInSupertypeQuery}"/>
 
-                        <h:outputText id="outputTextView11" value="Full text indexed :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFti"  value="#{createBean.type.fulltextIndexed}"/>
+                    <h:outputText id="outputTextView11" value="Full text indexed :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxFti" value="#{createBean.type.fulltextIndexed}"/>
 
-                        <h:outputText id="outputTextView12" value="ACL Contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxACL"  value="#{createBean.type.controllableAcl}"/>
+                    <h:outputText id="outputTextView12" value="ACL Contronable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxACL" value="#{createBean.type.controllableAcl}"/>
 
-                        <h:outputText id="outputTextView13" value="Policy contronable :"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxPC"  value="#{createBean.type.controllablePolicy}"/>
+                    <h:outputText id="outputTextView13" value="Policy contronable :"/>
+                    <p:selectBooleanCheckbox id="selectCheckboxPC" value="#{createBean.type.controllablePolicy}"/>
 
-                        <h:outputText id="outputTextView14" value="Type mutability"/>
-                        <h:outputText value="Create, Update, Delete"/>
-                    </h:panelGrid>
-                </p:tab>
-            </p:accordionPanel>
+                    <h:outputText id="outputTextView14" value="Type mutability"/>
+                    <h:outputText value="Create, Update, Delete"/>
+                </h:panelGrid>
+            </p:tab>
 
-            <p:dataTable var="property" value="#{createBean.typeProperties}"  id="carList" editable="true">
+
+            <p:tab id="accordionTabMetadata" title="Metadata">
+                <p:dataTable var="property" value="#{createBean.typeProperties}"  id="carList" editable="true">
                 <f:facet  name="header">
                     <uib:gridContainer  >
                         <uib:gridRow fluid="true">
@@ -183,28 +185,29 @@
                 </p:column>
 
 
-            </p:dataTable>
+            </p:dataTable></p:tab>
+        </p:accordionPanel>
 
+        <p:confirmDialog id="deleteConfirmDialog" message="Are you sure you want to delete selected Source System?"
+                         header="Delete Source System"
+                         severity="alert" widgetVar="deleteSourceSystemConfirmation">
+            <p:commandButton value="No" onclick="deleteSourceSystemConfirmation.hide()"
+                             type="button" styleClass="secondary"/>
+            <p:commandButton value="Yes"
+                             oncomplete="deleteSourceSystemConfirmation.hide()" update="-form"/>
+        </p:confirmDialog>
 
-            <p:confirmDialog id="deleteConfirmDialog" message="Are you sure you want to delete selected Source System?"
-                             header="Delete Source System"
-                             severity="alert" widgetVar="deleteSourceSystemConfirmation">
-                <p:commandButton value="No" onclick="deleteSourceSystemConfirmation.hide()"
-                                 type="button" styleClass="secondary"/>
-                <p:commandButton value="Yes"
-                                 oncomplete="deleteSourceSystemConfirmation.hide()" update="-form"/>
-            </p:confirmDialog>
+        <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}" update="-mainContent"
+                         styleClass="mt20"/>
 
-            <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}" update="-mainContent" styleClass="mt20"/>
+    </h:form>
 
-        </h:form>
+    <h:outputScript>
 
-        <h:outputScript>
+        var trigerEdit = function(){
+        $('.ui-datatable-data tr:last').find('.ui-icon-pencil').trigger('click')}
 
-            var trigerEdit = function(){
-            $('.ui-datatable-data tr:last').find('.ui-icon-pencil').trigger('click')}
+    </h:outputScript>
 
-        </h:outputScript>
-
-    </ui:define>
+</ui:define>
 </ui:composition>
