@@ -4,6 +4,7 @@ import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.*;
+import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
 import org.apache.chemistry.opencmis.commons.enums.Updatability;
@@ -15,8 +16,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +56,14 @@ public class CreateBean implements Serializable {
             Message.printError(e.getMessage());
             log.error("Unable to initialise type view", e);
         }
+
+        if (hide()){
+            typeProxy.setId(secondary);
+            type.setCreatable(false);
+            type.setFileable(false);
+            type.setControllableAcl(false);
+            type.setControllablePolicy(false);
+        }
     }
 
     public CreateBean() {
@@ -65,17 +72,6 @@ public class CreateBean implements Serializable {
         setValuesToLists();
 
 
-    }
-    @PostConstruct
-    public void init(){
-        typeProxy = navigationBean.getTypeProxy();
-        if (hide()){
-            typeProxy.setId(secondary);
-            type.setCreatable(false);
-            type.setFileable(false);
-            type.setControllableAcl(false);
-            type.setControllablePolicy(false);
-        }
     }
 
     public String addAction() {
