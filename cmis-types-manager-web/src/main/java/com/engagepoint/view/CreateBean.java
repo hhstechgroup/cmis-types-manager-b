@@ -10,6 +10,7 @@ import org.apache.chemistry.opencmis.commons.enums.Updatability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -39,10 +40,14 @@ public class CreateBean implements Serializable {
 
 
     public CreateBean() {
-        getParametersFromFlash();
         typeProperties = new ArrayList<TypeProperty>();
         type = new Type();
         setValuesToLists();
+
+    }
+    @PostConstruct
+    public void init(){
+        typeProxy = navigationBean.getTypeProxy();
     }
 
     public String addAction() {
@@ -131,14 +136,6 @@ public class CreateBean implements Serializable {
     public List<String> getPropertyTypeValuesValues() {
         return  propertyTypeValues;
     }
-
-
-
-    private void getParametersFromFlash() {
-        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-        typeProxy = (TypeProxy) externalContext.getFlash().get("selectedType");
-    }
-
 
     private void setValuesToLists() {
         cardinalityValues = getValuesForSelectOneMenu(Cardinality.values());
