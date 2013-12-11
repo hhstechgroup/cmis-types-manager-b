@@ -24,7 +24,7 @@
             <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?"
                      rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
 
-                <p:commandButton id="accept2" value="Yes" action="#{typesManagerBean.deleteType}"
+                <p:commandButton id="accept2" value="Yes" styleClass="mr10" action="#{typesManagerBean.deleteType}"
                                  update="-mainContent"/>
                 <p:commandButton id="decline2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}"
                                  update="-mainContent"/>
