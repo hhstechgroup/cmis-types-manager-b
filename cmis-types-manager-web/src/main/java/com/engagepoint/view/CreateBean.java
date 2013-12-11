@@ -15,8 +15,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +35,7 @@ public class CreateBean implements Serializable {
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
+    private String secondary = "cmis:secondary";
 
 
     public CreateBean() {
@@ -44,10 +43,18 @@ public class CreateBean implements Serializable {
         type = new Type();
         setValuesToLists();
 
+
     }
     @PostConstruct
     public void init(){
         typeProxy = navigationBean.getTypeProxy();
+        if (hide()){
+            typeProxy.setId(secondary);
+            type.setCreatable(false);
+            type.setFileable(false);
+            type.setControllableAcl(false);
+            type.setControllablePolicy(false);
+        }
     }
 
     public String addAction() {
@@ -149,5 +156,12 @@ public class CreateBean implements Serializable {
             list.add(value.name());
         }
         return list;
+    }
+    public boolean hide(){
+        if(typeProxy.getBaseType().equals(secondary)){
+            return true;
+        }   else{
+            return false;
+        }
     }
 }
