@@ -24,15 +24,15 @@ public class HelperSteps extends ScenarioSteps {
 
     @When("opens all tree with className '$className'")
     @Alias("the user opens all tree with className '$className'")
-    public void openAllTree(String className){
-        for (WebElement element : uIBootstrapBasePage.getDriver().findElements(By.className(className))){
+    public void openAllTree(String className) {
+        for (WebElement element : uIBootstrapBasePage.getDriver().findElements(By.className(className))) {
             element.click();
         }
     }
 
     @When("clicks on element with class '$className' with text '$text'")
     @Alias("the user clicks on element with class '$className' with text '$text'")
-    public void clickByText(String className, String text){
+    public void clickByText(String className, String text) {
         for (WebElement webElement : uIBootstrapBasePage.getDriver().findElements(By.className(className))) {
             if (webElement.getText().equalsIgnoreCase(text)) {
                 webElement.click();
@@ -42,7 +42,7 @@ public class HelperSteps extends ScenarioSteps {
 
     @When("clicks on first element with class '$className' with text '$text'")
     @Alias("the user clicks on first element with class '$className' with text '$text'")
-    public void clickOnFirstElementByText(String className, String text){
+    public void clickOnFirstElementByText(String className, String text) {
         for (WebElement webElement : uIBootstrapBasePage.getDriver().findElements(By.className(className))) {
             if (webElement.getText().equalsIgnoreCase(text)) {
                 webElement.click();
@@ -51,8 +51,17 @@ public class HelperSteps extends ScenarioSteps {
         }
     }
 
+    @When("the user fills '$id' field with '$contextPath' using baseUrl")
+    @Alias("'$id' field with '$contextPath' using baseUrl")
+    public void fillField(String id, String contextPath) {
+        String baseUrl = pages().getConfiguration().getBaseUrl();
+        int lastSlash = baseUrl.lastIndexOf('/');
+        String url = baseUrl.substring(0, lastSlash - 3);
+        uIBootstrapBasePage.enter(url + contextPath).intoField(findVisibleElementAndGetSelector(id));
+    }
+
     public By findVisibleElementAndGetSelector(String id) {
-        By[] selectors = { By.id(id), By.xpath("//*[contains(@id, '" + id + XPATH_SELCTOR_SUFIX), By.name(id), By.className(id) };
+        By[] selectors = {By.id(id), By.xpath("//*[contains(@id, '" + id + XPATH_SELCTOR_SUFIX), By.name(id), By.className(id)};
         for (By selector : selectors) {
             if (isElementDisplayed(selector)) {
                 return selector;

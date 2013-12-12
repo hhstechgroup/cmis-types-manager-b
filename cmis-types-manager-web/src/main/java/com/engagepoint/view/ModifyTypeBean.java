@@ -10,8 +10,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 
 /**
@@ -22,7 +20,7 @@ import java.io.Serializable;
 @ManagedBean
 @ViewScoped
 public class ModifyTypeBean implements Serializable {
-    private Logger log = LoggerFactory.getLogger(ModifyTypeBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -38,16 +36,8 @@ public class ModifyTypeBean implements Serializable {
     }
 
     public Boolean isSecondary() {
-        if (type.getBaseType().equals(secondaryId))
-            return true;
-        else
-            return false;
+        return type.getBaseType().equals(secondaryId);
     }
-
-    public void createType() {
-
-    }
-
 
 
     public String getBaseType() {

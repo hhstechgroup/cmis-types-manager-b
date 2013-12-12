@@ -26,7 +26,7 @@ import java.io.InputStream;
 @ManagedBean
 @ViewScoped
 public class ImportTypeBean {
-    private Logger log = LoggerFactory.getLogger(ImportTypeBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImportTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -52,7 +52,7 @@ public class ImportTypeBean {
             stream = event.getFile().getInputstream();
         } catch (IOException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to upload file", e);
+            LOGGER.error("Unable to upload file", e);
         }
     }
 
@@ -71,16 +71,16 @@ public class ImportTypeBean {
             }
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Error while import type", e);
+            LOGGER.error("Error while import type", e);
         } catch (XMLStreamException e) {
             Message.printError(e.getMessage());
-            log.error("Error while pars file", e);
+            LOGGER.error("Error while pars file", e);
         } catch (CmisCreateException e) {
             Message.printError(e.getMessage());
-            log.error("Error while pars file", e);
+            LOGGER.error("Error while pars file", e);
         } catch (JSONParseException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to create type", e);
+            LOGGER.error("Unable to create type", e);
         }
         return navigationBean.toMainPage();
     }

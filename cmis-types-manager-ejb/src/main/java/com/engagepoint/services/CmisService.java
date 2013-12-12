@@ -21,6 +21,7 @@ import javax.ejb.Stateless;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
 
 /**
@@ -31,7 +32,7 @@ import java.util.*;
 @Stateless
 @LocalBean
 public class CmisService {
-    private Logger log = LoggerFactory.getLogger(CmisService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmisService.class);
     @EJB
     private CmisConnection connection;
 
@@ -80,6 +81,16 @@ public class CmisService {
         typeDef.setLocalName(type.getLocalName());
         typeDef.setBaseTypeId(BaseTypeId.fromValue(type.getBaseTypeId()));
         typeDef.setParentTypeId(type.getParentTypeId());
+        typeDef.setQueryName(type.getQueryName());
+        typeDef.setIsControllablePolicy(type.isControllablePolicy());
+        typeDef.setIsControllableAcl(type.isControllableAcl());
+        typeDef.setIsCreatable(type.isCreatable());
+        typeDef.setIsFileable(type.isFileable());
+        typeDef.setIsQueryable(type.isQueryable());
+        typeDef.setIsFulltextIndexed(type.isFulltextIndexed());
+        typeDef.setIsIncludedInSupertypeQuery(type.isIncludedInSupertypeQuery());
+        typeDef.setLocalNamespace(type.getLocalNamespace());
+
         if (type.getProperties() != null) {
             typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
         }
@@ -120,7 +131,7 @@ public class CmisService {
         } catch (RuntimeException e) {
             throw new CmisCreateException(e.getMessage());
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -138,7 +149,7 @@ public class CmisService {
         } catch (RuntimeException e) {
             throw new CmisCreateException(e.getMessage());
         } catch (IOException e) {
-            log.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
@@ -154,6 +165,7 @@ public class CmisService {
                 throw new CmisTypeDeleteException("Type is not deleted");
             }
         } catch (RuntimeException e) {
+            LOGGER.error(e.getMessage(), e);
             throw new CmisTypeDeleteException(e.getMessage());
         }
 
@@ -173,8 +185,6 @@ public class CmisService {
         return getSession(userInfo) != null;
     }
 
-
-    //TODO Think about get repositories
     public List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
         List<Repository> repositories;
@@ -192,6 +202,7 @@ public class CmisService {
         try {
             session = connection.getSessionFactory().createSession(parameters);
         } catch (CmisBaseException e) {
+            LOGGER.error(e.getMessage(), e);
             throw new CmisConnectException(e.getMessage());
         }
         return session;
@@ -229,6 +240,15 @@ public class CmisService {
                 put(SessionParameter.REPOSITORY_ID, userInfo.getRepositoryId());
             }
         };
+    }
+
+    public void exportType(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException {
+        Session session = getSession(userInfo);
+        try {
+            TypeUtils.writeToXML(session.getTypeDefinition(typeId),out);
+        } catch (XMLStreamException e) {
+            System.out.println(e.toString());
+        }
     }
 
 }

@@ -2,14 +2,14 @@ Scenario: authentification scenario
 When the user opens the default page
 When the user fills 'loginForm-login' field with 'test'
 When the user fills 'loginForm-password' field with 'test'
-When the user fills 'loginForm-URL' field with 'http://localhost:17081/chemistry-opencmis-server-inmemory/atom11'
+When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory/atom11' using baseUrl
 When clicks on element with id/name/className 'loginForm-loginBut'
 Then wait for element 'treeForm' is visible
 
 Scenario: create type scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When clicks on element with id/name/className 'commandForm-create'
-Then wait for element 'createForm' is visible
+Then wait for element 'createTypeForm' is visible
 When the user fills 'inputTextView' field with 'test1'
 When the user fills 'inputTextView1' field with 'test1'
 When the user fills 'inputTextView2' field with 'test1'
