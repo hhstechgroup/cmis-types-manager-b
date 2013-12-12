@@ -30,9 +30,6 @@ public class LeftMenuBarBean {
         addMenuItem(viewId, "create", "/dashboard/", "create.xhtml", "Create type");
         addMenuItem(viewId, "view", "/dashboard/", "type.xhtml", "View type");
         addMenuItem(viewId, "update", "/dashboard/", "type.xhtml", "Update type");
-        addMenuItem(viewId, "delete", "/dashboard/", "type.xhtml", "Delete type");
-        addMenuItem(viewId, "export", "/dashboard/", "export.xhtml", "Export type");
-        addMenuItem(viewId, "import", "/dashboard/", "import.xhtml", "Import type");
     }
 
     private void addMenuItem(String viewId, String mID, String rootView, String address, String label) {

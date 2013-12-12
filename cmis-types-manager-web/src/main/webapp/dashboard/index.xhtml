@@ -37,6 +37,8 @@
                                              update="-deleteForm"/>
                             <p:commandButton id="export" value="Export" ajax="false" action="#{typesManagerBean.exportType}"
                                              update="-mainContent"/>
+                            <p:commandButton id="import" value="Import" ajax="false" action="#{navigation.toImportType}"
+                                             update="-mainContent"/>
                         </uib:buttonGroup>
                     </h:form>
                 </uib:gridColumn>
