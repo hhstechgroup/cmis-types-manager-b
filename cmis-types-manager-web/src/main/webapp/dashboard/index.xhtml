@@ -11,42 +11,30 @@
 
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deleteTypePanel" header="Delete select type?"
+            <p:panel id="deleteTypePanel" header="Delete selected type?"
                      rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
 
-                <p:commandButton id="accept" styleClass="mr10" value="Yes" action="#{typesManagerBean.deleteType}"
+                <p:commandButton id="accept" styleClass="mr10" value="Yes" action="#{typesManagerBean.deleteTypeWithSubtypes}"
                                  update="-mainContent"/>
                 <p:commandButton id="decline" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}"
                                  update="-mainContent"/>
 
             </p:panel>
-
-            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?"
-                     rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
-
-                <p:commandButton id="accept2" value="Yes" styleClass="mr10" action="#{typesManagerBean.deleteType}"
-                                 update="-mainContent"/>
-                <p:commandButton id="decline2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}"
-                                 update="-mainContent"/>
-
-            </p:panel>
-
-
         </h:form>
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="6">
                     <h:form id="commandForm">
                         <uib:buttonGroup>
-                            <p:commandButton id="create" value="Create" action="#{typesManagerBean.goCreatePage}"
+                            <p:commandButton id="create" value="Create" action="#{navigation.toCreateType}"
                                              update="-mainContent"/>
-                            <p:commandButton id="update" value="Update" action="#{typesManagerBean.goTypePage}"
+                            <p:commandButton id="view" value="View" action="#{navigation.toViewType}"
+                                             update="-mainContent"/>
+                            <p:commandButton id="update" value="Update" action="#{navigation.toUpdateType}"
                                              update="-mainContent"/>
                             <p:commandButton id="deleteButton" value="Delete"
                                              action="#{typesManagerBean.showDeleteTypeDialog}"
                                              update="-deleteForm"/>
-                            <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
-                                             update="-mainContent"/>
                         </uib:buttonGroup>
                     </h:form>
                 </uib:gridColumn>
