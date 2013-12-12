@@ -46,7 +46,11 @@ public class LoginBean implements Serializable {
                 return navigationBean.toLogin();
             }
         } catch (CmisConnectException e) {
-            Message.printError(e.getMessage());
+            String message = e.getMessage().toString();
+            if (e.getMessage().equals("Unexpected document! Received: something unknown")){
+                message = "The repository on this URL doesn't exist!";
+            }
+            Message.printError(message);
             log.error("Unable to login", e);
             return navigationBean.toLogin();
         }
