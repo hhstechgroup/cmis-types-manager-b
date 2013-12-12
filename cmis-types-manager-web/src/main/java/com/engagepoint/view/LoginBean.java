@@ -24,7 +24,7 @@ import java.io.Serializable;
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
-    private Logger log = LoggerFactory.getLogger(LoginBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{navigation}")
@@ -47,7 +47,7 @@ public class LoginBean implements Serializable {
             }
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to login", e);
+            LOGGER.error("Unable to login", e);
             return navigationBean.toLogin();
         }
     }

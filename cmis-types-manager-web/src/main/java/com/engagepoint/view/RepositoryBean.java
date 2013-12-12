@@ -25,14 +25,13 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class RepositoryBean implements Serializable {
-    private Logger log = LoggerFactory.getLogger(RepositoryBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryBean.class);
     private static final String REPO_CHANGED = "Repository changed successfully";
     @EJB
     private CmisService service;
     private List<Repository> repositories;
     private String selectedRepoId;
     private ArrayList<SelectItem> repositoryList;
-
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
 
@@ -47,7 +46,7 @@ public class RepositoryBean implements Serializable {
             selectedRepoId = repositories.get(0).getId();
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to initialization repositories", e);
+            LOGGER.error("Unable to initialization repositories", e);
         }
     }
 
