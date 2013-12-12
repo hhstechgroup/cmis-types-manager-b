@@ -95,6 +95,12 @@
 #importForm {
     margin-top: 30px;
 }
+.files{
+    margin-top: 40px;
+}
+#importForm-j_idt30{
+    float: right;
+}
 
 /* TABLE */
 

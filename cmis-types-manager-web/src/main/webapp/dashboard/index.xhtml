@@ -47,13 +47,35 @@
                                              update="-deleteForm"/>
                             <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
                                              update="-mainContent"/>
-                            <p:commandButton id="export" value="Export" ajax="false" action="#{typesManagerBean.exportType}"
-                                             update="-mainContent"/>
                         </uib:buttonGroup>
                     </h:form>
                 </uib:gridColumn>
-            </uib:gridRow>
+                <uib:gridColumn column="4">
+                <h:form id="ImportExportForm">
+                    <uib:buttonGroup >
+                        <p:commandButton id="import" value="Import" ajax="false" onclick="jQuery('#importModal').modal('show');return false;"
+                                         update="-mainContent"/>
+                        <p:commandButton id="export" value="Export" ajax="false" onclick="jQuery('#exportModal').modal('show');return false;"
+                                         update="-mainContent"/>
+                    </uib:buttonGroup>
+
+                </h:form>
+                </uib:gridColumn>
+            </uib:gridRow >
         </uib:gridContainer>
+
+        <!--modal for import-->
+        <uib:modal id="importModal" header="Modal header import">
+            <ui:include src="import.xhtml"/>
+
+         </uib:modal>
+        <!--modal-->
+
+        <!--modal for export-->
+        <uib:modal id="exportModal" header="Modal header export">
+
+        </uib:modal>
+        <!--modal-->
 
         <h:form id="treeForm">
 

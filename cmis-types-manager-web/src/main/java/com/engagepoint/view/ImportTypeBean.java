@@ -33,11 +33,22 @@ public class ImportTypeBean {
     private LoginBean login;
     private InputStream stream;
     private String fileName;
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
+
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
     public void upload(FileUploadEvent event) {
         try {
             fileName = event.getFile().getFileName();
-            Message.printInfo(fileName + " is uploaded.");
+//            Message.printInfo(fileName + " is uploaded.");
             stream = event.getFile().getInputstream();
         } catch (IOException e) {
             Message.printError(e.getMessage());
@@ -45,7 +56,7 @@ public class ImportTypeBean {
         }
     }
 
-    public void importTypes() {
+    public String importTypes() {
         try {
             if (stream != null) {
                 UserInfo userInfo = login.getUserInfo();
@@ -71,6 +82,7 @@ public class ImportTypeBean {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to create type", e);
         }
+        return navigationBean.toMainPage();
     }
 
     public LoginBean getLogin() {
@@ -79,5 +91,13 @@ public class ImportTypeBean {
 
     public void setLogin(LoginBean login) {
         this.login = login;
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
     }
 }
