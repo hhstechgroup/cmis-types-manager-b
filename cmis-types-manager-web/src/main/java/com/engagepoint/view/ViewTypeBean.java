@@ -15,8 +15,6 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +28,7 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class ViewTypeBean implements Serializable {
-    private Logger log = LoggerFactory.getLogger(ViewTypeBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
@@ -40,27 +38,16 @@ public class ViewTypeBean implements Serializable {
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
-    public ViewTypeBean() {
-
-    }
-
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
-    }
-
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
-    }
 
     @PostConstruct
-    public void TypeBean() {
+    public void init() {
         try {
             type = navigationBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, type);
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
-            log.error("Unable to initialise type view", e);
+            LOGGER.error("Unable to initialise type view", e);
         }
     }
 
@@ -82,7 +69,13 @@ public class ViewTypeBean implements Serializable {
         return typeDefinition;
     }
 
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
 
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
 
 }
 
