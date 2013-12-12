@@ -24,7 +24,7 @@ import java.io.Serializable;
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
-    private Logger log = LoggerFactory.getLogger(LoginBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{navigation}")
@@ -52,7 +52,7 @@ public class LoginBean implements Serializable {
                 message = "The repository on this URL doesn't exist!";
             }
             Message.printError(message);
-            log.error(message, e);
+            LOGGER.error(message, e);
             return navigationBean.toLogin();
         }
     }

@@ -86,3 +86,13 @@
 #form-accordionPanel-metadataTabel-j_idt23{
     width:100%;
 }
+
+#importHeader {
+    font-size: 24px;
+    text-align: center;
+}
+
+#importForm {
+    margin-top: 30px;
+}
+
