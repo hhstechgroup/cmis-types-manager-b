@@ -15,53 +15,53 @@
     <p:tab id="accordionTabAttributes" title="Attributes">
         <h:panelGrid columns="2" cellpadding="5">
 
-            <h:outputText id="outputTextView" value="Display name *:"/>
+            <p:outputLabel id="outputTextView" for="inputTextView" value="Display name :"/>
             <p:inputText id="inputTextView" value="#{createBean.type.displayName}" required="true" requiredMessage="Please, enter display name"/>
 
-            <h:outputText id="outputTextView1" value="Description :"/>
+            <p:outputLabel id="outputTextView1" for="inputTextView1" value="Description :"/>
             <p:inputText id="inputTextView1" value="#{createBean.type.description}"/>
 
-            <h:outputText id="outputTextView2" value="Id *:" required="true" requiredMessage="Please, enter id"/>
-            <p:inputText id="inputTextView2" value="#{createBean.type.id}"/>
+            <p:outputLabel id="outputTextView2" for="inputTextView2" value="Id :"/>
+            <p:inputText id="inputTextView2" value="#{createBean.type.id}"  required="true" requiredMessage="Please, enter id"/>
 
-            <h:outputText id="outputTextView3" value="Local Namespace :"/>
+            <p:outputLabel id="outputTextView3" for="inputTextView3" value="Local Namespace :"/>
             <p:inputText id="inputTextView3" value="#{createBean.type.localNamespace}"/>
 
-            <h:outputText id="outputTextView4" value="Local Name :"/>
+            <p:outputLabel id="outputTextView4" for="inputTextView4" value="Local Name :"/>
             <p:inputText id="inputTextView4" value="#{createBean.type.localName}"/>
 
-            <h:outputText id="outputTextView5" value="Querty Name :"/>
+            <p:outputLabel id="outputTextView5" for="inputTextView5" value="Querty Name :"/>
             <p:inputText id="inputTextView5" value="#{createBean.type.queryName}"/>
 
-            <h:outputText id="outputTextView16" value="Base Type"/>
+            <p:outputLabel id="outputTextView16" for="inputTextView16" value="Base Type"/>
             <h:outputText id="inputTextView16" value="#{createBean.baseType}"/>
 
-            <h:outputText id="outputTextView6" value="Parent Type"/>
+            <p:outputLabel id="outputTextView6" for="inputTextView6" value="Parent Type"/>
             <h:outputText id="inputTextView6" value="#{createBean.parentType}"/>
 
-            <h:outputText id="outputTextView7" value="Creatabel :"/>
+            <p:outputLabel id="outputTextView7" for="selectCheckboxCreatabel" value="Creatable :"/>
             <p:selectBooleanCheckbox id="selectCheckboxCreatabel" value="#{createBean.type.creatable}"/>
 
-            <h:outputText id="outputTextView8" value="Fileable :"/>
+            <p:outputLabel id="outputTextView8" for="selectCheckboxFileable" value="Fileable :"/>
             <p:selectBooleanCheckbox id="selectCheckboxFileable" value="#{createBean.type.fileable}"/>
 
-            <h:outputText id="outputTextView9" value="Queryable :"/>
+            <p:outputLabel id="outputTextView9" for="selectCheckboxQueryable" value="Queryable :"/>
             <p:selectBooleanCheckbox id="selectCheckboxQueryable" value="#{createBean.type.queryable}"/>
 
-            <h:outputText id="outputTextView10" value="Included in super type queries :"/>
+            <p:outputLabel id="outputTextView10" for="selectCheckboxIst" value="Included in super type queries :"/>
             <p:selectBooleanCheckbox id="selectCheckboxIst"
                                      value="#{createBean.type.includedInSupertypeQuery}"/>
 
-            <h:outputText id="outputTextView11" value="Full text indexed :"/>
+            <p:outputLabel id="outputTextView11" for="selectCheckboxFti" value="Full text indexed :"/>
             <p:selectBooleanCheckbox id="selectCheckboxFti" value="#{createBean.type.fulltextIndexed}"/>
 
-            <h:outputText id="outputTextView12" value="ACL Contronable :"/>
+            <p:outputLabel id="outputTextView12" for="selectCheckboxACL" value="ACL Contronable :"/>
             <p:selectBooleanCheckbox id="selectCheckboxACL" value="#{createBean.type.controllableAcl}"/>
 
-            <h:outputText id="outputTextView13" value="Policy contronable :"/>
+            <p:outputLabel id="outputTextView13" for="selectCheckboxPC" value="Policy contronable :"/>
             <p:selectBooleanCheckbox id="selectCheckboxPC" value="#{createBean.type.controllablePolicy}"/>
 
-            <h:outputText id="outputTextView14" value="Type mutability"/>
+            <p:outputLabel id="outputTextView14" value="Type mutability"/>
             <h:outputText value="Create, Update, Delete"/>
         </h:panelGrid>
     </p:tab>
