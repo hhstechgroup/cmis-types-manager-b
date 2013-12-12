@@ -56,15 +56,15 @@
 
 
 /*.ui-messages {*/
-    /*position: fixed;*/
-    /*top: 5%;*/
-    /*right: 3%;*/
-    /*z-index: 1100;*/
-    /*height: auto;*/
+/*position: fixed;*/
+/*top: 5%;*/
+/*right: 3%;*/
+/*z-index: 1100;*/
+/*height: auto;*/
 /*}*/
 
 /*.ui-messages-close {*/
-    /*right: 5px;*/
+/*right: 5px;*/
 /*}*/
 
 .ui-tree .ui-tree-container li .ui-treenode-content:hover .ui-tree-toggler.ui-icon-triangle-1-e {
@@ -85,4 +85,114 @@
 }
 #form-accordionPanel-metadataTabel-j_idt23{
     width:100%;
+}
+
+#importHeader {
+    font-size: 24px;
+    text-align: center;
+}
+
+#importForm {
+    margin-top: 30px;
+}
+
+/* TABLE */
+
+.ui-datatable-scrollable-header, .ui-datatable-scrollable-footer {
+    overflow: hidden;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata table {
+    display: table;
+    border-collapse: separate;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table {
+    border-collapse: collapse;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+    padding: 5px 10px;
+    overflow: hidden;
+    border: 1px solid #000;
+    font-weight: bold;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tfoot td {
+    text-align: center;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body {
+    overflow: auto;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table, .ui-datatable-sticky table {
+    table-layout: auto;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata colgroup {
+    display: table-column-group;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-widget-content {
+    position: relative;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata tr {
+    vertical-align: inherit;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+    padding: 0px 7px;
+    overflow: hidden;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td {
+    border-color: inherit;
+    position: relative;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select{
+    width: 100%;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor{
+    width: 100px;
+    min-height: 34px;
+    line-height: 31px;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span{
+    display: block;
+    width: 100px;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata tr{
+    width: 100% !important;
+    display: table-row;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata td .ui-button{
+    width: 30px;
+    position: absolute;
+    top: 16px;
+    right: 15px;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-row-editor{
+    width: 100px;
+    padding-left: 10px;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td{
+    border: none;
+}
+
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box{
+    margin: 0;
 }
