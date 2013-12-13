@@ -8,7 +8,6 @@ package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
 import com.engagepoint.exceptions.CmisConnectException;
-import com.engagepoint.exceptions.CmisExportException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
 import org.slf4j.Logger;
@@ -39,11 +38,8 @@ public class ExportTypeBean {
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
-    private String selectedTypeId;
-    private FacesContext facesContext;
-    private ExternalContext externalContext;
     private boolean xmlOrJson;
-    private boolean includeChilds;
+    private boolean includeChildren;
 
 
     @PostConstruct
@@ -52,48 +48,27 @@ public class ExportTypeBean {
     }
 
     public void exportType() {
-        facesContext = FacesContext.getCurrentInstance();
-        externalContext = facesContext.getExternalContext();
-        selectedTypeId = navigationBean.getTypeProxy().getId();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        String selectedTypeId = navigationBean.getTypeProxy().getId();
         try {
             OutputStream responseOutputStream = externalContext.getResponseOutputStream();
-            if (!includeChilds) {
-                exportCurrentType(responseOutputStream);
-            } else {
-                exportTreeType(responseOutputStream);
-            }
-            responseOutputStream.flush();
-            responseOutputStream.close();
-        } catch (IOException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while exporting type", e);
-        }
-        facesContext.responseComplete();
-    }
-
-    private void exportCurrentType(OutputStream responseOutputStream) {
-        try {
             if (xmlOrJson) {
                 externalContext.setResponseContentType("application/xml");
                 externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
-                service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId);
+                service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
             } else {
                 externalContext.setResponseContentType("application/json");
                 externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
-                service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId);
+                service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
             }
+        } catch (IOException e) {
+            Message.printError(e.getMessage());
+            LOGGER.error("Error while exporting type", e);
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while exporting type", e);
-        } catch (CmisExportException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while exporting type", e);
         }
-    }
-
-    //TODO Implements export type tree with children's
-    private void exportTreeType(OutputStream responseOutputStream) {
-
     }
 
     public LoginBean getLogin() {
@@ -120,11 +95,11 @@ public class ExportTypeBean {
         this.xmlOrJson = xmlOrJson;
     }
 
-    public boolean isIncludeChilds() {
-        return includeChilds;
+    public boolean isIncludeChildren() {
+        return includeChildren;
     }
 
-    public void setIncludeChilds(boolean includeChilds) {
-        this.includeChilds = includeChilds;
+    public void setIncludeChildren(boolean includeChildren) {
+        this.includeChildren = includeChildren;
     }
 }

@@ -2,7 +2,6 @@ package com.engagepoint.services;
 
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
-import com.engagepoint.exceptions.CmisExportException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.util.TypeUtils;
@@ -12,6 +11,7 @@ import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
 import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
+import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -243,28 +243,49 @@ public class CmisService {
         };
     }
 
-    public void exportTypeToXML(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException, CmisExportException {
+
+    public void exportTypeToXML(final UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisConnectException, IOException {
         Session session = getSession(userInfo);
         try {
-            TypeUtils.writeToXML(session.getTypeDefinition(typeId), out);
-        } catch (RuntimeException e) {
+            if (includeChildren) {
+                //TODO write to XML with child's and change type of exception
+            } else {
+                TypeUtils.writeToXML(session.getTypeDefinition(typeId), out);
+            }
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CmisExportException(e.getMessage());
+            throw new CmisConnectException(e.getMessage());
         } catch (XMLStreamException e) {
             LOGGER.error(e.getMessage(), e);
+            throw new CmisConnectException(e.getMessage());
+        } catch (CmisRuntimeException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisConnectException(e.getMessage());
+        } finally {
+            out.flush();
+            out.close();
         }
+
     }
 
-    public void exportTypeToJSON(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException, CmisExportException {
+
+    public void exportTypeToJSON(final UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisConnectException, IOException {
         Session session = getSession(userInfo);
         try {
-            TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
-
-        } catch (RuntimeException e) {
+            if (includeChildren) {
+                //TODO write to JSON with child's and change type of exception
+            } else {
+                TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
+            }
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CmisExportException(e.getMessage());
+            throw new CmisConnectException(e.getMessage());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
+            throw new CmisConnectException(e.getMessage());
+        } finally {
+            out.flush();
+            out.close();
         }
 
     }

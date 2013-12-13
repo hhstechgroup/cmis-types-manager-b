@@ -6,8 +6,8 @@
 
     <h:panelGrid columns="2">
 
-        <p:outputLabel id="includeChildLable" for="includeChildCheckbox" value="Include child  "/>
-        <p:selectBooleanCheckbox id="includeChildCheckbox" value="#{exportTypeBean.includeChilds}"/>
+        <p:outputLabel id="includeChildLable" for="includeChildCheckbox" value="Include child  " />
+        <p:selectBooleanCheckbox id="includeChildCheckbox" value="#{exportTypeBean.includeChildren}" disabled="true"/>
 
         <p:selectOneRadio id="xmlOrJsonOptions" value="#{exportTypeBean.xmlOrJson}">
             <f:selectItem itemLabel="Xml" itemValue="true"/>
@@ -16,8 +16,8 @@
     </h:panelGrid>
 
 
-    <p:commandButton id="submitExportModalButton" value="Export" ajax="false"
-                     action="#{exportTypeBean.exportType()}" oncomplete="jQuery('#exportModal').modal('hide');"/>
-    <p:commandButton id="cancelExportModalButton" value="Cancel" update="-mainContent" styleClass="secondary" oncomplete="jQuery('#exportModal').modal('hide');"/>
+    <p:commandButton id="submitExportModalButton" value="Export" ajax="false" update="-mainContent"
+                     action="#{exportTypeBean.exportType()}" onclick="jQuery('#exportModal').modal('hide');"/>
+    <p:commandButton id="cancelExportModalButton" value="Cancel" update="-mainContent" styleClass="secondary" onclick="jQuery('#exportModal').modal('hide');"/>
 
 </h:form>
