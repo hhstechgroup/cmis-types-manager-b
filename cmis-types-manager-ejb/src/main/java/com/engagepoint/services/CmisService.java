@@ -36,13 +36,13 @@ public class CmisService {
     @EJB
     private CmisConnection connection;
 
-    public List<TypeProxy> getTypeInfo(final UserInfo userInfo) throws CmisConnectException {
+    public List<TypeProxy> getTypeInfo(UserInfo userInfo) throws CmisConnectException {
         Session session = getSession(userInfo);
         List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
         return getTypeProxies(descendants);
     }
 
-    public TypeDefinition getTypeDefinition(final UserInfo userInfo, TypeProxy type) throws CmisConnectException {
+    public TypeDefinition getTypeDefinition(UserInfo userInfo, TypeProxy type) throws CmisConnectException {
         Session session = getSession(userInfo);
         try {
             return session.getTypeDefinition(type.getId());
@@ -51,7 +51,7 @@ public class CmisService {
         }
     }
 
-    public List<String> getNamesOfRootFolders(final UserInfo userInfo) throws CmisConnectException {
+    public List<String> getNamesOfRootFolders(UserInfo userInfo) throws CmisConnectException {
         Session session = getSession(userInfo);
         List<String> folders = new ArrayList<String>();
         Folder root = session.getRootFolder();
@@ -63,7 +63,7 @@ public class CmisService {
     }
 
 
-    public void createType(final UserInfo userInfo, Type type) throws CmisConnectException, CmisCreateException {
+    public void createType(UserInfo userInfo, Type type) throws CmisConnectException, CmisCreateException {
         Session session = getSession(userInfo);
         TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
@@ -153,7 +153,7 @@ public class CmisService {
         }
     }
 
-    public void deleteType(final UserInfo userInfo, TypeProxy proxy) throws CmisConnectException, CmisTypeDeleteException {
+    public void deleteType(UserInfo userInfo, TypeProxy proxy) throws CmisConnectException, CmisTypeDeleteException {
         Session session = getSession(userInfo);
         try {
             ObjectType type = session.getTypeDefinition(proxy.getId());
@@ -171,7 +171,7 @@ public class CmisService {
 
     }
 
-    public String getDefaultRepositoryIdName(final UserInfo userInfo) throws CmisConnectException {
+    public String getDefaultRepositoryIdName(UserInfo userInfo) throws CmisConnectException {
         int firstRepositoryId = 0;
         String defaultRepositoryId = "";
         List<Repository> repositories = getRepositories(userInfo);
@@ -181,11 +181,11 @@ public class CmisService {
         return defaultRepositoryId;
     }
 
-    public boolean isUserExist(final UserInfo userInfo) throws CmisConnectException {
+    public boolean isUserExist(UserInfo userInfo) throws CmisConnectException {
         return getSession(userInfo) != null;
     }
 
-    public List<Repository> getRepositories(final UserInfo userInfo) throws CmisConnectException {
+    public List<Repository> getRepositories(UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
         List<Repository> repositories;
         try {
@@ -196,7 +196,7 @@ public class CmisService {
         return repositories;
     }
 
-    private Session getSession(final UserInfo userInfo) throws CmisConnectException {
+    private Session getSession(UserInfo userInfo) throws CmisConnectException {
         Map<String, String> parameters = getParameters(userInfo);
         Session session;
         try {
