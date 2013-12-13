@@ -57,7 +57,7 @@
     </dependencies>
     <build>
         <plugins>
-<!--            <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>2.1</version>
@@ -126,7 +126,7 @@
                 </executions>
             </plugin>
 
-            &lt;!&ndash;cargo plugin&ndash;&gt;
+            <!--cargo plugin-->
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
@@ -169,24 +169,24 @@
                         <properties>
                             <cargo.servlet.port>17081</cargo.servlet.port>
                             <cargo.rmi.port>17082</cargo.rmi.port>
-                            &lt;!&ndash;for using debug&ndash;&gt;
+                            <!--for using debug-->
                             <cargo.jvmargs>
-                                &lt;!&ndash;Xdebug&ndash;&gt;
-                                &lt;!&ndash;Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18000&ndash;&gt;
-                                &lt;!&ndash;Xnoagent&ndash;&gt;
-                                &lt;!&ndash;Djava.compiler=NONE&ndash;&gt;
+                                <!--Xdebug-->
+                                <!--Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18000-->
+                                <!--Xnoagent-->
+                                <!--Djava.compiler=NONE-->
                             </cargo.jvmargs>
                         </properties>
                     </configuration>
 
                     <deployables>
-                        &lt;!&ndash; OpenCMIS Server InMemory &ndash;&gt;
+                        <!-- OpenCMIS Server InMemory -->
                         <deployable>
                             <groupId>org.apache.chemistry.opencmis</groupId>
                             <artifactId>chemistry-opencmis-server-inmemory</artifactId>
                             <type>war</type>
                         </deployable>
-                        &lt;!&ndash; cmis-types-manager-b &ndash;&gt;
+                        <!-- cmis-types-manager-b -->
                         <deployable>
                             <groupId>com.engagepoint.cmis-types-manager-b</groupId>
                             <artifactId>cmis-types-manager-ear</artifactId>
@@ -194,7 +194,7 @@
                         </deployable>
                     </deployables>
                 </configuration>
-            </plugin>-->
+            </plugin>
         </plugins>
     </build>
 
