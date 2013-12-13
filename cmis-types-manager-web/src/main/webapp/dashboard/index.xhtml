@@ -16,7 +16,7 @@
 
                 <p:commandButton id="accept" styleClass="mr10" value="Yes" action="#{typesManagerBean.deleteType}"
                                  update="-mainContent"/>
-                <p:commandButton id="decline" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}"
+                <p:commandButton id="decline" value="No" styleClass="secondary" action="#{typesManagerBean.hideDeleteTypeDialog}"
                                  update="-mainContent"/>
 
             </p:panel>
@@ -39,23 +39,23 @@
                     <h:form id="commandForm">
                         <uib:buttonGroup>
                             <p:commandButton id="create" value="Create" action="#{typesManagerBean.goCreatePage}"
-                                             update="-mainContent"/>
+                                             update="-mainContent" styleClass="secondary"/>
                             <p:commandButton id="update" value="Update" action="#{typesManagerBean.goTypePage}"
-                                             update="-mainContent"/>
+                                             update="-mainContent" styleClass="secondary"/>
                             <p:commandButton id="deleteButton" value="Delete"
                                              action="#{typesManagerBean.showDeleteTypeDialog}"
-                                             update="-deleteForm"/>
+                                             update="-deleteForm" styleClass="secondary"/>
                             <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
-                                             update="-mainContent"/>
+                                             update="-mainContent" styleClass="secondary"/>
                         </uib:buttonGroup>
                     </h:form>
                 </uib:gridColumn>
                 <uib:gridColumn column="4">
                 <h:form id="ImportExportForm">
                     <uib:buttonGroup >
-                        <p:commandButton id="import" value="Import" ajax="false" onclick="jQuery('#importModal').modal('show');return false;"
+                        <p:commandButton styleClass="secondary" id="import" value="Import" ajax="false" onclick="jQuery('#importModal').modal('show');return false;"
                                          update="-mainContent"/>
-                        <p:commandButton id="export" value="Export" ajax="false" onclick="jQuery('#exportModal').modal('show');return false;"
+                        <p:commandButton styleClass="secondary" id="export" value="Export" ajax="false" onclick="jQuery('#exportModal').modal('show');return false;"
                                          update="-mainContent"/>
                     </uib:buttonGroup>
 
