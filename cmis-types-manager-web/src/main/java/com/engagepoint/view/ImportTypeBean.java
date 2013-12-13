@@ -26,7 +26,7 @@ import java.io.InputStream;
 @ManagedBean
 @ViewScoped
 public class ImportTypeBean {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImportTypeBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExportTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")

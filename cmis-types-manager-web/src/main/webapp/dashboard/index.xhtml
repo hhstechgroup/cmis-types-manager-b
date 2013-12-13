@@ -39,13 +39,13 @@
                     </h:form>
                 </uib:gridColumn>
                 <uib:gridColumn column="4">
-                    <h:form id="ImportExportForm">
-                        <uib:buttonGroup >
-                            <p:commandButton styleClass="secondary" id="import" value="Import" ajax="false" onclick="jQuery('#importModal').modal('show');return false;"
-                                             update="-mainContent"/>
-                            <p:commandButton styleClass="secondary" id="export" value="Export" ajax="false" onclick="jQuery('#exportModal').modal('show');return false;"
-                                             update="-mainContent"/>
-                        </uib:buttonGroup>
+                <h:form id="ImportExportForm">
+                    <uib:buttonGroup >
+                        <p:commandButton styleClass="secondary" id="import" value="Import" onclick="jQuery('#importModal').modal('show');return false;"
+                                         update="-mainContent"/>
+                        <p:commandButton styleClass="secondary" id="export" value="Export"
+                                         update="-mainContent" action="#{typesManagerBean.initExportModal()}" oncomplete="jQuery('#exportModal').modal('show');return false;"/>
+                    </uib:buttonGroup>
 
                     </h:form>
                 </uib:gridColumn>
@@ -59,12 +59,9 @@
         </uib:modal>
         <!--modal-->
 
-        <!--modal for export-->
         <uib:modal id="exportModal" header="Modal header export">
-            <ui:include src="export.xhtml"/>
-
+                <ui:include src="export.xhtml"/>
         </uib:modal>
-        <!--modal-->
 
         <h:form id="treeForm">
 
