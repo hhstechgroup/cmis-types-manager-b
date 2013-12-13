@@ -30,10 +30,10 @@ public class CreateBean implements Serializable {
     private LoginBean login;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
-    private Type type;
+    private Type newType;
     private List<TypeProperty> typeProperties;
     private TypeDefinition typeDefinition;
-    private TypeProxy typeProxy;
+    private TypeProxy selectedType;
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
@@ -41,34 +41,34 @@ public class CreateBean implements Serializable {
 
     @PostConstruct
     public void init(){
-        typeProxy = navigationBean.getTypeProxy();
+        selectedType = navigationBean.getTypeProxy();
         UserInfo userInfo = login.getUserInfo();
         try {
-            typeDefinition = service.getTypeDefinition(userInfo, typeProxy);
-            type.setCreatable(typeDefinition.isCreatable());
-            type.setFileable(typeDefinition.isFileable());
-            type.setQueryable(typeDefinition.isQueryable());
-            type.setIncludedInSupertypeQuery(typeDefinition.isIncludedInSupertypeQuery());
-            type.setFulltextIndexed(typeDefinition.isFulltextIndexed());
-            type.setControllableAcl(typeDefinition.isControllableAcl());
-            type.setControllablePolicy(typeDefinition.isControllablePolicy());
+            typeDefinition = service.getTypeDefinition(userInfo, selectedType);
+            newType.setCreatable(typeDefinition.isCreatable());
+            newType.setFileable(typeDefinition.isFileable());
+            newType.setQueryable(typeDefinition.isQueryable());
+            newType.setIncludedInSupertypeQuery(typeDefinition.isIncludedInSupertypeQuery());
+            newType.setFulltextIndexed(typeDefinition.isFulltextIndexed());
+            newType.setControllableAcl(typeDefinition.isControllableAcl());
+            newType.setControllablePolicy(typeDefinition.isControllablePolicy());
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
         }
 
         if (hide()){
-            typeProxy.setId(secondary);
-            type.setCreatable(false);
-            type.setFileable(false);
-            type.setControllableAcl(false);
-            type.setControllablePolicy(false);
+            selectedType.setId(secondary);
+            newType.setCreatable(false);
+            newType.setFileable(false);
+            newType.setControllableAcl(false);
+            newType.setControllablePolicy(false);
         }
     }
 
     public CreateBean() {
         typeProperties = new ArrayList<TypeProperty>();
-        type = new Type();
+        newType = new Type();
         setValuesToLists();
 
 
@@ -89,19 +89,19 @@ public class CreateBean implements Serializable {
 
 
     public Type getType() {
-        return type;
+        return newType;
     }
 
     public void setType(Type type) {
-        this.type = type;
+        newType = type;
     }
 
     public String getBaseType() {
-        return typeProxy.getBaseType();
+        return selectedType.getBaseType();
     }
 
     public String getParentType() {
-        return typeProxy.getId();
+        return selectedType.getId();
     }
 
     public LoginBean getLogin() {
@@ -124,11 +124,11 @@ public class CreateBean implements Serializable {
     public String createType() {
         try {
             UserInfo userInfo = login.getUserInfo();
-            type.setBaseTypeId(typeProxy.getBaseType());
-            type.setParentTypeId(typeProxy.getId());
-            type.setProperties(typeProperties);
-            service.createType(userInfo, type);
-            Message.printInfo(type.getDisplayName() + " type created!");
+            newType.setBaseTypeId(selectedType.getBaseType());
+            newType.setParentTypeId(selectedType.getId());
+            newType.setProperties(typeProperties);
+            service.createType(userInfo, newType);
+            Message.printInfo(newType.getDisplayName() + " type created!");
             return navigationBean.toMainPage();
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
@@ -175,6 +175,6 @@ public class CreateBean implements Serializable {
         return list;
     }
     public boolean hide(){
-        return typeProxy.getBaseType().equals(secondary);
+        return selectedType.getBaseType().equals(secondary);
     }
 }

@@ -27,28 +27,28 @@ public class ModifyTypeBean implements Serializable {
     private LoginBean login;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
-    private TypeProxy type;
+    private TypeProxy selectedType;
     private String secondaryId = "cmis:secondary";
 
     @PostConstruct
     public void init() {
-       type = navigationBean.getTypeProxy();
+       selectedType = navigationBean.getTypeProxy();
     }
 
     public Boolean isSecondary() {
-        return type.getBaseType().equals(secondaryId);
+        return selectedType.getBaseType().equals(secondaryId);
     }
 
 
     public String getBaseType() {
-        return type.getBaseType();
+        return selectedType.getBaseType();
     }
 
     public String getParentType() {
-        if (type.getBaseType().equals(secondaryId))
+        if (selectedType.getBaseType().equals(secondaryId))
             return secondaryId;
         else
-            return type.getId();
+            return selectedType.getId();
     }
 
     public LoginBean getLogin() {
