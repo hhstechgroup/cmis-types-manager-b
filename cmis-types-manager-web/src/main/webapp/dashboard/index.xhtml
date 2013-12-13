@@ -53,10 +53,12 @@
                 <uib:gridColumn column="4">
                 <h:form id="ImportExportForm">
                     <uib:buttonGroup >
-                        <p:commandButton id="import" value="Import" ajax="false" onclick="jQuery('#importModal').modal('show');return false;"
+                        <p:commandButton id="import" value="Import" ajax="false"
+                                         onclick="jQuery('#importModal').modal('show');return false;"
                                          update="-mainContent"/>
-                        <p:commandButton id="export" value="Export" ajax="false" onclick="jQuery('#exportModal').modal('show');return false;"
-                                         update="-mainContent"/>
+                        <p:commandButton id="export" value="Export" ajax="false"
+
+                                         update="-mainContent" action="#{exportTypeBean.exportType()}"/>
                     </uib:buttonGroup>
 
                 </h:form>

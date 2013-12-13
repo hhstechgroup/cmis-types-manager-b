@@ -2,6 +2,7 @@ package com.engagepoint.services;
 
 import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.exceptions.CmisCreateException;
+import com.engagepoint.exceptions.CmisExportException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.util.TypeUtils;
@@ -242,12 +243,15 @@ public class CmisService {
         };
     }
 
-    public void exportType(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException {
+    public void exportType(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException, CmisExportException {
         Session session = getSession(userInfo);
         try {
             TypeUtils.writeToXML(session.getTypeDefinition(typeId),out);
+        }catch (RuntimeException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisExportException(e.getMessage());
         } catch (XMLStreamException e) {
-            System.out.println(e.toString());
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
