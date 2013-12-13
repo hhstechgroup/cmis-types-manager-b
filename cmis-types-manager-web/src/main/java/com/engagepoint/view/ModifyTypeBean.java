@@ -1,22 +1,16 @@
 package com.engagepoint.view;
 
-import com.engagepoint.exceptions.CmisConnectException;
-import com.engagepoint.exceptions.CmisCreateException;
 import com.engagepoint.services.CmisService;
-import com.engagepoint.services.Prototype;
 import com.engagepoint.services.TypeProxy;
-import com.engagepoint.services.UserInfo;
-import org.primefaces.model.TreeNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * User: AlexDenisenko
@@ -26,59 +20,35 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class ModifyTypeBean implements Serializable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyTypeBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    private Prototype prototype;
-    private TypeProxy type;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
-
-
-
-    private MessagesBean messagesBean = new MessagesBean();
-
-    public ModifyTypeBean() {
-
-
-    }
+    private TypeProxy type;
+    private String secondaryId = "cmis:secondary";
 
     @PostConstruct
     public void init() {
-        type = navigationBean.getTypeProxy();
-
-        prototype = new Prototype();
-    }
-    public String createType() {
-        UserInfo userInfo = login.getUserInfo();
-        try {
-            prototype.setParentTypeId(type.getId());
-            prototype.setBaseTypeId(type.getBaseType());
-            service.createType(userInfo, prototype);
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, prototype.getDisplayName() + " type created!", "");
-        } catch (CmisConnectException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
-        } catch (CmisCreateException e) {
-            messagesBean.addMessage(FacesMessage.SEVERITY_INFO, e.getMessage(), "");
-        }
-        return navigationBean.toMainPage();
+       type = navigationBean.getTypeProxy();
     }
 
-    public Prototype getPrototype() {
-        return prototype;
+    public Boolean isSecondary() {
+        return type.getBaseType().equals(secondaryId);
     }
 
-    public void setPrototype(Prototype prototype) {
-        this.prototype = prototype;
-    }
 
     public String getBaseType() {
         return type.getBaseType();
     }
 
     public String getParentType() {
-        return type.getId();
+        if (type.getBaseType().equals(secondaryId))
+            return secondaryId;
+        else
+            return type.getId();
     }
 
     public LoginBean getLogin() {
@@ -96,5 +66,6 @@ public class ModifyTypeBean implements Serializable {
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
     }
+
 
 }

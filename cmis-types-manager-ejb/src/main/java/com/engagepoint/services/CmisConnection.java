@@ -16,12 +16,7 @@ import javax.ejb.Singleton;
 public class CmisConnection {
     private SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
 
-
     public SessionFactory getSessionFactory() {
         return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
     }
 }

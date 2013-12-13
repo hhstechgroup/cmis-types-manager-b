@@ -19,7 +19,7 @@ public class UserInfo {
         userName = "";
         password = "";
         url = "";
-        this.repositoryId = "";
+        repositoryId = "";
     }
 
     public String getUsername() {

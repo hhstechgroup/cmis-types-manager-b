@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:uib="http://engagepoint.com/uib">
+
+<h:head>
+    <title>JSF 2.0 Hello World</title>
+</h:head>
+<h:body>
+
+<h:panelGrid columns="2" cellpadding="5">
+
+    <h:outputText id="outputTextView" value="Display name :*"/>
+    <p:inputText id="inputTextView" value="#{createBean.type.displayName}" />
+
+    <h:outputText id="outputTextView1" value="Description :"/>
+    <p:inputText id="inputTextView1"  value="#{createBean.type.description}"/>
+
+    <h:outputText id="outputTextView2" value="Id :*"/>
+    <p:inputText id="inputTextView2"  value="#{createBean.type.id}"/>
+
+    <h:outputText id="outputTextView3" value="Local Namespace :"/>
+    <p:inputText id="inputTextView3"  value="#{createBean.type.localNamespace}"/>
+
+    <h:outputText id="outputTextView4" value="Local Name :"/>
+    <p:inputText id="inputTextView4"  value="#{createBean.type.localName}"/>
+
+    <h:outputText id="outputTextView5" value="Query Name :"/>
+    <p:inputText id="inputTextView5"  value="#{createBean.type.queryName}" />
+
+
+
+    <h:outputText id="outputTextView14" value="Type mutability"/>
+    <h:outputText value="Create, Update, Delete"/>
+
+</h:panelGrid>
+
+
+
+<p:growl id="messages" showDetail="true"/>
+
+ <h:form id="form">
+<p:dataTable var="property" value="#{createBean.propertyDefinitionList}" scrollable="true"  id="carList" editable="true">
+    <f:facet  name="header">
+        <uib:gridContainer  >
+            <uib:gridRow fluid="true">
+                <uib:gridColumn column="6">
+                    <uib:aligner align="right">
+                        <p:commandButton id="newSourceSystemButton" value="Add Source System"
+                                         styleClass="small blue"
+                                         icon="ui-icon-document"
+                                         action="#{createBean.addAction}"
+                                         update="-form"
+                                         oncomplete="trigerEdit();"
+                                />
+                    </uib:aligner>
+                </uib:gridColumn>
+            </uib:gridRow>
+        </uib:gridContainer>
+    </f:facet>
+    <p:ajax event="rowEdit" listener="#{createBean.onEdit}"  />
+    <p:ajax event="rowEditCancel" listener="#{createBean.onCancel}"  />
+    <p:column headerText="Model" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.id}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.id}" style="width:100%"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Year" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.localName}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Year" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.queryName}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.queryName}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Year" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.localName}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.localName}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Manufacturer" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.cardinality}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.cardinality}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+
+    <p:column headerText="Color" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.updatability}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.updatability}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+    <p:column headerText="Color" style="width:10%">
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.propertyType}" />
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.propertyType}" style="width:100%" label="Year"/>
+            </f:facet>
+        </p:cellEditor>
+    </p:column>
+    <p:column style="width:10%">
+        <p:rowEditor />
+        <p:commandButton styleClass="custom" icon="ui-icon-close"
+                         action="#{createBean.deleteAction(property)}"
+                         title="Delete" alt="Delete"
+                         update="carList">
+        </p:commandButton>
+    </p:column>
+
+
+</p:dataTable>
+     <p:commandButton id="create" value="Create" action="#{createBean.createType}"/>
+</h:form>
+    <h:outputScript>
+
+    var trigerEdit = function(){
+        $('.ui-datatable-scrollable-body tr:last').find('.ui-icon-pencil').trigger('click')}
+
+</h:outputScript>
+
+</h:body>
+</html>
