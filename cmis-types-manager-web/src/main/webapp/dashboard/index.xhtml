@@ -44,7 +44,7 @@
                         <p:commandButton styleClass="secondary" id="import" value="Import" onclick="jQuery('#importModal').modal('show');return false;"
                                          update="-mainContent"/>
                         <p:commandButton styleClass="secondary" id="export" value="Export"
-                                         update="-mainContent" action="#{typesManagerBean.initExportModal()}" oncomplete="jQuery('#exportModal').modal('show');return false;"/>
+                                         update="-mainContent"  onclick="jQuery('#exportModal').modal('show');return false;"/>
                     </uib:buttonGroup>
 
                     </h:form>
