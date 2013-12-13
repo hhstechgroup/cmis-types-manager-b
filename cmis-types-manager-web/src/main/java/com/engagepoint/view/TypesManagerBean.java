@@ -115,16 +115,10 @@ public class TypesManagerBean implements Serializable {
     }
 
     public void deleteType() {
-/*
-        if (typeHasSubtypes(selectedType)) {
-            showDeleteSubtypesDialog();
-        }
-*/
         try {
             if (!isShowSubtypeDialog) {
                 service.deleteType(userInfo, selectedType);
                 Message.printInfo("Deleted type " + selectedType.getDisplayName());
-//                initTree();
             }
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
@@ -166,10 +160,6 @@ public class TypesManagerBean implements Serializable {
         } else {
             deleteType();
         }
-/*
-        deleteType(userInfo, selectedType);
-        hideDeleteSubtypeDialog();
-*/
         initTree();
     }
 
