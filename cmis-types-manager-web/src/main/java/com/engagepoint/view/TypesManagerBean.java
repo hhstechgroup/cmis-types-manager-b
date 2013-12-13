@@ -68,6 +68,7 @@ public class TypesManagerBean implements Serializable {
             }else {
             selectedType =navigationBean.getTypeProxy();
             }
+            navigationBean.setTypeProxy(selectedType);
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());

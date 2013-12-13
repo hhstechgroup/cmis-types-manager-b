@@ -243,11 +243,11 @@ public class CmisService {
         };
     }
 
-    public void exportType(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException, CmisExportException {
+    public void exportTypeToXML(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException, CmisExportException {
         Session session = getSession(userInfo);
         try {
-            TypeUtils.writeToXML(session.getTypeDefinition(typeId),out);
-        }catch (RuntimeException e) {
+            TypeUtils.writeToXML(session.getTypeDefinition(typeId), out);
+        } catch (RuntimeException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisExportException(e.getMessage());
         } catch (XMLStreamException e) {
@@ -255,4 +255,17 @@ public class CmisService {
         }
     }
 
+    public void exportTypeToJSON(final UserInfo userInfo, OutputStream out, String typeId) throws CmisConnectException, CmisExportException {
+        Session session = getSession(userInfo);
+        try {
+            TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
+
+        } catch (RuntimeException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisExportException(e.getMessage());
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+
+    }
 }

@@ -2,8 +2,8 @@ package com.engagepoint.view;
 
 /**
  * User: vyacheslav.polulyakh (vyacheslav.polulyakh@engagepoint.com )
- * Date: 12/13/13
- * Time: 11:26 AM
+ * Date: 12/12/13
+ * Time: 16:26 AM
  */
 
 import com.engagepoint.components.Message;
@@ -38,8 +38,10 @@ public class ExportTypeBean {
 
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
-    private String selectedTypeId;
 
+    private String selectedTypeId;
+    private FacesContext facesContext;
+    ExternalContext externalContext;
 
 
     @PostConstruct
@@ -50,26 +52,49 @@ public class ExportTypeBean {
     }
 
     public void exportType() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        externalContext.setResponseContentType("application/xml");
-        externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
+        facesContext = FacesContext.getCurrentInstance();
+        externalContext = facesContext.getExternalContext();
+
+
         try {
             OutputStream responseOutputStream = externalContext.getResponseOutputStream();
-            service.exportType(userInfo, responseOutputStream, selectedTypeId);
+            if (true) {
+                exportCurrentType(responseOutputStream);
+            } else {
+                exportTreeType(responseOutputStream);
+            }
             responseOutputStream.flush();
             responseOutputStream.close();
+        } catch (IOException e) {
+            Message.printError(e.getMessage());
+            LOGGER.error("Error while exporting type", e);
+        }
+        facesContext.responseComplete();
+    }
+
+    private void exportCurrentType(OutputStream responseOutputStream) {
+        try {
+            if (true) {
+                externalContext.setResponseContentType("application/xml");
+                externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
+                service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId);
+            } else {
+                externalContext.setResponseContentType("application/json");
+                externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
+                service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId);
+            }
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while exporting type", e);
         } catch (CmisExportException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while exporting type", e);
-        } catch (IOException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while exporting type", e);
         }
-        facesContext.responseComplete();
+    }
+
+    //TODO Implements export type tree with children's
+    private void exportTreeType(OutputStream responseOutputStream) {
+
     }
 
     public LoginBean getLogin() {
