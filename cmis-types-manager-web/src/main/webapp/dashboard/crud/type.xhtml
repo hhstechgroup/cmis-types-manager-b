@@ -3,8 +3,12 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="../template.xhtml"
+                template="../../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
+
+    <ui:define name="leftMenu">
+        <ui:include src="/dashboard/leftMenu.xhtml"/>
+    </ui:define>
 
     <ui:define name="mainContent">
         <h:form id="viewForm">
@@ -62,7 +66,7 @@
 
                     </h:panelGrid>
                 </p:tab>
-                <p:tab id="accordionTabMetadate" title="Metadate">
+                <p:tab id="accordionTabMetadata" title="Metadata">
                     <p:dataTable var="property" value="#{viewTypeBean.propertyDefinitions}" scrollable="true" scrollWidth="630" scrollHeight="200" id="dataTable3">
 
                         <p:column headerText="Name">
