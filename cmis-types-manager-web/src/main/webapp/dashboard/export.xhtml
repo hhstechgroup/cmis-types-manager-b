@@ -1,0 +1,48 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                id="exportForm"
+                xmlns:uib="http://engagepoint.com/uib">
+
+
+        <h:form id="tableformpaginator" prependId="false">
+
+            <h:panelGrid columns="2">
+
+                <p:outputLabel id="includeChildLable" for="includeChildCheckbox" value="Include child  "/>
+                <p:selectBooleanCheckbox id="includeChildCheckbox"  value="#{exportTypeBean.includeChilds}"/>
+
+
+                <p:outputPanel id="customPanel">
+                    <p:selectOneRadio id="xmlOrJsonRadio" value="#{exportTypeBean.xmlOrJson}" layout="custom">
+                        <f:selectItem itemLabel="Option 1" itemValue="true"/>
+                        <f:selectItem itemLabel="Option 2"  itemValue="false"/>
+                    </p:selectOneRadio>
+
+                    <h:panelGrid columns="2">
+                        <p:radioButton id="opt1" for="xmlOrJsonRadio" itemIndex="0"/>
+                        <h:outputLabel for="opt1" value="XML" />
+
+                        <p:radioButton id="opt2" for="xmlOrJsonRadio" itemIndex="1"/>
+                        <h:outputLabel for="opt2" value="JSON" />
+                    </h:panelGrid>
+                </p:outputPanel>
+            </h:panelGrid>
+
+
+            <p:commandButton title="Cancel" id="cancelButton" mode="client" value="Export"
+                             styleClass="secondary"
+                             onclick="jQuery('#exportModal').modal('hide');return false;"/>
+            <p:commandButton title="Ok" id="okButton" mode="client" value="Cancel"
+                             onclick="jQuery('#exportModal').modal('hide'); return false;"/>
+            <ui:remove>
+                <f:facet name="footer">
+                </f:facet>
+            </ui:remove>
+
+        </h:form>
+
+
+</h:form>
