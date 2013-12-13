@@ -1,17 +1,14 @@
 <h:form xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
         id="leftMenuForm"
-        xmlns:uib="http://engagepoint.com/uib"
-        >
-    <ui:include src="leftmenubar.xhtml"/>
+        xmlns:uib="http://engagepoint.com/uib">
 
-<!--
-    <uib:menu id="menu" styleClass="sub-navigation" >
-        <uib:menuSection id="buttonsItem" title="Import" url="import.xhtml" parentUrl="#">
-            <uib:menuItem id="index" title="Import" url="import.xhtml"  />
+    <uib:menu id="typesManagementLeftMenu" styleClass="sub-navigation">
+        <uib:menuSection title="Types Management" url="/dashboard/index.xhtml">
+            <uib:menuItem title="Create" url="/dashboard/crud/create.xhtml"/>
+            <uib:menuItem title="View" url="/dashboard/crud/type.xhtml"/>
+            <uib:menuItem title="Update" url="/dashboard/crud/type.xhtml"/>
         </uib:menuSection>
     </uib:menu>
--->
 </h:form>
 
 
