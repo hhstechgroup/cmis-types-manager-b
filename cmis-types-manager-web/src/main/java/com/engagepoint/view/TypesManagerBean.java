@@ -254,11 +254,14 @@ public class TypesManagerBean implements Serializable {
             responseOutputStream.flush();
             responseOutputStream.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Message.printError(e.getMessage());
+            LOGGER.error("Error while export file", e);
         } catch (CmisConnectException e) {
-            e.printStackTrace();
+            Message.printError(e.getMessage());
+            LOGGER.error("Error while export file", e);
         } catch (IOException e) {
-            e.printStackTrace();
+            Message.printError(e.getMessage());
+            LOGGER.error("Error while export file", e);
         }
         facesContext.responseComplete();
         return "";
