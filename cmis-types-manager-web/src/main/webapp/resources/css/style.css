@@ -99,8 +99,11 @@
 .files{
     margin-top: 40px;
 }
-#importForm-j_idt30{
+#importForm-fileUploadName{
     float: right;
+}
+#importForm-j_idt34 {
+    margin-left: 50px;
 }
 
 /* TABLE */
