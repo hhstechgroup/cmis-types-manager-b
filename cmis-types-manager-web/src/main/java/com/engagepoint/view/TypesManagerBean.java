@@ -63,10 +63,10 @@ public class TypesManagerBean implements Serializable {
         try {
             root = new DefaultTreeNode(TREE_DATA, null);
             typeProxies = service.getTypeInfo(userInfo);
-            if(navigationBean.getTypeProxy()== null) {
-            selectedType = typeProxies.get(FIRST_TYPE_ID);
-            }else {
-            selectedType =navigationBean.getTypeProxy();
+            if (navigationBean.getTypeProxy() == null) {
+                selectedType = typeProxies.get(FIRST_TYPE_ID);
+            } else {
+                selectedType = navigationBean.getTypeProxy();
             }
             addTypesToTree(typeProxies, root);
         } catch (CmisConnectException e) {
@@ -75,14 +75,19 @@ public class TypesManagerBean implements Serializable {
         }
     }
 
-       public String goTypePage() {
+    public String goTypePage() {
         navigationBean.setTypeProxy(selectedType);
-       return navigationBean.toViewType();
+        return navigationBean.toViewType();
     }
 
-       public String goCreatePage() {
-           navigationBean.setTypeProxy(selectedType);
-       return navigationBean.toCreateType();
+
+    public String goCreatePage() {
+        navigationBean.setTypeProxy(selectedType);
+        return navigationBean.toCreateType();
+    }
+
+    public void initExportModal() {
+        navigationBean.setTypeProxy(selectedType);
     }
 
     public TreeNode getRoot() {

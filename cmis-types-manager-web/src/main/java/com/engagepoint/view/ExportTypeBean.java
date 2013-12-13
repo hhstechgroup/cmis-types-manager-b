@@ -41,24 +41,23 @@ public class ExportTypeBean {
 
     private String selectedTypeId;
     private FacesContext facesContext;
-    ExternalContext externalContext;
+    private ExternalContext externalContext;
+    private boolean xmlOrJson;
+    private boolean includeChilds;
 
 
     @PostConstruct
     public void init() {
         userInfo = login.getUserInfo();
-        selectedTypeId = navigationBean.getTypeProxy().getId();
-
     }
 
     public void exportType() {
         facesContext = FacesContext.getCurrentInstance();
         externalContext = facesContext.getExternalContext();
-
-
+        selectedTypeId = navigationBean.getTypeProxy().getId();
         try {
             OutputStream responseOutputStream = externalContext.getResponseOutputStream();
-            if (true) {
+            if (!includeChilds) {
                 exportCurrentType(responseOutputStream);
             } else {
                 exportTreeType(responseOutputStream);
@@ -74,7 +73,7 @@ public class ExportTypeBean {
 
     private void exportCurrentType(OutputStream responseOutputStream) {
         try {
-            if (true) {
+            if (xmlOrJson) {
                 externalContext.setResponseContentType("application/xml");
                 externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
                 service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId);
@@ -111,24 +110,21 @@ public class ExportTypeBean {
 
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
-    private boolean isXmlOrJson;
-    private boolean isIncludeChilds;
+    }
 
     public boolean isXmlOrJson() {
-        return isXmlOrJson;
+        return xmlOrJson;
     }
 
     public void setXmlOrJson(boolean xmlOrJson) {
-        isXmlOrJson = xmlOrJson;
-        System.out.println("isXmlOrJson = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + isXmlOrJson());
+        this.xmlOrJson = xmlOrJson;
     }
 
     public boolean isIncludeChilds() {
-        return isIncludeChilds;
+        return includeChilds;
     }
 
     public void setIncludeChilds(boolean includeChilds) {
-        isIncludeChilds = includeChilds;
-        System.out.println("isIncludeChilds = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + isIncludeChilds());
+        this.includeChilds = includeChilds;
     }
 }
