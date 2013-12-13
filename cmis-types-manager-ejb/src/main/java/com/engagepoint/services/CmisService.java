@@ -247,7 +247,7 @@ public class CmisService {
         try {
             TypeUtils.writeToXML(session.getTypeDefinition(typeId),out);
         } catch (XMLStreamException e) {
-            System.out.println(e.toString());
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
