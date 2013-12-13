@@ -34,7 +34,7 @@ public class ViewTypeBean implements Serializable {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private TypeDefinition typeDefinition;
-    private TypeProxy type;
+    private TypeProxy selectedType;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
 
@@ -42,9 +42,9 @@ public class ViewTypeBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            type = navigationBean.getTypeProxy();
+            selectedType = navigationBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
-            typeDefinition = service.getTypeDefinition(userInfo, type);
+            typeDefinition = service.getTypeDefinition(userInfo, selectedType);
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
