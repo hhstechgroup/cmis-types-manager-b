@@ -111,5 +111,24 @@ public class ExportTypeBean {
 
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
+    private boolean isXmlOrJson;
+    private boolean isIncludeChilds;
+
+    public boolean isXmlOrJson() {
+        return isXmlOrJson;
+    }
+
+    public void setXmlOrJson(boolean xmlOrJson) {
+        isXmlOrJson = xmlOrJson;
+        System.out.println("isXmlOrJson = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + isXmlOrJson());
+    }
+
+    public boolean isIncludeChilds() {
+        return isIncludeChilds;
+    }
+
+    public void setIncludeChilds(boolean includeChilds) {
+        isIncludeChilds = includeChilds;
+        System.out.println("isIncludeChilds = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + isIncludeChilds());
     }
 }
