@@ -1,7 +1,6 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
@@ -10,17 +9,6 @@
     </ui:define>
 
     <ui:define name="mainContent">
-        <h:form id="deleteForm">
-            <p:panel id="deleteTypePanel" header="Delete selected type?"
-                     rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
-
-                <p:commandButton id="accept" styleClass="mr10" value="Yes" action="#{typesManagerBean.deleteTypeWithSubtypes}"
-                                 update="-mainContent"/>
-                <p:commandButton id="decline" value="No" action="#{typesManagerBean.hideDeleteTypeDialog}"
-                                 update="-mainContent"/>
-
-            </p:panel>
-        </h:form>
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="8">
@@ -33,35 +21,39 @@
                             <p:commandButton id="update" value="Update" action="#{navigation.toUpdateType}"
                                              update="-mainContent" styleClass="secondary"/>
                             <p:commandButton id="deleteButton" value="Delete"
-                                             action="#{typesManagerBean.showDeleteTypeDialog}"
-                                             update="-deleteForm" styleClass="secondary"/>
+                                             onclick="jQuery('#deleteTypeDialog').modal('show');return false;"
+                                             update="-mainContent" styleClass="secondary"/>
                         </uib:buttonGroup>
                     </h:form>
                 </uib:gridColumn>
                 <uib:gridColumn column="4">
-                <h:form id="ImportExportForm">
-                    <uib:buttonGroup >
-                        <p:commandButton styleClass="secondary" id="import" value="Import" onclick="jQuery('#importModal').modal('show');return false;"
-                                         update="-mainContent"/>
-                        <p:commandButton styleClass="secondary" id="export" value="Export"
-                                         update="-mainContent"  onclick="jQuery('#exportModal').modal('show');return false;"/>
-                    </uib:buttonGroup>
+                    <h:form id="ImportExportForm">
+                        <uib:buttonGroup >
+                            <p:commandButton styleClass="secondary" id="import" value="Import" onclick="jQuery('#importModal').modal('show');return false;"
+                                             update="-mainContent"/>
+                            <p:commandButton styleClass="secondary" id="export" value="Export"
+                                             update="-mainContent"  onclick="jQuery('#exportModal').modal('show');return false;"/>
+                        </uib:buttonGroup>
 
                     </h:form>
                 </uib:gridColumn>
             </uib:gridRow>
         </uib:gridContainer>
 
-        <!--modal for import-->
         <uib:modal id="importModal" header="Modal header import">
             <ui:include src="import.xhtml"/>
 
         </uib:modal>
-        <!--modal-->
 
         <uib:modal id="exportModal" header="Modal header export">
-                <ui:include src="export.xhtml"/>
+            <ui:include src="export.xhtml"/>
         </uib:modal>
+
+        <uib:modal id="deleteTypeDialog" header="Delete type">
+            <ui:include src="deleteTypeDialog.xhtml"/>
+        </uib:modal>
+
+
 
         <h:form id="treeForm">
 
@@ -70,7 +62,7 @@
 
                 <p:ajax event="expand" listener="#{typesManagerBean.onNodeExpand}"/>
                 <p:ajax event="collapse" listener="#{typesManagerBean.onNodeCollapse}"/>
-                <p:ajax event="select" update="-messages" listener="#{typesManagerBean.onNodeSelect}"/>
+                <p:ajax event="select" update="-messages,-deleteTypeDialog" listener="#{typesManagerBean.onNodeSelect}"/>
                 <p:ajax event="unselect" update="-messages" listener="#{typesManagerBean.onNodeUnselect}"/>
 
 

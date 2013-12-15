@@ -45,8 +45,6 @@ public class TypesManagerBean implements Serializable {
     private TreeNode selectedNode;
     private TypeProxy selectedType;
     private List<TypeProxy> typeProxies;
-    private Boolean isShowTypeDialog;
-    private Boolean isShowSubtypeDialog;
 
     private static final String TREE_DATA = "Root";
     private static final int FIRST_TYPE_ID = 0;
@@ -55,8 +53,6 @@ public class TypesManagerBean implements Serializable {
     public void init() {
         userInfo = login.getUserInfo();
         initTree();
-        hideDeleteTypeDialog();
-        hideDeleteSubtypeDialog();
     }
 
     private void initTree() {
@@ -111,19 +107,14 @@ public class TypesManagerBean implements Serializable {
 
     public void deleteType() {
         try {
-            if (!isShowSubtypeDialog) {
-                service.deleteType(userInfo, selectedType);
-                Message.printInfo("Deleted type " + selectedType.getDisplayName());
-            }
+            service.deleteType(userInfo, selectedType);
+            Message.printInfo("Deleted type " + selectedType.getDisplayName());
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
             Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
             LOGGER.error("Unable to delete type", e);
-        }
-        finally {
-            hideDeleteTypeDialog();
         }
     }
 
@@ -144,9 +135,6 @@ public class TypesManagerBean implements Serializable {
             Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
             LOGGER.error("Unable to delete type", e);
         }
-        finally {
-            hideDeleteTypeDialog();
-        }
     }
 
     public void deleteTypeWithSubtypes() {
@@ -162,36 +150,6 @@ public class TypesManagerBean implements Serializable {
         return !proxy.getChildren().isEmpty();
     }
 
-    public Boolean isShowDeleteTypeDialog() {
-        return isShowTypeDialog;
-    }
-
-    public Boolean isShowDeleteSubtypeDialog() {
-        return isShowSubtypeDialog;
-    }
-
-    public void showDeleteTypeDialog() {
-        this.isShowTypeDialog = true;
-    }
-
-    public void hideDeleteTypeDialog() {
-        this.isShowTypeDialog = false;
-    }
-
-    public void showDeleteSubtypesDialog() {
-        if (!isShowSubtypeDialog) {
-            this.isShowSubtypeDialog = true;
-            hideDeleteTypeDialog();
-        } else {
-            this.isShowSubtypeDialog = false;
-        }
-    }
-
-    public void hideDeleteSubtypeDialog() {
-        this.isShowSubtypeDialog = false;
-    }
-
-
     public TypeProxy getSelectedType() {
         return selectedType;
     }
@@ -200,7 +158,7 @@ public class TypesManagerBean implements Serializable {
         this.selectedType = selectedType;
     }
 
-    public void setSelectedType(){
+    public void setSelectedType() {
         if (navigationBean.getTypeProxy() == null) {
             selectedType = typeProxies.get(FIRST_TYPE_ID);
             navigationBean.setTypeProxy(selectedType);
@@ -223,6 +181,14 @@ public class TypesManagerBean implements Serializable {
             if (!type.getChildren().isEmpty()) {
                 addTypesToTree(type.getChildren(), node);
             }
+        }
+    }
+
+    public String getDeleteMessage() {
+        if (typeHasSubtypes(selectedType)) {
+            return "\"" + selectedType.getDisplayName() + "\" type has children. Are you sure you want to delete?";
+        } else {
+            return "Are you sure you want to delete \"" + selectedType.getDisplayName() + "\" type ?";
         }
     }
 }

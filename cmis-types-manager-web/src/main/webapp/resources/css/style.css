@@ -50,18 +50,6 @@
     box-shadow: 1px 1px 6px #333;
 }
 
-/*.ui-messages {*/
-/*position: fixed;*/
-/*top: 5%;*/
-/*right: 3%;*/
-/*z-index: 1100;*/
-/*height: auto;*/
-/*}*/
-
-/*.ui-messages-close {*/
-/*right: 5px;*/
-/*}*/
-
 .ui-tree .ui-tree-container li .ui-treenode-content:hover .ui-tree-toggler.ui-icon-triangle-1-e {
     margin: 2px 2px 0px 3px !important;
     border-top-color: transparent !important;
@@ -302,4 +290,9 @@
 
 #viewForm-accordionPanel-metadataTabel .ui-datatable-scrollable-header-box th{
     text-align: center;
+}
+
+#deleteTypeDialog{
+    width: 380px;
+    left: 64%;
 }
