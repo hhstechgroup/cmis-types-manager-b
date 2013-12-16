@@ -9,13 +9,25 @@
         <ui:include src="leftMenu.xhtml"/>
     </ui:define>
 
-
     <ui:define name="mainContent">
         <h:form id="deleteForm">
-            <p:panel id="deletePanel" header="Delete type ?" rendered="#{dashbordBean.showDialog}">
+            <p:panel id="deleteTypePanel" header="Delete select type?"
+                     rendered="#{typesManagerBean.isShowDeleteTypeDialog()}">
 
-                <p:commandButton id="accept" value="Yes" action="#{dashbordBean.deleteType}" update="-mainContent"/>
-                <p:commandButton id="decline" value="No" action="#{dashbordBean.hide}" update="-mainContent"/>
+                <p:commandButton id="accept" styleClass="mr10" value="Yes" action="#{typesManagerBean.deleteType}"
+                                 update="-mainContent"/>
+                <p:commandButton id="decline" value="No" styleClass="secondary" action="#{typesManagerBean.hideDeleteTypeDialog}"
+                                 update="-mainContent"/>
+
+            </p:panel>
+
+            <p:panel id="deleteSubtypesPanel" header="This type has subtypes. Delete type?"
+                     rendered="#{typesManagerBean.isShowDeleteSubtypeDialog()}">
+
+                <p:commandButton id="accept2" value="Yes" styleClass="mr10" action="#{typesManagerBean.deleteType}"
+                                 update="-mainContent"/>
+                <p:commandButton id="decline2" value="No" action="#{typesManagerBean.hideDeleteSubtypeDialog}"
+                                 update="-mainContent"/>
 
             </p:panel>
 
@@ -23,36 +35,61 @@
         </h:form>
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
-                <uib:gridColumn column="6">
-                    <h:form>
+                <uib:gridColumn column="8">
+                    <h:form id="commandForm">
                         <uib:buttonGroup>
-                            <p:commandButton id="create" value="Create" action="#{dashbordBean.goCreatePage}"
-                                             update="-mainContent"/>
-                            <p:commandButton id="update" value="Update" action="#{dashbordBean.goTypePage}"
-                                             update="-mainContent"/>
-                            <p:commandButton id="deleteButton" value="Delete" action="#{dashbordBean.show}"
-                                             update="-deleteForm"/>
-                            <p:commandButton id="view" value="View" action="#{dashbordBean.goTypePage}"
-                                             update="-mainContent"/>
+                            <p:commandButton id="create" value="Create" action="#{typesManagerBean.goCreatePage}"
+                                             update="-mainContent" styleClass="secondary"/>
+                            <p:commandButton id="update" value="Update" action="#{typesManagerBean.goTypePage}"
+                                             update="-mainContent" styleClass="secondary"/>
+                            <p:commandButton id="deleteButton" value="Delete"
+                                             action="#{typesManagerBean.showDeleteTypeDialog}"
+                                             update="-deleteForm" styleClass="secondary"/>
+                            <p:commandButton id="view" value="View" action="#{typesManagerBean.goTypePage}"
+                                             update="-mainContent" styleClass="secondary"/>
                         </uib:buttonGroup>
                     </h:form>
                 </uib:gridColumn>
-            </uib:gridRow>
+                <uib:gridColumn column="4">
+                <h:form id="ImportExportForm">
+                    <uib:buttonGroup >
+                        <p:commandButton styleClass="secondary" id="import" value="Import" ajax="false" onclick="jQuery('#importModal').modal('show');return false;"
+                                         update="-mainContent"/>
+                        <p:commandButton styleClass="secondary" id="export" value="Export" ajax="false" onclick="jQuery('#exportModal').modal('show');return false;"
+                                         update="-mainContent"/>
+                    </uib:buttonGroup>
+
+                </h:form>
+                </uib:gridColumn>
+            </uib:gridRow >
         </uib:gridContainer>
 
+        <!--modal for import-->
+        <uib:modal id="importModal" header="Modal header import">
+            <ui:include src="import.xhtml"/>
+
+         </uib:modal>
+        <!--modal-->
+
+        <!--modal for export-->
+        <uib:modal id="exportModal" header="Modal header export">
+            <ui:include src="export.xhtml"/>
+        </uib:modal>
+        <!--modal-->
+
         <h:form id="treeForm">
-            <ui:remove>
-                <h:inputText id="currentSelected" value=""/>
-            </ui:remove>
-            <p:tree value="#{dashbordBean.root}" var="node" dynamic="true" cache="false"
-                    selectionMode="single" selection="#{dashbordBean.selectedNode}" id="tree">
-                <p:ajax event="expand" listener="#{dashbordBean.onNodeExpand}"/>
-                <p:ajax event="collapse" listener="#{dashbordBean.onNodeCollapse}"/>
-                <p:ajax event="select" update="-messages" listener="#{dashbordBean.onNodeSelect}"/>
-                <p:ajax event="unselect" update="-messages" listener="#{dashbordBean.onNodeUnselect}"/>
+
+            <p:tree value="#{typesManagerBean.root}" var="node" dynamic="true" cache="false"
+                    selectionMode="single" selection="#{typesManagerBean.selectedNode}" id="tree">
+
+                <p:ajax event="expand" listener="#{typesManagerBean.onNodeExpand}"/>
+                <p:ajax event="collapse" listener="#{typesManagerBean.onNodeCollapse}"/>
+                <p:ajax event="select" update="-messages" listener="#{typesManagerBean.onNodeSelect}"/>
+                <p:ajax event="unselect" update="-messages" listener="#{typesManagerBean.onNodeUnselect}"/>
+
 
                 <p:treeNode id="node">
-                    <h:outputText id="nodeValue" value="#{node.displayName}"/>
+                    <h:outputText id="nodeText" value="#{node.displayName}"/>
                 </p:treeNode>
             </p:tree>
 
