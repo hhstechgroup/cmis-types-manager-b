@@ -1,0 +1,12 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+    <h:panelGrid columns="1" styleClass="mb10">
+        <h:outputText value="#{typesManagerBean.deleteMessage}"/>
+    </h:panelGrid>
+    <p:commandButton value="Yes" styleClass="mr10" update="-mainContent"
+                     action="#{typesManagerBean.deleteTypeWithSubtypes()}"
+                     onclick="jQuery('#deleteTypeDialog').modal('hide');"/>
+    <p:commandButton value="No" styleClass="secondary"
+                     onclick="jQuery('#deleteTypeDialog').modal('hide');return false;"/>
+</h:form>
