@@ -42,13 +42,13 @@
     font-size: 16px;
 }
 
-#deleteForm {
+/*#deleteForm {
     position: absolute;
     z-index: 1000;
     top: 30%;
     left: 15%;
     box-shadow: 1px 1px 6px #333;
-}
+}*/
 
 .ui-tree .ui-tree-container li .ui-treenode-content:hover .ui-tree-toggler.ui-icon-triangle-1-e {
     margin: 2px 2px 0px 3px !important;
@@ -94,203 +94,120 @@
     overflow: hidden;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable table{
     border-collapse: collapse;
     width: 100%;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata table {
+#createTypeForm-accordionPanel-accordionTabMetadata table,#viewForm-accordionPanel-accordionTabMetadata table {
     display: table;
     border-collapse: separate;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable table{
     border-collapse: collapse;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th{
     padding: 5px 10px;
     overflow: hidden;
     border: 1px solid #000;
     font-weight: bold;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tfoot td {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tfoot td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th{
     text-align: center;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body {
     overflow: auto;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table, .ui-datatable-sticky table {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table, .ui-datatable-sticky table,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table{
     table-layout: auto;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata colgroup {
+#createTypeForm-accordionPanel-accordionTabMetadata colgroup,#viewForm-accordionPanel-accordionTabMetadata colgroup{
     display: table-column-group;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-widget-content {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-widget-content,#viewForm-accordionPanel-accordionTabMetadata .ui-widget-content{
     position: relative;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata tr {
+#createTypeForm-accordionPanel-accordionTabMetadata tr,#viewForm-accordionPanel-accordionTabMetadata tr{
     vertical-align: inherit;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th{
     padding: 0px 7px;
     overflow: hidden;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td{
     border-color: inherit;
     position: relative;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select,#viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select{
     width: 100%;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor,#viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor{
     width: 100px;
     min-height: 34px;
     line-height: 31px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span{
+#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span,#viewForm-accordionPanel-accordionTabMetadata thead tr th span{
     display: block;
     width: 100px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata tr{
+#createTypeForm-accordionPanel-accordionTabMetadata tr,#viewForm-accordionPanel-accordionTabMetadata tr{
     width: 100% !important;
     display: table-row;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata td .ui-button{
+#createTypeForm-accordionPanel-accordionTabMetadata td .ui-button,#viewForm-accordionPanel-accordionTabMetadata td .ui-button{
     width: 30px;
     position: absolute;
     top: 16px;
     right: 15px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-row-editor{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-row-editor,#viewForm-accordionPanel-accordionTabMetadata .ui-row-editor{
     width: 100px;
     padding-left: 10px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td{
     border: none;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box{
     margin: 0;
 }
 
-#createTypeForm-accordionPanel-metadataTabel .ui-datatable-scrollable-header-box th{
+#createTypeForm-accordionPanel-metadataTabel .ui-datatable-scrollable-header-box th,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box th{
     text-align: center;
 }
 
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable table {
-    border-collapse: collapse;
-    width: 100%;
+#viewForm-accordionPanel-accordionTabMetadata,#createTypeForm-accordionPanel-accordionTabMetadata{
+    padding: 0px;
 }
 
-#viewForm-accordionPanel-accordionTabMetadata table {
-    display: table;
-    border-collapse: separate;
+#createTypeForm-accordionPanel-metadataTabel{
+    margin-top: -40px;
 }
 
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable table {
-    border-collapse: collapse;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
-    padding: 5px 10px;
-    overflow: hidden;
-    border: 1px solid #000;
-    font-weight: bold;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tfoot td {
-    text-align: center;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body {
-    overflow: auto;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table, .ui-datatable-sticky table {
-    table-layout: auto;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata colgroup {
-    display: table-column-group;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-widget-content {
-    position: relative;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata tr {
-    vertical-align: inherit;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td {
-    padding: 0px 7px;
-    overflow: hidden;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td {
-    border-color: inherit;
-    position: relative;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select{
-    width: 100%;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor{
-    width: 100px;
-    min-height: 34px;
-    line-height: 31px;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata thead tr th span{
-    display: block;
-    width: 100px;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata tr{
-    width: 100% !important;
-    display: table-row;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata td .ui-button{
-    width: 30px;
+#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton{
+    z-index: 100;
     position: absolute;
-    top: 16px;
-    right: 15px;
+    right: 45px;
 }
 
-#viewForm-accordionPanel-accordionTabMetadata .ui-row-editor{
-    width: 100px;
-    padding-left: 10px;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td{
-    border: none;
-}
-
-#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box{
-    margin: 0;
-}
-
-#viewForm-accordionPanel-metadataTabel .ui-datatable-scrollable-header-box th{
-    text-align: center;
-}
+/* delete modal dialog*/
 
 #deleteTypeDialog{
     width: 380px;

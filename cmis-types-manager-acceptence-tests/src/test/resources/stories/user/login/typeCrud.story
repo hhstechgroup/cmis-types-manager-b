@@ -37,7 +37,7 @@ When the user opens all tree with className 'ui-tree-toggler'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-deleteButton'
 Then wait for element 'deleteForm' is visible
-When the user clicks on element with id/name/className 'deleteForm-accept'
+When the user clicks on element with id/name/className 'deleteForm-Yes'
 When the user clicks on element with id/name/className 'ui-icon-close'
 
 Scenario: logout scenario
