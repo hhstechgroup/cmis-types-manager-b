@@ -79,66 +79,90 @@
                     </h:panelGrid>
                 </p:tab>
                 <p:tab id="accordionTabMetadata" title="Metadata">
-                    <p:dataTable var="property" value="#{viewTypeBean.propertyDefinitions}"
-                                 scrollable="true"
-                                 scrollWidth="630"
-                                 scrollHeight="200"
-                                 id="metadataTabel">
-
-                        <p:column headerText="Name">
+                    <div style="height: 200px; overflow: auto;">
+                        <h:dataTable var="property" value="#{viewTypeBean.propertyDefinitions}"
+                                     id="metadataTabel">
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Name"/>
+                                </f:facet>
                                 <h:outputText value="#{property.displayName}"/>
-                        </p:column>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Id"/>
+                                </f:facet>
+                                <h:outputText value="#{property.id}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Description"/>
+                                </f:facet>
+                                <h:outputText value="#{property.description}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Local namespace"/>
+                                </f:facet>
+                                <h:outputText value="#{property.localNamespace}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Local name"/>
+                                </f:facet>
+                                <h:outputText value="#{property.localName}"/>
+                            </h:column>
 
-                        <p:column headerText="Id">
-                            <h:outputText value="#{property.id}"/>
-                        </p:column>
-
-                        <p:column headerText="Description">
-                            <h:outputText value="#{property.description}"/>
-                        </p:column>
-
-                        <p:column headerText="Local namespace">
-                            <h:outputText value="#{property.localNamespace}"/>
-                        </p:column>
-
-                        <p:column headerText="Local name">
-                            <h:outputText value="#{property.localName}"/>
-                        </p:column>
-
-                        <p:column headerText="Query name">
-                            <h:outputText value="#{property.queryName}"/>
-                        </p:column>
-
-                        <p:column headerText="Type">
-                            <h:outputText value="#{property.propertyType}"/>
-                        </p:column>
-
-                        <p:column headerText="Cardinality">
-                            <h:outputText value="#{property.cardinality}"/>
-                        </p:column>
-
-                        <p:column headerText="Updatability">
-                            <h:outputText value="#{property.updatability}"/>
-                        </p:column>
-
-                        <p:column headerText="Quaryable">
-                            <h:outputText value="#{property.isQueryable()}"/>
-                        </p:column>
-
-                        <p:column headerText="Orderable">
-                            <h:outputText value="#{property.isOrderable()}"/>
-                        </p:column>
-
-                        <p:column headerText="Requaried">
-                            <h:outputText value="#{property.isRequired()}"/>
-                        </p:column>
-
-                        <p:column headerText="Inheried">
-                            <h:outputText value="#{property.isInherited()}"/>
-                        </p:column>
-
-                    </p:dataTable>
-
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Query name"/>
+                                </f:facet>
+                                <h:outputText value="#{property.queryName}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Type"/>
+                                </f:facet>
+                                <h:outputText value="#{property.propertyType}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Cardinality"/>
+                                </f:facet>
+                                <h:outputText value="#{property.cardinality}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Updatability"/>
+                                </f:facet>
+                                <h:outputText value="#{property.updatability}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Quarylable"/>
+                                </f:facet>
+                                <h:outputText value="#{property.isQueryable()}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Orderable"/>
+                                </f:facet>
+                                <h:outputText value="#{property.isOrderable()}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Requeried"/>
+                                </f:facet>
+                                <h:outputText value="#{property.isRequired()}"/>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    <h:outputText value="Inheried"/>
+                                </f:facet>
+                                <h:outputText value="#{property.isInherited()}"/>
+                            </h:column>
+                        </h:dataTable>
+                    </div>
 
                 </p:tab>
             </p:accordionPanel>

@@ -1,18 +1,25 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="../template.xhtml"
-                xmlns:uib="http://engagepoint.com/uib">
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:uib="http://engagepoint.com/uib" id="importForm" enctype="multipart/form-data">
+    <uib:gridContainer>
+        <uib:gridRow>
+            <uib:gridColumn column="3">
+                <p:fileUpload id="importFileUpload" fileUploadListener="#{importTypeBean.upload}" label="Select file" mode="advanced"
+                              dragDropSupport="true"
+                              auto="true" update="-importForm,fileUploadName" sizeLimit="100000" allowTypes="/(\.|\/)(xml|json)$/"/>
+            </uib:gridColumn>
 
-    <ui:define name="mainContent">
+            <uib:gridColumn column="6">
+                <p:inputText disabled="true" readonly="true" id ="fileUploadName" value="#{importTypeBean.fileName}"/>
+            </uib:gridColumn>
+         </uib:gridRow>
+        </uib:gridContainer>
+    <p:commandButton disabled="#{importTypeBean.importButtonDisabled}" id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}"
+                     update="-mainContent"/>
 
-        <h:form>
+</h:form>
 
-            <p:fileUpload fileUploadListener="#{fileUploadBean.handleFileUpload}" mode="advanced"
-                          dragDropSupport="true"
-                          update="-mainContent" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"/>
-        </h:form>
-    </ui:define>
-</ui:composition>
+
+
+

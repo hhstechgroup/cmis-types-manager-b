@@ -1,51 +1,107 @@
 package com.engagepoint.view;
 
-import com.engagepoint.components.MultiPageMessagesSupport;
-import com.engagepoint.services.CmisService;
-
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
 /**
- * User: arkadiy.sychov (arkadiy.sychov@engagepoint.com )
+ * User: vyacheslav.polulyakh (vyacheslav.polulyakh@engagepoint.com )
  * Date: 12/12/13
- * Time: 5:50 PM
+ * Time: 16:26 AM
  */
+
+import com.engagepoint.components.Message;
+import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.services.CmisService;
+import com.engagepoint.services.UserInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import java.io.IOException;
+import java.io.OutputStream;
+
 
 @ManagedBean
 @ViewScoped
 public class ExportTypeBean {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExportTypeBean.class);
     @EJB
     private CmisService service;
+    @ManagedProperty(value = "#{loginBean}")
+    private LoginBean login;
 
-    private boolean isXmlOrJson;
-    private boolean isIncludeChilds;
+    private UserInfo userInfo;
+
+    @ManagedProperty(value = "#{navigation}")
+    private NavigationBean navigationBean;
+
+    private boolean xmlOrJson;
+    private boolean includeChildren;
+
+
+    @PostConstruct
+    public void init() {
+        userInfo = login.getUserInfo();
+    }
+
+    public void exportType() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        String selectedTypeId = navigationBean.getTypeProxy().getId();
+        try {
+            OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+            if (xmlOrJson) {
+                externalContext.setResponseContentType("application/xml");
+                externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
+                service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
+            } else {
+                externalContext.setResponseContentType("application/json");
+                externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
+                service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
+            }
+
+        } catch (IOException e) {
+            Message.printError(e.getMessage());
+            LOGGER.error("Error while exporting type", e);
+        } catch (CmisConnectException e) {
+            Message.printError(e.getMessage());
+            LOGGER.error("Error while exporting type", e);
+        }
+        facesContext.responseComplete();
+    }
+
+    public LoginBean getLogin() {
+        return login;
+    }
+
+    public void setLogin(LoginBean login) {
+        this.login = login;
+    }
+
+    public NavigationBean getNavigationBean() {
+        return navigationBean;
+    }
+
+    public void setNavigationBean(NavigationBean navigationBean) {
+        this.navigationBean = navigationBean;
+    }
 
     public boolean isXmlOrJson() {
-        return isXmlOrJson;
+        return xmlOrJson;
     }
 
     public void setXmlOrJson(boolean xmlOrJson) {
-        isXmlOrJson = xmlOrJson;
-        MultiPageMessagesSupport.printInfo("If xml - true, if json - false" + isXmlOrJson);
-       // System.out.println("isXmlOrJson = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + isXmlOrJson());
+        this.xmlOrJson = xmlOrJson;
     }
 
-    public boolean isIncludeChilds() {
-        return isIncludeChilds;
+    public boolean isIncludeChildren() {
+        return includeChildren;
     }
 
-    public void setIncludeChilds(boolean includeChilds) {
-        isIncludeChilds = includeChilds;
-        Message.printError("If includeChild - true, if not includeChild - false" + isIncludeChilds);
-
-        // System.out.println("isIncludeChilds = !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + isIncludeChilds());
-    }
-
-    public void ajaxTest(){
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("  " + isIncludeChilds));
+    public void setIncludeChildren(boolean includeChildren) {
+        this.includeChildren = includeChildren;
     }
 }
