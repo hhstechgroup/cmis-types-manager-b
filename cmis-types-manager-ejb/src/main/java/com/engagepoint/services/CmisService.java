@@ -223,6 +223,7 @@ public class CmisService {
         typeProxy.setId(objectType.getId());
         typeProxy.setDisplayName(objectType.getDisplayName());
         typeProxy.setBaseType(objectType.getBaseTypeId().value());
+        typeProxy.setTypeMutability(objectType.getTypeMutability());
         List<TypeProxy> children = new ArrayList<TypeProxy>();
         for (ObjectType child : objectType.getChildren()) {
             children.add(getTypeProxyFromCmis(child));
