@@ -62,6 +62,7 @@ public class ExportTypeBean {
                 externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
                 service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
             }
+
         } catch (IOException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while exporting type", e);
@@ -69,6 +70,7 @@ public class ExportTypeBean {
             Message.printError(e.getMessage());
             LOGGER.error("Error while exporting type", e);
         }
+        facesContext.responseComplete();
     }
 
     public LoginBean getLogin() {
