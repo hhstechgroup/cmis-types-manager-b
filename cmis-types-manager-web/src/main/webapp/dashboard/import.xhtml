@@ -5,18 +5,19 @@
     <uib:gridContainer>
         <uib:gridRow>
             <uib:gridColumn column="3">
-                <p:fileUpload fileUploadListener="#{importTypeBean.upload}" label="Select file" mode="advanced"
+                <p:fileUpload id="importFileUpload" fileUploadListener="#{importTypeBean.upload}" label="Select file" mode="advanced"
                               dragDropSupport="true"
                               auto="true" update="-importForm,fileUploadName" sizeLimit="100000" allowTypes="/(\.|\/)(xml|json)$/"/>
             </uib:gridColumn>
 
             <uib:gridColumn column="6">
-                <uib:input disabled="true" readonly="true" id ="fileUploadName" value="#{importTypeBean.fileName}"/>
+                <p:inputText disabled="true" readonly="true" id ="fileUploadName" value="#{importTypeBean.fileName}"/>
             </uib:gridColumn>
          </uib:gridRow>
         </uib:gridContainer>
-    <p:commandButton id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}"
+    <p:commandButton disabled="#{importTypeBean.importButtonDisabled}" id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}"
                      update="-mainContent"/>
+    <h:outputText id="outputText" value="#{importTypeBean.importButtonDisabled}"/>
 
 </h:form>
 

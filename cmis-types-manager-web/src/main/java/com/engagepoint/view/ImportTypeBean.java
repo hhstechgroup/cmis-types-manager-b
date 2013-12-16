@@ -10,6 +10,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -35,7 +36,12 @@ public class ImportTypeBean {
     private String fileName;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
+    private boolean importButtonDisabled;
 
+    @PostConstruct
+    public void init(){
+        importButtonDisabled = true;
+    }
 
     public String getFileName() {
         return fileName;
@@ -50,7 +56,10 @@ public class ImportTypeBean {
             fileName = event.getFile().getFileName();
 //            Message.printInfo(fileName + " is uploaded.");
             stream = event.getFile().getInputstream();
+            importButtonDisabled = false;
         } catch (IOException e) {
+            importButtonDisabled = true;
+            fileName = "";
             Message.printError(e.getMessage());
             LOGGER.error("Unable to upload file", e);
         }
@@ -99,5 +108,13 @@ public class ImportTypeBean {
 
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
+    }
+
+    public boolean isImportButtonDisabled() {
+        return importButtonDisabled;
+    }
+
+    public void setImportButtonDisabled(boolean importButtonDisabled) {
+        this.importButtonDisabled = importButtonDisabled;
     }
 }
