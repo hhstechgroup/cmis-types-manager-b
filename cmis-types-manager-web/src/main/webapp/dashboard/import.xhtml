@@ -17,7 +17,9 @@
         </uib:gridContainer>
     <p:commandButton disabled="#{importTypeBean.importButtonDisabled}" id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}"
                      update="-mainContent"/>
-    <h:outputText id="outputText" value="#{importTypeBean.importButtonDisabled}"/>
+<!--
+    <h:outputText id="outputText" value="#//{importTypeBean.importButtonDisabled}"/>
+-->
 
 </h:form>
 
