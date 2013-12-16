@@ -119,15 +119,21 @@ public class TypesManagerBean implements Serializable {
     }
 
     public void deleteType(UserInfo userInfo, TypeProxy selectedType) {
-        if (typeHasSubtypes(selectedType)) {
-            List<TypeProxy> selectedTypeChildren = selectedType.getChildren();
-            for (TypeProxy selectedTypeChild : selectedTypeChildren) {
-                deleteType(userInfo, selectedTypeChild);
-            }
-        }
+
         try {
-            service.deleteType(userInfo, selectedType);
-            Message.printInfo("Deleted type " + selectedType.getDisplayName());
+            if (Boolean.FALSE.equals(selectedType.getTypeMutability().canDelete())){
+                Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+
+            } else {
+                List<TypeProxy> selectedTypeChildren = selectedType.getChildren();
+                for (TypeProxy selectedTypeChild : selectedTypeChildren) {
+                    deleteType(userInfo, selectedTypeChild);
+                }
+                service.deleteType(userInfo, selectedType);
+                Message.printInfo("Deleted type " + selectedType.getDisplayName());
+            }
+
+
         } catch (CmisConnectException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while deleting type", e);

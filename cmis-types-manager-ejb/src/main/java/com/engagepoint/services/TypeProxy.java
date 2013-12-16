@@ -1,5 +1,7 @@
 package com.engagepoint.services;
 
+import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
+
 import java.util.List;
 
 /**
@@ -11,6 +13,15 @@ public class TypeProxy {
     private String id;
     private String displayName;
     private String baseType;
+    private TypeMutability typeMutability;
+
+    public TypeMutability getTypeMutability() {
+        return typeMutability;
+    }
+
+    public void setTypeMutability(TypeMutability typeMutability) {
+        this.typeMutability = typeMutability;
+    }
 
     private List<TypeProxy> children;
 
