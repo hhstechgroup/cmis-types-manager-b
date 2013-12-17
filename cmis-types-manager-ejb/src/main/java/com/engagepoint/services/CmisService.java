@@ -12,6 +12,7 @@ import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
 import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
+import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractTypeDefinition;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +21,7 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.xml.stream.XMLStreamException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -118,11 +117,11 @@ public class CmisService {
         return propertyDefinitionMap;
     }
 
-    public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
+    public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws CmisConnectException, CmisCreateException, JSONParseException {
         try {
             Session session = getSession(userInfo);
             try {
-                TypeDefinition typeDefinition = TypeUtils.readFromXML(stream);
+                TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
                 session.createType(typeDefinition);
             } finally {
                 if (stream != null) {
@@ -136,12 +135,17 @@ public class CmisService {
         }
     }
 
-    public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws CmisConnectException, CmisCreateException, JSONParseException {
+    public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
         try {
             Session session = getSession(userInfo);
+            List<AbstractTypeDefinition> definitionList;
             try {
-                TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
-                session.createType(typeDefinition);
+                definitionList = CustomTypeUtils.readFromXML(stream);
+                if (definitionList != null) {
+                    for (AbstractTypeDefinition definition : definitionList) {
+                        session.createType(getCorrectTypeDefinition(session, definition));
+                    }
+                }
             } finally {
                 if (stream != null) {
                     stream.close();
@@ -182,7 +186,7 @@ public class CmisService {
         return defaultRepositoryId;
     }
 
-    public boolean isUserExist(UserInfo userInfo) throws CmisConnectException {
+    public boolean isUserExists(UserInfo userInfo) throws CmisConnectException {
         return getSession(userInfo) != null;
     }
 
@@ -195,6 +199,32 @@ public class CmisService {
             throw new CmisConnectException(e.getMessage());
         }
         return repositories;
+    }
+
+    private TypeDefinition getCorrectTypeDefinition(Session session, TypeDefinition typeDefinition) {
+        Map<String, PropertyDefinition<?>> propertyDefinitions = typeDefinition.getPropertyDefinitions();
+        String parentTypeId = typeDefinition.getParentTypeId();
+        if (parentTypeId != null) {
+            Map<String, PropertyDefinition<?>> propertyOfAllParentTypes = getPropertyOfAllParentTypes(session, parentTypeId);
+            for (String key : getKeyList(propertyDefinitions.keySet())) {
+                if (propertyOfAllParentTypes.containsKey(key)) {
+                    propertyDefinitions.remove(key);
+                }
+            }
+        }
+        return typeDefinition;
+    }
+
+    private Map<String, PropertyDefinition<?>> getPropertyOfAllParentTypes(Session session, String parentTypeId) {
+        return session.getTypeDefinition(parentTypeId).getPropertyDefinitions();
+    }
+
+    private List<String> getKeyList(Set<String> stringSet) {
+        List<String> list = new ArrayList<String>();
+        for (String s : stringSet) {
+            list.add(s);
+        }
+        return list;
     }
 
     private Session getSession(UserInfo userInfo) throws CmisConnectException {
