@@ -120,6 +120,6 @@ public class LoginBean implements Serializable {
     }
 
     private boolean isValid() throws CmisConnectException {
-        return service.isUserExist(userInfo);
+        return service.isUserExists(userInfo);
     }
 }
