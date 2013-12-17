@@ -296,15 +296,11 @@ public class CmisService {
 
     }
 
-
+    //TODO write to JSON with child's and change type of exception
     public void exportTypeToJSON(final UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisConnectException, IOException {
         Session session = getSession(userInfo);
         try {
-            if (includeChildren) {
-                //TODO write to JSON with child's and change type of exception
-            } else {
                 TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
-            }
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisConnectException(e.getMessage());
