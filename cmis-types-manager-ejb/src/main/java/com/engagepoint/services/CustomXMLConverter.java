@@ -1466,19 +1466,14 @@ public class CustomXMLConverter {
     private static final XMLWalker<List<AbstractTypeDefinition>> TYPE_TREE_DEF_PARSER = new XMLWalker<List<AbstractTypeDefinition>>() {
         @Override
         protected List<AbstractTypeDefinition> prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            List<AbstractTypeDefinition> result = null;
-            String typeAttr = parser.getAttributeValue(NAMESPACE_XSI, "typeDefinitions");
 //          TODO add check in namespace
-            result = new ArrayList<AbstractTypeDefinition>();
-
-            if (result == null) {
-                throw new CmisInvalidArgumentException("Cannot read type definition!");
-            }
+            List<AbstractTypeDefinition> result = new ArrayList<AbstractTypeDefinition>();
             return result;
         }
 
         @Override
         protected boolean read(XMLStreamReader parser, QName name, List<AbstractTypeDefinition> target) throws XMLStreamException {
+//          TODO add check in type definition
             target.add(TYPE_DEF_PARSER.walk(parser));
             return true;
         }

@@ -117,12 +117,17 @@ public class CmisService {
         return propertyDefinitionMap;
     }
 
-    public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws CmisConnectException, CmisCreateException, JSONParseException {
+    public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
         try {
             Session session = getSession(userInfo);
+            List<AbstractTypeDefinition> definitionList;
             try {
-                TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
-                session.createType(typeDefinition);
+                definitionList = CustomTypeUtils.readFromXML(stream);
+                if (definitionList != null) {
+                    for (AbstractTypeDefinition definition : definitionList) {
+                        session.createType(getCorrectTypeDefinition(session, definition));
+                    }
+                }
             } finally {
                 if (stream != null) {
                     stream.close();
@@ -135,17 +140,12 @@ public class CmisService {
         }
     }
 
-    public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws CmisConnectException, XMLStreamException, CmisCreateException {
+    public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws CmisConnectException, CmisCreateException, JSONParseException {
         try {
             Session session = getSession(userInfo);
-            List<AbstractTypeDefinition> definitionList;
             try {
-                definitionList = CustomTypeUtils.readFromXML(stream);
-                if (definitionList != null) {
-                    for (AbstractTypeDefinition definition : definitionList) {
-                        session.createType(getCorrectTypeDefinition(session, definition));
-                    }
-                }
+                TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
+                session.createType(typeDefinition);
             } finally {
                 if (stream != null) {
                     stream.close();
