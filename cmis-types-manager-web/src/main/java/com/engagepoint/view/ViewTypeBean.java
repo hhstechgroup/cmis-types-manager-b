@@ -36,13 +36,9 @@ public class ViewTypeBean implements Serializable {
     private LoginBean login;
     private TypeDefinition typeDefinition;
     private TypeProxy selectedType;
-    private String stringMutability;
 
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
-
-
-
 
     @PostConstruct
     public void init() {
@@ -50,7 +46,6 @@ public class ViewTypeBean implements Serializable {
             selectedType = navigationBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, selectedType);
-            mutabilityToString();
         } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
@@ -70,7 +65,6 @@ public class ViewTypeBean implements Serializable {
         return new ArrayList<PropertyDefinition>(values);
     }
 
-
     public TypeDefinition getTypeDefinition() {
         return typeDefinition;
     }
@@ -82,35 +76,19 @@ public class ViewTypeBean implements Serializable {
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
     }
+
     public String mutabilityToString(){
-        String delete;
-        String upData;
-        String create;
-        if(typeDefinition.getTypeMutability().canDelete() == true){
-            delete = "Delete";
-        }else {
-            delete = "";
+        StringBuilder builder = new StringBuilder();
+        if(typeDefinition.getTypeMutability().canDelete()){
+            builder.append("Delete ");
         }
-        if ( typeDefinition.getTypeMutability().canCreate() ==true){
-            create ="Create";
-        }else {
-            create="";
+        if ( typeDefinition.getTypeMutability().canCreate()){
+            builder.append("Create ");
         }
-        if ( typeDefinition.getTypeMutability().canUpdate() ==true){
-            upData ="Update";
-        }else {
-            upData="";
+        if ( typeDefinition.getTypeMutability().canUpdate()){
+            builder.append("Update");
         }
-        stringMutability =  create +" "+ upData +" "+ delete ;
-        return stringMutability;
-    }
-
-    public String getStringMutability() {
-        return stringMutability;
-    }
-
-    public void setStringMutability(String stringMutability) {
-        this.stringMutability = stringMutability;
+        return builder.toString();
     }
 }
 

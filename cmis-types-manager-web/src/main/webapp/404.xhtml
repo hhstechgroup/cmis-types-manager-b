@@ -1,13 +1,11 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="template.xhtml"
-                xmlns:uib="http://engagepoint.com/uib">
+                template="template.xhtml">
     <ui:define name="mainContent">
         <h:form>
-            <p:commandButton value="Go back" action="#{navigation.toMainPage}"/>
+            <p:commandButton value="Go back" action="dashboard/index.xhtml"/>
             <p:graphicImage value="#{resource['img:404.jpg']}"/>
         </h:form>
     </ui:define>
