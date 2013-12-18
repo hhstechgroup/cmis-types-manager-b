@@ -23,7 +23,7 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class CreateBean implements Serializable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyTypeBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
