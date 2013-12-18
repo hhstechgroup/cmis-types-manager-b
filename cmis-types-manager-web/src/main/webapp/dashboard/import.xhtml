@@ -7,7 +7,7 @@
             <uib:gridColumn column="3">
                 <p:fileUpload id="importFileUpload" fileUploadListener="#{importTypeBean.upload}" label="Select file" mode="advanced"
                               dragDropSupport="true"
-                              auto="true" update="-importForm,fileUploadName" sizeLimit="100000" allowTypes="/(\.|\/)(xml|json)$/"/>
+                              auto="true" update="-importForm,fileUploadName" sizeLimit="1000000" allowTypes="/(\.|\/)(xml|json)$/"/>
             </uib:gridColumn>
 
             <uib:gridColumn column="6">
