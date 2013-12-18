@@ -54,26 +54,6 @@ public class LeftMenuBarBean {
         }
         view.setParent(typesManagement);
 
-//        model.addMenuItem(typesManagement);
-//        addMenuItem(viewId, "index", "/dashboard/", "index.xhtml", "Types Management");
-//        addMenuItem(viewId, "create", "/dashboard/", "create.xhtml", "Create type");
-//        addMenuItem(viewId, "view", "/dashboard/", "type.xhtml", "View type");
-//        addMenuItem(viewId, "update", "/dashboard/", "type.xhtml", "Update type");
-//
-//        model = new DefaultMenuModel();
-
-        //First submenu
-//        DefaultSubMenu firstSubmenu = new DefaultSubMenu("Types management");
-//
-//        DefaultMenuItem create = new DefaultMenuItem("Create");
-//        create.setUrl("crud/create.xhtml");
-//        firstSubmenu.addElement(create);
-//
-//        DefaultMenuItem view = new DefaultMenuItem("View");
-//         view.setUrl("crud/type.xhtml");
-//        firstSubmenu.addElement(view);
-//
-//        model.addElement(firstSubmenu);
     }
 
     private void addMenuItem(String viewId, String mID, String rootView, String address, String label) {
@@ -86,13 +66,5 @@ public class LeftMenuBarBean {
         menuItem.setUrl(rootView + address);
         model.addMenuItem(menuItem);
     }
-//
-//    public MenuModel getModel() {
-//        return model;
-//    }
-//
-//    public void setModel(MenuModel model) {
-//        this.model = model;
-//    }
 }
 
