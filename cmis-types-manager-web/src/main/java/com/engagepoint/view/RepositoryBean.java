@@ -1,7 +1,8 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.constants.Constants;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.slf4j.Logger;
@@ -26,12 +27,12 @@ import java.util.List;
 @ViewScoped
 public class RepositoryBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryBean.class);
-    private static final String REPO_CHANGED = "Repository changed successfully";
+
     @EJB
     private CmisService service;
     private List<Repository> repositories;
     private String selectedRepoId;
-    private ArrayList<SelectItem> repositoryList;
+    private List<SelectItem> repositoryList;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
 
@@ -44,15 +45,15 @@ public class RepositoryBean implements Serializable {
                 repositoryList.add(new SelectItem(repo.getId(), repo.getName()));
             }
             selectedRepoId = repositories.get(0).getId();
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
-            LOGGER.error("Unable to initialization repositories", e);
+            LOGGER.error(Constants.Messages.UNABLE_INIT_REPO, e);
         }
     }
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
-        Message.printInfo(REPO_CHANGED);
+        Message.printInfo(Constants.RepoManager.REPO_CHANGED);
     }
 
     public String getSelectedRepoId() {
@@ -63,11 +64,11 @@ public class RepositoryBean implements Serializable {
         this.selectedRepoId = selectedRepoId;
     }
 
-    public ArrayList<SelectItem> getRepositoryList() {
+    public List<SelectItem> getRepositoryList() {
         return repositoryList;
     }
 
-    public void setRepositoryList(ArrayList<SelectItem> repositoryList) {
+    public void setRepositoryList(List<SelectItem> repositoryList) {
         this.repositoryList = repositoryList;
     }
 

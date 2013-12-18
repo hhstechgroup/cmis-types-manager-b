@@ -1,8 +1,8 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
-import com.engagepoint.exceptions.CmisCreateException;
+import com.engagepoint.constants.Constants;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
@@ -28,7 +28,7 @@ public class CreateBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private Type newType;
     private List<TypeProperty> typeProperties;
@@ -52,7 +52,7 @@ public class CreateBean implements Serializable {
             newType.setFulltextIndexed(typeDefinition.isFulltextIndexed());
             newType.setControllableAcl(typeDefinition.isControllableAcl());
             newType.setControllablePolicy(typeDefinition.isControllablePolicy());
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
         }
@@ -76,13 +76,13 @@ public class CreateBean implements Serializable {
 
     public String addAction() {
         TypeProperty property = new TypeProperty();
-        property.setDisplayName("");
-        property.setLocalName("");
-        property.setQueryName("");
-        property.setId("");
-        property.setCardinality("");
-        property.setUpdatability("");
-        property.setPropertyType("");
+        property.setDisplayName(Constants.Strings.EMPTY_STRING);
+        property.setLocalName(Constants.Strings.EMPTY_STRING);
+        property.setQueryName(Constants.Strings.EMPTY_STRING);
+        property.setId(Constants.Strings.EMPTY_STRING);
+        property.setCardinality(Constants.Strings.EMPTY_STRING);
+        property.setUpdatability(Constants.Strings.EMPTY_STRING);
+        property.setPropertyType(Constants.Strings.EMPTY_STRING);
         typeProperties.add(property);
         return null;
     }
@@ -129,15 +129,12 @@ public class CreateBean implements Serializable {
             newType.setProperties(typeProperties);
             service.createType(userInfo, newType);
             Message.printInfo(newType.getDisplayName() + " type created!");
-            return navigationBean.toMainPage();
-        } catch (CmisConnectException e) {
+            return Constants.Navigation.TO_MAIN_PAGE;
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to create type", e);
-        } catch (CmisCreateException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while create type", e);
         }
-        return "";
+        return Constants.Navigation.TO_CURRENT_PAGE;
     }
 
 

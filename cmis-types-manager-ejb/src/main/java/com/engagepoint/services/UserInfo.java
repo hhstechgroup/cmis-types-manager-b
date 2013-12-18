@@ -1,7 +1,5 @@
 package com.engagepoint.services;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * User: AlexDenisenko
  * Date: 28.12.13
@@ -59,11 +57,5 @@ public class UserInfo {
         userName = "";
         password = "";
         url = "";
-    }
-
-    public boolean isEmpty(){
-        return StringUtils.isEmpty(userName) &&
-                StringUtils.isEmpty(password) &&
-                StringUtils.isEmpty(url);
     }
 }

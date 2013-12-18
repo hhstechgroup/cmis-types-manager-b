@@ -9,7 +9,6 @@
                               dragDropSupport="true"
                               auto="true" update="-importForm,fileUploadName" sizeLimit="1000000" allowTypes="/(\.|\/)(xml|json)$/"/>
             </uib:gridColumn>
-
             <uib:gridColumn column="6">
                 <p:inputText disabled="true" readonly="true" id ="fileUploadName" value="#{importTypeBean.fileName}"/>
             </uib:gridColumn>
@@ -17,7 +16,6 @@
         </uib:gridContainer>
     <p:commandButton disabled="#{importTypeBean.importButtonDisabled}" id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}"
                      update="-mainContent"/>
-
 </h:form>
 
 

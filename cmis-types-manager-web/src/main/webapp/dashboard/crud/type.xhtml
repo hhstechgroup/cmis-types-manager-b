@@ -3,8 +3,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="../../template.xhtml"
-                xmlns:uib="http://engagepoint.com/uib">
+                template="../../template.xhtml">
 
     <ui:define name="leftMenu">
         <ui:include src="/dashboard/leftMenu.xhtml"/>
@@ -13,7 +12,7 @@
     <ui:define name="mainContent">
         <h:form id="viewForm">
 
-            <p:commandButton id="return" value="Back" action="#{navigation.toMainPage}" styleClass="mb20"/>
+            <p:commandButton id="return" value="Back" action="/dashboard/index?faces-redirect=true" styleClass="mb20"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
@@ -25,7 +24,6 @@
                         <h:outputText id="outputTextView1" value="Description :"/>
                         <h:outputText id="inputTextView1" disabled="true"
                                       value="#{viewTypeBean.typeDefinition.description}"/>
-
 
                         <h:outputText id="outputTextView2" value="Id :"/>
                         <h:outputText id="inputTextView2" disabled="true" value="#{viewTypeBean.typeDefinition.id}"/>
@@ -74,7 +72,7 @@
                                                  value="#{viewTypeBean.typeDefinition.isControllablePolicy()}"/>
 
                         <h:outputText id="outputTextView14" value="Type mutability"/>
-                        <h:outputText value="Create, Update, Delete"/>
+                        <h:outputText value="#{viewTypeBean.mutabilityToString()}"/>
 
                     </h:panelGrid>
                 </p:tab>
@@ -163,7 +161,6 @@
                             </h:column>
                         </h:dataTable>
                     </div>
-
                 </p:tab>
             </p:accordionPanel>
         </h:form>

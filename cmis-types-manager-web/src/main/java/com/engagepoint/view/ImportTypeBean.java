@@ -1,8 +1,8 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
-import com.engagepoint.exceptions.CmisCreateException;
+import com.engagepoint.constants.Constants;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
@@ -34,7 +34,7 @@ public class ImportTypeBean {
     private LoginBean login;
     private InputStream stream;
     private String fileName;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private boolean importButtonDisabled;
 
@@ -78,20 +78,17 @@ public class ImportTypeBean {
             } else {
                 Message.printInfo("File is not selected");
             }
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while import type", e);
         } catch (XMLStreamException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while pars file", e);
-        } catch (CmisCreateException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while pars file", e);
         } catch (JSONParseException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to create type", e);
         }
-        return navigationBean.toMainPage();
+        return Constants.Navigation.TO_MAIN_PAGE;
     }
 
     public LoginBean getLogin() {

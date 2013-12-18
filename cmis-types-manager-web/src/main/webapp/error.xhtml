@@ -1,16 +1,13 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="template.xhtml"
-                xmlns:uib="http://engagepoint.com/uib">
+                template="template.xhtml">
     <ui:define name="mainContent">
         <h:form>
             <h:outputText value="Error"/>
             <br/>
-            <p:commandButton value="Go back" action="#{navigation.toMainPage}"/>
+            <p:commandButton value="Go back" action="dashboard/index.xhtml"/>
         </h:form>
-
     </ui:define>
 </ui:composition>

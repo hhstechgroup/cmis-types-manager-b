@@ -11,16 +11,9 @@ import java.io.Serializable;
  * Date: 12/2/13
  * Time: 1:44 PM
  */
-@ManagedBean(name = "navigation")
+@ManagedBean
 @SessionScoped
 public class NavigationBean implements Serializable {
-    private static final String TO_LOGIN = "/login?faces-redirect=true";
-    private static final String TO_MAIN_PAGE = "/dashboard/index?faces-redirect=true";
-    private static final String TO_MAIN_PAGE2 = "index?faces-redirect=true";
-    private static final String TO_CREATE_TYPE = "crud/create?faces-redirect=true";
-    private static final String TO_VIEW_TYPE = "crud/type?faces-redirect=true";
-    private static final String TO_UPDATE_TYPE = "crud/type?faces-redirect=true";
-    private static final String TO_IMPORT_TYPE = "import?faces-redirect=true";
     private TypeProxy typeProxy;
 
     public TypeProxy getTypeProxy() {
@@ -30,33 +23,4 @@ public class NavigationBean implements Serializable {
     public void setTypeProxy(TypeProxy typeProxy) {
         this.typeProxy = typeProxy;
     }
-
-    public String toLogin() {
-        return TO_LOGIN;
-    }
-
-    public String toMainPage() {
-        return TO_MAIN_PAGE;
-    }
-
-    public String toMainPage2() {
-        return TO_MAIN_PAGE2;
-    }
-
-    public String toCreateType() {
-        return TO_CREATE_TYPE;
-    }
-
-    public String toUpdateType() {
-        return TO_UPDATE_TYPE;
-    }
-
-    public String toViewType() {
-        return TO_VIEW_TYPE;
-    }
-
-    public String toImportType() {
-        return TO_IMPORT_TYPE;
-    }
-
 }
