@@ -34,7 +34,6 @@ import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
  * Time: 13:34
  */
 public class CustomTypeUtils {
-    public static final String PREFIX_XMLNS = "xmlns";
     public static final String TAG_TYPE_DEFINITIONS = "typeDefinitions";
     private static final Logger LOG = LoggerFactory.getLogger(CustomTypeUtils.class);
 

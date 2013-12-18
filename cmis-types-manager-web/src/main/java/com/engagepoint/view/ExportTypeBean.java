@@ -7,7 +7,7 @@ package com.engagepoint.view;
  */
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
 import org.slf4j.Logger;
@@ -66,7 +66,7 @@ public class ExportTypeBean {
         } catch (IOException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while exporting type", e);
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while exporting type", e);
         }

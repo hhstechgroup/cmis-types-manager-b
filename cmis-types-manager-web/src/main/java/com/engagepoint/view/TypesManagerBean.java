@@ -2,7 +2,7 @@ package com.engagepoint.view;
 
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.TypeProxy;
@@ -62,7 +62,7 @@ public class TypesManagerBean implements Serializable {
             setSelectedType();
             navigationBean.setTypeProxy(selectedType);
             addTypesToTree(typeProxies, root);
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise tree", e);
         }
@@ -109,7 +109,7 @@ public class TypesManagerBean implements Serializable {
         try {
             service.deleteType(userInfo, selectedType);
             Message.printInfo("Deleted type " + selectedType.getDisplayName());
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {
@@ -134,7 +134,7 @@ public class TypesManagerBean implements Serializable {
             }
 
 
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Error while deleting type", e);
         } catch (CmisTypeDeleteException e) {

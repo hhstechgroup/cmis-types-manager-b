@@ -1,7 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.slf4j.Logger;
@@ -44,7 +44,7 @@ public class RepositoryBean implements Serializable {
                 repositoryList.add(new SelectItem(repo.getId(), repo.getName()));
             }
             selectedRepoId = repositories.get(0).getId();
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialization repositories", e);
         }

@@ -1,8 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
-import com.engagepoint.exceptions.CmisCreateException;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
@@ -52,7 +51,7 @@ public class CreateBean implements Serializable {
             newType.setFulltextIndexed(typeDefinition.isFulltextIndexed());
             newType.setControllableAcl(typeDefinition.isControllableAcl());
             newType.setControllablePolicy(typeDefinition.isControllablePolicy());
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
         }
@@ -130,12 +129,9 @@ public class CreateBean implements Serializable {
             service.createType(userInfo, newType);
             Message.printInfo(newType.getDisplayName() + " type created!");
             return navigationBean.toMainPage();
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to create type", e);
-        } catch (CmisCreateException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while create type", e);
         }
         return "";
     }

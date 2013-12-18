@@ -1,7 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
 import org.slf4j.Logger;
@@ -45,7 +45,7 @@ public class LoginBean implements Serializable {
             } else {
                 return navigationBean.toLogin();
             }
-        } catch (CmisConnectException e) {
+        } catch (CmisException e) {
             String message = e.getMessage().toString();
             if (e.getMessage().equals("Unexpected document! Received: something unknown") ||
                     e.getMessage().equals("Not Found")){
@@ -119,7 +119,7 @@ public class LoginBean implements Serializable {
         return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     }
 
-    private boolean isValid() throws CmisConnectException {
+    private boolean isValid() throws CmisException {
         return service.isUserExists(userInfo);
     }
 }
