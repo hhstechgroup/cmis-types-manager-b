@@ -1,7 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisException;
+import com.engagepoint.exceptions.CmisConnectException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
@@ -35,8 +35,12 @@ public class ViewTypeBean implements Serializable {
     private LoginBean login;
     private TypeDefinition typeDefinition;
     private TypeProxy selectedType;
+    private String stringMutability;
+
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
+
+
 
 
     @PostConstruct
@@ -45,6 +49,7 @@ public class ViewTypeBean implements Serializable {
             selectedType = navigationBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, selectedType);
+            mutabilityToString();
         } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
@@ -76,6 +81,35 @@ public class ViewTypeBean implements Serializable {
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
     }
+    public String mutabilityToString(){
+        String delete;
+        String upData;
+        String create;
+        if(typeDefinition.getTypeMutability().canDelete() == true){
+            delete = "Delete";
+        }else {
+            delete = "";
+        }
+        if ( typeDefinition.getTypeMutability().canCreate() ==true){
+            create ="Create";
+        }else {
+            create="";
+        }
+        if ( typeDefinition.getTypeMutability().canUpdate() ==true){
+            upData ="Update";
+        }else {
+            upData="";
+        }
+        stringMutability =  create +" "+ upData +" "+ delete ;
+        return stringMutability;
+    }
 
+    public String getStringMutability() {
+        return stringMutability;
+    }
+
+    public void setStringMutability(String stringMutability) {
+        this.stringMutability = stringMutability;
+    }
 }
 
