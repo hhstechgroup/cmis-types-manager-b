@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
+import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
@@ -27,7 +28,7 @@ public class CreateBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private Type newType;
     private List<TypeProperty> typeProperties;
@@ -75,13 +76,13 @@ public class CreateBean implements Serializable {
 
     public String addAction() {
         TypeProperty property = new TypeProperty();
-        property.setDisplayName("");
-        property.setLocalName("");
-        property.setQueryName("");
-        property.setId("");
-        property.setCardinality("");
-        property.setUpdatability("");
-        property.setPropertyType("");
+        property.setDisplayName(Constants.Strings.EMPTY_STRING);
+        property.setLocalName(Constants.Strings.EMPTY_STRING);
+        property.setQueryName(Constants.Strings.EMPTY_STRING);
+        property.setId(Constants.Strings.EMPTY_STRING);
+        property.setCardinality(Constants.Strings.EMPTY_STRING);
+        property.setUpdatability(Constants.Strings.EMPTY_STRING);
+        property.setPropertyType(Constants.Strings.EMPTY_STRING);
         typeProperties.add(property);
         return null;
     }
@@ -128,12 +129,12 @@ public class CreateBean implements Serializable {
             newType.setProperties(typeProperties);
             service.createType(userInfo, newType);
             Message.printInfo(newType.getDisplayName() + " type created!");
-            return navigationBean.toMainPage();
+            return Constants.Navigation.TO_MAIN_PAGE;
         } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to create type", e);
         }
-        return "";
+        return Constants.Navigation.TO_CURRENT_PAGE;
     }
 
 

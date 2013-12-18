@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
+import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
@@ -24,10 +25,14 @@ import java.io.Serializable;
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
+    public static final String SESSION_ID = "sessionID";
+    private static final String NOT_FOUND = "Not Found";
+    private static final String REPO_NOT_EXISTS = "The repository on this URL doesn't exist!";
+    private static final String UNEXPECTED_DOCUMENT = "Unexpected document! Received: something unknown";
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginBean.class);
     @EJB
     private CmisService service;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private UserInfo userInfo = new UserInfo();
     private String sessionID;
@@ -39,21 +44,20 @@ public class LoginBean implements Serializable {
             if (isValid()) {
                 sessionID = String.valueOf(Math.random() * 1000);
                 HttpSession httpSession = getHttpSession();
-                httpSession.setAttribute("sessionID", sessionID);
+                httpSession.setAttribute(SESSION_ID, sessionID);
                 loggedIn = true;
-                return navigationBean.toMainPage();
+                return Constants.Navigation.TO_MAIN_PAGE;
             } else {
-                return navigationBean.toLogin();
+                return Constants.Navigation.TO_LOGIN;
             }
         } catch (CmisException e) {
-            String message = e.getMessage().toString();
-            if (e.getMessage().equals("Unexpected document! Received: something unknown") ||
-                    e.getMessage().equals("Not Found")){
-                message = "The repository on this URL doesn't exist!";
+            String message = e.getMessage();
+            if (UNEXPECTED_DOCUMENT.equals(message) || NOT_FOUND.equals(message)){
+                message = REPO_NOT_EXISTS;
             }
             Message.printError(message);
             LOGGER.error(message, e);
-            return navigationBean.toLogin();
+            return Constants.Navigation.TO_LOGIN;
         }
     }
 
@@ -61,10 +65,10 @@ public class LoginBean implements Serializable {
         loggedIn = false;
         userInfo.reset();
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        sessionID = "";
+        sessionID = Constants.Strings.EMPTY_STRING;
         HttpSession httpSession = getHttpSession();
-        httpSession.setAttribute("sessionID", sessionID);
-        return navigationBean.toLogin();
+        httpSession.setAttribute(SESSION_ID, sessionID);
+        return Constants.Navigation.TO_LOGIN;
     }
 
     public String getUsername() {

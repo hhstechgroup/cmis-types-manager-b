@@ -10,7 +10,6 @@ import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
 import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
-import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractTypeDefinition;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.slf4j.Logger;
@@ -47,7 +46,11 @@ public class CmisService {
         Session session = getSession(userInfo);
         try {
             return session.getTypeDefinition(type.getId());
-        } catch (Exception e) {
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e){
+            LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
     }
@@ -69,7 +72,11 @@ public class CmisService {
         TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
             session.createType(typeDefinition);
-        } catch (RuntimeException e) {
+        }  catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e){
+            LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
     }
@@ -134,10 +141,15 @@ public class CmisService {
                     stream.close();
                 }
             }
-        } catch (RuntimeException e) {
+        }  catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e){
+            LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
         }
     }
 
@@ -152,10 +164,15 @@ public class CmisService {
                     stream.close();
                 }
             }
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e){
+            LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
         }
     }
 
@@ -170,9 +187,12 @@ public class CmisService {
             } else {
                 throw new CmisTypeDeleteException("Type is not deleted");
             }
-        } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CmisTypeDeleteException(e.getMessage());
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e){
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
         }
 
     }
@@ -197,6 +217,7 @@ public class CmisService {
         try {
             repositories = connection.getSessionFactory().getRepositories(parameters);
         } catch (CmisBaseException e) {
+            LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
         return repositories;
@@ -287,7 +308,7 @@ public class CmisService {
         } catch (XMLStreamException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisRuntimeException e) {
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } finally {

@@ -35,7 +35,7 @@ public class ExportTypeBean {
 
     private UserInfo userInfo;
 
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
 
     private boolean xmlOrJson = true;

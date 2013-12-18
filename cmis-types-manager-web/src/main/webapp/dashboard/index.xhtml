@@ -7,18 +7,17 @@
     <ui:define name="leftMenu">
         <ui:include src="leftMenu.xhtml"/>
     </ui:define>
-
     <ui:define name="mainContent">
         <uib:gridContainer styleClass="mb20">
             <uib:gridRow fluid="true">
                 <uib:gridColumn column="8">
                     <h:form id="commandForm">
                         <uib:buttonGroup>
-                            <p:commandButton id="create" value="Create" action="#{navigation.toCreateType}"
+                            <p:commandButton id="create" value="Create" action="crud/create?faces-redirect=true"
                                              update="-mainContent" styleClass="secondary"/>
-                            <p:commandButton id="view" value="View" action="#{navigation.toViewType}"
+                            <p:commandButton id="view" value="View" action="crud/type?faces-redirect=true"
                                              update="-mainContent" styleClass="secondary"/>
-                            <p:commandButton id="update" value="Update" action="#{navigation.toUpdateType}"
+                            <p:commandButton id="update" value="Update" action="crud/type?faces-redirect=true"
                                              update="-mainContent" styleClass="secondary"/>
                             <p:commandButton id="deleteButton" value="Delete"
                                              onclick="jQuery('#deleteTypeDialog').modal('show');return false;"
@@ -34,41 +33,27 @@
                             <p:commandButton styleClass="secondary" id="export" value="Export"
                                              update="-mainContent"  onclick="jQuery('#exportModal').modal('show');return false;"/>
                         </uib:buttonGroup>
-
                     </h:form>
                 </uib:gridColumn>
             </uib:gridRow>
         </uib:gridContainer>
-
         <uib:modal id="importModal" header="Modal header import">
             <ui:include src="import.xhtml"/>
-
         </uib:modal>
-
         <uib:modal id="exportModal" header="Modal header export">
             <ui:include src="export.xhtml"/>
         </uib:modal>
-
         <uib:modal id="deleteTypeDialog" header="Delete type">
             <ui:include src="deleteTypeDialog.xhtml"/>
         </uib:modal>
-
         <h:form id="treeForm">
-
             <p:tree value="#{typesManagerBean.root}" var="node" dynamic="true" cache="false"
                     selectionMode="single" selection="#{typesManagerBean.selectedNode}" id="tree">
-
-                <p:ajax event="expand" listener="#{typesManagerBean.onNodeExpand}"/>
-                <p:ajax event="collapse" listener="#{typesManagerBean.onNodeCollapse}"/>
                 <p:ajax event="select" update="-messages,-deleteTypeDialog" listener="#{typesManagerBean.onNodeSelect}"/>
-                <p:ajax event="unselect" update="-messages" listener="#{typesManagerBean.onNodeUnselect}"/>
-
-
                 <p:treeNode id="node">
                     <h:outputText id="nodeText" value="#{node.displayName}"/>
                 </p:treeNode>
             </p:tree>
-
         </h:form>
     </ui:define>
 </ui:composition>

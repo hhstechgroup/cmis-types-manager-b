@@ -26,6 +26,10 @@
         <filter-name>LoginFilter</filter-name>
         <url-pattern>/configuration/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>/about/*</url-pattern>
+    </filter-mapping>
 
 
     <display-name>PrimeFaces Web Application</display-name>

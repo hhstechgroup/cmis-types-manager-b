@@ -1,7 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-
+import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.TypeProxy;
@@ -36,13 +36,9 @@ public class ViewTypeBean implements Serializable {
     private LoginBean login;
     private TypeDefinition typeDefinition;
     private TypeProxy selectedType;
-    private String stringMutability;
 
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
-
-
-
 
     @PostConstruct
     public void init() {
@@ -50,11 +46,24 @@ public class ViewTypeBean implements Serializable {
             selectedType = navigationBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, selectedType);
-            mutabilityToString();
         } catch (CmisException e) {
             Message.printError(e.getMessage());
-            LOGGER.error("Unable to initialise type view", e);
+            LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
         }
+    }
+
+    public String mutabilityToString(){
+        StringBuilder builder = new StringBuilder();
+        if(typeDefinition.getTypeMutability().canDelete()){
+            builder.append(Constants.TypesManager.MUTABILITY_DELETE_DISPLAY_NAME);
+        }
+        if ( typeDefinition.getTypeMutability().canCreate()){
+            builder.append(Constants.TypesManager.MUTABILITY_CREATE_DISPLAY_NAME);
+        }
+        if ( typeDefinition.getTypeMutability().canUpdate()){
+            builder.append(Constants.TypesManager.MUTABILITY_UPDATE_DISPLAY_NAME);
+        }
+        return builder.toString();
     }
 
     public LoginBean getLogin() {
@@ -70,7 +79,6 @@ public class ViewTypeBean implements Serializable {
         return new ArrayList<PropertyDefinition>(values);
     }
 
-
     public TypeDefinition getTypeDefinition() {
         return typeDefinition;
     }
@@ -81,36 +89,6 @@ public class ViewTypeBean implements Serializable {
 
     public void setNavigationBean(NavigationBean navigationBean) {
         this.navigationBean = navigationBean;
-    }
-    public String mutabilityToString(){
-        String delete;
-        String upData;
-        String create;
-        if(typeDefinition.getTypeMutability().canDelete() == true){
-            delete = "Delete";
-        }else {
-            delete = "";
-        }
-        if ( typeDefinition.getTypeMutability().canCreate() ==true){
-            create ="Create";
-        }else {
-            create="";
-        }
-        if ( typeDefinition.getTypeMutability().canUpdate() ==true){
-            upData ="Update";
-        }else {
-            upData="";
-        }
-        stringMutability =  create +" "+ upData +" "+ delete ;
-        return stringMutability;
-    }
-
-    public String getStringMutability() {
-        return stringMutability;
-    }
-
-    public void setStringMutability(String stringMutability) {
-        this.stringMutability = stringMutability;
     }
 }
 
