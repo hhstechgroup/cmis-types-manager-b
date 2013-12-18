@@ -3,12 +3,12 @@ When the user opens the default page
 When the user fills 'loginForm-login' field with 'test'
 When the user fills 'loginForm-password' field with 'test'
 When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory/atom11' using baseUrl
-When clicks on element with id/name/className 'loginForm-loginBut'
+When clicks on element with id/name/className 'loginBut'
 Then wait for element 'treeForm' is visible
 
-Scenario: create type scenario
-When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When clicks on element with id/name/className 'commandForm-create'
+Scenario: create type scenario with metadata scenario
+When clicks on element with id/name/className 'treeForm-tree-0-nodeText'
+When clicks on element with id/name/className 'create'
 Then wait for element 'createTypeForm' is visible
 When the user fills 'inputTextView' field with 'rel1'
 When the user fills 'inputTextView1' field with 'rel1'
@@ -23,10 +23,17 @@ When the user clicks on element with id/name/className 'selectCheckboxIst'
 When the user clicks on element with id/name/className 'selectCheckboxFti'
 When the user clicks on element with id/name/className 'selectCheckboxACL'
 When the user clicks on element with id/name/className 'selectCheckboxPC'
+When the user clicks on element with className 'ui-icon-triangle-1-e' with text 'Metadata'
+When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user fills 'metadataTabel-0-j_idt33' field with 'met1'
+When the user fills 'metadataTabel-0-j_idt37' field with 'met1'
+When the user fills 'metadataTabel-0-j_idt41' field with 'met1'
+When the user fills 'metadataTabel-0-j_idt45' field with 'met1'
+When the user clicks on element with xpathOrCss '//div[@id="createTypeForm-accordionPanel-metadataTabel-0-j_idt62"]/span[@class="ui-icon ui-icon-check"]'
 When clicks on element with id/name/className 'createTypeBtm'
 When the user clicks on element with id/name/className 'ui-icon-close'
 Then wait for element 'treeForm' is visible
-When the user opens all tree with className 'ui-tree-toggler'
+When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel1'
 
 Scenario: view type scenario
@@ -34,11 +41,12 @@ When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-view'
 Then wait for element 'viewForm' is visible
+When the user clicks on element with className 'ui-icon-triangle-1-e' with text 'Metadata'
 When the user clicks on element with id/name/className 'viewForm-return'
 Then wait for element 'treeForm' is visible
 
 Scenario: create subtype scenario
-When the user opens all tree with className 'ui-tree-toggler'
+When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When clicks on element with id/name/className 'commandForm-create'
@@ -59,9 +67,11 @@ When the user clicks on element with id/name/className 'selectCheckboxPC'
 When clicks on element with id/name/className 'createTypeBtm'
 When the user clicks on element with id/name/className 'ui-icon-close'
 Then wait for element 'treeForm' is visible
+When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+Then element with '//span[@id='treeForm-tree-0_1_0-nodeText']' has text 'rel11'
 
 Scenario: create subtype scenario
-When the user opens all tree with className 'ui-tree-toggler'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When clicks on element with id/name/className 'commandForm-create'
@@ -82,9 +92,11 @@ When the user clicks on element with id/name/className 'selectCheckboxPC'
 When clicks on element with id/name/className 'createTypeBtm'
 When the user clicks on element with id/name/className 'ui-icon-close'
 Then wait for element 'treeForm' is visible
+When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+Then element with '//span[@id='treeForm-tree-0_1_1-nodeText']' has text 'rel12'
 
 Scenario: delete type scenario
-When the user opens all tree with className 'ui-tree-toggler'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-deleteButton'

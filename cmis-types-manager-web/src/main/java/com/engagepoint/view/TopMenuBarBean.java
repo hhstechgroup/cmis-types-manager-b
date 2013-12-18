@@ -28,7 +28,7 @@ public class TopMenuBarBean {
         String viewId = viewRoot.getViewId();
         addMenuItem(viewId, "dashboard", "/dashboard/", "index.xhtml", "Types Management");
         addMenuItem(viewId, "configuration", "/configuration/", "index.xhtml", "Configuration");
-        addMenuItem(viewId, "info", "/configuration/", "index.xhtml", "About");
+        addMenuItem(viewId, "info", "/about/", "index.xhtml", "About");
     }
 
     private void addMenuItem(String viewId, String mID, String rootView, String address, String label) {

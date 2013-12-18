@@ -4,6 +4,7 @@ import com.engagepoint.acceptancetest.base.pages.UIBootstrapBasePage;
 import net.thucydides.core.pages.Pages;
 import net.thucydides.core.steps.ScenarioSteps;
 import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -14,6 +15,7 @@ import org.openqa.selenium.WebElement;
  * Time: 11:13 AM
  */
 public class HelperSteps extends ScenarioSteps {
+
     private static final String XPATH_SELECTOR_SUFFIX = "')]";
     private UIBootstrapBasePage uIBootstrapBasePage;
 
@@ -66,7 +68,17 @@ public class HelperSteps extends ScenarioSteps {
         String url = baseUrl.substring(0, lastSlash - 3);
         uIBootstrapBasePage.enter(url + contextPath).intoField(findVisibleElementAndGetSelector(id));
     }
+    
+    @Then("wait for element '$id' is not visible")
+    public void waitForElementWithIdIsNotPresent(String id) {
+        uIBootstrapBasePage.waitForRenderedElementsToDisappear(findVisibleElementAndGetSelector(id));
+    }
 
+    @Then("wait for element '$id' is visible")
+    public void waitForElementWithIdIsPresent(String id) {
+        uIBootstrapBasePage.waitForRenderedElementsToBePresent(findVisibleElementAndGetSelector(id));
+    }
+    
     public By findVisibleElementAndGetSelector(String id) {
         By[] selectors = {By.id(id), By.xpath("//*[contains(@id, '" + id + XPATH_SELECTOR_SUFFIX), By.name(id), By.className(id)};
         for (By selector : selectors) {
@@ -84,4 +96,20 @@ public class HelperSteps extends ScenarioSteps {
         }
         return false;
     }
+
+    @When("clicks on element with xpathOrCss '$xpathOrCss'")
+    @Alias("the user clicks on element with xpathOrCss '$xpathOrCss'")
+    public void clickElementBySelector(String xpathOrCss) {
+        uIBootstrapBasePage.element(xpathOrCss).click();
+    }
+
+    @When("clicks on all elements with xpathOrCss '$xpathOrCss'")
+    @Alias("the user clicks on all elements with xpathOrCss '$xpathOrCss'")
+    public void openAllElementsBySelector(String xpathOrCss) {
+        for (WebElement element : uIBootstrapBasePage.getDriver().findElements(By.cssSelector(xpathOrCss))) {
+            element.click();
+        }
+    }
 }
+
+
