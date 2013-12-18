@@ -42,13 +42,13 @@
     font-size: 16px;
 }
 
-#deleteForm {
+/*#deleteForm {
     position: absolute;
     z-index: 1000;
     top: 30%;
     left: 15%;
     box-shadow: 1px 1px 6px #333;
-}
+}*/
 
 .ui-tree .ui-tree-container li .ui-treenode-content:hover .ui-tree-toggler.ui-icon-triangle-1-e {
     margin: 2px 2px 0px 3px !important;

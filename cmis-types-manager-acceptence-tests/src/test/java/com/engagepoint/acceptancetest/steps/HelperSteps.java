@@ -14,7 +14,7 @@ import org.openqa.selenium.WebElement;
  * Time: 11:13 AM
  */
 public class HelperSteps extends ScenarioSteps {
-    private static final String XPATH_SELCTOR_SUFIX = "')]";
+    private static final String XPATH_SELECTOR_SUFFIX = "')]";
     private UIBootstrapBasePage uIBootstrapBasePage;
 
     public HelperSteps(Pages pages) {
@@ -30,8 +30,8 @@ public class HelperSteps extends ScenarioSteps {
         }
     }
 
-    @When("clicks on element with class '$className' with text '$text'")
-    @Alias("the user clicks on element with class '$className' with text '$text'")
+    @When("clicks on element with className '$className' with text '$text'")
+    @Alias("the user clicks on element with className '$className' with text '$text'")
     public void clickByText(String className, String text) {
         for (WebElement webElement : uIBootstrapBasePage.getDriver().findElements(By.className(className))) {
             if (webElement.getText().equalsIgnoreCase(text)) {
@@ -40,9 +40,16 @@ public class HelperSteps extends ScenarioSteps {
         }
     }
 
-    @When("clicks on first element with class '$className' with text '$text'")
-    @Alias("the user clicks on first element with class '$className' with text '$text'")
-    public void clickOnFirstElementByText(String className, String text) {
+    @When("clicks on first element with className '$className'")
+    @Alias("the user clicks on first element with className '$className'")
+    public void clickOnFirstTreeElement(String className) {
+        WebElement webElement = uIBootstrapBasePage.getDriver().findElement(By.className(className));
+        webElement.click();
+    }
+
+    @When("clicks on first element with className '$className' with text '$text'")
+    @Alias("the user clicks on first element with className '$className' with text '$text'")
+    public void clickOnFirstTreeElementByText(String className, String text) {
         for (WebElement webElement : uIBootstrapBasePage.getDriver().findElements(By.className(className))) {
             if (webElement.getText().equalsIgnoreCase(text)) {
                 webElement.click();
@@ -61,7 +68,7 @@ public class HelperSteps extends ScenarioSteps {
     }
 
     public By findVisibleElementAndGetSelector(String id) {
-        By[] selectors = {By.id(id), By.xpath("//*[contains(@id, '" + id + XPATH_SELCTOR_SUFIX), By.name(id), By.className(id)};
+        By[] selectors = {By.id(id), By.xpath("//*[contains(@id, '" + id + XPATH_SELECTOR_SUFFIX), By.name(id), By.className(id)};
         for (By selector : selectors) {
             if (isElementDisplayed(selector)) {
                 return selector;

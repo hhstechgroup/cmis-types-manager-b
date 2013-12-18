@@ -7,7 +7,7 @@
     <h:panelGrid columns="2">
 
         <p:outputLabel id="includeChildLable" for="includeChildCheckbox" value="Include child  " />
-        <p:selectBooleanCheckbox id="includeChildCheckbox" value="#{exportTypeBean.includeChildren}" disabled="true"/>
+        <p:selectBooleanCheckbox id="includeChildCheckbox" value="#{exportTypeBean.includeChildren}"/>
 
         <p:selectOneRadio id="xmlOrJsonOptions" value="#{exportTypeBean.xmlOrJson}">
             <f:selectItem itemLabel="Xml" itemValue="true"/>
