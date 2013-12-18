@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LoginFilter implements Filter {
+    private static final String SESSION_ID =  "sessionID";
+    private static final String LOGIN = "/login.xhtml";
 
     String contextPath = "";
 
@@ -27,11 +29,11 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         HttpSession session = ((HttpServletRequest) request).getSession(false);
-        String sessionID = (session == null) ? null : (String) session.getAttribute("sessionID");
+        String sessionID = (session == null) ? null : (String) session.getAttribute(SESSION_ID);
         contextPath = ((HttpServletRequest) request).getContextPath();
 
         if (sessionID == null || sessionID.isEmpty()) {
-            ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
+            ((HttpServletResponse) response).sendRedirect(contextPath + LOGIN);
         }
         chain.doFilter(request, response);
 
@@ -42,7 +44,4 @@ public class LoginFilter implements Filter {
 
     }
 
-    public String getContextPath() {
-        return contextPath;
-    }
 }
