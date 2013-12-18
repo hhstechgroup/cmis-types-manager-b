@@ -21,7 +21,7 @@ public class ModifyTypeBean implements Serializable {
 
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private TypeProxy selectedType;
 

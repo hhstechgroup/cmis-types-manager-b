@@ -11,7 +11,7 @@ import java.io.Serializable;
  * Date: 12/2/13
  * Time: 1:44 PM
  */
-@ManagedBean(name = "navigation")
+@ManagedBean
 @SessionScoped
 public class NavigationBean implements Serializable {
     private TypeProxy typeProxy;

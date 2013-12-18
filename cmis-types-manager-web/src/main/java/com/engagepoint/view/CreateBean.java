@@ -28,7 +28,7 @@ public class CreateBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private Type newType;
     private List<TypeProperty> typeProperties;

@@ -34,7 +34,7 @@ public class ImportTypeBean {
     private LoginBean login;
     private InputStream stream;
     private String fileName;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private boolean importButtonDisabled;
 

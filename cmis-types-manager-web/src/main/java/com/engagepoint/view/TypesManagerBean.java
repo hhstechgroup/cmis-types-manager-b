@@ -35,7 +35,7 @@ public class TypesManagerBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
 
     private UserInfo userInfo;

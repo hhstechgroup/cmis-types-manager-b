@@ -32,7 +32,7 @@ public class LoginBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginBean.class);
     @EJB
     private CmisService service;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private UserInfo userInfo = new UserInfo();
     private String sessionID;
