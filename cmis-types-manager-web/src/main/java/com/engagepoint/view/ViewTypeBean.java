@@ -1,7 +1,8 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
-import com.engagepoint.exceptions.CmisConnectException;
+
+import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
