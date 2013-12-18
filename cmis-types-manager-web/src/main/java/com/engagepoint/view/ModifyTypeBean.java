@@ -1,12 +1,8 @@
 package com.engagepoint.view;
 
-import com.engagepoint.services.CmisService;
 import com.engagepoint.services.TypeProxy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -20,23 +16,22 @@ import java.io.Serializable;
 @ManagedBean
 @ViewScoped
 public class ModifyTypeBean implements Serializable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyTypeBean.class);
-    @EJB
-    private CmisService service;
+
+    private static final String SECONDARY_ID = "cmis:secondary";
+
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     @ManagedProperty(value = "#{navigation}")
     private NavigationBean navigationBean;
     private TypeProxy selectedType;
-    private String secondaryId = "cmis:secondary";
 
     @PostConstruct
     public void init() {
-       selectedType = navigationBean.getTypeProxy();
+        selectedType = navigationBean.getTypeProxy();
     }
 
     public Boolean isSecondary() {
-        return selectedType.getBaseType().equals(secondaryId);
+        return selectedType.getBaseType().equals(SECONDARY_ID);
     }
 
 
@@ -45,10 +40,11 @@ public class ModifyTypeBean implements Serializable {
     }
 
     public String getParentType() {
-        if (selectedType.getBaseType().equals(secondaryId))
-            return secondaryId;
-        else
+        if (selectedType.getBaseType().equals(SECONDARY_ID)) {
+            return SECONDARY_ID;
+        } else {
             return selectedType.getId();
+        }
     }
 
     public LoginBean getLogin() {

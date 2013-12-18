@@ -31,7 +31,7 @@ public class RepositoryBean implements Serializable {
     private CmisService service;
     private List<Repository> repositories;
     private String selectedRepoId;
-    private ArrayList<SelectItem> repositoryList;
+    private List<SelectItem> repositoryList;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
 
@@ -63,11 +63,11 @@ public class RepositoryBean implements Serializable {
         this.selectedRepoId = selectedRepoId;
     }
 
-    public ArrayList<SelectItem> getRepositoryList() {
+    public List<SelectItem> getRepositoryList() {
         return repositoryList;
     }
 
-    public void setRepositoryList(ArrayList<SelectItem> repositoryList) {
+    public void setRepositoryList(List<SelectItem> repositoryList) {
         this.repositoryList = repositoryList;
     }
 

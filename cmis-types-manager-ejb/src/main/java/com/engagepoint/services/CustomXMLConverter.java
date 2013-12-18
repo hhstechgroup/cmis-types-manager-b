@@ -5,6 +5,8 @@ import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisInvalidArgumentException;
 import org.apache.chemistry.opencmis.commons.impl.XMLWalker;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -19,6 +21,8 @@ import java.util.Set;
 import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
 
 public class CustomXMLConverter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmisService.class);
 
     private CustomXMLConverter() {
     }
@@ -454,7 +458,7 @@ public class CustomXMLConverter {
                             ((PropertyDecimalDefinitionImpl) target).setPrecision(DecimalPrecision
                                     .fromValue(readInteger(parser)));
                         } catch (IllegalArgumentException e) {
-                            // invalid enum value - ignore
+                            LOGGER.error(e.getMessage(), e);
                         }
                         return true;
                     }
@@ -748,7 +752,8 @@ public class CustomXMLConverter {
 
                     return true;
                 } catch (IllegalArgumentException e) {
-                    // extension tag -> ignore
+                    LOGGER.error(e.getMessage(), e);
+                    throw new XMLStreamException(e.getMessage());
                 }
             }
 
