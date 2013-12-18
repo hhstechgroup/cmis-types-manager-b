@@ -26,7 +26,6 @@ public class MultiPageMessagesSupport implements PhaseListener {
     @Override
     public void beforePhase(final PhaseEvent event) {
         FacesContext facesContext = event.getFacesContext();
-        int msg = this.saveMessages(facesContext);
 
         if (PhaseId.RENDER_RESPONSE.equals(event.getPhaseId())) {
             if (!facesContext.getResponseComplete()) {
