@@ -1,6 +1,6 @@
 package com.engagepoint.view;
 
-import com.engagepoint.components.Message;
+import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
@@ -54,14 +54,13 @@ public class ImportTypeBean {
     public void upload(FileUploadEvent event) {
         try {
             fileName = event.getFile().getFileName();
-//            Message.printInfo(fileName + " is uploaded.");
             stream = event.getFile().getInputstream();
             importButtonDisabled = false;
         } catch (IOException e) {
             importButtonDisabled = true;
-            fileName = "";
-            Message.printError(e.getMessage());
-            LOGGER.error("Unable to upload file", e);
+            fileName = Constants.Strings.EMPTY_STRING;
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.UNABLE_UPLOAD_FILE, e);
         }
     }
 
@@ -69,24 +68,24 @@ public class ImportTypeBean {
         try {
             if (stream != null) {
                 UserInfo userInfo = login.getUserInfo();
-                if (fileName.contains("xml")) {
+                if (fileName.contains(Constants.Strings.XML_PATTERN)) {
                     service.importTypeFromXml(userInfo, stream);
                 } else {
                     service.importTypeFromJson(userInfo, stream);
                 }
-                Message.printInfo("Type imported successful!");
+                MessageUtils.printInfo(Constants.Messages.SUCCESS_IMPORT_TYPE);
             } else {
-                Message.printInfo("File is not selected");
+                MessageUtils.printInfo(Constants.Messages.NOT_SELECTED_FILE);
             }
         } catch (CmisException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while import type", e);
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
         } catch (XMLStreamException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while pars file", e);
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
         } catch (JSONParseException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Unable to create type", e);
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
         }
         return Constants.Navigation.TO_MAIN_PAGE;
     }

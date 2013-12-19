@@ -5,7 +5,6 @@ package com.engagepoint.filters; /**
  */
 
 import com.engagepoint.constants.Constants;
-import com.engagepoint.view.LoginBean;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.*;
@@ -24,7 +23,7 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         HttpSession session = ((HttpServletRequest) request).getSession(false);
-        String sessionID = (session == null) ? null : (String) session.getAttribute(LoginBean.SESSION_ID);
+        String sessionID = (session == null) ? null : (String) session.getAttribute(Constants.Strings.SESSION_ID_DISPLAY_NAME);
         String contextPath = ((HttpServletRequest) request).getContextPath();
 
         if (StringUtils.isEmpty(sessionID)) {

@@ -1,6 +1,6 @@
 package com.engagepoint.view;
 
-import com.engagepoint.components.Message;
+import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
@@ -47,7 +47,7 @@ public class ViewTypeBean implements Serializable {
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, selectedType);
         } catch (CmisException e) {
-            Message.printError(e.getMessage());
+            MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
         }
     }

@@ -1,6 +1,6 @@
 package com.engagepoint.view;
 
-import com.engagepoint.components.Message;
+import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
@@ -46,14 +46,14 @@ public class RepositoryBean implements Serializable {
             }
             selectedRepoId = repositories.get(0).getId();
         } catch (CmisException e) {
-            Message.printError(e.getMessage());
+            MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_INIT_REPO, e);
         }
     }
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
-        Message.printInfo(Constants.RepoManager.REPO_CHANGED);
+        MessageUtils.printInfo(Constants.RepoManager.REPO_CHANGED);
     }
 
     public String getSelectedRepoId() {
