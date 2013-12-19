@@ -10,9 +10,9 @@
     </ui:define>
 
 <ui:define name="mainContent">
-<h:form>
-    <p:commandButton id="return" value="Back" action="#{backNavigationBean.goToLastPage()}" styleClass="mb20"/>
-</h:form>
+
+
+
 <h:form id="createTypeForm">
 <p:accordionPanel id="accordionPanel" multiple="true">
     <p:tab id="accordionTabAttributes" title="Attributes">
@@ -198,6 +198,9 @@
             <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}"
                              update="-mainContent"
                              styleClass="mt20"/>
+             <p:button id="cancelCreateButton" value="Cancel" action="#{backNavigationBean.goToLastPage()}" styleClass="secondary" outcome="#{backNavigationBean.goToLastPage()}"/>
         </h:form>
+
+
     </ui:define>
 </ui:composition>

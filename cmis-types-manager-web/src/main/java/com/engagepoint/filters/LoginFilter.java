@@ -10,12 +10,12 @@ import org.apache.commons.lang.StringUtils;
 import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Queue;
+
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+
 
 public class LoginFilter implements Filter {
     public static Deque<String> history = new LinkedList<String>();
@@ -33,6 +33,7 @@ public class LoginFilter implements Filter {
             history.removeFirst();
         }
         history.addLast(requestUrl);
+
     }
 
     @Override
