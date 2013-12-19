@@ -52,16 +52,9 @@ public class TypesManagerBean implements Serializable {
     }
 
     private void initTree() {
-        try {
             root = new DefaultTreeNode(Constants.TypesManager.TREE_DATA, null);
-            typeProxies = service.getTypeInfo(userInfo);
             setSelectedType();
-            navigationBean.setTypeProxy(selectedType);
             addTypesToTree(typeProxies, root);
-        } catch (CmisException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Unable to initialise tree", e);
-        }
     }
 
     public TreeNode getRoot() {
@@ -149,11 +142,13 @@ public class TypesManagerBean implements Serializable {
     }
 
     public void setSelectedType() {
-        if (navigationBean.getTypeProxy() == null) {
+        try {
+            typeProxies = service.getTypeInfo(userInfo);
             selectedType = typeProxies.get(Constants.TypesManager.FIRST_TYPE_ID);
             navigationBean.setTypeProxy(selectedType);
-        } else {
-            selectedType = navigationBean.getTypeProxy();
+        } catch (CmisException e) {
+            Message.printError(e.getMessage());
+            LOGGER.error("Unable to set selected type", e);
         }
     }
 
