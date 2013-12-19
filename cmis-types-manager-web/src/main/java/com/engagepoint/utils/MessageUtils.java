@@ -1,4 +1,4 @@
-package com.engagepoint.components;
+package com.engagepoint.utils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -8,7 +8,9 @@ import javax.faces.context.FacesContext;
  * Date: 07.12.13
  * Time: 22:02
  */
-public class Message {
+public class MessageUtils {
+    private MessageUtils() {
+    }
 
     public static void printInfo(String text) {
         getFacesContext().addMessage(null, getInfoMessage(text, ""));

@@ -4,7 +4,7 @@ package com.engagepoint.filters; /**
  * Time: 18:32
  */
 
-import com.engagepoint.view.LoginBean;
+import com.engagepoint.constants.Constants;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.IOException;
@@ -23,6 +23,7 @@ public class LoginFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        //because we don't need the implementation of this method
     }
 
     private void addRequestUrlToHistory(ServletRequest request ){
@@ -40,21 +41,18 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 
         HttpSession session = ((HttpServletRequest) request).getSession(false);
-        String sessionID = (session == null) ? null : (String) session.getAttribute(LoginBean.SESSION_ID);
+        String sessionID = (session == null) ? null : (String) session.getAttribute(Constants.Strings.SESSION_ID_DISPLAY_NAME);
         String contextPath = ((HttpServletRequest) request).getContextPath();
 
         if (StringUtils.isEmpty(sessionID)) {
-            //todo change const
             ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
         }
         addRequestUrlToHistory(request);
         chain.doFilter(request, response);
-
     }
 
     @Override
     public void destroy() {
-
+        //because we don't need the implementation of this method
     }
-
 }

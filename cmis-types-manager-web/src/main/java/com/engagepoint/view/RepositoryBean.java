@@ -1,6 +1,6 @@
 package com.engagepoint.view;
 
-import com.engagepoint.components.Message;
+import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
@@ -29,7 +29,6 @@ public class RepositoryBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryBean.class);
     @EJB
     private CmisService service;
-    private List<Repository> repositories;
     private String selectedRepoId;
     private List<SelectItem> repositoryList;
     @ManagedProperty(value = "#{loginBean}")
@@ -38,21 +37,21 @@ public class RepositoryBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            repositories = service.getRepositories(loginBean.getUserInfo());
+            List<Repository> repositories = service.getRepositories(loginBean.getUserInfo());
             repositoryList = new ArrayList<SelectItem>();
             for (Repository repo : repositories) {
                 repositoryList.add(new SelectItem(repo.getId(), repo.getName()));
             }
             selectedRepoId = repositories.get(0).getId();
         } catch (CmisException e) {
-            Message.printError(e.getMessage());
+            MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_INIT_REPO, e);
         }
     }
 
     public void updateMainContent() {
         loginBean.getUserInfo().setRepository(getSelectedRepoId());
-        Message.printInfo(Constants.RepoManager.REPO_CHANGED);
+        MessageUtils.printInfo(Constants.RepoManager.REPO_CHANGED);
     }
 
     public String getSelectedRepoId() {

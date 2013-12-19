@@ -6,12 +6,12 @@ package com.engagepoint.view;
  * Time: 16:26 AM
  */
 
-import com.engagepoint.components.Message;
+import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
-import org.apache.commons.lang.StringUtils;
+import com.engagepoint.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,24 +37,25 @@ public class ExportTypeBean {
 
     private UserInfo userInfo;
 
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
 
-    private boolean xmlOrJson = true;
+    private boolean xmlOrJson;
     private boolean includeChildren;
 
 
     @PostConstruct
     public void init() {
         userInfo = login.getUserInfo();
+        xmlOrJson = true;
     }
 
     public void exportType() {
-        String selectedTypeId = navigationBean.getTypeProxy().getId();
+        String selectedTypeId = sessionStateBean.getTypeProxy().getId();
         String message = "";
         if (StringUtils.isEmpty(selectedTypeId)) {
             message = "Selected type can't be Null or Empty string";
-            Message.printError(message);
+            MessageUtils.printError(message);
             LOGGER.error(message);
         } else {
             FacesContext facesContext = FacesContext.getCurrentInstance();
@@ -73,10 +74,10 @@ public class ExportTypeBean {
                 message = "Selected type is exported successfully";
                 LOGGER.info(message);
             } catch (IOException e) {
-                Message.printError(e.getMessage());
+                MessageUtils.printError(e.getMessage());
                 LOGGER.error("Error while exporting type", e);
             } catch (CmisException e) {
-                Message.printError(e.getMessage());
+                MessageUtils.printError(e.getMessage());
                 LOGGER.error("Error while exporting type", e);
             } finally {
                 facesContext.responseComplete();
@@ -96,12 +97,12 @@ public class ExportTypeBean {
         this.login = login;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 
     public boolean isXmlOrJson() {
