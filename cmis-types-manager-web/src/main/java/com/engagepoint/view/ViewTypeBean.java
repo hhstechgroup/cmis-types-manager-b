@@ -35,7 +35,6 @@ public class ViewTypeBean implements Serializable {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private TypeDefinition typeDefinition;
-    private TypeProxy selectedType;
 
     @ManagedProperty(value = "#{sessionStateBean}")
     private SessionStateBean sessionStateBean;
@@ -43,7 +42,7 @@ public class ViewTypeBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            selectedType = sessionStateBean.getTypeProxy();
+            TypeProxy selectedType = sessionStateBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, selectedType);
         } catch (CmisException e) {

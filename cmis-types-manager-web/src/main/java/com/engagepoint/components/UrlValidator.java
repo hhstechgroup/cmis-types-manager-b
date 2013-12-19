@@ -19,16 +19,14 @@ public class UrlValidator implements Validator {
     private static final String SUMMARY = "Url validation failed.";
     private static final String DETAIL = "Invalid Url format.";
     private Pattern pattern;
-    private Matcher matcher;
-
 
     public UrlValidator() {
         pattern = Pattern.compile(URL_PATTERN);
     }
 
     @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        matcher = pattern.matcher(value.toString());
+    public void validate(FacesContext context, UIComponent component, Object value) {
+        Matcher matcher = pattern.matcher(value.toString());
         if (!matcher.matches()) {
             FacesMessage msg = new FacesMessage(SUMMARY, DETAIL);
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);

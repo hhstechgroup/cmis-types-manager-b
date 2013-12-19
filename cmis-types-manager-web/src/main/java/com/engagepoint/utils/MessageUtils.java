@@ -9,6 +9,8 @@ import javax.faces.context.FacesContext;
  * Time: 22:02
  */
 public class MessageUtils {
+    private MessageUtils() {
+    }
 
     public static void printInfo(String text) {
         getFacesContext().addMessage(null, getInfoMessage(text, ""));

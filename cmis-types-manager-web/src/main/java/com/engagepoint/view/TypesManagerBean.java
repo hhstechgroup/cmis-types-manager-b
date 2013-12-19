@@ -91,7 +91,7 @@ public class TypesManagerBean implements Serializable {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.ERROR_DELETE_TYPE, e);
         } catch (CmisTypeDeleteException e) {
-            MessageUtils.printError(StringUtils.concatenate("The type <", selectedType.getDisplayName(), "> cannot be deleted"));
+            MessageUtils.printError(StringUtils.concatenate(Constants.Messages.DELETE_MESSAGE_PREFFIX, selectedType.getDisplayName(), Constants.Messages.DELETE_MESSAGE_SUFFIX));
             LOGGER.error(Constants.Messages.UNABLE_DELETE_TYPE, e);
         }
     }
@@ -100,7 +100,7 @@ public class TypesManagerBean implements Serializable {
 
         try {
             if (!(selectedType.getTypeMutability().canDelete())){
-                MessageUtils.printError(StringUtils.concatenate("The type <", selectedType.getDisplayName(), "> cannot be deleted"));
+                MessageUtils.printError(StringUtils.concatenate(Constants.Messages.DELETE_MESSAGE_PREFFIX, selectedType.getDisplayName(), Constants.Messages.DELETE_MESSAGE_SUFFIX));
 
             } else {
                 List<TypeProxy> selectedTypeChildren = selectedType.getChildren();
@@ -116,7 +116,7 @@ public class TypesManagerBean implements Serializable {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.ERROR_DELETE_TYPE, e);
         } catch (CmisTypeDeleteException e) {
-            MessageUtils.printError(StringUtils.concatenate("The type <", selectedType.getDisplayName(), "> cannot be deleted"));
+            MessageUtils.printError(StringUtils.concatenate(Constants.Messages.DELETE_MESSAGE_PREFFIX, selectedType.getDisplayName(), Constants.Messages.DELETE_MESSAGE_SUFFIX));
             LOGGER.error(Constants.Messages.UNABLE_DELETE_TYPE, e);
         }
     }

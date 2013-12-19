@@ -30,7 +30,6 @@ public class RepositoryBean implements Serializable {
 
     @EJB
     private CmisService service;
-    private List<Repository> repositories;
     private String selectedRepoId;
     private List<SelectItem> repositoryList;
     @ManagedProperty(value = "#{loginBean}")
@@ -39,7 +38,7 @@ public class RepositoryBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            repositories = service.getRepositories(loginBean.getUserInfo());
+            List<Repository> repositories = service.getRepositories(loginBean.getUserInfo());
             repositoryList = new ArrayList<SelectItem>();
             for (Repository repo : repositories) {
                 repositoryList.add(new SelectItem(repo.getId(), repo.getName()));

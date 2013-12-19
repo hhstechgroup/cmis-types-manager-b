@@ -55,6 +55,8 @@ public class Constants {
         public static final String UNABLE_TO_INIT_VIEW = "Unable to initialise type view";
 
         public static final String TYPE_CREATED = " type created!";
+        public static final String DELETE_MESSAGE_PREFFIX = "The type <";
+        public static final String DELETE_MESSAGE_SUFFIX = "> cannot be deleted";
     }
 
     public static final class TypesManager {
