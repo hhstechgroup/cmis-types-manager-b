@@ -4,6 +4,7 @@ package com.engagepoint.filters; /**
  * Time: 18:32
  */
 
+import com.engagepoint.constants.Constants;
 import com.engagepoint.view.LoginBean;
 import org.apache.commons.lang.StringUtils;
 
@@ -27,16 +28,12 @@ public class LoginFilter implements Filter {
         String contextPath = ((HttpServletRequest) request).getContextPath();
 
         if (StringUtils.isEmpty(sessionID)) {
-            //todo change const
-            ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
+            ((HttpServletResponse) response).sendRedirect(contextPath + Constants.Navigation.TO_LOGIN);
         }
         chain.doFilter(request, response);
-
     }
 
     @Override
     public void destroy() {
-
     }
-
 }

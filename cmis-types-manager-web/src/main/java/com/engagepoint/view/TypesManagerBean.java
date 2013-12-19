@@ -35,8 +35,8 @@ public class TypesManagerBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
 
     private UserInfo userInfo;
     private TreeNode root;
@@ -71,7 +71,7 @@ public class TypesManagerBean implements Serializable {
 
     public void onNodeSelect(NodeSelectEvent event) {
         selectedType = (TypeProxy) event.getTreeNode().getData();
-        navigationBean.setTypeProxy(selectedType);
+        sessionStateBean.setTypeProxy(selectedType);
     }
 
     public LoginBean getLogin() {
@@ -90,7 +90,7 @@ public class TypesManagerBean implements Serializable {
             Message.printError(e.getMessage());
             LOGGER.error(Constants.Messages.ERROR_DELETE_TYPE, e);
         } catch (CmisTypeDeleteException e) {
-            Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+            Message.printError(makeMessage("The type <", selectedType.getDisplayName(), "> cannot be deleted"));
             LOGGER.error(Constants.Messages.UNABLE_DELETE_TYPE, e);
         }
     }
@@ -99,7 +99,7 @@ public class TypesManagerBean implements Serializable {
 
         try {
             if (!(selectedType.getTypeMutability().canDelete())){
-                Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+                Message.printError(makeMessage("The type <", selectedType.getDisplayName(), "> cannot be deleted"));
 
             } else {
                 List<TypeProxy> selectedTypeChildren = selectedType.getChildren();
@@ -115,7 +115,7 @@ public class TypesManagerBean implements Serializable {
             Message.printError(e.getMessage());
             LOGGER.error(Constants.Messages.ERROR_DELETE_TYPE, e);
         } catch (CmisTypeDeleteException e) {
-            Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
+            Message.printError(makeMessage("The type <", selectedType.getDisplayName(), "> cannot be deleted"));
             LOGGER.error(Constants.Messages.UNABLE_DELETE_TYPE, e);
         }
     }
@@ -144,20 +144,20 @@ public class TypesManagerBean implements Serializable {
     public void setSelectedType() {
         try {
             typeProxies = service.getTypeInfo(userInfo);
-            selectedType = typeProxies.get(Constants.TypesManager.FIRST_TYPE_ID);
-            navigationBean.setTypeProxy(selectedType);
+            selectedType = typeProxies.get(Constants.Integers.ZERO);
+            sessionStateBean.setTypeProxy(selectedType);
         } catch (CmisException e) {
             Message.printError(e.getMessage());
-            LOGGER.error("Unable to set selected type", e);
+            LOGGER.error(Constants.Messages.UNABLE_SET_SELECTED_TYPE, e);
         }
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 
     private void addTypesToTree(List<TypeProxy> types, TreeNode parent) {
@@ -171,9 +171,17 @@ public class TypesManagerBean implements Serializable {
 
     public String getDeleteMessage() {
         if (typeHasSubtypes(selectedType)) {
-            return "\"" + selectedType.getDisplayName() + "\" type has children. Are you sure you want to delete?";
+            return makeMessage("\"",selectedType.getDisplayName(),"\" type has children. Are you sure you want to delete?");
         } else {
-            return "Are you sure you want to delete \"" + selectedType.getDisplayName() + "\" type ?";
+            return makeMessage("Are you sure you want to delete \"",selectedType.getDisplayName(),"\" type ?");
         }
+    }
+
+    private String makeMessage(String preffix, String objectDisplayName, String suffix){
+        StringBuilder builder = new StringBuilder();
+        builder.append(preffix);
+        builder.append(objectDisplayName);
+        builder.append(suffix);
+        return builder.toString();
     }
 }

@@ -28,8 +28,8 @@ public class CreateBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
     private Type newType;
     private List<TypeProperty> typeProperties;
     private TypeDefinition typeDefinition;
@@ -44,7 +44,7 @@ public class CreateBean implements Serializable {
         typeProperties = new ArrayList<TypeProperty>();
         newType = new Type();
         setValuesToLists();
-        selectedType = navigationBean.getTypeProxy();
+        selectedType = sessionStateBean.getTypeProxy();
         UserInfo userInfo = login.getUserInfo();
         setAttributes(userInfo);
 
@@ -114,12 +114,12 @@ public class CreateBean implements Serializable {
         this.login = login;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 
 

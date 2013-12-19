@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @ManagedBean
 @SessionScoped
-public class NavigationBean implements Serializable {
+public class SessionStateBean implements Serializable {
     private TypeProxy typeProxy;
 
     public TypeProxy getTypeProxy() {

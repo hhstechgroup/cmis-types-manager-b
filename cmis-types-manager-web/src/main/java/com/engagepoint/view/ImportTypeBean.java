@@ -34,8 +34,8 @@ public class ImportTypeBean {
     private LoginBean login;
     private InputStream stream;
     private String fileName;
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
     private boolean importButtonDisabled;
 
     @PostConstruct
@@ -99,12 +99,12 @@ public class ImportTypeBean {
         this.login = login;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 
     public boolean isImportButtonDisabled() {

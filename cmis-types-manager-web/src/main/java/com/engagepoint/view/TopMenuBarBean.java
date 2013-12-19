@@ -16,7 +16,7 @@ import javax.faces.context.FacesContext;
  * Date: 11/18/13
  * Time: 6:06 PM
  */
-@ManagedBean(name = "topMenuBar")
+@ManagedBean
 @RequestScoped
 public class TopMenuBarBean {
     private MenuModel model;
@@ -36,7 +36,7 @@ public class TopMenuBarBean {
         MenuItem menuItem = new MenuItem();
         menuItem.setId(mID);
         if (viewId.startsWith(rootView)) {
-            menuItem.setStyleClass(Constants.TopMenuBar.STYLE_CLASS);
+            menuItem.setStyleClass(Constants.TopMenuBar.STYLE_CLASS_ACTIVE);
         }
         menuItem.setValue(label);
         menuItem.setUrl(rootView + address);

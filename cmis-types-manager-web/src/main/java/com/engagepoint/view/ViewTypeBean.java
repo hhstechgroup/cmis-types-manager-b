@@ -37,13 +37,13 @@ public class ViewTypeBean implements Serializable {
     private TypeDefinition typeDefinition;
     private TypeProxy selectedType;
 
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
 
     @PostConstruct
     public void init() {
         try {
-            selectedType = navigationBean.getTypeProxy();
+            selectedType = sessionStateBean.getTypeProxy();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, selectedType);
         } catch (CmisException e) {
@@ -83,12 +83,12 @@ public class ViewTypeBean implements Serializable {
         return typeDefinition;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 }
 

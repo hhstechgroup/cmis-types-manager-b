@@ -35,8 +35,8 @@ public class ExportTypeBean {
 
     private UserInfo userInfo;
 
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
 
     private boolean xmlOrJson = true;
     private boolean includeChildren;
@@ -50,7 +50,7 @@ public class ExportTypeBean {
     public void exportType() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
-        String selectedTypeId = navigationBean.getTypeProxy().getId();
+        String selectedTypeId = sessionStateBean.getTypeProxy().getId();
         try {
             OutputStream responseOutputStream = externalContext.getResponseOutputStream();
             if (xmlOrJson) {
@@ -81,12 +81,12 @@ public class ExportTypeBean {
         this.login = login;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 
     public boolean isXmlOrJson() {

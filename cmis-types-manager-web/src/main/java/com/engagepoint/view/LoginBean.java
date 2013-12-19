@@ -32,8 +32,8 @@ public class LoginBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginBean.class);
     @EJB
     private CmisService service;
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
     private UserInfo userInfo = new UserInfo();
     private String sessionID;
     private boolean loggedIn;
@@ -103,12 +103,12 @@ public class LoginBean implements Serializable {
         this.loggedIn = loggedIn;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 
     public UserInfo getUserInfo() {

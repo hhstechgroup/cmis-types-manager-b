@@ -27,6 +27,7 @@ public class Constants {
         public static final String TYPE_DELETED = "Deleted type ";
         public static final String UNABLE_INIT_TYPE_VIEW = "Unable to initialise type view";
         public static final String UNABLE_INIT_REPO = "Unable to initialization repositories";
+        public static final String UNABLE_SET_SELECTED_TYPE = "Unable to set selected type";
     }
 
     public static final class TypesManager{
@@ -34,7 +35,10 @@ public class Constants {
         public static final String MUTABILITY_DELETE_DISPLAY_NAME = "Delete ";
         public static final String MUTABILITY_UPDATE_DISPLAY_NAME = "Update ";
         public static final String MUTABILITY_CREATE_DISPLAY_NAME = "Create ";
-        public static final int FIRST_TYPE_ID = 0;
+    }
+
+    public static final class Integers{
+        public static final int ZERO = 0;
     }
 
     public static final class RepoManager{
@@ -57,6 +61,6 @@ public class Constants {
         public static final String INFO_ADDRESS = "index.xhtml";
         public static final String INFO_LABEL =  "About";
 
-        public static final String STYLE_CLASS = "active";
+        public static final String STYLE_CLASS_ACTIVE = "active";
     }
 }
