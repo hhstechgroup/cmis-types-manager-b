@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
+import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
@@ -33,7 +34,7 @@ public class ImportTypeBean {
     private LoginBean login;
     private InputStream stream;
     private String fileName;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private boolean importButtonDisabled;
 
@@ -87,7 +88,7 @@ public class ImportTypeBean {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to create type", e);
         }
-        return navigationBean.toMainPage();
+        return Constants.Navigation.TO_MAIN_PAGE;
     }
 
     public LoginBean getLogin() {

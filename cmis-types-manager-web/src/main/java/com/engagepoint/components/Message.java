@@ -11,32 +11,42 @@ import javax.faces.context.FacesContext;
 public class Message {
 
     public static void printInfo(String text) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, text, ""));
+        getFacesContext().addMessage(null, getInfoMessage(text, ""));
     }
 
     public static void printInfo(String text, String detail) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, text, detail));
+        getFacesContext().addMessage(null, getInfoMessage(text, detail));
     }
 
     public static void printError(String text) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, text, ""));
+        getFacesContext().addMessage(null, getErrorMessage(text, ""));
     }
 
     public static void printError(String text, String detail) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, text, detail));
+        getFacesContext().addMessage(null, getErrorMessage(text, detail));
     }
 
     public static void printWarn(String text) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, text, ""));
+        getFacesContext().addMessage(null, getWarnMessage(text, ""));
     }
 
     public static void printWarn(String text, String detail) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, text, detail));
+        getFacesContext().addMessage(null, getWarnMessage(text, detail));
+    }
+
+    private static FacesMessage getWarnMessage(String text, String detail) {
+        return new FacesMessage(FacesMessage.SEVERITY_WARN, text, detail);
+    }
+
+    private static FacesMessage getErrorMessage(String text, String detail) {
+        return new FacesMessage(FacesMessage.SEVERITY_ERROR, text, detail);
+    }
+
+    private static FacesMessage getInfoMessage(String text, String detail) {
+        return new FacesMessage(FacesMessage.SEVERITY_INFO, text, detail);
+    }
+
+    private static FacesContext getFacesContext() {
+        return FacesContext.getCurrentInstance();
     }
 }

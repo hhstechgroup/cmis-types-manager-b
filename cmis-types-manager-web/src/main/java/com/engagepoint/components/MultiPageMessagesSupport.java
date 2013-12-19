@@ -26,11 +26,10 @@ public class MultiPageMessagesSupport implements PhaseListener {
     @Override
     public void beforePhase(final PhaseEvent event) {
         FacesContext facesContext = event.getFacesContext();
-        int msg = this.saveMessages(facesContext);
 
         if (PhaseId.RENDER_RESPONSE.equals(event.getPhaseId())) {
             if (!facesContext.getResponseComplete()) {
-                this.restoreMessages(facesContext);
+                restoreMessages(facesContext);
             }
         }
     }
@@ -40,8 +39,9 @@ public class MultiPageMessagesSupport implements PhaseListener {
         if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES ||
                 event.getPhaseId() == PhaseId.PROCESS_VALIDATIONS ||
                 event.getPhaseId() == PhaseId.INVOKE_APPLICATION) {
-            FacesContext facesContext = event.getFacesContext();
-            int msg = this.saveMessages(facesContext);
+            //todo delete
+            /*FacesContext facesContext = event.getFacesContext();
+            int msg = this.saveMessages(facesContext);*/
         }
     }
 

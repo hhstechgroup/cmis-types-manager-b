@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.components.Message;
+import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
@@ -22,12 +23,12 @@ import java.util.List;
 @ManagedBean
 @ViewScoped
 public class CreateBean implements Serializable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModifyTypeBean.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateBean.class);
     @EJB
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigation}")
+    @ManagedProperty(value = "#{navigationBean}")
     private NavigationBean navigationBean;
     private Type newType;
     private List<TypeProperty> typeProperties;
@@ -40,10 +41,29 @@ public class CreateBean implements Serializable {
 
     @PostConstruct
     public void init(){
+        typeProperties = new ArrayList<TypeProperty>();
+        newType = new Type();
+        setValuesToLists();
         selectedType = navigationBean.getTypeProxy();
         UserInfo userInfo = login.getUserInfo();
+        setAttributes(userInfo);
+
+        if (isHide()){
+            selectedType.setId(secondary);
+            newType.setCreatable(false);
+            newType.setFileable(false);
+            newType.setControllableAcl(false);
+            newType.setControllablePolicy(false);
+        }
+    }
+
+    public CreateBean() {
+
+    }
+
+    private void setAttributes(UserInfo usrInf){
         try {
-            typeDefinition = service.getTypeDefinition(userInfo, selectedType);
+            typeDefinition = service.getTypeDefinition(usrInf, selectedType);
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());
@@ -55,35 +75,18 @@ public class CreateBean implements Serializable {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
         }
-
-        if (hide()){
-            selectedType.setId(secondary);
-            newType.setCreatable(false);
-            newType.setFileable(false);
-            newType.setControllableAcl(false);
-            newType.setControllablePolicy(false);
-        }
     }
 
-    public CreateBean() {
-        typeProperties = new ArrayList<TypeProperty>();
-        newType = new Type();
-        setValuesToLists();
-
-
-    }
-
-    public String addAction() {
+    public void addAction() {
         TypeProperty property = new TypeProperty();
-        property.setDisplayName("");
-        property.setLocalName("");
-        property.setQueryName("");
-        property.setId("");
-        property.setCardinality("");
-        property.setUpdatability("");
-        property.setPropertyType("");
+        property.setDisplayName(Constants.Strings.EMPTY_STRING);
+        property.setLocalName(Constants.Strings.EMPTY_STRING);
+        property.setQueryName(Constants.Strings.EMPTY_STRING);
+        property.setId(Constants.Strings.EMPTY_STRING);
+        property.setCardinality(Constants.Strings.EMPTY_STRING);
+        property.setUpdatability(Constants.Strings.EMPTY_STRING);
+        property.setPropertyType(Constants.Strings.EMPTY_STRING);
         typeProperties.add(property);
-        return null;
     }
 
 
@@ -128,12 +131,12 @@ public class CreateBean implements Serializable {
             newType.setProperties(typeProperties);
             service.createType(userInfo, newType);
             Message.printInfo(newType.getDisplayName() + " type created!");
-            return navigationBean.toMainPage();
+            return Constants.Navigation.TO_MAIN_PAGE;
         } catch (CmisException e) {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to create type", e);
         }
-        return "";
+        return Constants.Navigation.TO_CURRENT_PAGE;
     }
 
 
@@ -170,7 +173,7 @@ public class CreateBean implements Serializable {
         }
         return list;
     }
-    public boolean hide(){
+    public boolean isHide(){
         return selectedType.getBaseType().equals(secondary);
     }
 }
