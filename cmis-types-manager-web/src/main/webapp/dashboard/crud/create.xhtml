@@ -41,20 +41,14 @@
                         <p:outputLabel id="outputTextView16" for="inputTextView16" value="Base Type"/>
                         <h:outputText id="inputTextView16" value="#{createBean.baseType}"/>
 
-                        <p:outputLabel id="outputTextView6" for="inputTextView6" value="Parent Type"
-                                       rendered="#{!createBean.hide()}"/>
-                        <h:outputText id="inputTextView6" value="#{createBean.parentType}"
-                                      rendered="#{!createBean.hide()}"/>
+            <p:outputLabel id="outputTextView6" for="inputTextView6" value="Parent Type" rendered="#{!createBean.isHide()}"/>
+            <h:outputText id="inputTextView6" value="#{createBean.parentType}" rendered="#{!createBean.isHide()}"/>
 
-                        <p:outputLabel id="outputTextView7" for="selectCheckboxCreatabel" value="Creatable :"
-                                       rendered="#{!createBean.hide()}"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxCreatabel" value="#{createBean.type.creatable}"
-                                                 rendered="#{!createBean.hide()}"/>
+            <p:outputLabel id="outputTextView7" for="selectCheckboxCreatabel" value="Creatable :" rendered="#{!createBean.isHide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxCreatabel" value="#{createBean.type.creatable}" rendered="#{!createBean.isHide()}"/>
 
-                        <p:outputLabel id="outputTextView8" for="selectCheckboxFileable" value="Fileable :"
-                                       rendered="#{!createBean.hide()}"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxFileable" value="#{createBean.type.fileable}"
-                                                 rendered="#{!createBean.hide()}"/>
+            <p:outputLabel id="outputTextView8" for="selectCheckboxFileable" value="Fileable :" rendered="#{!createBean.isHide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxFileable" value="#{createBean.type.fileable}" rendered="#{!createBean.isHide()}"/>
 
                         <p:outputLabel id="outputTextView9" for="selectCheckboxQueryable" value="Queryable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxQueryable" value="#{createBean.type.queryable}"/>
@@ -67,15 +61,11 @@
                         <p:outputLabel id="outputTextView11" for="selectCheckboxFti" value="Full text indexed :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxFti" value="#{createBean.type.fulltextIndexed}"/>
 
-                        <p:outputLabel id="outputTextView12" for="selectCheckboxACL" value="ACL Contronable :"
-                                       rendered="#{!createBean.hide()}"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxACL" value="#{createBean.type.controllableAcl}"
-                                                 rendered="#{!createBean.hide()}"/>
+            <p:outputLabel id="outputTextView12" for="selectCheckboxACL" value="ACL Contronable :" rendered="#{!createBean.isHide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxACL" value="#{createBean.type.controllableAcl}" rendered="#{!createBean.isHide()}"/>
 
-                        <p:outputLabel id="outputTextView13" for="selectCheckboxPC" value="Policy contronable :"
-                                       rendered="#{!createBean.hide()}"/>
-                        <p:selectBooleanCheckbox id="selectCheckboxPC" value="#{createBean.type.controllablePolicy}"
-                                                 rendered="#{!createBean.hide()}"/>
+            <p:outputLabel id="outputTextView13" for="selectCheckboxPC" value="Policy contronable :" rendered="#{!createBean.isHide()}"/>
+            <p:selectBooleanCheckbox id="selectCheckboxPC" value="#{createBean.type.controllablePolicy}" rendered="#{!createBean.isHide()}"/>
 
                         <p:outputLabel id="outputTextView14" value="Type mutability"/>
                         <h:outputText value="Create, Update, Delete"/>

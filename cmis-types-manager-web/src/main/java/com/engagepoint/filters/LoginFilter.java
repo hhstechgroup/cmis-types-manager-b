@@ -1,6 +1,4 @@
-package com.engagepoint.filters;
-
-/**
+package com.engagepoint.filters; /**
  * User: stanislav.skrebtsov (stanislav.skrebtsov@engagepoint.com)
  * Date: 29.11.13
  * Time: 18:32
@@ -10,6 +8,7 @@ import com.engagepoint.view.LoginBean;
 import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -29,13 +28,16 @@ public class LoginFilter implements Filter {
         String contextPath = ((HttpServletRequest) request).getContextPath();
 
         if (StringUtils.isEmpty(sessionID)) {
+            //todo change const
             ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
         }
         chain.doFilter(request, response);
+
     }
 
     @Override
     public void destroy() {
 
     }
+
 }

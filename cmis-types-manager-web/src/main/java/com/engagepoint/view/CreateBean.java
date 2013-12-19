@@ -41,10 +41,29 @@ public class CreateBean implements Serializable {
 
     @PostConstruct
     public void init(){
+        typeProperties = new ArrayList<TypeProperty>();
+        newType = new Type();
+        setValuesToLists();
         selectedType = navigationBean.getTypeProxy();
         UserInfo userInfo = login.getUserInfo();
+        setAttributes(userInfo);
+
+        if (isHide()){
+            selectedType.setId(secondary);
+            newType.setCreatable(false);
+            newType.setFileable(false);
+            newType.setControllableAcl(false);
+            newType.setControllablePolicy(false);
+        }
+    }
+
+    public CreateBean() {
+
+    }
+
+    private void setAttributes(UserInfo usrInf){
         try {
-            typeDefinition = service.getTypeDefinition(userInfo, selectedType);
+            typeDefinition = service.getTypeDefinition(usrInf, selectedType);
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());
@@ -56,25 +75,9 @@ public class CreateBean implements Serializable {
             Message.printError(e.getMessage());
             LOGGER.error("Unable to initialise type view", e);
         }
-
-        if (hide()){
-            selectedType.setId(secondary);
-            newType.setCreatable(false);
-            newType.setFileable(false);
-            newType.setControllableAcl(false);
-            newType.setControllablePolicy(false);
-        }
     }
 
-    public CreateBean() {
-        typeProperties = new ArrayList<TypeProperty>();
-        newType = new Type();
-        setValuesToLists();
-
-
-    }
-
-    public String addAction() {
+    public void addAction() {
         TypeProperty property = new TypeProperty();
         property.setDisplayName(Constants.Strings.EMPTY_STRING);
         property.setLocalName(Constants.Strings.EMPTY_STRING);
@@ -84,7 +87,6 @@ public class CreateBean implements Serializable {
         property.setUpdatability(Constants.Strings.EMPTY_STRING);
         property.setPropertyType(Constants.Strings.EMPTY_STRING);
         typeProperties.add(property);
-        return null;
     }
 
 
@@ -171,7 +173,7 @@ public class CreateBean implements Serializable {
         }
         return list;
     }
-    public boolean hide(){
+    public boolean isHide(){
         return selectedType.getBaseType().equals(secondary);
     }
 }
