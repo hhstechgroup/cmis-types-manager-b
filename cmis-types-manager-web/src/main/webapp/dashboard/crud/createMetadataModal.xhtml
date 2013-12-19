@@ -1,0 +1,123 @@
+<h:form xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core"
+        id="createMetadataModel">
+    <h:panelGrid columns="2" cellpadding="5">
+
+    <p:outputLabel id="outputTextName" for="inputTextName" value="Name :"/>
+    <p:inputText id="inputTextName" value="" />
+
+
+    <p:outputLabel id="outputTextId"  value="Id:"/>
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.id}"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.id}"/>
+            </f:facet>
+        </p:cellEditor>
+
+    <p:outputLabel id="outputTextDescription" for="inputTextDescription" value="inputTextDescription :"/>
+    <p:inputText id="inputTextDescription" value="" />
+
+    <p:outputLabel id="outputTextLocalNamespace"  value="Local namespace:"/>
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.localName}"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.localName}"/>
+            </f:facet>
+        </p:cellEditor>
+
+    <p:outputLabel id="outputTextLocalName"  value="Local name :"/>
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.localNamespace}"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.queryName}"/>
+            </f:facet>
+        </p:cellEditor>
+
+    <p:outputLabel id="outputTextQueryName"  value="Query name :"/>
+
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.queryName}"/>
+            </f:facet>
+            <f:facet name="input">
+                <p:inputText value="#{property.queryName}"/>
+            </f:facet>
+        </p:cellEditor>
+
+    <p:outputLabel id="outputTextType"  value="Type :"/>
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.propertyType}"/>
+            </f:facet>
+            <f:facet name="input">
+                <h:selectOneMenu value="#{property.propertyType}">
+                    <f:selectItems value="#{createBean.propertyTypeValuesValues}"
+                                   var="propertyType"
+                                   itemLabel="#{propertyType}"
+                                   itemValue="#{propertyType}"/>
+                </h:selectOneMenu>
+            </f:facet>
+        </p:cellEditor>
+
+    <p:outputLabel id="outputTextCardinalityw"  value="Cardinality :"/>
+
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.cardinality}"/>
+            </f:facet>
+            <f:facet name="input">
+                <h:selectOneMenu value="#{property.cardinality}">
+                    <f:selectItems value="#{createBean.cardinalitylityValues}"
+                                   var="cardinality"
+                                   itemLabel="#{cardinality}"
+                                   itemValue="#{cardinality}"/>
+                </h:selectOneMenu>
+            </f:facet>
+        </p:cellEditor>
+
+    <p:outputLabel id="outputTextUpdatability"  value="Updatability :"/>
+
+        <p:cellEditor>
+            <f:facet name="output">
+                <h:outputText value="#{property.updatability}"/>
+            </f:facet>
+            <f:facet name="input">
+                <h:selectOneMenu value="#{property.updatability}">
+                    <f:selectItems value="#{createBean.updatabilityValues}"
+                                   var="updatability"
+                                   itemLabel="#{updatability}"
+                                   itemValue="#{updatability}"/>
+                </h:selectOneMenu>
+            </f:facet>
+        </p:cellEditor>
+
+    <p:outputLabel id="outputTextQuarylable"  value="Quarylable:"/>
+       <p:selectBooleanCheckbox id="selectCheckboxQuarylable"
+        value=""/>
+
+    <p:outputLabel id="outputTextOrderable"  value="Orderable :"/>
+        <p:selectBooleanCheckbox id="selectCheckboxOrderable"
+                                 value=""/>
+
+        <p:outputLabel id="outputTextRequeried"  value="Requeried :"/>
+        <p:selectBooleanCheckbox id="selectCheckboxRequeried"
+                                 value=""/>
+
+
+        <p:outputLabel id="outputTextInheried"  value="Inheried :"/>
+        <p:selectBooleanCheckbox id="selectCheckboxInheried"
+                                 value=""/>
+
+    </h:panelGrid>
+
+
+</h:form>
