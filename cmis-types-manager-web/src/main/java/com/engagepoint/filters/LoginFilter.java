@@ -32,7 +32,7 @@ public class LoginFilter implements Filter {
             ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
         }
         chain.doFilter(request, response);
-    }
+        }
 
     @Override
     public void destroy() {
