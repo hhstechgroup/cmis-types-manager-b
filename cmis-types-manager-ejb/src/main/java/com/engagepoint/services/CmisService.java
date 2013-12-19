@@ -49,7 +49,7 @@ public class CmisService {
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
@@ -72,10 +72,10 @@ public class CmisService {
         TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
             session.createType(typeDefinition);
-        }  catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
@@ -141,10 +141,10 @@ public class CmisService {
                     stream.close();
                 }
             }
-        }  catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } catch (IOException e) {
@@ -167,7 +167,7 @@ public class CmisService {
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } catch (IOException e) {
@@ -190,7 +190,7 @@ public class CmisService {
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
@@ -301,7 +301,7 @@ public class CmisService {
         Session session = getSession(userInfo);
         List<Tree<ObjectType>> typeDescendants = session.getTypeDescendants(typeId, -1, true);
         try {
-            CustomTypeUtils.writeToXML(session.getTypeDefinition(typeId), out, (includeChildren?typeDescendants:null));
+            CustomTypeUtils.writeToXML(session.getTypeDefinition(typeId), out, (includeChildren ? typeDescendants : null));
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
@@ -322,7 +322,7 @@ public class CmisService {
     public void exportTypeToJSON(final UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException, IOException {
         Session session = getSession(userInfo);
         try {
-                TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
+            TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());

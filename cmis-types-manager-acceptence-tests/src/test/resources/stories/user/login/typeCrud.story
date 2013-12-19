@@ -6,7 +6,7 @@ When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemo
 When clicks on element with id/name/className 'loginBut'
 Then wait for element 'treeForm' is visible
 
-Scenario: create type scenario with metadata scenario
+Scenario: create type with metadata scenario
 When clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When clicks on element with id/name/className 'create'
 Then wait for element 'createTypeForm' is visible
@@ -36,7 +36,7 @@ Then wait for element 'treeForm' is visible
 When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel1'
 
-Scenario: view type scenario
+Scenario: view type with metadata scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-view'

@@ -7,9 +7,11 @@ package com.engagepoint.view;
  */
 
 import com.engagepoint.components.Message;
+import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,29 +50,42 @@ public class ExportTypeBean {
     }
 
     public void exportType() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
         String selectedTypeId = navigationBean.getTypeProxy().getId();
-        try {
-            OutputStream responseOutputStream = externalContext.getResponseOutputStream();
-            if (xmlOrJson) {
-                externalContext.setResponseContentType("application/xml");
-                externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
-                service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
-            } else {
-                externalContext.setResponseContentType("application/json");
-                externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
-                service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
+        String message = "";
+        if (StringUtils.isEmpty(selectedTypeId)) {
+            message = "Selected type can't be Null or Empty string";
+            Message.printError(message);
+            LOGGER.error(message);
+        } else {
+            FacesContext facesContext = FacesContext.getCurrentInstance();
+            ExternalContext externalContext = facesContext.getExternalContext();
+            try {
+                OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                if (xmlOrJson) {
+                    externalContext.setResponseContentType("application/xml");
+                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
+                    service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
+                } else {
+                    externalContext.setResponseContentType("application/json");
+                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
+                    service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
+                }
+                message = "Selected type is exported successfully";
+                LOGGER.info(message);
+            } catch (IOException e) {
+                Message.printError(e.getMessage());
+                LOGGER.error("Error while exporting type", e);
+            } catch (CmisException e) {
+                Message.printError(e.getMessage());
+                LOGGER.error("Error while exporting type", e);
+            } finally {
+                facesContext.responseComplete();
             }
-
-        } catch (IOException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while exporting type", e);
-        } catch (CmisException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Error while exporting type", e);
         }
-        facesContext.responseComplete();
+    }
+
+    public String redirect(){
+        return Constants.Navigation.TO_CURRENT_PAGE;
     }
 
     public LoginBean getLogin() {

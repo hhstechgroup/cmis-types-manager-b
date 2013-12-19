@@ -3,6 +3,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:uib="http://engagepoint.com/uib"
                 template="../../template.xhtml">
 
     <ui:define name="leftMenu">
@@ -11,8 +12,8 @@
 
     <ui:define name="mainContent">
         <h:form id="viewForm">
-
-            <p:commandButton id="return" value="Back" action="/dashboard/index?faces-redirect=true" styleClass="mb20"/>
+            <p:commandButton id="return" value="Back" action="#{backNavigationBean.goToLastPage()}" styleClass="mb20"/>
+            <p:outputLabel value="#{viewTypeBean.typeDefinition.displayName}"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
