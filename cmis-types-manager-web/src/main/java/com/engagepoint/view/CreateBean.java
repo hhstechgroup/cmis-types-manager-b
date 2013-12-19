@@ -32,7 +32,6 @@ public class CreateBean implements Serializable {
     private SessionStateBean sessionStateBean;
     private Type newType;
     private List<TypeProperty> typeProperties;
-    private TypeDefinition typeDefinition;
     private TypeProxy selectedType;
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
@@ -62,7 +61,7 @@ public class CreateBean implements Serializable {
 
     private void setAttributes(UserInfo usrInf){
         try {
-            typeDefinition = service.getTypeDefinition(usrInf, selectedType);
+            TypeDefinition typeDefinition = service.getTypeDefinition(usrInf, selectedType);
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());

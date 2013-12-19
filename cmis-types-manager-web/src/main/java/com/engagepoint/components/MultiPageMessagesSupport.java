@@ -16,7 +16,7 @@ import java.util.Map;
  * Time: 2:48 PM
  */
 public class MultiPageMessagesSupport implements PhaseListener {
-    private static final String sessionToken = "MULTI_PAGE_MESSAGES_SUPPORT";
+    private static final String SESSION_TOKEN = "MULTI_PAGE_MESSAGES_SUPPORT";
 
     @Override
     public PhaseId getPhaseId() {
@@ -27,10 +27,9 @@ public class MultiPageMessagesSupport implements PhaseListener {
     public void beforePhase(final PhaseEvent event) {
         FacesContext facesContext = event.getFacesContext();
 
-        if (PhaseId.RENDER_RESPONSE.equals(event.getPhaseId())) {
-            if (!facesContext.getResponseComplete()) {
-                restoreMessages(facesContext);
-            }
+        if (PhaseId.RENDER_RESPONSE.equals(event.getPhaseId()) &&
+                (!facesContext.getResponseComplete())) {
+            restoreMessages(facesContext);
         }
     }
 
@@ -57,11 +56,11 @@ public class MultiPageMessagesSupport implements PhaseListener {
         }
 
         Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
-        List<FacesMessage> existingMessages = (List<FacesMessage>) sessionMap.get(sessionToken);
+        List<FacesMessage> existingMessages = (List<FacesMessage>) sessionMap.get(SESSION_TOKEN);
         if (existingMessages != null) {
             existingMessages.addAll(messages);
         } else {
-            sessionMap.put(sessionToken, messages);
+            sessionMap.put(SESSION_TOKEN, messages);
         }
         return messages.size();
     }
@@ -69,7 +68,7 @@ public class MultiPageMessagesSupport implements PhaseListener {
     @SuppressWarnings("unchecked")
     private int restoreMessages(final FacesContext facesContext) {
         Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
-        List<FacesMessage> messages = (List<FacesMessage>) sessionMap.remove(sessionToken);
+        List<FacesMessage> messages = (List<FacesMessage>) sessionMap.remove(SESSION_TOKEN);
 
         if (messages == null) {
             return 0;

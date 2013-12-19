@@ -58,11 +58,11 @@ public class ExportTypeBean {
             OutputStream responseOutputStream = externalContext.getResponseOutputStream();
             if (xmlOrJson) {
                 externalContext.setResponseContentType("application/xml");
-                externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate("attachment; filename=\"", selectedTypeId, ".xml" + "\""));
+                externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".xml", "\""));
                 service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
             } else {
                 externalContext.setResponseContentType("application/json");
-                externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate("attachment; filename=\"",selectedTypeId + ".json","\""));
+                externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME,selectedTypeId + ".json","\""));
                 service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
             }
 
