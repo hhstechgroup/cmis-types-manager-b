@@ -12,7 +12,7 @@
     <ui:define name="mainContent">
         <h:form id="viewForm">
 
-            <p:commandButton id="return" value="Back" action="/dashboard/index?faces-redirect=true" styleClass="mb20"/>
+            <p:commandButton id="return" value="Back" action="#{backNavigationBean.goToLastPage()}" styleClass="mb20"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">

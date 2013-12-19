@@ -9,14 +9,6 @@
         <ui:include src="/dashboard/leftMenu.xhtml"/>
     </ui:define>
 
-    <ui:define name="mainContent">
-        <h:form>
-            <p:commandButton id="return" value="Back" action="/dashboard/index?faces-redirect=true" styleClass="mb20"/>
-        </h:form>
-        <h:form id="createTypeForm">
-            <p:accordionPanel id="accordionPanel" multiple="true">
-                <p:tab id="accordionTabAttributes" title="Attributes">
-                    <h:panelGrid columns="2" cellpadding="5">
 <ui:define name="mainContent">
 <h:form>
     <p:commandButton id="return" value="Back" action="#{backNavigationBean.goToLastPage()}" styleClass="mb20"/>
