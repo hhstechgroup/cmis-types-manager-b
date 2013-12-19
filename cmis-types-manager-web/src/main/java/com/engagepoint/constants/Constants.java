@@ -29,6 +29,7 @@ public class Constants {
         public static final String XML_PATTERN = "xml";
         public static final String DISPOSITION = "Content-Disposition";
         public static final String ATTACHMENT_FILE_NAME = "attachment; filename=\"";
+        public static final String QUOTE = "\"";
     }
 
     public static final class Messages {
@@ -57,6 +58,8 @@ public class Constants {
         public static final String TYPE_CREATED = " type created!";
         public static final String DELETE_MESSAGE_PREFFIX = "The type <";
         public static final String DELETE_MESSAGE_SUFFIX = "> cannot be deleted";
+        public static final String EXPORT_SUCCESSFULL = "Selected type is exported successfully";
+        public static final String SELECTED_TYPE_NOT_EMPTY = "Selected type can't be Null or Empty string";
     }
 
     public static final class TypesManager {

@@ -52,9 +52,9 @@ public class ExportTypeBean {
 
     public void exportType() {
         String selectedTypeId = sessionStateBean.getTypeProxy().getId();
-        String message = "";
+        String message;
         if (StringUtils.isEmpty(selectedTypeId)) {
-            message = "Selected type can't be Null or Empty string";
+            message = Constants.Messages.SELECTED_TYPE_NOT_EMPTY;
             MessageUtils.printError(message);
             LOGGER.error(message);
         } else {
@@ -64,21 +64,21 @@ public class ExportTypeBean {
                 OutputStream responseOutputStream = externalContext.getResponseOutputStream();
                 if (xmlOrJson) {
                     externalContext.setResponseContentType("application/xml");
-                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".xml", Constants.Strings.QUOTE));
                     service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
                 } else {
                     externalContext.setResponseContentType("application/json");
-                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".json", Constants.Strings.QUOTE));
                     service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
                 }
-                message = "Selected type is exported successfully";
+                message = Constants.Messages.EXPORT_SUCCESSFULL;
                 LOGGER.info(message);
             } catch (IOException e) {
                 MessageUtils.printError(e.getMessage());
-                LOGGER.error("Error while exporting type", e);
+                LOGGER.error(Constants.Messages.ERROR_EXPORT_TYPE, e);
             } catch (CmisException e) {
                 MessageUtils.printError(e.getMessage());
-                LOGGER.error("Error while exporting type", e);
+                LOGGER.error(Constants.Messages.ERROR_EXPORT_TYPE, e);
             } finally {
                 facesContext.responseComplete();
             }
