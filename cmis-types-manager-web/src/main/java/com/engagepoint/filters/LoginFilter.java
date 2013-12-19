@@ -5,44 +5,47 @@ package com.engagepoint.filters; /**
  */
 
 import java.io.IOException;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LoginFilter implements Filter {
-
-    String contextPath = "";
-
-    public LoginFilter() {
-    }
+    public static Deque<String> history = new LinkedList<String>();
+    private static final String DEFAULT_ = ".xhtml";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
 
+    private void addRequestUrlToHistory(ServletRequest request ){
+        String requestUrl = ((HttpServletRequest) request).getServletPath();
+        requestUrl = requestUrl.substring(0, requestUrl.length()-DEFAULT_.length());
+        requestUrl += "?faces-redirect=true";
+        while (history.size() > 3) {
+            history.removeFirst();
+        }
+        history.addLast(requestUrl);
+    }
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
-
         HttpSession session = ((HttpServletRequest) request).getSession(false);
         String sessionID = (session == null) ? null : (String) session.getAttribute("sessionID");
-        contextPath = ((HttpServletRequest) request).getContextPath();
-
+        String contextPath = ((HttpServletRequest) request).getContextPath();
         if (sessionID == null || sessionID.isEmpty()) {
             ((HttpServletResponse) response).sendRedirect(contextPath + "/login.xhtml");
         }
+        addRequestUrlToHistory(request);
         chain.doFilter(request, response);
-
     }
 
     @Override
     public void destroy() {
 
-    }
-
-    public String getContextPath() {
-        return contextPath;
     }
 }

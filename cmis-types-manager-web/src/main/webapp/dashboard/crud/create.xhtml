@@ -11,7 +11,7 @@
 
 <ui:define name="mainContent">
 <h:form>
-    <p:commandButton id="return" value="Back" action="#{navigation.toMainPage}" styleClass="mb20"/>
+    <p:commandButton id="return" value="Back" action="#{backNavigationBean.goToLastPage()}" styleClass="mb20"/>
 </h:form>
 <h:form id="createTypeForm">
 <p:accordionPanel id="accordionPanel" multiple="true">
