@@ -40,4 +40,23 @@ public class Constants {
     public static final class RepoManager{
         public static final String REPO_CHANGED = "Repository changed successfully";
     }
+
+    public static final class TopMenuBar{
+        public static final String DASHBOARD_MID =  "dashboard";
+        public static final String DASHBOARD_ROOT_VIEW = "/dashboard/";
+        public static final String DASHBOARD_ADDRESS = "index.xhtml";
+        public static final String DASHBOARD_LABEL = "Types Management";
+
+        public static final String CONFIGURATION_MID = "configuration";
+        public static final String CONFIGURATION_ROOT_VIEW = "/configuration/";
+        public static final String CONFIGURATION_ADDRESS = "index.xhtml";
+        public static final String CONFIGURATION_LABEL =  "Configuration";
+
+        public static final String INFO_MID = "info";
+        public static final String INFO_ROOT_VIEW = "/about/";
+        public static final String INFO_ADDRESS = "index.xhtml";
+        public static final String INFO_LABEL =  "About";
+
+        public static final String STYLE_CLASS = "active";
+    }
 }
