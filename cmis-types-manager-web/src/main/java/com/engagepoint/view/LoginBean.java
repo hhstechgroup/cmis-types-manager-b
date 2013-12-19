@@ -40,7 +40,7 @@ public class LoginBean implements Serializable {
 
     public String doLogin() {
         try {
-            userInfo.setRepositoryId(service.getDefaultRepositoryIdName(userInfo));
+            userInfo.setRepository(service.getDefaultRepository(userInfo));
             if (isValid()) {
                 sessionID = String.valueOf(Math.random() * 1000);
                 HttpSession httpSession = getHttpSession();
