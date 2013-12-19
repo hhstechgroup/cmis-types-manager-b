@@ -31,7 +31,6 @@ public class CustomXMLConverter {
         return TYPE_TREE_DEF_PARSER.walk(parser);
     }
 
-
     private static final XMLWalker<List<AbstractTypeDefinition>> TYPE_TREE_DEF_PARSER = new XMLWalker<List<AbstractTypeDefinition>>() {
         @Override
         protected List<AbstractTypeDefinition> prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
@@ -49,9 +48,7 @@ public class CustomXMLConverter {
     private static final XMLWalker<AbstractTypeDefinition> TYPE_DEF_PARSER = new XMLWalker<AbstractTypeDefinition>() {
         @Override
         protected AbstractTypeDefinition prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-
             AbstractTypeDefinition result = null;
-
             String typeAttr = parser.getAttributeValue(NAMESPACE_XSI, "type");
             if (typeAttr != null) {
                 if (typeAttr.endsWith(ATTR_DOCUMENT_TYPE)) {
@@ -70,11 +67,9 @@ public class CustomXMLConverter {
                     result = new SecondaryTypeDefinitionImpl();
                 }
             }
-
             if (result == null) {
                 throw new CmisInvalidArgumentException("Cannot read type definition!");
             }
-
             return result;
         }
 

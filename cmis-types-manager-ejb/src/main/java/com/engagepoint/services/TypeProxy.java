@@ -41,7 +41,6 @@ public class TypeProxy {
         this.displayName = displayName;
     }
 
-
     public List<TypeProxy> getChildren() {
         return children;
     }

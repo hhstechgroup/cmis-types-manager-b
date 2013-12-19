@@ -12,7 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -24,10 +24,9 @@ import java.util.List;
  * Time: 4:33 PM
  */
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class RepositoryBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryBean.class);
-
     @EJB
     private CmisService service;
     private List<Repository> repositories;
@@ -52,7 +51,7 @@ public class RepositoryBean implements Serializable {
     }
 
     public void updateMainContent() {
-        loginBean.getUserInfo().setRepositoryId(getSelectedRepoId());
+        loginBean.getUserInfo().setRepository(getSelectedRepoId());
         Message.printInfo(Constants.RepoManager.REPO_CHANGED);
     }
 
