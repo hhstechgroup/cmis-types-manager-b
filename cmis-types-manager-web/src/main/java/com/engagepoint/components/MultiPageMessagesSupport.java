@@ -39,16 +39,15 @@ public class MultiPageMessagesSupport implements PhaseListener {
         if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES ||
                 event.getPhaseId() == PhaseId.PROCESS_VALIDATIONS ||
                 event.getPhaseId() == PhaseId.INVOKE_APPLICATION) {
-            //todo delete
-            /*FacesContext facesContext = event.getFacesContext();
-            int msg = this.saveMessages(facesContext);*/
+            FacesContext facesContext = event.getFacesContext();
+            this.saveMessages(facesContext);
         }
     }
 
     @SuppressWarnings("unchecked")
     private int saveMessages(final FacesContext facesContext) {
         List<FacesMessage> messages = new ArrayList<FacesMessage>();
-        for (Iterator<FacesMessage> iter = facesContext.getMessages(null); iter.hasNext();) {
+        for (Iterator<FacesMessage> iter = facesContext.getMessages(null); iter.hasNext(); ) {
             messages.add(iter.next());
             iter.remove();
         }
