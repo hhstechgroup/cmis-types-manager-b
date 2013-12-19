@@ -105,7 +105,7 @@ public class TypesManagerBean implements Serializable {
     private void deleteType(UserInfo userInfo, TypeProxy selectedType) {
 
         try {
-            if (Boolean.FALSE.equals(selectedType.getTypeMutability().canDelete())){
+            if (!(selectedType.getTypeMutability().canDelete())){
                 Message.printError("The type <" + selectedType.getDisplayName() + "> cannot be deleted");
 
             } else {
