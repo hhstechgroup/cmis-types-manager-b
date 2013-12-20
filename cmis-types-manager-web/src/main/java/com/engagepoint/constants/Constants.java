@@ -11,13 +11,12 @@ public class Constants {
     }
 
     public static final class Navigation {
+        private Navigation() {
+        }
+
         public static final String TO_LOGIN = "/login?faces-redirect=true";
         public static final String TO_CURRENT_PAGE = "";
         public static final String TO_MAIN_PAGE = "/dashboard/index?faces-redirect=true";
-//        public static final String TO_CREATE_TYPE = "crud/create?faces-redirect=true";
-//        public static final String TO_VIEW_TYPE = "crud/type?faces-redirect=true";
-//        public static final String TO_UPDATE_TYPE = "crud/type?faces-redirect=true";
-
     }
 
     public static final class Strings {
@@ -30,6 +29,7 @@ public class Constants {
         public static final String DISPOSITION = "Content-Disposition";
         public static final String ATTACHMENT_FILE_NAME = "attachment; filename=\"";
         public static final String QUOTE = "\"";
+        public static final String XHTML = ".xhtml";
     }
 
     public static final class Messages {
