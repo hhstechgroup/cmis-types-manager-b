@@ -79,7 +79,7 @@ public class HelperSteps extends ScenarioSteps {
         uIBootstrapBasePage.waitForRenderedElementsToBePresent(findVisibleElementAndGetSelector(id));
     }
     
-    public By findVisibleElementAndGetSelector(String id) {
+    private By findVisibleElementAndGetSelector(String id) {
         By[] selectors = {By.id(id), By.xpath("//*[contains(@id, '" + id + XPATH_SELECTOR_SUFFIX), By.name(id), By.className(id)};
         for (By selector : selectors) {
             if (isElementDisplayed(selector)) {
