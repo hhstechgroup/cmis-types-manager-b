@@ -7,19 +7,18 @@ package com.engagepoint.filters; /**
 import com.engagepoint.constants.Constants;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.IOException;
-import java.util.Deque;
-import java.util.LinkedList;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.Deque;
+import java.util.LinkedList;
 
 
 public class LoginFilter implements Filter {
     public static Deque<String> history = new LinkedList<String>();
-    private static final String DEFAULT_ = ".xhtml";
+
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -28,7 +27,7 @@ public class LoginFilter implements Filter {
 
     private void addRequestUrlToHistory(ServletRequest request ){
         String requestUrl = ((HttpServletRequest) request).getServletPath();
-        requestUrl = requestUrl.substring(0, requestUrl.length()-DEFAULT_.length());
+        requestUrl = requestUrl.substring(0, requestUrl.length()-Constants.Strings.XHTML.length());
         requestUrl += "?faces-redirect=true";
         while (history.size() > 3) {
             history.removeFirst();
