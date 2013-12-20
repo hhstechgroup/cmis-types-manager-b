@@ -5,8 +5,11 @@
                 template="template.xhtml">
     <ui:define name="mainContent">
         <h:form>
-            <p:commandButton value="Go back" action="dashboard/index.xhtml"/>
-
+            <h:outputText styleClass="bold-text" value="404"/>
+            <br/>
+            <h:outputText value="Page not found"/>
+            <br/>
+            <p:commandButton value="Go back" action="dashboard/index.xhtml?faces-redirect=true"/>
         </h:form>
     </ui:define>
 </ui:composition>
