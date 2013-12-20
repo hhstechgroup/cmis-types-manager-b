@@ -6,12 +6,14 @@ package com.engagepoint.view;
  * Time: 16:26 AM
  */
 
-import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
+import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.utils.StringUtils;
+import org.apache.chemistry.opencmis.commons.impl.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,16 +63,23 @@ public class ExportTypeBean {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
             try {
-                OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
                 if (xmlOrJson) {
+                    service.exportTypeToXML(userInfo, out, selectedTypeId, includeChildren);
+                } else {
+                    service.exportTypeToJSON(userInfo, out, selectedTypeId, includeChildren);
+                }
+                byte[] arr = out.toByteArray();
+                OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                if(xmlOrJson){
                     externalContext.setResponseContentType("application/xml");
                     externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".xml", Constants.Strings.QUOTE));
-                    service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
                 } else {
                     externalContext.setResponseContentType("application/json");
                     externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".json", Constants.Strings.QUOTE));
-                    service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
                 }
+                responseOutputStream.write(arr);
+                IOUtils.closeQuietly(responseOutputStream);
                 message = Constants.Messages.EXPORT_SUCCESSFULL;
                 LOGGER.info(message);
             } catch (IOException e) {

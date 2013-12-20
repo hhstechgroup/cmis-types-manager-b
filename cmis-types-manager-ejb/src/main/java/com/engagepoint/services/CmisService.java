@@ -39,7 +39,7 @@ public class CmisService {
     @EJB
     private CmisConnection connection;
 
-//  TODO rename this method
+    //  TODO rename this method
     public List<TypeProxy> getTypeInfo(UserInfo userInfo) throws CmisException {
         Session session = getSession(userInfo);
         List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
@@ -136,7 +136,9 @@ public class CmisService {
                 definitionList = CustomTypeUtils.readFromXML(stream);
                 if (definitionList != null) {
                     for (AbstractTypeDefinition definition : definitionList) {
+                        if(!definition.getId().equals(definition.getBaseTypeId().value())){
                         session.createType(getCorrectTypeDefinition(session, definition));
+                        }
                     }
                 }
             } finally {
@@ -172,11 +174,14 @@ public class CmisService {
         }
     }
 
-    public void exportTypeToXML(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException, IOException {
+    public void exportTypeToXML(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException {
         Session session = getSession(userInfo);
-        List<Tree<ObjectType>> typeDescendants = session.getTypeDescendants(typeId, -1, true);
+        List<Tree<ObjectType>> typeDescendants = null;
+        if (includeChildren) {
+            typeDescendants = session.getTypeDescendants(typeId, -1, true);
+        }
         try {
-            CustomTypeUtils.writeToXML(session.getTypeDefinition(typeId), out, (includeChildren ? typeDescendants : null));
+            CustomTypeUtils.writeToXML(session, getCorrectTypeDefinition(session, session.getTypeDefinition(typeId)), out, typeDescendants);
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
@@ -187,14 +192,13 @@ public class CmisService {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } finally {
-            out.flush();
-            out.close();
+            IOUtils.closeQuietly(out);
         }
 
     }
 
     //TODO write to JSON with child's and change type of exception
-    public void exportTypeToJSON(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException, IOException {
+    public void exportTypeToJSON(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException {
         Session session = getSession(userInfo);
         try {
             TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
@@ -205,8 +209,7 @@ public class CmisService {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } finally {
-            out.flush();
-            out.close();
+            IOUtils.closeQuietly(out);
         }
 
     }
@@ -266,7 +269,7 @@ public class CmisService {
         return list;
     }
 
-//  TODO change the logic to retrieve the parameters and check when it call
+    //  TODO change the logic to retrieve the parameters and check when it call
     public List<Repository> getRepositories(UserInfo userInfo) throws CmisException {
         Map<String, String> parameters = userInfo.getAtomPubParameters();
         List<Repository> repositories;
