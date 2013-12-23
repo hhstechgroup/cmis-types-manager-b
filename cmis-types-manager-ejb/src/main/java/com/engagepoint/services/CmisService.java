@@ -115,12 +115,14 @@ public class CmisService {
             propertyDef.setId(property.getId());
             propertyDef.setDisplayName(property.getDisplayName());
             propertyDef.setLocalName(property.getLocalName());
+            propertyDef.setDescription(property.getDescription());
             propertyDef.setQueryName(property.getQueryName());
             propertyDef.setCardinality(Cardinality.fromValue(property.getCardinality().toLowerCase()));
             propertyDef.setPropertyType(PropertyType.fromValue(property.getPropertyType().toLowerCase()));
             propertyDef.setIsRequired(property.getRequired());
             propertyDef.setIsInherited(property.getInherited());
             propertyDef.setUpdatability(Updatability.fromValue(property.getUpdatability().toLowerCase()));
+            propertyDef.setIsQueryable(property.getQueryable());
             propertyDef.setIsOrderable(property.getOrderable());
             propertyDef.setLocalNamespace(property.getLocalNamespace());
             propertyDefinitionMap.put(property.getId(), propertyDef);
