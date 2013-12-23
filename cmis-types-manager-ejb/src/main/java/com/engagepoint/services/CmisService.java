@@ -158,6 +158,7 @@ public class CmisService {
             Session session = getSession(userInfo);
             try {
                 TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
+                if(!(typeDefinition.getId()==typeDefinition.getBaseTypeId().value()))
                 session.createType(typeDefinition);
             } finally {
                 IOUtils.closeQuietly(stream);

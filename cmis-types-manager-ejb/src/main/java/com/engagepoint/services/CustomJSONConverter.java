@@ -1583,7 +1583,9 @@ public final class CustomJSONConverter {
     /**
      * Converts choices.
      */
-    private static <T> JSONArray convertChoices(final List<Choice<T>> choices, final Cardinality cardinality) {
+    private static <T> JSONArray convertChoices(final List<? extends Choice<?>> choices, final Cardinality cardinality) {
+        //todo check is it right
+        //convertChoices(final List<Choice<T>> choices, final Cardinality cardinality) {
         if (choices == null) {
             return null;
         }
@@ -1609,6 +1611,7 @@ public final class CustomJSONConverter {
 
             if (choice.getChoice() != null && !choice.getChoice().isEmpty()) {
                 jsonChoice.put(JSON_PROPERTY_TYPE_CHOICE_CHOICE, convertChoices(choice.getChoice(), cardinality));
+                //jsonChoice.put(JSON_PROPERTY_TYPE_CHOICE_CHOICE, convertChoices(choice.getChoice(), cardinality));
             }
 
             result.add(jsonChoice);
