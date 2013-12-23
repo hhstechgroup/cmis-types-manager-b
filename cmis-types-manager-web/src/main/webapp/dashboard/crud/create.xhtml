@@ -185,30 +185,30 @@
 
 <p:dialog id="createMetadataModalDialog" header="Create Metadata Line" widgetVar="createMetadataModal" modal="true"
           resizable="false">
-    <h:form>
+    <h:form id="createMetadataModalForm">
         <p:panelGrid columns="2" cellpadding="5">
-            <p:outputLabel value="Name">
-                <p:inputText value="#{createBean.newTypeProperty.displayName}"/>
+            <p:outputLabel value="Id">
+                <p:inputText id="newMetaDataId" value="#{createBean.newTypeProperty.id}"/>
             </p:outputLabel>
 
-            <p:outputLabel value="Id">
-                <p:inputText value="#{createBean.newTypeProperty.id}"/>
+            <p:outputLabel value="Name">
+                <p:inputText id="newMetaDataName" value="#{createBean.newTypeProperty.displayName}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Local name">
-                <p:inputText value="#{createBean.newTypeProperty.localName}"/>
+                <p:inputText id="newMetaDataLocalName" value="#{createBean.newTypeProperty.localName}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Query Name">
-                <p:inputText value="#{createBean.newTypeProperty.queryName}"/>
+                <p:inputText id="newMetaDataQueryName" value="#{createBean.newTypeProperty.queryName}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Local name space">
-                <p:inputText value="#{createBean.newTypeProperty.localNamespace}"/>
+                <p:inputText id="newMetaDataLocalNamespace" value="#{createBean.newTypeProperty.localNamespace}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Description">
-                <p:inputText value="#{createBean.newTypeProperty.description}"/>
+                <p:inputText id="newMetaDataDescription" value="#{createBean.newTypeProperty.description}"/>
             </p:outputLabel>
 
         </p:panelGrid>
@@ -257,7 +257,7 @@
         </p:panelGrid>
 
         <div class="fl-right">
-            <p:commandButton id="createMetadataButton" value="OK"
+            <p:commandButton id="createMetadataButton" value="Add"
                              update="-createTypeForm-accordionPanel-metadataTabel,-createMetadataModalDialog"
                              action="#{createBean.addNewMetaData()}"
                              oncomplete="createMetadataModal.hide()"/>
@@ -275,27 +275,27 @@
     <h:form id="updateMetadataModalForm">
         <p:panelGrid columns="2" cellpadding="5">
             <p:outputLabel value="Name">
-                <p:inputText value="#{createBean.selectedTypeProperty.displayName}"/>
+                <p:inputText id="newMetaDataNameUpdate" value="#{createBean.selectedTypeProperty.displayName}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Id">
-                <p:inputText value="#{createBean.selectedTypeProperty.id}"/>
+                <p:inputText id="newMetaDataIdUpdate" value="#{createBean.selectedTypeProperty.id}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Local name">
-                <p:inputText value="#{createBean.selectedTypeProperty.localName}"/>
+                <p:inputText id="newMetaDataLocalNameUpdate" value="#{createBean.selectedTypeProperty.localName}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Query Name">
-                <p:inputText value="#{createBean.selectedTypeProperty.queryName}"/>
+                <p:inputText id="newMetaDataQueryNameUpdate" value="#{createBean.selectedTypeProperty.queryName}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Local name space">
-                <p:inputText value="#{createBean.selectedTypeProperty.localNamespace}"/>
+                <p:inputText id="newMetaDataLocalNamespaceUpdate" value="#{createBean.selectedTypeProperty.localNamespace}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Description">
-                <p:inputText value="#{createBean.selectedTypeProperty.description}"/>
+                <p:inputText id="newMetaDataDescriptionUpdate" value="#{createBean.selectedTypeProperty.description}"/>
             </p:outputLabel>
         </p:panelGrid>
 

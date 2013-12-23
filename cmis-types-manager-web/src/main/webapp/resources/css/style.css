@@ -280,18 +280,11 @@
 }
 
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
-    border: 1px solid #666666;
-    background: #aaaaaa;
-    background: #aaaaaa linear-gradient(top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
-    background: #aaaaaa -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.25)), to(rgba(0, 0, 0, 0)));
-    background: #aaaaaa -moz-linear-gradient(top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+    background: #0075AC;
+    background: #0075AC linear-gradient(top, #026292, #85b2cb);
+    background: #0075AC -webkit-gradient(linear, left top, left bottom, from(#026292), to(#85b2cb));
+    background: #0075AC -moz-linear-gradient(top, #026292, #85b2cb);
     color: #ffffff;
-    text-shadow: 1px 1px 1px #333333;
     cursor: pointer;
-}
-
-.ui-state-hover {
-    -moz-box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
-    -webkit-box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
-    box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
+    font-family: MuseoSans700, sans-serif;
 }
