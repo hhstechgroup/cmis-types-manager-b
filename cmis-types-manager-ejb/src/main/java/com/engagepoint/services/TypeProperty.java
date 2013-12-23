@@ -143,5 +143,26 @@ public class TypeProperty<T> {
     public void setOpenChoice(Boolean openChoice) {
         isOpenChoice = openChoice;
     }
+
+    @Override
+    public String toString() {
+        return "TypeProperty{" +
+                "id='" + id + '\'' +
+                ", localName='" + localName + '\'' +
+                ", localNamespace='" + localNamespace + '\'' +
+                ", queryName='" + queryName + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", description='" + description + '\'' +
+                ", propertyType='" + propertyType + '\'' +
+                ", cardinality='" + cardinality + '\'' +
+                ", defaultValue=" + defaultValue +
+                ", updatability='" + updatability + '\'' +
+                ", isInherited=" + isInherited +
+                ", isQueryable=" + isQueryable +
+                ", isOrderable=" + isOrderable +
+                ", isRequired=" + isRequired +
+                ", isOpenChoice=" + isOpenChoice +
+                '}';
+    }
 }
 

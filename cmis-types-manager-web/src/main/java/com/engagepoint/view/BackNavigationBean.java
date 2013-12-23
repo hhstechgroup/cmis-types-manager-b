@@ -20,7 +20,7 @@ public class BackNavigationBean implements Serializable {
     }
 
     public String goToLastPage() {
-        System.out.println(LoginFilter.history.poll()+"dfffffffffffffffffffffffffffffffffffff");
         return LoginFilter.history.poll();
     }
+
 }

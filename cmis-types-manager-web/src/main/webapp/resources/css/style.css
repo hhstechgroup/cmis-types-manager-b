@@ -60,14 +60,16 @@
     border-left: 6px solid rgb(165, 163, 155) !important;
 }
 
-#deleteForm-accept{
+#deleteForm-accept {
     margin-right: 10px;
 }
+
 #form-accordionPanel-metadataTable {
     width: 100%;
 }
-#form-accordionPanel-metadataTabel-j_idt23{
-    width:100%;
+
+#form-accordionPanel-metadataTabel-j_idt23 {
+    width: 100%;
 }
 
 #importHeader {
@@ -78,12 +80,15 @@
 #importForm {
     margin-top: 30px;
 }
-.files{
+
+.files {
     margin-top: 40px;
 }
-#importForm-fileUploadName{
+
+#importForm-fileUploadName {
     float: right;
 }
+
 #importForm-j_idt34 {
     margin-left: 50px;
 }
@@ -94,133 +99,199 @@
     overflow: hidden;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable table{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable table {
     border-collapse: collapse;
     width: 100%;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata table,#viewForm-accordionPanel-accordionTabMetadata table {
+#createTypeForm-accordionPanel-accordionTabMetadata table, #viewForm-accordionPanel-accordionTabMetadata table {
     display: table;
     border-collapse: separate;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable table{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable table, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable table {
     border-collapse: collapse;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th {
     padding: 5px 10px;
     overflow: hidden;
     border: 1px solid #000;
     font-weight: bold;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tfoot td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tfoot td, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th {
     text-align: center;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body {
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-body {
     overflow: auto;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table, .ui-datatable-sticky table,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table, .ui-datatable-sticky table, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable table {
     table-layout: auto;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata colgroup,#viewForm-accordionPanel-accordionTabMetadata colgroup{
+#createTypeForm-accordionPanel-accordionTabMetadata colgroup, #viewForm-accordionPanel-accordionTabMetadata colgroup {
     display: table-column-group;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-widget-content,#viewForm-accordionPanel-accordionTabMetadata .ui-widget-content{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-widget-content, #viewForm-accordionPanel-accordionTabMetadata .ui-widget-content {
     position: relative;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata tr,#viewForm-accordionPanel-accordionTabMetadata tr{
+#createTypeForm-accordionPanel-accordionTabMetadata tr, #viewForm-accordionPanel-accordionTabMetadata tr {
     vertical-align: inherit;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable thead th, .ui-datatable tbody td, .ui-datatable tfoot td, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable thead th {
     padding: 0px 7px;
     overflow: hidden;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable tbody td {
     border-color: inherit;
     position: relative;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select,#viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select, #viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor-input select {
     width: 100%;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor,#viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-cell-editor, #viewForm-accordionPanel-accordionTabMetadata .ui-cell-editor {
     width: 100px;
     min-height: 34px;
     line-height: 31px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span,#viewForm-accordionPanel-accordionTabMetadata thead tr th span{
+#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span, #viewForm-accordionPanel-accordionTabMetadata thead tr th span {
     display: block;
     width: 100px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata tr,#viewForm-accordionPanel-accordionTabMetadata tr{
+#createTypeForm-accordionPanel-accordionTabMetadata tr, #viewForm-accordionPanel-accordionTabMetadata tr {
     width: 100% !important;
     display: table-row;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata td .ui-button,#viewForm-accordionPanel-accordionTabMetadata td .ui-button{
-    width: 30px;
-    position: absolute;
-    top: 16px;
-    right: 15px;
+#createTypeForm-accordionPanel-accordionTabMetadata td .ui-button, #viewForm-accordionPanel-accordionTabMetadata td .ui-button {
+    /*width: 30px;*/
+    /*position: absolute;*/
+    /*top: 16px;*/
+    /*right: 15px;*/
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-row-editor,#viewForm-accordionPanel-accordionTabMetadata .ui-row-editor{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-row-editor, #viewForm-accordionPanel-accordionTabMetadata .ui-row-editor {
     width: 100px;
     padding-left: 10px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable .ui-datatable-scrollable-body .ui-datatable-data .ui-widget-content > td {
     border: none;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box{
+#createTypeForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box {
     margin: 0;
 }
 
-#createTypeForm-accordionPanel-metadataTabel .ui-datatable-scrollable-header-box th,#viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box th{
+#createTypeForm-accordionPanel-metadataTabel .ui-datatable-scrollable-header-box th, #viewForm-accordionPanel-accordionTabMetadata .ui-datatable-scrollable-header-box th {
     text-align: center;
 }
 
-#viewForm-accordionPanel-accordionTabMetadata,#createTypeForm-accordionPanel-accordionTabMetadata{
+#viewForm-accordionPanel-accordionTabMetadata, #createTypeForm-accordionPanel-accordionTabMetadata {
     padding: 0px;
 }
 
-#createTypeForm-accordionPanel-metadataTabel{
+#createTypeForm-accordionPanel-metadataTabel {
     margin-top: -40px;
 }
 
-#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton{
+#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton, #createTypeForm-accordionPanel-metadataTabel-j_idt28, #createTypeForm-accordionPanel-metadataTabel-j_idt27 {
     z-index: 100;
     position: absolute;
+}
+
+#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton {
     right: 45px;
+}
+
+#createTypeForm-accordionPanel-metadataTabel-j_idt28 {
+    right: 160px;
+}
+
+#createTypeForm-accordionPanel-metadataTabel-j_idt27 {
+    right: 235px;
 }
 
 /* delete modal dialog*/
 
-#deleteTypeDialog{
-   width: 380px;
-   left: 64%;
+#deleteTypeDialog {
+    width: 380px;
+    left: 64%;
 }
-#createTypeForm-cancelCreateButton{
+
+#createTypeForm-cancelCreateButton {
     margin-top: 3%;
     margin-left: 50%;
 }
-#viewForm-j_idt99{
+
+#viewForm-selectedTypeOutInfo {
     float: right;
-    color: silver;
+    color: slategray;
     margin-right: 2%;
     text-decoration: underline;
     font-size: 20px;
+}
+
+#updateMetadataModalForm-createMetadataButton {
+    margin-right: 20px;
+}
+
+#createMetadataModalDialog {
+    width: 690px !important;
+    height: auto !important;
+    top: 3% !important;
+    left: 25% !important;
+}
+
+#createMetadataModalDialog .ui-outputlabel {
+    width: 100%;
+}
+
+#createMetadataModalDialog .ui-dialog-content {
+    max-height: 800px !important;
+}
+
+
+
+#updateMetadataModalDialog {
+    width: 690px !important;
+    height: auto !important;
+    top: 3% !important;
+    left: 25% !important;
+}
+
+#updateMetadataModalDialog .ui-outputlabel {
+    width: 100%;
+}
+
+#updateMetadataModalDialog .ui-dialog-content {
+    max-height: 800px !important;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    border: 1px solid #666666;
+    background: #aaaaaa;
+    background: #aaaaaa linear-gradient(top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+    background: #aaaaaa -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.25)), to(rgba(0, 0, 0, 0)));
+    background: #aaaaaa -moz-linear-gradient(top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+    color: #ffffff;
+    text-shadow: 1px 1px 1px #333333;
+    cursor: pointer;
+}
+
+.ui-state-hover {
+    -moz-box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
+    -webkit-box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
+    box-shadow: 0px 0px 8px #85b2cb, inset 0px 1px 0px #fff;
 }
