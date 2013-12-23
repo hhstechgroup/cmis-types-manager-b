@@ -136,8 +136,8 @@ public class CmisService {
                 definitionList = CustomTypeUtils.readFromXML(stream);
                 if (definitionList != null) {
                     for (AbstractTypeDefinition definition : definitionList) {
-                        if(!definition.getId().equals(definition.getBaseTypeId().value())){
-                        session.createType(getCorrectTypeDefinition(session, definition));
+                        if (!definition.getId().equals(definition.getBaseTypeId().value())) {
+                            session.createType(CustomTypeUtils.getCorrectTypeDefinition(session, definition));
                         }
                     }
                 }
@@ -181,7 +181,7 @@ public class CmisService {
             typeDescendants = session.getTypeDescendants(typeId, -1, true);
         }
         try {
-            CustomTypeUtils.writeToXML(session, getCorrectTypeDefinition(session, session.getTypeDefinition(typeId)), out, typeDescendants);
+            CustomTypeUtils.writeToXML(session, session.getTypeDefinition(typeId), out, typeDescendants);
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
@@ -197,11 +197,14 @@ public class CmisService {
 
     }
 
-    //TODO write to JSON with child's and change type of exception
     public void exportTypeToJSON(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException {
         Session session = getSession(userInfo);
+        List<Tree<ObjectType>> typeDescendants = null;
+        if (includeChildren) {
+            typeDescendants = session.getTypeDescendants(typeId, -1, true);
+        }
         try {
-            TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
+            CustomTypeUtils.writeToJSON(session, session.getTypeDefinition(typeId), out, typeDescendants);
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
@@ -241,32 +244,6 @@ public class CmisService {
 
     public boolean isUserExists(UserInfo userInfo) throws CmisException {
         return getSession(userInfo) != null;
-    }
-
-    private TypeDefinition getCorrectTypeDefinition(Session session, TypeDefinition typeDefinition) {
-        Map<String, PropertyDefinition<?>> propertyDefinitions = typeDefinition.getPropertyDefinitions();
-        String parentTypeId = typeDefinition.getParentTypeId();
-        if (parentTypeId != null) {
-            Map<String, PropertyDefinition<?>> propertyOfAllParentTypes = getPropertyOfAllParentTypes(session, parentTypeId);
-            for (String key : getKeyList(propertyDefinitions.keySet())) {
-                if (propertyOfAllParentTypes.containsKey(key)) {
-                    propertyDefinitions.remove(key);
-                }
-            }
-        }
-        return typeDefinition;
-    }
-
-    private Map<String, PropertyDefinition<?>> getPropertyOfAllParentTypes(Session session, String parentTypeId) {
-        return session.getTypeDefinition(parentTypeId).getPropertyDefinitions();
-    }
-
-    private List<String> getKeyList(Set<String> stringSet) {
-        List<String> list = new ArrayList<String>();
-        for (String s : stringSet) {
-            list.add(s);
-        }
-        return list;
     }
 
     //  TODO change the logic to retrieve the parameters and check when it call

@@ -20,10 +20,7 @@ import org.slf4j.LoggerFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.*;
 
 import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
@@ -128,7 +125,7 @@ public class CustomTypeUtils {
             writer.writeEndElement();
         }
         if (source.getPropertyDefinitions() != null) {
-            for (PropertyDefinition<?> pd : getCorrectPropertyDefiniyionList(session, source).values()) {
+            for (PropertyDefinition<?> pd : getCorrectPropertyMapWithoutChangeTypeDefinition(session, source).values()) {
                 XMLConverter.writePropertyDefinition(writer, cmisVersion, pd);
             }
         }
@@ -195,20 +192,42 @@ public class CustomTypeUtils {
         return JSONConverter.convertTypeDefinition((Map<String, Object>) json);
     }
 
-    private static Map<String, PropertyDefinition<?>> getCorrectPropertyDefiniyionList(Session session, TypeDefinition typeDefinition){
+    public static void writeToJSON(Session session, TypeDefinition type, OutputStream stream,
+                                   List<Tree<ObjectType>> typeDescendants) throws IOException {
+        if (type == null) {
+            throw new IllegalArgumentException("Type must be set!");
+        }
+        if (stream == null) {
+            throw new IllegalArgumentException("Output stream must be set!");
+        }
 
+        Writer writer = new BufferedWriter(new OutputStreamWriter(stream, "UTF-8"));
+        CustomJSONConverter.convert(session, type, typeDescendants).writeJSONString(writer);
+        writer.flush();
+    }
+
+    public static Map<String, PropertyDefinition<?>> getCorrectPropertyMapWithoutChangeTypeDefinition(Session session, TypeDefinition typeDefinition){
         Map<String, PropertyDefinition<?>> customPropertydefinition = new HashMap<String, PropertyDefinition<?>>(typeDefinition.getPropertyDefinitions());
+        doCorrectPropertyMap(session, typeDefinition, customPropertydefinition);
+        return customPropertydefinition;
+    }
 
+    public static TypeDefinition getCorrectTypeDefinition(Session session, TypeDefinition typeDefinition) {
+        Map<String, PropertyDefinition<?>> propertyDefinitions = typeDefinition.getPropertyDefinitions();
+        doCorrectPropertyMap(session, typeDefinition, propertyDefinitions);
+        return typeDefinition;
+    }
+
+    private static void doCorrectPropertyMap(Session session, TypeDefinition typeDefinition, Map<String, PropertyDefinition<?>> propertyDefinitions){
         String parentTypeId = typeDefinition.getParentTypeId();
         if (parentTypeId != null) {
             Map<String, PropertyDefinition<?>> propertyOfAllParentTypes = getPropertyOfAllParentTypes(session, parentTypeId);
-            for (String key : getKeyList(customPropertydefinition.keySet())) {
+            for (String key : getKeyList(propertyDefinitions.keySet())) {
                 if (propertyOfAllParentTypes.containsKey(key)) {
-                    customPropertydefinition.remove(key);
+                    propertyDefinitions.remove(key);
                 }
             }
         }
-        return customPropertydefinition;
     }
 
     private static Map<String, PropertyDefinition<?>> getPropertyOfAllParentTypes(Session session, String parentTypeId) {
