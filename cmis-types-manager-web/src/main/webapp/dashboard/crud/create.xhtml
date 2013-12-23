@@ -183,7 +183,7 @@
 </h:form>
 
 
-<p:dialog id="createMetadataModalDialog" header="Car Detail" widgetVar="createMetadataModal" modal="true"
+<p:dialog id="createMetadataModalDialog" header="Create Metadata Line" widgetVar="createMetadataModal" modal="true"
           resizable="false">
     <h:form>
         <p:panelGrid columns="2" cellpadding="5">
@@ -269,18 +269,84 @@
     </h:form>
 </p:dialog>
 
-<p:dialog id="updateMetadataModal1" header="Car Detail" widgetVar="updateMetadataModal" modal="true"
+<p:dialog id="updateMetadataModalDialog" header="Updata Metadata Line" widgetVar="updateMetadataModal" modal="true"
           resizable="false"
           width="200">
     <h:form id="updateMetadataModalForm">
         <p:panelGrid columns="2" cellpadding="5">
-            <p:outputLabel value="Id :">
+            <p:outputLabel value="Name">
+                <p:inputText value="#{createBean.selectedTypeProperty.displayName}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Id">
                 <p:inputText value="#{createBean.selectedTypeProperty.id}"/>
             </p:outputLabel>
-            <p:outputLabel value="Local name :">
+
+            <p:outputLabel value="Local name">
                 <p:inputText value="#{createBean.selectedTypeProperty.localName}"/>
             </p:outputLabel>
+
+            <p:outputLabel value="Query Name">
+                <p:inputText value="#{createBean.selectedTypeProperty.queryName}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Local name space">
+                <p:inputText value="#{createBean.selectedTypeProperty.localNamespace}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Description">
+                <p:inputText value="#{createBean.selectedTypeProperty.description}"/>
+            </p:outputLabel>
         </p:panelGrid>
+
+
+        <p:panelGrid columns="2" cellpadding="5">
+            <p:outputLabel value="Cardinality" for="newMetaDataCardinalityUpdate"/>
+            <p:selectOneMenu id="newMetaDataCardinalityUpdate" value="#{createBean.selectedTypeProperty.cardinality}">
+                <f:selectItems value="#{createBean.cardinalitylityValues}"
+                               var="cardinality"
+                               itemLabel="#{cardinality}"
+                               itemValue="#{cardinality}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Updatability" for="newMetaDataUpdatabilityUpdate"/>
+            <p:selectOneMenu id="newMetaDataUpdatabilityUpdate" value="#{createBean.selectedTypeProperty.updatability}">
+                <f:selectItems value="#{createBean.updatabilityValues}"
+                               var="updatability"
+                               itemLabel="#{updatability}"
+                               itemValue="#{updatability}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Property type" for="newMetaDataPropertyTypeUpdate"/>
+            <p:selectOneMenu id="newMetaDataPropertyTypeUpdate" value="#{createBean.selectedTypeProperty.propertyType}">
+                <f:selectItems value="#{createBean.propertyTypeValuesValues}"
+                               var="propertyType"
+                               itemLabel="#{propertyType}"
+                               itemValue="#{propertyType}"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+
+
+
+        <p:panelGrid columns="2">
+            <p:outputLabel value="Quarylable" for="selectCheckboxQuarylableUpdate"/>
+            <p:selectBooleanCheckbox id="selectCheckboxQuarylableUpdate"
+                                     value="#{createBean.selectedTypeProperty.queryable}"/>
+
+            <p:outputLabel value="Orderable" for="selectCheckboxOrderableUpdate"/>
+            <p:selectBooleanCheckbox id="selectCheckboxOrderableUpdate"
+                                     value="#{createBean.selectedTypeProperty.orderable}"/>
+
+            <p:outputLabel value="Requeried" for="selectCheckboxRequeriedUpdate"/>
+            <p:selectBooleanCheckbox id="selectCheckboxRequeriedUpdate"
+                                     value="#{createBean.selectedTypeProperty.required}"/>
+
+            <p:outputLabel value="Inheried" for="selectCheckboxInheriedUpdate"/>
+            <p:selectBooleanCheckbox id="selectCheckboxInheriedUpdate"
+                                     value="#{createBean.selectedTypeProperty.inherited}"/>
+        </p:panelGrid>
+
+
         <p:panelGrid columns="2" cellpadding="5">
             <p:commandButton id="updateMetadataButton" value="Update"
                              update="-mainContent"

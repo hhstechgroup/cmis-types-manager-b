@@ -70,7 +70,7 @@ public class CreateBean implements Serializable {
 
     public void deleteMetaData() {
         typeProperties.remove(selectedTypeProperty);
-        MessageUtils.printInfo("Deleted " + selectedTypeProperty.getId());
+//        MessageUtils.printInfo("Deleted " + selectedTypeProperty.getId());
         selectedTypeProperty = new TypeProperty();
     }
 
