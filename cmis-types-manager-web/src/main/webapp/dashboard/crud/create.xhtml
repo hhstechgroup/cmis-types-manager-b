@@ -101,15 +101,13 @@
                                                  update="-mainContent"
                                                  onclick="createMetadataModal.show();return false;"/>
                                 <p:commandButton value="Delete selected"
-                                                 actionListener="#{createBean.deleteMetaData()}"
+                                                 action="#{createBean.deleteMetaData()}"
                                                  update="-createTypeForm-accordionPanel-metadataTabel,-messages"
                                                  styleClass="fl-right small blue"/>
                                 <p:commandButton value="Update"
                                                  update="-mainContent"
                                                  styleClass="fl-right small blue"
-                                                 oncomplete="updateMetadataModal.show();"/>
-
-
+                                                 oncomplete="updateMetadataModal.show()"/>
                             </uib:gridColumn>
                         </uib:gridRow>
                     </uib:gridContainer>
@@ -168,6 +166,7 @@
                 <p:column>
                     <p:commandButton value="delete" styleClass="custom" icon="ui-icon-close"
                                      title="Delete" alt="Delete"
+                                     immediate="true"
                                      action="#{createBean.deleteMetaData(property)}"
                                      update="-createTypeForm-accordionPanel-metadataTabel,-messages"/>
                 </p:column>
@@ -274,12 +273,12 @@
           width="200">
     <h:form id="updateMetadataModalForm">
         <p:panelGrid columns="2" cellpadding="5">
-            <p:outputLabel value="Name">
-                <p:inputText id="newMetaDataNameUpdate" value="#{createBean.selectedTypeProperty.displayName}"/>
-            </p:outputLabel>
-
             <p:outputLabel value="Id">
                 <p:inputText id="newMetaDataIdUpdate" value="#{createBean.selectedTypeProperty.id}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Name">
+                <p:inputText id="newMetaDataNameUpdate" value="#{createBean.selectedTypeProperty.displayName}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Local name">
@@ -291,7 +290,8 @@
             </p:outputLabel>
 
             <p:outputLabel value="Local name space">
-                <p:inputText id="newMetaDataLocalNamespaceUpdate" value="#{createBean.selectedTypeProperty.localNamespace}"/>
+                <p:inputText id="newMetaDataLocalNamespaceUpdate"
+                             value="#{createBean.selectedTypeProperty.localNamespace}"/>
             </p:outputLabel>
 
             <p:outputLabel value="Description">
@@ -327,7 +327,6 @@
         </p:panelGrid>
 
 
-
         <p:panelGrid columns="2">
             <p:outputLabel value="Quarylable" for="selectCheckboxQuarylableUpdate"/>
             <p:selectBooleanCheckbox id="selectCheckboxQuarylableUpdate"
@@ -346,15 +345,14 @@
                                      value="#{createBean.selectedTypeProperty.inherited}"/>
         </p:panelGrid>
 
-
-        <p:panelGrid columns="2" cellpadding="5">
+        <div class="fl-right">
             <p:commandButton id="updateMetadataButton" value="Update"
                              update="-mainContent"
                              action="#{createBean.updateSelectedMetaData()}" oncomplete="updateMetadataModal.hide()"/>
             <p:commandButton id="cancelUpdateMetadataButton" value="Cancel"
                              update="-mainContent" styleClass="secondary"
                              onclick="updateMetadataModal.hide();return false;"/>
-        </p:panelGrid>
+        </div>
     </h:form>
 </p:dialog>
 </ui:define>

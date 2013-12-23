@@ -254,15 +254,13 @@
     left: 25% !important;
 }
 
-#createMetadataModalDialog .ui-outputlabel {
+#createMetadataModalDialog .ui-outputlabel, #updateMetadataModalDialog .ui-outputlabel{
     width: 100%;
 }
 
 #createMetadataModalDialog .ui-dialog-content {
     max-height: 800px !important;
 }
-
-
 
 #updateMetadataModalDialog {
     width: 690px !important;
@@ -279,12 +277,26 @@
     max-height: 800px !important;
 }
 
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
-    background: #0075AC;
-    background: #0075AC linear-gradient(top, #026292, #85b2cb);
-    background: #0075AC -webkit-gradient(linear, left top, left bottom, from(#026292), to(#85b2cb));
-    background: #0075AC -moz-linear-gradient(top, #026292, #85b2cb);
-    color: #ffffff;
-    cursor: pointer;
-    font-family: MuseoSans700, sans-serif;
+#createTypeForm-accordionPanel-metadataTabel_data tr.ui-state-highlight, #createTypeForm-accordionPanel-metadataTabel_data tr.ui-state-hover{
+    background: #0075AC !important;
+    background: #0075AC linear-gradient(top, #026292, #85b2cb) !important;
+    background: #0075AC -webkit-gradient(linear, left top, left bottom, from(#026292), to(#85b2cb)) !important;
+    background: #0075AC -moz-linear-gradient(top, #026292, #85b2cb) !important;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    border: none;
+}
+
+#createTypeForm-accordionPanel-metadataTabel_data tr td{
+    background: inherit;
+    color: inherit;
+    font: inherit;
+}
+
+#createTypeForm-accordionPanel-metadataTabel_data .ui-chkbox{
+    vertical-align: middle;
+}
+
+#createMetadataModalForm-createMetadataButton, #updateMetadataModalForm-updateMetadataButton{
+    margin-right: 10px;
 }
