@@ -70,7 +70,7 @@ public class CreateBean implements Serializable {
 
     public void deleteMetaData() {
         typeProperties.remove(selectedTypeProperty);
-        Message.printInfo("Deleted " + selectedTypeProperty.getId());
+        MessageUtils.printInfo("Deleted " + selectedTypeProperty.getId());
         selectedTypeProperty = new TypeProperty();
     }
 
@@ -92,18 +92,6 @@ public class CreateBean implements Serializable {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_TO_INIT_VIEW, e);
         }
-    }
-
-    public void addAction() {
-        TypeProperty property = new TypeProperty();
-        property.setDisplayName(Constants.Strings.EMPTY_STRING);
-        property.setLocalName(Constants.Strings.EMPTY_STRING);
-        property.setQueryName(Constants.Strings.EMPTY_STRING);
-        property.setId(Constants.Strings.EMPTY_STRING);
-        property.setCardinality(Constants.Strings.EMPTY_STRING);
-        property.setUpdatability(Constants.Strings.EMPTY_STRING);
-        property.setPropertyType(Constants.Strings.EMPTY_STRING);
-        typeProperties.add(property);
     }
 
     public String createType() {
@@ -181,14 +169,36 @@ public class CreateBean implements Serializable {
     }
 
     public List<String> getUpdatabilityValues() {
+
         return updatabilityValues;
     }
 
-    public List<String> getCardinalitylityValues() {
+    public List<String> getCardinalitylityValues()
+    {
         return cardinalityValues;
     }
 
     public List<String> getPropertyTypeValuesValues() {
         return  propertyTypeValues;
+    }
+
+    public TypeProperty selectedTypeProperty(){
+        return selectedTypeProperty;
+    }
+
+    public TypeProperty getSelectedTypeProperty() {
+        return selectedTypeProperty;
+    }
+
+    public void setSelectedTypeProperty(TypeProperty selectedTypeProperty) {
+        this.selectedTypeProperty = selectedTypeProperty;
+    }
+
+    public TypeProperty getNewTypeProperty() {
+        return newTypeProperty;
+    }
+
+    public void setNewTypeProperty(TypeProperty newTypeProperty) {
+        this.newTypeProperty = newTypeProperty;
     }
 }

@@ -13,7 +13,7 @@
     <ui:define name="mainContent">
         <h:form id="viewForm">
             <p:commandButton id="return" value="Back" action="#{backNavigationBean.goToLastPage()}" styleClass="mb20"/>
-                <p:outputLabel value="#{viewTypeBean.typeDefinition.displayName}" id="wathWeSelect"/>
+                <p:outputLabel value="#{viewTypeBean.typeDefinition.displayName}" id="selectedTypeOutInfo"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
@@ -41,8 +41,8 @@
                         <h:outputText id="inputTextView5" disabled="true"
                                       value="#{viewTypeBean.typeDefinition.queryName}"/>
 
-                        <h:outputText id="outputTextView16" value="Base Type"/>
-                        <h:outputText id="inputTextView16" value="#{viewTypeBean.typeDefinition.baseTypeId}"/>
+                        <h:outputText id="outputTextView6" value="Base Type"/>
+                        <h:outputText id="inputTextView6" value="#{viewTypeBean.typeDefinition.baseTypeId}"/>
 
                         <h:outputText id="outputTextView7" value="Creatable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxCreatabel" disabled="true"
