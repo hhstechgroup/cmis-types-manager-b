@@ -11,8 +11,8 @@
             <f:selectItem itemLabel="Json" itemValue="false"/>
         </p:selectOneRadio>
     </h:panelGrid>
-    <p:commandButton id="submitExportModalButton" value="Export" ajax="false" update="-mainContent"
-                     action="#{exportTypeBean.exportType()}" onclick="jQuery('#exportModal').modal('hide');"/>
-    <p:commandButton id="cancelExportModalButton" value="Cancel" update="-mainContent" styleClass="secondary" onclick="jQuery('#exportModal').modal('hide');"/>
+    <p:commandButton id="submitExportModalButton" value="Export" ajax="false"
+                     action="#{exportTypeBean.exportType()}" onclick="jQuery('#exportModal').modal('hide');" />
+    <p:commandButton id="cancelExportModalButton" value="Cancel" update="-mainContent" styleClass="secondary" onclick="jQuery('#exportModal').modal('hide');return false;"/>
 
 </h:form>

@@ -16,16 +16,15 @@ import javax.faces.context.FacesContext;
  * Date: 11/18/13
  * Time: 6:06 PM
  */
-@ManagedBean(name = "topMenuBar")
+@ManagedBean
 @RequestScoped
 public class TopMenuBarBean {
     private MenuModel model;
-    private UIViewRoot viewRoot;
 
     @PostConstruct
     public void initModel() {
         model = new DefaultMenuModel();
-        viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
         String viewId = viewRoot.getViewId();
         addMenuItem(viewId, Constants.TopMenuBar.DASHBOARD_MID, Constants.TopMenuBar.DASHBOARD_ROOT_VIEW, Constants.TopMenuBar.DASHBOARD_ADDRESS, Constants.TopMenuBar.DASHBOARD_LABEL);
         addMenuItem(viewId, Constants.TopMenuBar.CONFIGURATION_MID, Constants.TopMenuBar.CONFIGURATION_ROOT_VIEW, Constants.TopMenuBar.CONFIGURATION_ADDRESS, Constants.TopMenuBar.CONFIGURATION_LABEL);
@@ -36,7 +35,7 @@ public class TopMenuBarBean {
         MenuItem menuItem = new MenuItem();
         menuItem.setId(mID);
         if (viewId.startsWith(rootView)) {
-            menuItem.setStyleClass(Constants.TopMenuBar.STYLE_CLASS);
+            menuItem.setStyleClass(Constants.TopMenuBar.STYLE_CLASS_ACTIVE);
         }
         menuItem.setValue(label);
         menuItem.setUrl(rootView + address);

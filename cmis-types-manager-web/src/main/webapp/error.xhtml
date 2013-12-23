@@ -5,9 +5,13 @@
                 template="template.xhtml">
     <ui:define name="mainContent">
         <h:form>
-            <h:outputText value="Error"/>
+
+            <h:outputText styleClass="bold-text mr20" value="Error"/>
+            <br />
+            <h:outputText styleClass="mb10" value="There was some problems"/>
             <br/>
-            <p:commandButton value="Go back" action="dashboard/index.xhtml"/>
+            <p:commandButton value="Go back" action="dashboard/index.xhtml?faces-redirect=true"/>
+
         </h:form>
     </ui:define>
 </ui:composition>

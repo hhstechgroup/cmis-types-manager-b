@@ -4,12 +4,15 @@ import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.client.util.TypeUtils;
-import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
-import org.apache.chemistry.opencmis.commons.enums.*;
+import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
+import org.apache.chemistry.opencmis.commons.enums.Cardinality;
+import org.apache.chemistry.opencmis.commons.enums.PropertyType;
+import org.apache.chemistry.opencmis.commons.enums.Updatability;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
+import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractTypeDefinition;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.slf4j.Logger;
@@ -36,6 +39,7 @@ public class CmisService {
     @EJB
     private CmisConnection connection;
 
+    //  TODO rename this method
     public List<TypeProxy> getTypeInfo(UserInfo userInfo) throws CmisException {
         Session session = getSession(userInfo);
         List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
@@ -49,7 +53,7 @@ public class CmisService {
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
@@ -66,16 +70,15 @@ public class CmisService {
         return folders;
     }
 
-
     public void createType(UserInfo userInfo, Type type) throws CmisException {
         Session session = getSession(userInfo);
         TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
             session.createType(typeDefinition);
-        }  catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
@@ -133,21 +136,18 @@ public class CmisService {
                 definitionList = CustomTypeUtils.readFromXML(stream);
                 if (definitionList != null) {
                     for (AbstractTypeDefinition definition : definitionList) {
-                        session.createType(getCorrectTypeDefinition(session, definition));
+                        if (!definition.getId().equals(definition.getBaseTypeId().value())) {
+                            session.createType(CustomTypeUtils.getCorrectTypeDefinition(session, definition));
+                        }
                     }
                 }
             } finally {
-                if (stream != null) {
-                    stream.close();
-                }
+                IOUtils.closeQuietly(stream);
             }
-        }  catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } catch (IOException e) {
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
@@ -160,14 +160,12 @@ public class CmisService {
                 TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
                 session.createType(typeDefinition);
             } finally {
-                if (stream != null) {
-                    stream.close();
-                }
+                IOUtils.closeQuietly(stream);
             }
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } catch (IOException e) {
@@ -176,11 +174,53 @@ public class CmisService {
         }
     }
 
+    public void exportTypeToXML(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException {
+        Session session = getSession(userInfo);
+        List<Tree<ObjectType>> typeDescendants = null;
+        if (includeChildren) {
+            typeDescendants = session.getTypeDescendants(typeId, -1, true);
+        }
+        try {
+            CustomTypeUtils.writeToXML(session, session.getTypeDefinition(typeId), out, typeDescendants);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (XMLStreamException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } finally {
+            IOUtils.closeQuietly(out);
+        }
+
+    }
+
+    public void exportTypeToJSON(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException {
+        Session session = getSession(userInfo);
+        List<Tree<ObjectType>> typeDescendants = null;
+        if (includeChildren) {
+            typeDescendants = session.getTypeDescendants(typeId, -1, true);
+        }
+        try {
+            CustomTypeUtils.writeToJSON(session, session.getTypeDefinition(typeId), out, typeDescendants);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (IOException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } finally {
+            IOUtils.closeQuietly(out);
+        }
+
+    }
+
     public void deleteType(UserInfo userInfo, TypeProxy proxy) throws CmisException, CmisTypeDeleteException {
         Session session = getSession(userInfo);
         try {
             ObjectType type = session.getTypeDefinition(proxy.getId());
-
             TypeMutability typeMutability = type.getTypeMutability();
             if (typeMutability != null && Boolean.TRUE.equals(typeMutability.canDelete())) {
                 session.deleteType(type.getId());
@@ -190,29 +230,25 @@ public class CmisService {
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e){
+        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
 
     }
 
-    public String getDefaultRepositoryIdName(UserInfo userInfo) throws CmisException {
-        int firstRepositoryId = 0;
-        String defaultRepositoryId = "";
+    public String getDefaultRepository(UserInfo userInfo) throws CmisException {
         List<Repository> repositories = getRepositories(userInfo);
-        if (!repositories.isEmpty()) {
-            defaultRepositoryId = repositories.get(firstRepositoryId).getId();
-        }
-        return defaultRepositoryId;
+        return repositories.get(0).getId();
     }
 
     public boolean isUserExists(UserInfo userInfo) throws CmisException {
         return getSession(userInfo) != null;
     }
 
+    //  TODO change the logic to retrieve the parameters and check when it call
     public List<Repository> getRepositories(UserInfo userInfo) throws CmisException {
-        Map<String, String> parameters = getParameters(userInfo);
+        Map<String, String> parameters = userInfo.getAtomPubParameters();
         List<Repository> repositories;
         try {
             repositories = connection.getSessionFactory().getRepositories(parameters);
@@ -223,34 +259,8 @@ public class CmisService {
         return repositories;
     }
 
-    private TypeDefinition getCorrectTypeDefinition(Session session, TypeDefinition typeDefinition) {
-        Map<String, PropertyDefinition<?>> propertyDefinitions = typeDefinition.getPropertyDefinitions();
-        String parentTypeId = typeDefinition.getParentTypeId();
-        if (parentTypeId != null) {
-            Map<String, PropertyDefinition<?>> propertyOfAllParentTypes = getPropertyOfAllParentTypes(session, parentTypeId);
-            for (String key : getKeyList(propertyDefinitions.keySet())) {
-                if (propertyOfAllParentTypes.containsKey(key)) {
-                    propertyDefinitions.remove(key);
-                }
-            }
-        }
-        return typeDefinition;
-    }
-
-    private Map<String, PropertyDefinition<?>> getPropertyOfAllParentTypes(Session session, String parentTypeId) {
-        return session.getTypeDefinition(parentTypeId).getPropertyDefinitions();
-    }
-
-    private List<String> getKeyList(Set<String> stringSet) {
-        List<String> list = new ArrayList<String>();
-        for (String s : stringSet) {
-            list.add(s);
-        }
-        return list;
-    }
-
     private Session getSession(UserInfo userInfo) throws CmisException {
-        Map<String, String> parameters = getParameters(userInfo);
+        Map<String, String> parameters = userInfo.getAtomPubParameters();
         Session session;
         try {
             session = connection.getSessionFactory().createSession(parameters);
@@ -260,7 +270,6 @@ public class CmisService {
         }
         return session;
     }
-
 
     private List<TypeProxy> getTypeProxies(List<Tree<ObjectType>> treeList) {
         List<TypeProxy> cmisTypeList = new ArrayList<TypeProxy>();
@@ -284,55 +293,5 @@ public class CmisService {
         return typeProxy;
     }
 
-    private Map<String, String> getParameters(final UserInfo userInfo) {
-        return new HashMap<String, String>() {
-            {
-                put(SessionParameter.USER, userInfo.getUsername());
-                put(SessionParameter.PASSWORD, userInfo.getPassword());
-                put(SessionParameter.ATOMPUB_URL, userInfo.getUrl());
-                put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
-                put(SessionParameter.REPOSITORY_ID, userInfo.getRepositoryId());
-            }
-        };
-    }
 
-
-    public void exportTypeToXML(final UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException, IOException {
-        Session session = getSession(userInfo);
-        List<Tree<ObjectType>> typeDescendants = session.getTypeDescendants(typeId, -1, true);
-        try {
-            CustomTypeUtils.writeToXML(session.getTypeDefinition(typeId), out, (includeChildren?typeDescendants:null));
-        } catch (IllegalArgumentException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } catch (XMLStreamException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } finally {
-            out.flush();
-            out.close();
-        }
-
-    }
-
-    //TODO write to JSON with child's and change type of exception
-    public void exportTypeToJSON(final UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException, IOException {
-        Session session = getSession(userInfo);
-        try {
-                TypeUtils.writeToJSON(session.getTypeDefinition(typeId), out);
-        } catch (IllegalArgumentException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } finally {
-            out.flush();
-            out.close();
-        }
-
-    }
 }

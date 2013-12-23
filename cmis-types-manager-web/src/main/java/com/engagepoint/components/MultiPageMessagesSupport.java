@@ -16,7 +16,7 @@ import java.util.Map;
  * Time: 2:48 PM
  */
 public class MultiPageMessagesSupport implements PhaseListener {
-    private static final String sessionToken = "MULTI_PAGE_MESSAGES_SUPPORT";
+    private static final String SESSION_TOKEN = "MULTI_PAGE_MESSAGES_SUPPORT";
 
     @Override
     public PhaseId getPhaseId() {
@@ -27,10 +27,9 @@ public class MultiPageMessagesSupport implements PhaseListener {
     public void beforePhase(final PhaseEvent event) {
         FacesContext facesContext = event.getFacesContext();
 
-        if (PhaseId.RENDER_RESPONSE.equals(event.getPhaseId())) {
-            if (!facesContext.getResponseComplete()) {
-                restoreMessages(facesContext);
-            }
+        if (PhaseId.RENDER_RESPONSE.equals(event.getPhaseId()) &&
+                (!facesContext.getResponseComplete())) {
+            restoreMessages(facesContext);
         }
     }
 
@@ -39,16 +38,15 @@ public class MultiPageMessagesSupport implements PhaseListener {
         if (event.getPhaseId() == PhaseId.APPLY_REQUEST_VALUES ||
                 event.getPhaseId() == PhaseId.PROCESS_VALIDATIONS ||
                 event.getPhaseId() == PhaseId.INVOKE_APPLICATION) {
-            //todo delete
-            /*FacesContext facesContext = event.getFacesContext();
-            int msg = this.saveMessages(facesContext);*/
+            FacesContext facesContext = event.getFacesContext();
+            this.saveMessages(facesContext);
         }
     }
 
     @SuppressWarnings("unchecked")
     private int saveMessages(final FacesContext facesContext) {
         List<FacesMessage> messages = new ArrayList<FacesMessage>();
-        for (Iterator<FacesMessage> iter = facesContext.getMessages(null); iter.hasNext();) {
+        for (Iterator<FacesMessage> iter = facesContext.getMessages(null); iter.hasNext(); ) {
             messages.add(iter.next());
             iter.remove();
         }
@@ -58,11 +56,11 @@ public class MultiPageMessagesSupport implements PhaseListener {
         }
 
         Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
-        List<FacesMessage> existingMessages = (List<FacesMessage>) sessionMap.get(sessionToken);
+        List<FacesMessage> existingMessages = (List<FacesMessage>) sessionMap.get(SESSION_TOKEN);
         if (existingMessages != null) {
             existingMessages.addAll(messages);
         } else {
-            sessionMap.put(sessionToken, messages);
+            sessionMap.put(SESSION_TOKEN, messages);
         }
         return messages.size();
     }
@@ -70,7 +68,7 @@ public class MultiPageMessagesSupport implements PhaseListener {
     @SuppressWarnings("unchecked")
     private int restoreMessages(final FacesContext facesContext) {
         Map<String, Object> sessionMap = facesContext.getExternalContext().getSessionMap();
-        List<FacesMessage> messages = (List<FacesMessage>) sessionMap.remove(sessionToken);
+        List<FacesMessage> messages = (List<FacesMessage>) sessionMap.remove(SESSION_TOKEN);
 
         if (messages == null) {
             return 0;
