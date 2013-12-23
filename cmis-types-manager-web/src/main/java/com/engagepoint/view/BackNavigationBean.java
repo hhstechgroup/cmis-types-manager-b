@@ -22,4 +22,5 @@ public class BackNavigationBean implements Serializable {
     public String goToLastPage() {
         return LoginFilter.history.poll();
     }
+
 }

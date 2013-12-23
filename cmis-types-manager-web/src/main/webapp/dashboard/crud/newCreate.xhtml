@@ -81,10 +81,13 @@
             </h:panelGrid>
         </p:tab>
         <p:tab id="accordionTabMetadata" title="Metadata">
-            <p:dataTable var="property" value="#{createBean.typeProperties}"
+            <p:dataTable var="property"
+                         value="#{createBean.typeProperties}"
                          id="metadataTabel"
-                         editable="true"
+                         selectionMode="single"
+                         selection="#{createBean.selectedTypeProperty}"
                          scrollable="true"
+                         rowKey="#{property.id}"
                          scrollHeight="350"
                          scrollWidth="657">
                 <f:facet name="header">
@@ -92,113 +95,81 @@
                         <uib:gridRow fluid="true">
                             <uib:gridColumn column="12">
                                 <h:outputText styleClass="fl-left" value="Metadata tabel"/>
-
-
                                 <p:commandButton id="newSourceSystemButton" value="Add New Line"
                                                  styleClass="fl-right small blue"
                                                  icon="ui-icon-document"
-                                                 onclick="jQuery('#openModal').modal('show');return false;"
                                                  update="-mainContent"
-                                                 oncomplete="triggerEdit()"/>
+                                                 onclick="createMetadataModal.show();return false;"/>
+                                <p:commandButton value="Delete selected"
+                                                 actionListener="#{createBean.deleteMetaData()}"
+                                                 update="-createTypeForm-accordionPanel-metadataTabel,-messages"
+                                                 styleClass="fl-right small blue"/>
+                                <p:commandButton value="Update"
+                                                 update="-mainContent"
+                                                 styleClass="fl-right small blue"
+                                                 oncomplete="updateMetadataModal.show();"/>
 
                             </uib:gridColumn>
                         </uib:gridRow>
                     </uib:gridContainer>
                 </f:facet>
 
-                <p:column headerText="Id">
-                    <f:facet name="output">
-                        <h:outputText value="#{property.id}"/>
-                    </f:facet>
+                <p:column headerText="Name">
+                    <h:outputText value="#{property.displayName}"/>
                 </p:column>
 
-                <p:column headerText="LocalName">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{property.localName}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{property.localName}"/>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="Id">
+                    <h:outputText value="#{property.id}"/>
+                </p:column>
+
+                <p:column headerText="Local name">
+                    <h:outputText value="#{property.localName}"/>
                 </p:column>
 
                 <p:column headerText="Query Name">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{property.queryName}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{property.queryName}"/>
-                        </f:facet>
-                    </p:cellEditor>
+                    <h:outputText value="#{property.queryName}"/>
                 </p:column>
 
-                <p:column headerText="Local Name">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{property.localName}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <p:inputText value="#{property.localName}"/>
-                        </f:facet>
-                    </p:cellEditor>
+                <p:column headerText="Local name space">
+                    <h:outputText value="#{property.localNamespace}"/>
                 </p:column>
 
                 <p:column headerText="Cardinality">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{property.cardinality}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:selectOneMenu value="#{property.cardinality}">
-                                <f:selectItems value="#{createBean.cardinalitylityValues}"
-                                               var="cardinality"
-                                               itemLabel="#{cardinality}"
-                                               itemValue="#{cardinality}"/>
-                            </h:selectOneMenu>
-                        </f:facet>
-                    </p:cellEditor>
-
+                    <h:outputText value="#{property.cardinality}"/>
                 </p:column>
 
                 <p:column headerText="Updatability">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{property.updatability}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:selectOneMenu value="#{property.updatability}">
-                                <f:selectItems value="#{createBean.updatabilityValues}"
-                                               var="updatability"
-                                               itemLabel="#{updatability}"
-                                               itemValue="#{updatability}"/>
-                            </h:selectOneMenu>
-                        </f:facet>
-                    </p:cellEditor>
+                    <h:outputText value="#{property.updatability}"/>
                 </p:column>
+
                 <p:column headerText="Property type">
-                    <p:cellEditor>
-                        <f:facet name="output">
-                            <h:outputText value="#{property.propertyType}"/>
-                        </f:facet>
-                        <f:facet name="input">
-                            <h:selectOneMenu value="#{property.propertyType}">
-                                <f:selectItems value="#{createBean.propertyTypeValuesValues}"
-                                               var="propertyType"
-                                               itemLabel="#{propertyType}"
-                                               itemValue="#{propertyType}"/>
-                            </h:selectOneMenu>
-                        </f:facet>
-                    </p:cellEditor>
+                    <h:outputText value="#{property.propertyType}"/>
                 </p:column>
-                <p:column headerText="Action">
-                    <p:rowEditor/>
-                    <p:commandButton styleClass="custom" icon="ui-icon-close"
-                                     action="#{createBean.deleteAction(property)}"
+
+                <p:column headerText="Description">
+                    <h:outputText value="#{property.description}"/>
+                </p:column>
+                <p:column headerText="Quarylable">
+                    <p:selectBooleanCheckbox disabled="true"
+                                             value="#{property.queryable}"/>
+                </p:column>
+                <p:column headerText="Orderable">
+                    <p:selectBooleanCheckbox disabled="true"
+                                             value="#{property.orderable}"/>
+                </p:column>
+                <p:column headerText="Requeried">
+                    <p:selectBooleanCheckbox disabled="true"
+                                             value="#{property.required}"/>
+                </p:column>
+                <p:column headerText="Inheried">
+                    <p:selectBooleanCheckbox disabled="true"
+                                             value="#{property.inherited}"/>
+                </p:column>
+                <p:column>
+                    <p:commandButton value="delete" styleClass="custom" icon="ui-icon-close"
                                      title="Delete" alt="Delete"
-                                     update="metadataTabel">
-                    </p:commandButton>
+                                     action="#{createBean.deleteMetaData(property)}"
+                                     update="-createTypeForm-accordionPanel-metadataTabel,-messages"/>
                 </p:column>
             </p:dataTable>
 
@@ -207,12 +178,117 @@
     <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}"
                      update="-mainContent"
                      styleClass="mt20"/>
-    <p:button id="cancelCreateButton" value="Cancel" action="#{backNavigationBean.goToLastPage()}"
+    <p:button id="cancelCreateButton" value="Cancel" actionListener="#{backNavigationBean.goToLastPage()}"
               styleClass="secondary" outcome="#{backNavigationBean.goToLastPage()}"/>
 </h:form>
 
-<uib:modal id="openModal" header="Modal header open">
-    <ui:include src="createMetadataModal.xhtml"/>
-</uib:modal>
+
+<p:dialog id="createMetadataModalDialog" header="Car Detail" widgetVar="createMetadataModal" modal="true"
+          resizable="false">
+    <h:form>
+        <p:panelGrid columns="2" cellpadding="5">
+            <p:outputLabel value="Name">
+                <p:inputText value="#{createBean.newTypeProperty.displayName}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Id">
+                <p:inputText value="#{createBean.newTypeProperty.id}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Local name">
+                <p:inputText value="#{createBean.newTypeProperty.localName}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Query Name">
+                <p:inputText value="#{createBean.newTypeProperty.queryName}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Local name space">
+                <p:inputText value="#{createBean.newTypeProperty.localNamespace}"/>
+            </p:outputLabel>
+
+            <p:outputLabel value="Description">
+                <p:inputText value="#{createBean.newTypeProperty.description}"/>
+            </p:outputLabel>
+
+        </p:panelGrid>
+
+        <p:panelGrid columns="2" cellpadding="5">
+            <p:outputLabel value="Cardinality" for="newMetaDataCardinality"/>
+            <p:selectOneMenu id="newMetaDataCardinality" value="#{createBean.newTypeProperty.cardinality}">
+                <f:selectItems value="#{createBean.cardinalitylityValues}"
+                               var="cardinality"
+                               itemLabel="#{cardinality}"
+                               itemValue="#{cardinality}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Updatability" for="newMetaDataUpdatability"/>
+            <p:selectOneMenu id="newMetaDataUpdatability" value="#{createBean.newTypeProperty.updatability}">
+                <f:selectItems value="#{createBean.updatabilityValues}"
+                               var="updatability"
+                               itemLabel="#{updatability}"
+                               itemValue="#{updatability}"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Property type" for="newMetaDataPropertyType"/>
+            <p:selectOneMenu id="newMetaDataPropertyType" value="#{createBean.newTypeProperty.propertyType}">
+                <f:selectItems value="#{createBean.propertyTypeValuesValues}"
+                               var="propertyType"
+                               itemLabel="#{propertyType}"
+                               itemValue="#{propertyType}"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <p:panelGrid columns="2">
+            <p:outputLabel value="Quarylable" for="selectCheckboxQuarylable"/>
+            <p:selectBooleanCheckbox id="selectCheckboxQuarylable"
+                                     value="#{createBean.newTypeProperty.queryable}"/>
+
+            <p:outputLabel value="Orderable" for="selectCheckboxOrderable"/>
+            <p:selectBooleanCheckbox id="selectCheckboxOrderable"
+                                     value="#{createBean.newTypeProperty.orderable}"/>
+
+            <p:outputLabel value="Requeried" for="selectCheckboxRequeried"/>
+            <p:selectBooleanCheckbox id="selectCheckboxRequeried"
+                                     value="#{createBean.newTypeProperty.required}"/>
+
+            <p:outputLabel value="Inheried" for="selectCheckboxInheried"/>
+            <p:selectBooleanCheckbox id="selectCheckboxInheried"
+                                     value="#{createBean.newTypeProperty.inherited}"/>
+        </p:panelGrid>
+
+        <div class="fl-right">
+            <p:commandButton id="createMetadataButton" value="OK"
+                             update="-createTypeForm-accordionPanel-metadataTabel"
+                             action="#{createBean.addNewMetaData()}"
+                             oncomplete="createMetadataModal.hide()"/>
+            <p:commandButton id="cancelCreateMetadataButton" value="Cancel"
+                             update="-mainContent"
+                             styleClass="secondary"
+                             onclick="createMetadataModal.hide();return false;"/>
+        </div>
+    </h:form>
+</p:dialog>
+<p:dialog id="updateMetadataModal1" header="Car Detail" widgetVar="updateMetadataModal" modal="true"
+          resizable="false"
+          width="200">
+    <h:form id="updateMetadataModalForm">
+        <p:panelGrid columns="2" cellpadding="5">
+            <p:outputLabel value="Id :">
+                <p:inputText value="#{createBean.selectedTypeProperty.id}"/>
+            </p:outputLabel>
+            <p:outputLabel value="Local name :">
+                <p:inputText value="#{createBean.selectedTypeProperty.localName}"/>
+            </p:outputLabel>
+        </p:panelGrid>
+        <p:panelGrid columns="2" cellpadding="5">
+            <p:commandButton id="updateMetadataButton" value="Update"
+                             update="-mainContent"
+                             action="#{createBean.updateSelectedMetaData()}" oncomplete="updateMetadataModal.hide()"/>
+            <p:commandButton id="cancelUpdateMetadataButton" value="Cancel"
+                             update="-mainContent" styleClass="secondary"
+                             onclick="updateMetadataModal.hide();return false;"/>
+        </p:panelGrid>
+    </h:form>
+</p:dialog>
 </ui:define>
 </ui:composition>

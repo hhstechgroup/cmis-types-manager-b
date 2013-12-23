@@ -8,6 +8,7 @@ import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
 import org.apache.chemistry.opencmis.commons.enums.Updatability;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import java.util.List;
 
 @ManagedBean
@@ -32,24 +34,26 @@ public class CreateBean implements Serializable {
     private NavigationBean navigationBean;
     private Type newType;
     private List<TypeProperty> typeProperties;
-    private TypeDefinition typeDefinition;
-    private TypeProxy selectedType;
+
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
     private String secondary = "cmis:secondary";
+    private TypeProperty newTypeProperty;
+    private TypeProperty selectedTypeProperty;
 
     @PostConstruct
-    public void init(){
+    public void init() {
+        newTypeProperty = new TypeProperty();
         typeProperties = new ArrayList<TypeProperty>();
         newType = new Type();
         setValuesToLists();
-        selectedType = navigationBean.getTypeProxy();
+        selectedTypeProperty = new TypeProperty();
         UserInfo userInfo = login.getUserInfo();
         setAttributes(userInfo);
 
-        if (isHide()){
-            selectedType.setId(secondary);
+        if (isHide()) {
+            navigationBean.getTypeProxy().setId(secondary);
             newType.setCreatable(false);
             newType.setFileable(false);
             newType.setControllableAcl(false);
@@ -57,13 +61,28 @@ public class CreateBean implements Serializable {
         }
     }
 
-    public CreateBean() {
-
+    public void addNewMetaData() {
+        getTypeProperties().add(newTypeProperty);
+        newTypeProperty = new TypeProperty();
     }
 
-    private void setAttributes(UserInfo usrInf){
+    public void updateSelectedMetaData(){
+        System.out.println(getTypeProperties());
+    }
+
+    public void deleteMetaData() {
+        typeProperties.remove(selectedTypeProperty);
+        Message.printInfo("Deleted " + selectedTypeProperty.getId());
+        selectedTypeProperty = new TypeProperty();
+    }
+
+    public void deleteMetaData(TypeProperty property) {
+        getTypeProperties().remove(property);
+    }
+
+    private void setAttributes(UserInfo usrInf) {
         try {
-            typeDefinition = service.getTypeDefinition(usrInf, selectedType);
+            TypeDefinition typeDefinition = service.getTypeDefinition(usrInf, navigationBean.getTypeProxy());
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());
@@ -77,19 +96,6 @@ public class CreateBean implements Serializable {
         }
     }
 
-    public void addAction() {
-        TypeProperty property = new TypeProperty();
-        property.setDisplayName(Constants.Strings.EMPTY_STRING);
-        property.setLocalName(Constants.Strings.EMPTY_STRING);
-        property.setQueryName(Constants.Strings.EMPTY_STRING);
-        property.setId(Constants.Strings.EMPTY_STRING);
-        property.setCardinality(Constants.Strings.EMPTY_STRING);
-        property.setUpdatability(Constants.Strings.EMPTY_STRING);
-        property.setPropertyType(Constants.Strings.EMPTY_STRING);
-        typeProperties.add(property);
-    }
-
-
     public Type getType() {
         return newType;
     }
@@ -99,11 +105,11 @@ public class CreateBean implements Serializable {
     }
 
     public String getBaseType() {
-        return selectedType.getBaseType();
+        return navigationBean.getTypeProxy().getBaseType();
     }
 
     public String getParentType() {
-        return selectedType.getId();
+        return navigationBean.getTypeProxy().getId();
     }
 
     public LoginBean getLogin() {
@@ -122,12 +128,11 @@ public class CreateBean implements Serializable {
         this.navigationBean = navigationBean;
     }
 
-
     public String createType() {
         try {
             UserInfo userInfo = login.getUserInfo();
-            newType.setBaseTypeId(selectedType.getBaseType());
-            newType.setParentTypeId(selectedType.getId());
+            newType.setBaseTypeId(navigationBean.getTypeProxy().getBaseType());
+            newType.setParentTypeId(navigationBean.getTypeProxy().getId());
             newType.setProperties(typeProperties);
             service.createType(userInfo, newType);
             Message.printInfo(newType.getDisplayName() + " type created!");
@@ -137,11 +142,6 @@ public class CreateBean implements Serializable {
             LOGGER.error("Unable to create type", e);
         }
         return Constants.Navigation.TO_CURRENT_PAGE;
-    }
-
-
-    public void deleteAction(TypeProperty property) {
-        typeProperties.remove(property);
     }
 
     public List<TypeProperty> getTypeProperties() {
@@ -157,7 +157,7 @@ public class CreateBean implements Serializable {
     }
 
     public List<String> getPropertyTypeValuesValues() {
-        return  propertyTypeValues;
+        return propertyTypeValues;
     }
 
     private void setValuesToLists() {
@@ -173,7 +173,24 @@ public class CreateBean implements Serializable {
         }
         return list;
     }
-    public boolean isHide(){
-        return selectedType.getBaseType().equals(secondary);
+
+    public boolean isHide() {
+        return navigationBean.getTypeProxy().getBaseType().equals(secondary);
+    }
+
+    public TypeProperty getNewTypeProperty() {
+        return newTypeProperty;
+    }
+
+    public void setNewTypeProperty(TypeProperty newTypeProperty) {
+        this.newTypeProperty = newTypeProperty;
+    }
+
+    public TypeProperty getSelectedTypeProperty() {
+        return selectedTypeProperty;
+    }
+
+    public void setSelectedTypeProperty(TypeProperty selectedTypeProperty) {
+        this.selectedTypeProperty = selectedTypeProperty;
     }
 }
