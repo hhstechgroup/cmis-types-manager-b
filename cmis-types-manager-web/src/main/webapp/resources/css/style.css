@@ -262,6 +262,23 @@
     max-height: 800px !important;
 }
 
+
+
+#updateMetadataModalDialog {
+    width: 690px !important;
+    height: auto !important;
+    top: 3% !important;
+    left: 25% !important;
+}
+
+#updateMetadataModalDialog .ui-outputlabel {
+    width: 100%;
+}
+
+#updateMetadataModalDialog .ui-dialog-content {
+    max-height: 800px !important;
+}
+
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
     border: 1px solid #666666;
     background: #aaaaaa;
