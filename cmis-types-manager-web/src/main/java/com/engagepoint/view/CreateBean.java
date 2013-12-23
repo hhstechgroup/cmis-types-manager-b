@@ -1,6 +1,6 @@
 package com.engagepoint.view;
 
-import com.engagepoint.components.Message;
+import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
@@ -28,28 +28,26 @@ public class CreateBean implements Serializable {
     private CmisService service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
     private Type newType;
     private List<TypeProperty> typeProperties;
-    private TypeDefinition typeDefinition;
     private TypeProxy selectedType;
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
-    private String secondary = "cmis:secondary";
+
 
     @PostConstruct
     public void init(){
         typeProperties = new ArrayList<TypeProperty>();
         newType = new Type();
         setValuesToLists();
-        selectedType = navigationBean.getTypeProxy();
+        selectedType = sessionStateBean.getTypeProxy();
         UserInfo userInfo = login.getUserInfo();
         setAttributes(userInfo);
-
-        if (isHide()){
-            selectedType.setId(secondary);
+        if (isSecondary()){
+            selectedType.setId(Constants.TypesManager.CMIS_SECONDARY);
             newType.setCreatable(false);
             newType.setFileable(false);
             newType.setControllableAcl(false);
@@ -63,7 +61,7 @@ public class CreateBean implements Serializable {
 
     private void setAttributes(UserInfo usrInf){
         try {
-            typeDefinition = service.getTypeDefinition(usrInf, selectedType);
+            TypeDefinition typeDefinition = service.getTypeDefinition(usrInf, selectedType);
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());
@@ -72,8 +70,8 @@ public class CreateBean implements Serializable {
             newType.setControllableAcl(typeDefinition.isControllableAcl());
             newType.setControllablePolicy(typeDefinition.isControllablePolicy());
         } catch (CmisException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Unable to initialise type view", e);
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.UNABLE_TO_INIT_VIEW, e);
         }
     }
 
@@ -87,6 +85,39 @@ public class CreateBean implements Serializable {
         property.setUpdatability(Constants.Strings.EMPTY_STRING);
         property.setPropertyType(Constants.Strings.EMPTY_STRING);
         typeProperties.add(property);
+    }
+
+    public String createType() {
+        try {
+            UserInfo userInfo = login.getUserInfo();
+            newType.setBaseTypeId(selectedType.getBaseType());
+            newType.setParentTypeId(selectedType.getId());
+            newType.setProperties(typeProperties);
+            service.createType(userInfo, newType);
+            MessageUtils.printInfo(newType.getDisplayName() + Constants.Messages.TYPE_CREATED);
+            return Constants.Navigation.TO_MAIN_PAGE;
+        } catch (CmisException e) {
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.UNABLE_CREATE_TYPE, e);
+        }
+        return Constants.Navigation.TO_CURRENT_PAGE;
+    }
+
+    private void setValuesToLists() {
+        cardinalityValues = getValuesForSelectOneMenu(Cardinality.values());
+        updatabilityValues = getValuesForSelectOneMenu(Updatability.values());
+        propertyTypeValues = getValuesForSelectOneMenu(PropertyType.values());
+    }
+
+    private List<String> getValuesForSelectOneMenu(Enum[] values) {
+        List<String> list = new ArrayList<String>();
+        for (Enum value : values) {
+            list.add(value.name());
+        }
+        return list;
+    }
+    public boolean isSecondary(){
+        return selectedType.getBaseType().equals(Constants.TypesManager.CMIS_SECONDARY);
     }
 
 
@@ -114,31 +145,13 @@ public class CreateBean implements Serializable {
         this.login = login;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
-
-
-    public String createType() {
-        try {
-            UserInfo userInfo = login.getUserInfo();
-            newType.setBaseTypeId(selectedType.getBaseType());
-            newType.setParentTypeId(selectedType.getId());
-            newType.setProperties(typeProperties);
-            service.createType(userInfo, newType);
-            Message.printInfo(newType.getDisplayName() + " type created!");
-            return Constants.Navigation.TO_MAIN_PAGE;
-        } catch (CmisException e) {
-            Message.printError(e.getMessage());
-            LOGGER.error("Unable to create type", e);
-        }
-        return Constants.Navigation.TO_CURRENT_PAGE;
-    }
-
 
     public void deleteAction(TypeProperty property) {
         typeProperties.remove(property);
@@ -158,22 +171,5 @@ public class CreateBean implements Serializable {
 
     public List<String> getPropertyTypeValuesValues() {
         return  propertyTypeValues;
-    }
-
-    private void setValuesToLists() {
-        cardinalityValues = getValuesForSelectOneMenu(Cardinality.values());
-        updatabilityValues = getValuesForSelectOneMenu(Updatability.values());
-        propertyTypeValues = getValuesForSelectOneMenu(PropertyType.values());
-    }
-
-    private List<String> getValuesForSelectOneMenu(Enum[] values) {
-        List<String> list = new ArrayList<String>();
-        for (Enum value : values) {
-            list.add(value.name());
-        }
-        return list;
-    }
-    public boolean isHide(){
-        return selectedType.getBaseType().equals(secondary);
     }
 }

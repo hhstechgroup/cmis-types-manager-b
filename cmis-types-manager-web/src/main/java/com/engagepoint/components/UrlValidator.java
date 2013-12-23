@@ -16,24 +16,21 @@ import java.util.regex.Pattern;
  */
 public class UrlValidator implements Validator {
     private static final String URL_PATTERN = "\\(?\\b(http://|www[.])[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
+    private static final String SUMMARY = "Url validation failed.";
+    private static final String DETAIL = "Invalid Url format.";
     private Pattern pattern;
-    private Matcher matcher;
-
-
 
     public UrlValidator() {
-
         pattern = Pattern.compile(URL_PATTERN);
     }
 
     @Override
-    public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        matcher = pattern.matcher(value.toString());
+    public void validate(FacesContext context, UIComponent component, Object value) {
+        Matcher matcher = pattern.matcher(value.toString());
         if (!matcher.matches()) {
-            FacesMessage msg = new FacesMessage("Url validation failed.", "Invalid Url format.");
+            FacesMessage msg = new FacesMessage(SUMMARY, DETAIL);
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
         }
-
     }
 }

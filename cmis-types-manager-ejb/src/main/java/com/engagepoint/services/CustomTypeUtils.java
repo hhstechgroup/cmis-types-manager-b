@@ -1,6 +1,7 @@
 package com.engagepoint.services;
 
 import org.apache.chemistry.opencmis.client.api.ObjectType;
+import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.Tree;
 import org.apache.chemistry.opencmis.commons.definitions.*;
 import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
@@ -23,8 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
 
@@ -34,10 +34,11 @@ import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
  * Time: 13:34
  */
 public class CustomTypeUtils {
-    public static final String TAG_TYPE_DEFINITIONS = "typeDefinitions";
+    private static final String TAG_TYPE_DEFINITIONS = "typeDefinitions";
     private static final Logger LOG = LoggerFactory.getLogger(CustomTypeUtils.class);
 
-    public static void writeToXML(TypeDefinition type, OutputStream stream, List<Tree<ObjectType>> typeDescendants) throws XMLStreamException {
+    public static void writeToXML(Session session, TypeDefinition type, OutputStream stream,
+                                  List<Tree<ObjectType>> typeDescendants) throws XMLStreamException {
         if (type == null) {
             throw new IllegalArgumentException("Type must be set!");
         }
@@ -46,13 +47,14 @@ public class CustomTypeUtils {
         }
         XMLStreamWriter writer = XMLUtils.createWriter(stream);
         XMLUtils.startXmlDocument(writer);
-        writeTypeTreeDefinition(writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, type, typeDescendants);
+        writeTypeTreeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, type, typeDescendants);
         XMLUtils.endXmlDocument(writer);
         writer.close();
     }
 
-    public static void writeTypeTreeDefinition(XMLStreamWriter writer, CmisVersion cmisVersion, String namespace,
-                                               TypeDefinition source, List<Tree<ObjectType>> typeDescendants) throws XMLStreamException {
+    public static void writeTypeTreeDefinition(Session session, XMLStreamWriter writer, CmisVersion cmisVersion, String namespace,
+                                               TypeDefinition source,
+                                               List<Tree<ObjectType>> typeDescendants) throws XMLStreamException {
         if (source == null) {
             return;
         }
@@ -63,25 +65,26 @@ public class CustomTypeUtils {
             LOG.warn("Receiver only understands CMIS 1.0. It may not able to handle a Secondary type definition.");
         }
 
-        if (null != typeDescendants){
+        if (typeDescendants != null) {
             writer.writeStartElement(XMLConstants.NAMESPACE_APACHE_CHEMISTRY, TAG_TYPE_DEFINITIONS);
             writer.writeNamespace(PREFIX_RESTATOM, XMLConstants.NAMESPACE_RESTATOM);
             writer.writeNamespace(PREFIX_XSI, XMLConstants.NAMESPACE_XSI);
             writer.writeNamespace(PREFIX_APACHE_CHEMISTY, XMLConstants.NAMESPACE_APACHE_CHEMISTRY);
             writer.writeNamespace(PREFIX_CMIS, XMLConstants.NAMESPACE_CMIS);
-            writeTypeDefinition(writer, CmisVersion.CMIS_1_1,XMLConstants.NAMESPACE_CMIS, source, typeDescendants, true);
+            writeTypeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, source, typeDescendants, true);
             XMLConverter.writeExtensions(writer, source);
             writer.writeEndElement();
         } else {
-            writeTypeDefinition(writer, CmisVersion.CMIS_1_1,XMLConstants.NAMESPACE_CMIS, source, typeDescendants, false);
+            writeTypeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, source, typeDescendants, false);
         }
     }
 
-    public static void writeTypeDefinition(XMLStreamWriter writer, CmisVersion cmisVersion, String namespace,
-                                           TypeDefinition source, List<Tree<ObjectType>> typeDescendants, boolean includeChildren) throws XMLStreamException {
+    public static void writeTypeDefinition(Session session, XMLStreamWriter writer, CmisVersion cmisVersion, String namespace,
+                                           TypeDefinition source, List<Tree<ObjectType>> typeDescendants,
+                                           boolean includeChildren) throws XMLStreamException {
         writer.writeStartElement(namespace, TAG_TYPE);
-        if(!includeChildren){
-        writer.writeNamespace(XMLConstants.PREFIX_XSI, XMLConstants.NAMESPACE_XSI);
+        if (!includeChildren) {
+            writer.writeNamespace(XMLConstants.PREFIX_XSI, XMLConstants.NAMESPACE_XSI);
         }
         if (source.getBaseTypeId() == BaseTypeId.CMIS_DOCUMENT) {
             writer.writeAttribute(PREFIX_XSI, NAMESPACE_XSI, "type", PREFIX_CMIS + ":" + ATTR_DOCUMENT_TYPE);
@@ -125,7 +128,7 @@ public class CustomTypeUtils {
             writer.writeEndElement();
         }
         if (source.getPropertyDefinitions() != null) {
-            for (PropertyDefinition<?> pd : source.getPropertyDefinitions().values()) {
+            for (PropertyDefinition<?> pd : getCorrectPropertyDefiniyionList(session, source).values()) {
                 XMLConverter.writePropertyDefinition(writer, cmisVersion, pd);
             }
         }
@@ -157,10 +160,11 @@ public class CustomTypeUtils {
         XMLConverter.writeExtensions(writer, source);
         writer.writeEndElement();
 
-        if (null != typeDescendants){
-           for(Tree<ObjectType> node:typeDescendants){
-               writeTypeDefinition(writer, CmisVersion.CMIS_1_1,XMLConstants.NAMESPACE_CMIS, node.getItem(), node.getChildren(), true);
-           }
+        if (typeDescendants != null) {
+            for (Tree<ObjectType> node : typeDescendants) {
+                writeTypeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, node.getItem(),
+                        node.getChildren(), true);
+            }
         }
     }
 
@@ -176,12 +180,6 @@ public class CustomTypeUtils {
         return definitionList;
     }
 
-    /**
-     * Reads a type definition from a JSON stream.
-     * <p/>
-     * The stream must be UTF-8 encoded.
-     */
-    @SuppressWarnings("unchecked")
     public static TypeDefinition readFromJSON(InputStream stream) throws IOException, JSONParseException {
         if (stream == null) {
             throw new IllegalArgumentException("Input stream must be set!");
@@ -195,6 +193,34 @@ public class CustomTypeUtils {
         }
 
         return JSONConverter.convertTypeDefinition((Map<String, Object>) json);
+    }
+
+    private static Map<String, PropertyDefinition<?>> getCorrectPropertyDefiniyionList(Session session, TypeDefinition typeDefinition){
+
+        Map<String, PropertyDefinition<?>> customPropertydefinition = new HashMap<String, PropertyDefinition<?>>(typeDefinition.getPropertyDefinitions());
+
+        String parentTypeId = typeDefinition.getParentTypeId();
+        if (parentTypeId != null) {
+            Map<String, PropertyDefinition<?>> propertyOfAllParentTypes = getPropertyOfAllParentTypes(session, parentTypeId);
+            for (String key : getKeyList(customPropertydefinition.keySet())) {
+                if (propertyOfAllParentTypes.containsKey(key)) {
+                    customPropertydefinition.remove(key);
+                }
+            }
+        }
+        return customPropertydefinition;
+    }
+
+    private static Map<String, PropertyDefinition<?>> getPropertyOfAllParentTypes(Session session, String parentTypeId) {
+        return  session.getTypeDefinition(parentTypeId).getPropertyDefinitions();
+    }
+
+    private static List<String> getKeyList(Set<String> stringSet) {
+        List<String> list = new ArrayList<String>();
+        for (String s : stringSet) {
+            list.add(s);
+        }
+        return list;
     }
 
 }

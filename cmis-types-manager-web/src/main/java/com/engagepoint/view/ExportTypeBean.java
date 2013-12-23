@@ -6,12 +6,14 @@ package com.engagepoint.view;
  * Time: 16:26 AM
  */
 
-import com.engagepoint.components.Message;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
-import org.apache.commons.lang.StringUtils;
+import com.engagepoint.utils.MessageUtils;
+import com.engagepoint.utils.StringUtils;
+import org.apache.chemistry.opencmis.commons.impl.IOUtils;
+import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,47 +39,55 @@ public class ExportTypeBean {
 
     private UserInfo userInfo;
 
-    @ManagedProperty(value = "#{navigationBean}")
-    private NavigationBean navigationBean;
+    @ManagedProperty(value = "#{sessionStateBean}")
+    private SessionStateBean sessionStateBean;
 
-    private boolean xmlOrJson = true;
+    private boolean xmlOrJson;
     private boolean includeChildren;
 
 
     @PostConstruct
     public void init() {
         userInfo = login.getUserInfo();
+        xmlOrJson = true;
     }
 
     public void exportType() {
-        String selectedTypeId = navigationBean.getTypeProxy().getId();
-        String message = "";
+        String selectedTypeId = sessionStateBean.getTypeProxy().getId();
+        String message;
         if (StringUtils.isEmpty(selectedTypeId)) {
-            message = "Selected type can't be Null or Empty string";
-            Message.printError(message);
+            message = Constants.Messages.SELECTED_TYPE_NOT_EMPTY;
+            MessageUtils.printError(message);
             LOGGER.error(message);
         } else {
             FacesContext facesContext = FacesContext.getCurrentInstance();
             ExternalContext externalContext = facesContext.getExternalContext();
             try {
-                OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
                 if (xmlOrJson) {
+                    service.exportTypeToXML(userInfo, out, selectedTypeId, includeChildren);
+                } else {
+                    service.exportTypeToJSON(userInfo, out, selectedTypeId, includeChildren);
+                }
+                byte[] arr = out.toByteArray();
+                OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+                if(xmlOrJson){
                     externalContext.setResponseContentType("application/xml");
-                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".xml" + "\"");
-                    service.exportTypeToXML(userInfo, responseOutputStream, selectedTypeId, includeChildren);
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".xml", Constants.Strings.QUOTE));
                 } else {
                     externalContext.setResponseContentType("application/json");
-                    externalContext.setResponseHeader("Content-Disposition", "attachment; filename=\"" + selectedTypeId + ".json" + "\"");
-                    service.exportTypeToJSON(userInfo, responseOutputStream, selectedTypeId, includeChildren);
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".json", Constants.Strings.QUOTE));
                 }
-                message = "Selected type is exported successfully";
+                responseOutputStream.write(arr);
+                IOUtils.closeQuietly(responseOutputStream);
+                message = Constants.Messages.EXPORT_SUCCESSFULL;
                 LOGGER.info(message);
             } catch (IOException e) {
-                Message.printError(e.getMessage());
-                LOGGER.error("Error while exporting type", e);
+                MessageUtils.printError(e.getMessage());
+                LOGGER.error(Constants.Messages.ERROR_EXPORT_TYPE, e);
             } catch (CmisException e) {
-                Message.printError(e.getMessage());
-                LOGGER.error("Error while exporting type", e);
+                MessageUtils.printError(e.getMessage());
+                LOGGER.error(Constants.Messages.ERROR_EXPORT_TYPE, e);
             } finally {
                 facesContext.responseComplete();
             }
@@ -96,12 +106,12 @@ public class ExportTypeBean {
         this.login = login;
     }
 
-    public NavigationBean getNavigationBean() {
-        return navigationBean;
+    public SessionStateBean getSessionStateBean() {
+        return sessionStateBean;
     }
 
-    public void setNavigationBean(NavigationBean navigationBean) {
-        this.navigationBean = navigationBean;
+    public void setSessionStateBean(SessionStateBean sessionStateBean) {
+        this.sessionStateBean = sessionStateBean;
     }
 
     public boolean isXmlOrJson() {
