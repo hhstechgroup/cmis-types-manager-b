@@ -28,9 +28,6 @@ import static org.apache.chemistry.opencmis.commons.impl.JSONConstants.*;
  */
 public final class CustomJSONConverter {
 
-    /**
-     * Private constructor.
-     */
     private CustomJSONConverter() {
     }
 
