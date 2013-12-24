@@ -1,13 +1,37 @@
 package com.engagepoint.acceptancetest.steps;
 
+import com.engagepoint.acceptancetest.base.filedownload.FileDownloader;
+import com.engagepoint.acceptancetest.base.filedownload.utils.RequestMethod;
+import com.engagepoint.acceptancetest.base.filedownload.utils.RequestParameters;
 import com.engagepoint.acceptancetest.base.pages.UIBootstrapBasePage;
+import com.engagepoint.acceptancetest.base.steps.JbehaveBaseSteps;
+import com.engagepoint.acceptancetest.base.steps.UseVariablesSteps;
+import net.thucydides.core.Thucydides;
+import net.thucydides.core.annotations.Steps;
 import net.thucydides.core.pages.Pages;
 import net.thucydides.core.steps.ScenarioSteps;
+import org.apache.commons.io.FileUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * User: victor.klymenko
@@ -18,6 +42,12 @@ public class HelperSteps extends ScenarioSteps {
 
     private static final String XPATH_SELECTOR_SUFFIX = "')]";
     private UIBootstrapBasePage uIBootstrapBasePage;
+    private File lastDownloadedFile;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UseVariablesSteps.class);
+
+    @Steps
+    private JbehaveBaseSteps jbehaveBase;
 
     public HelperSteps(Pages pages) {
         super(pages);
@@ -110,6 +140,55 @@ public class HelperSteps extends ScenarioSteps {
             element.click();
         }
     }
+
+    @When("the user clicks on '$id' export file")
+    public void whenTheUserClicksOnDownloadFile(String id) throws IOException, URISyntaxException {
+        FileDownloader downloadHandler = getFileDownloaderFor(id);
+        lastDownloadedFile = downloadHandler.downloadFile();
+        uIBootstrapBasePage.element(findVisibleElementAndGetSelector(id)).click();
+    }
+
+    private FileDownloader getFileDownloaderFor(String id) throws MalformedURLException, URISyntaxException {
+        WebDriver driver = getDriver();
+        FileDownloader downloadHandler = new FileDownloader(driver);
+        By by = jbehaveBase.findVisibleElementAndGetSelector(id);
+        WebElement downloadBtn = uIBootstrapBasePage.element(by);
+        String href = downloadBtn.getAttribute("href");
+        String currentUrl = driver.getCurrentUrl();
+        if(href != null && !href.equals(currentUrl + "#")){
+            downloadHandler.setHTTPRequestMethod(RequestMethod.GET);
+            downloadHandler.setURI(href);
+        } else {
+            WebElement form = downloadBtn.findElement(By.xpath("./ancestor::form[@method='post']"));
+            List<NameValuePair> requestParams = RequestParameters.getParametersFrom(form);
+            String downloadBtnTag = downloadBtn.getTagName();
+            if("button".equals(downloadBtnTag)){
+                requestParams.addAll(RequestParameters.getParametersFrom(downloadBtn, "name"));
+            } else {
+                requestParams.addAll(RequestParameters.getParametersFrom(downloadBtn, "onclick"));
+            }
+            downloadHandler.setURI(currentUrl);
+            downloadHandler.setHTTPRequestMethod(RequestMethod.POST);
+            downloadHandler.setHttpPostRequestParams(requestParams);
+        }
+        return downloadHandler;
+    }
+
+    @Then("verify that file is exported")
+    public void thenVerifyLastDownloadedFile(){
+        assertThat(lastDownloadedFile.exists(), is(equalTo(true)));
+    }
+
+    @Then("verify that length of the exported file isn't zero")
+    public void thenVerifyLastDownloadedFileLengthNotZero(){
+        assertThat(lastDownloadedFile.length() > 0, is(equalTo(true)));
+    }
+
+    @Then("wait for timeout")
+    public void waitForTimeout() {
+        uIBootstrapBasePage.waitFor(5).seconds();
+    }
+
 }
 
 

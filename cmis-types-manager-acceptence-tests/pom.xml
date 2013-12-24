@@ -127,7 +127,7 @@
             </plugin>
 
             <!--cargo plugin-->
-            <plugin>
+<!--            <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
                 <version>1.4.5</version>
@@ -169,24 +169,24 @@
                         <properties>
                             <cargo.servlet.port>17081</cargo.servlet.port>
                             <cargo.rmi.port>17082</cargo.rmi.port>
-                            <!--for using debug-->
+                            &lt;!&ndash;for using debug&ndash;&gt;
                             <cargo.jvmargs>
-                                <!--Xdebug-->
-                                <!--Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18000-->
-                                <!--Xnoagent-->
-                                <!--Djava.compiler=NONE-->
+                                &lt;!&ndash;Xdebug&ndash;&gt;
+                                &lt;!&ndash;Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18000&ndash;&gt;
+                                &lt;!&ndash;Xnoagent&ndash;&gt;
+                                &lt;!&ndash;Djava.compiler=NONE&ndash;&gt;
                             </cargo.jvmargs>
                         </properties>
                     </configuration>
 
                     <deployables>
-                        <!-- OpenCMIS Server InMemory -->
+                        &lt;!&ndash; OpenCMIS Server InMemory &ndash;&gt;
                         <deployable>
                             <groupId>org.apache.chemistry.opencmis</groupId>
                             <artifactId>chemistry-opencmis-server-inmemory</artifactId>
                             <type>war</type>
                         </deployable>
-                        <!-- cmis-types-manager-b -->
+                        &lt;!&ndash; cmis-types-manager-b &ndash;&gt;
                         <deployable>
                             <groupId>com.engagepoint.cmis-types-manager-b</groupId>
                             <artifactId>cmis-types-manager-ear</artifactId>
@@ -194,7 +194,7 @@
                         </deployable>
                     </deployables>
                 </configuration>
-            </plugin>
+            </plugin>-->
         </plugins>
     </build>
 
