@@ -102,6 +102,7 @@
                     <systemPropertyVariables>
                         <webdriver.driver>${webdriver.driver}</webdriver.driver>
                         <maven.test.failure.ignore>true</maven.test.failure.ignore>
+                        <buildDirectory>${project.build.directory}/site</buildDirectory>
                     </systemPropertyVariables>
                 </configuration>
                 <executions>
