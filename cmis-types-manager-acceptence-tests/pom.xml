@@ -55,8 +55,24 @@
             <type>ear</type>
         </dependency>
     </dependencies>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>net.thucydides.maven.plugins</groupId>
+                <artifactId>maven-thucydides-plugin</artifactId>
+                <version>${thucydides.version}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
