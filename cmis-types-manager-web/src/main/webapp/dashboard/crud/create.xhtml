@@ -90,6 +90,9 @@
                          rowKey="#{property.id}"
                          scrollHeight="350"
                          scrollWidth="657">
+
+                <p:ajax event="rowSelect" update="-createTypeForm-accordionPanel-metadataTabel,-messages"/>
+
                 <f:facet name="header">
                     <uib:gridContainer>
                         <uib:gridRow fluid="true">
@@ -102,22 +105,25 @@
                                                  onclick="createMetadataModal.show();return false;"/>
                                 <p:commandButton value="Delete selected"
                                                  action="#{createBean.deleteMetaData()}"
-                                                 update="-createTypeForm-accordionPanel-metadataTabel,-messages"
+                                                 update="-createTypeForm-accordionPanel-metadataTabel"
+                                                 immediate="true"
                                                  styleClass="fl-right small blue"/>
                                 <p:commandButton value="Update"
                                                  update="-mainContent"
+                                                 immediate="true"
                                                  styleClass="fl-right small blue"
                                                  oncomplete="updateMetadataModal.show()"/>
                             </uib:gridColumn>
                         </uib:gridRow>
                     </uib:gridContainer>
                 </f:facet>
-                <p:column headerText="Name">
-                    <h:outputText value="#{property.displayName}"/>
-                </p:column>
 
                 <p:column headerText="Id">
                     <h:outputText value="#{property.id}"/>
+                </p:column>
+
+                <p:column headerText="Name">
+                    <h:outputText value="#{property.displayName}"/>
                 </p:column>
 
                 <p:column headerText="Local name">
