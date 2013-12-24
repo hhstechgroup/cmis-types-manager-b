@@ -84,8 +84,7 @@
             <p:dataTable var="property"
                          value="#{createBean.typeProperties}"
                          id="metadataTabel"
-                         selectionMode="single"
-                         selection="#{createBean.selectedTypeProperty}"
+                         selection="#{createBean.typeProperties}"
                          scrollable="true"
                          rowKey="#{property.id}"
                          scrollHeight="350"
@@ -117,6 +116,10 @@
                         </uib:gridRow>
                     </uib:gridContainer>
                 </f:facet>
+
+
+                    <p:column selectionMode="multiple" style="width:2%" />
+
 
                 <p:column headerText="Id">
                     <h:outputText value="#{property.id}"/>

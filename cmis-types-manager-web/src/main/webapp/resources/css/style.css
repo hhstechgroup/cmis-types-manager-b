@@ -236,11 +236,13 @@
 }
 
 #viewForm-selectedTypeOutInfo {
-    float: right;
     color: slategray;
-    margin-right: 2%;
-    text-decoration: underline;
-    font-size: 20px;
+    font-size: 24px;
+    cursor: default;
+    text-transform: uppercase;
+    font-weight: bold;
+    line-height: 34px;
+    margin-left: 100px;
 }
 
 #updateMetadataModalForm-createMetadataButton {
@@ -299,4 +301,12 @@
 
 #createMetadataModalForm-createMetadataButton, #updateMetadataModalForm-updateMetadataButton{
     margin-right: 10px;
+}
+
+#changeRepositoryForm{
+    max-width: 500px !important;
+}
+
+#changeRepositoryForm table{
+    width: 100%;
 }
