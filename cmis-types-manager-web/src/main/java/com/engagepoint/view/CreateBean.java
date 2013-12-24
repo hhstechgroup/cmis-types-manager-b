@@ -70,12 +70,12 @@ public class CreateBean implements Serializable {
 
     public void deleteMetaData() {
         typeProperties.remove(selectedTypeProperty);
-//        MessageUtils.printInfo("Deleted " + selectedTypeProperty.getId());
         selectedTypeProperty = new TypeProperty();
     }
 
     public void deleteMetaData(TypeProperty property) {
         getTypeProperties().remove(property);
+        selectedTypeProperty = new TypeProperty();
     }
 
     private void setAttributes(UserInfo usrInf) {
@@ -182,8 +182,12 @@ public class CreateBean implements Serializable {
         return  propertyTypeValues;
     }
 
-    public TypeProperty selectedTypeProperty(){
-        return selectedTypeProperty;
+    public TypeProperty getNewTypeProperty() {
+        return newTypeProperty;
+    }
+
+    public void setNewTypeProperty(TypeProperty newTypeProperty) {
+        this.newTypeProperty = newTypeProperty;
     }
 
     public TypeProperty getSelectedTypeProperty() {
@@ -192,13 +196,5 @@ public class CreateBean implements Serializable {
 
     public void setSelectedTypeProperty(TypeProperty selectedTypeProperty) {
         this.selectedTypeProperty = selectedTypeProperty;
-    }
-
-    public TypeProperty getNewTypeProperty() {
-        return newTypeProperty;
-    }
-
-    public void setNewTypeProperty(TypeProperty newTypeProperty) {
-        this.newTypeProperty = newTypeProperty;
     }
 }
