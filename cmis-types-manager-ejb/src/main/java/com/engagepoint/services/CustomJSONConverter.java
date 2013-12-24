@@ -1477,14 +1477,12 @@ public final class CustomJSONConverter {
             return null;
         }
 
-        if (treeList == null || treeList.get(0).getChildren() == null) {
+        if (treeList == null || treeList.isEmpty()) {
             return convert(type, session);
         }
 
         JSONObject result = new JSONObject();
-        if ((!type.getBaseTypeId().value().equals(type.getId()))) {
-            result.put(type.getId(), convert(type, session));
-        }
+        result.put(type.getId(), convert(type, session));
         convertTypeChildren(result, session, treeList);
         return result;
     }

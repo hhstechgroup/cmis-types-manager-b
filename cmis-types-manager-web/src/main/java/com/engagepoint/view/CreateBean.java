@@ -36,14 +36,18 @@ public class CreateBean implements Serializable {
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
+    private TypeProperty newTypeProperty;
+    private TypeProperty selectedTypeProperty;
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
+        newTypeProperty = new TypeProperty();
         typeProperties = new ArrayList<TypeProperty>();
         newType = new Type();
         setValuesToLists();
         selectedType = sessionStateBean.getTypeProxy();
+        selectedTypeProperty = new TypeProperty();
         UserInfo userInfo = login.getUserInfo();
         setAttributes(userInfo);
         if (isSecondary()){
@@ -55,11 +59,26 @@ public class CreateBean implements Serializable {
         }
     }
 
-    public CreateBean() {
-
+    public void addNewMetaData() {
+        getTypeProperties().add(newTypeProperty);
+        newTypeProperty = new TypeProperty();
     }
 
-    private void setAttributes(UserInfo usrInf){
+    public void updateSelectedMetaData(){
+        System.out.println(getTypeProperties());
+    }
+
+    public void deleteMetaData() {
+        typeProperties.remove(selectedTypeProperty);
+//        MessageUtils.printInfo("Deleted " + selectedTypeProperty.getId());
+        selectedTypeProperty = new TypeProperty();
+    }
+
+    public void deleteMetaData(TypeProperty property) {
+        getTypeProperties().remove(property);
+    }
+
+    private void setAttributes(UserInfo usrInf) {
         try {
             TypeDefinition typeDefinition = service.getTypeDefinition(usrInf, selectedType);
             newType.setCreatable(typeDefinition.isCreatable());
@@ -73,18 +92,6 @@ public class CreateBean implements Serializable {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_TO_INIT_VIEW, e);
         }
-    }
-
-    public void addAction() {
-        TypeProperty property = new TypeProperty();
-        property.setDisplayName(Constants.Strings.EMPTY_STRING);
-        property.setLocalName(Constants.Strings.EMPTY_STRING);
-        property.setQueryName(Constants.Strings.EMPTY_STRING);
-        property.setId(Constants.Strings.EMPTY_STRING);
-        property.setCardinality(Constants.Strings.EMPTY_STRING);
-        property.setUpdatability(Constants.Strings.EMPTY_STRING);
-        property.setPropertyType(Constants.Strings.EMPTY_STRING);
-        typeProperties.add(property);
     }
 
     public String createType() {
@@ -162,14 +169,36 @@ public class CreateBean implements Serializable {
     }
 
     public List<String> getUpdatabilityValues() {
+
         return updatabilityValues;
     }
 
-    public List<String> getCardinalitylityValues() {
+    public List<String> getCardinalitylityValues()
+    {
         return cardinalityValues;
     }
 
     public List<String> getPropertyTypeValuesValues() {
         return  propertyTypeValues;
+    }
+
+    public TypeProperty selectedTypeProperty(){
+        return selectedTypeProperty;
+    }
+
+    public TypeProperty getSelectedTypeProperty() {
+        return selectedTypeProperty;
+    }
+
+    public void setSelectedTypeProperty(TypeProperty selectedTypeProperty) {
+        this.selectedTypeProperty = selectedTypeProperty;
+    }
+
+    public TypeProperty getNewTypeProperty() {
+        return newTypeProperty;
+    }
+
+    public void setNewTypeProperty(TypeProperty newTypeProperty) {
+        this.newTypeProperty = newTypeProperty;
     }
 }
