@@ -4,6 +4,7 @@ import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
+import com.engagepoint.utils.StringUtils;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
@@ -38,12 +39,18 @@ public class CreateBean implements Serializable {
     private List<String> updatabilityValues;
     private TypeProperty newTypeProperty;
     private TypeProperty selectedTypeProperty;
+    private List<TypeProperty> selectedTypeProperties;
+    private boolean updateBtnDisabled;
+    private boolean deleteBtnDisabled;
 
 
     @PostConstruct
     public void init() {
         newTypeProperty = new TypeProperty();
         typeProperties = new ArrayList<TypeProperty>();
+        selectedTypeProperties = new ArrayList<TypeProperty>();
+        updateBtnDisabled = true;
+        deleteBtnDisabled = true;
         newType = new Type();
         setValuesToLists();
         selectedType = sessionStateBean.getTypeProxy();
@@ -60,22 +67,45 @@ public class CreateBean implements Serializable {
     }
 
     public void addNewMetaData() {
+        updateBtnDisabled = false;
+        deleteBtnDisabled = false;
         getTypeProperties().add(newTypeProperty);
         newTypeProperty = new TypeProperty();
     }
 
     public void updateSelectedMetaData(){
-        System.out.println(getTypeProperties());
+        System.out.println(selectedTypeProperty.toString());
     }
 
     public void deleteMetaData() {
-        typeProperties.remove(selectedTypeProperty);
-        selectedTypeProperty = new TypeProperty();
+        for (TypeProperty property : selectedTypeProperties) {
+            typeProperties.remove(property);
+        }
+        selectedTypeProperties.clear();
+        if (typeProperties.size() == 0) {
+            updateBtnDisabled = true;
+            deleteBtnDisabled = true;
+        } else if (selectedTypeProperties.size() == 1) {
+            updateBtnDisabled = false;
+            deleteBtnDisabled = true;
+        }
     }
 
-    public void deleteMetaData(TypeProperty property) {
-        getTypeProperties().remove(property);
-        selectedTypeProperty = new TypeProperty();
+    public void onRowSelection(){
+        if (selectedTypeProperties.size() == 1) {
+            selectedTypeProperty = selectedTypeProperties.get(0);
+            updateBtnDisabled = false;
+        } else {
+            selectedTypeProperty = null;
+            updateBtnDisabled = true;
+        }
+        deleteBtnDisabled = false;
+        StringBuilder builder = new StringBuilder();
+        for (TypeProperty property : selectedTypeProperties){
+            builder.append(property.getId());
+            builder.append("; ");
+        }
+        MessageUtils.printInfo("Selected : " + builder.toString());
     }
 
     private void setAttributes(UserInfo usrInf) {
@@ -196,5 +226,29 @@ public class CreateBean implements Serializable {
 
     public void setSelectedTypeProperty(TypeProperty selectedTypeProperty) {
         this.selectedTypeProperty = selectedTypeProperty;
+    }
+
+    public List<TypeProperty> getSelectedTypeProperties() {
+        return selectedTypeProperties;
+    }
+
+    public void setSelectedTypeProperties(List<TypeProperty> selectedTypeProperties) {
+        this.selectedTypeProperties = selectedTypeProperties;
+    }
+
+    public boolean isUpdateBtnDisabled() {
+        return updateBtnDisabled;
+    }
+
+    public void setUpdateBtnDisabled(boolean updateBtnDisabled) {
+        this.updateBtnDisabled = updateBtnDisabled;
+    }
+
+    public boolean isDeleteBtnDisabled() {
+        return deleteBtnDisabled;
+    }
+
+    public void setDeleteBtnDisabled(boolean deleteBtnDisabled) {
+        this.deleteBtnDisabled = deleteBtnDisabled;
     }
 }

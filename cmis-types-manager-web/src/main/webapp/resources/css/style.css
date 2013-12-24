@@ -169,6 +169,11 @@
     width: 100px;
 }
 
+#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span.ui-chkbox-icon, #viewForm-accordionPanel-accordionTabMetadata thead tr th span.ui-chkbox-icon{
+    width: 16px;
+    display: inline-block;
+}
+
 #createTypeForm-accordionPanel-accordionTabMetadata tr, #viewForm-accordionPanel-accordionTabMetadata tr {
     width: 100% !important;
     display: table-row;
@@ -206,7 +211,7 @@
     margin-top: -40px;
 }
 
-#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton, #createTypeForm-accordionPanel-metadataTabel-j_idt28, #createTypeForm-accordionPanel-metadataTabel-j_idt27 {
+#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton, #createTypeForm-accordionPanel-metadataTabel-selectedMetadataUpdateBtn, #createTypeForm-accordionPanel-metadataTabel-selectedMetadataDeleteBtn {
     z-index: 100;
     position: absolute;
 }
@@ -215,11 +220,11 @@
     right: 45px;
 }
 
-#createTypeForm-accordionPanel-metadataTabel-j_idt28 {
+#createTypeForm-accordionPanel-metadataTabel-selectedMetadataUpdateBtn {
     right: 160px;
 }
 
-#createTypeForm-accordionPanel-metadataTabel-j_idt27 {
+#createTypeForm-accordionPanel-metadataTabel-selectedMetadataDeleteBtn {
     right: 235px;
 }
 
