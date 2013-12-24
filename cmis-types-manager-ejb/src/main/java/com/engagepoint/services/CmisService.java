@@ -3,7 +3,6 @@ package com.engagepoint.services;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.exceptions.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
-import org.apache.chemistry.opencmis.client.util.TypeUtils;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
@@ -159,9 +158,13 @@ public class CmisService {
         try {
             Session session = getSession(userInfo);
             try {
-                TypeDefinition typeDefinition = TypeUtils.readFromJSON(stream);
-                if(!(typeDefinition.getId()==typeDefinition.getBaseTypeId().value()))
-                session.createType(typeDefinition);
+                List<AbstractTypeDefinition> typeDefinition = CustomTypeUtils.readFromJSON(stream);
+                if (typeDefinition != null) {
+                    for (AbstractTypeDefinition definition : typeDefinition) {
+                        if (!definition.getId().equals(definition.getBaseTypeId().value()))
+                            session.createType(definition);
+                    }
+                }
             } finally {
                 IOUtils.closeQuietly(stream);
             }
