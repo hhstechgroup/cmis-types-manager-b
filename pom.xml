@@ -70,8 +70,8 @@
                 <artifactId>primefaces</artifactId>
                 <version>3.5.8</version>
             </dependency>
-
             <!-- JSF 2 -->
+
             <dependency>
                 <groupId>com.sun.faces</groupId>
                 <artifactId>jsf-api</artifactId>

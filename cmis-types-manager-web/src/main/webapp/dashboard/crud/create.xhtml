@@ -192,8 +192,8 @@
     <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}"
                      update="-mainContent"
                      styleClass="mt20"/>
-    <p:button id="cancelCreateButton" value="Cancel" actionListener="#{backNavigationBean.goToLastPage()}"
-              styleClass="secondary" outcome="#{backNavigationBean.goToLastPage()}"/>
+    <p:commandButton id="cancelCreateButton" update="-mainContent" value="Cancel" action="#{backNavigationBean.goToLastPage()}"
+              styleClass="secondary" immediate="true"/>
 </h:form>
 
 
