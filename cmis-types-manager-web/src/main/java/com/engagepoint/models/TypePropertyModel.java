@@ -28,12 +28,11 @@ public class TypePropertyModel extends ListDataModel<TypeProperty> implements Se
     @Override
     public TypeProperty getRowData(String s) {
         List<TypeProperty> typeProperties = (List<TypeProperty>) getWrappedData();
-
         for(TypeProperty typeProperty : typeProperties) {
-            if(StringUtils.equals(typeProperty.getId(), s))
+            if (StringUtils.equals(typeProperty.getId(), s)) {
                 return typeProperty;
+            }
         }
-
         return null;
     }
 }

@@ -1,4 +1,5 @@
-package com.engagepoint.filters; /**
+package com.engagepoint.filters;
+/**
  * User: stanislav.skrebtsov (stanislav.skrebtsov@engagepoint.com)
  * Date: 29.11.13
  * Time: 18:32
@@ -13,12 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Deque;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 
 public class LoginFilter implements Filter {
-    public static Deque<String> history = new LinkedList<String>();
+    public static final Deque<String> history = new LinkedList<String>();
 
 
     @Override

@@ -53,8 +53,6 @@ public class Constants {
         public static final String ERROR_EXPORT_TYPE = "Error while exporting type";
         public static final String UNABLE_CREATE_TYPE = "Unable to create type";
 
-        public static final String UNABLE_TO_INIT_VIEW = "Unable to initialise type view";
-
         public static final String TYPE_CREATED = " type created!";
         public static final String DELETE_MESSAGE_PREFFIX = "The type <";
         public static final String DELETE_MESSAGE_SUFFIX = "> cannot be deleted";
@@ -95,17 +93,15 @@ public class Constants {
 
         public static final String DASHBOARD_MID = "dashboard";
         public static final String DASHBOARD_ROOT_VIEW = "/dashboard/";
-        public static final String DASHBOARD_ADDRESS = "index.xhtml";
+        public static final String MAIN_ADDRESS = "index.xhtml";
         public static final String DASHBOARD_LABEL = "Types Management";
 
         public static final String CONFIGURATION_MID = "configuration";
         public static final String CONFIGURATION_ROOT_VIEW = "/configuration/";
-        public static final String CONFIGURATION_ADDRESS = "index.xhtml";
         public static final String CONFIGURATION_LABEL = "Configuration";
 
         public static final String INFO_MID = "info";
         public static final String INFO_ROOT_VIEW = "/about/";
-        public static final String INFO_ADDRESS = "index.xhtml";
         public static final String INFO_LABEL = "Repository Info";
 
         public static final String STYLE_CLASS_ACTIVE = "active";

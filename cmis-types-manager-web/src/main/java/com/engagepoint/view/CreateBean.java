@@ -1,9 +1,9 @@
 package com.engagepoint.view;
 
-import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
+import com.engagepoint.utils.MessageUtils;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
@@ -18,9 +18,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @ManagedBean
 @ViewScoped
@@ -75,7 +73,7 @@ public class CreateBean implements Serializable {
     }
 
     public void updateSelectedMetaData(){
-        System.out.println(selectedTypeProperty.toString());
+        LOGGER.info(selectedTypeProperty.toString());
     }
 
     public void deleteMetaData() {
@@ -83,7 +81,7 @@ public class CreateBean implements Serializable {
             typeProperties.remove(property);
         }
         selectedTypeProperties.clear();
-        if (typeProperties.size() == 0) {
+        if (typeProperties.isEmpty()) {
             updateBtnDisabled = true;
             deleteBtnDisabled = true;
         } else if (selectedTypeProperties.size() == 1) {
@@ -93,7 +91,7 @@ public class CreateBean implements Serializable {
     }
 
     public void onRowSelection(){
-        if (selectedTypeProperties.size() > 0 && selectedTypeProperties.size() < 2) {
+        if (!selectedTypeProperties.isEmpty() && selectedTypeProperties.size() < 2) {
             for (TypeProperty property : getTypeProperties()){
                 property.setSelected(false);
             }
@@ -115,7 +113,7 @@ public class CreateBean implements Serializable {
                 property.setSelected(false);
             }
         }
-        if (selectedTypeProperties.size() > 0 && selectedTypeProperties.size() < 2) {
+        if (!selectedTypeProperties.isEmpty() && selectedTypeProperties.size() < 2) {
             updateBtnDisabled = false;
             selectedTypeProperty = selectedTypeProperties.get(0);
         }
@@ -127,7 +125,7 @@ public class CreateBean implements Serializable {
         } else {
             selectedTypeProperties.add(property);
         }
-        if (selectedTypeProperties.size() > 0 && selectedTypeProperties.size() < 2) {
+        if (!selectedTypeProperties.isEmpty() && selectedTypeProperties.size() < 2) {
             selectedTypeProperty = selectedTypeProperties.get(0);
             updateBtnDisabled = false;
         } else {
@@ -149,7 +147,7 @@ public class CreateBean implements Serializable {
             newType.setControllablePolicy(typeDefinition.isControllablePolicy());
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_TO_INIT_VIEW, e);
+            LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
         }
     }
 
@@ -232,8 +230,7 @@ public class CreateBean implements Serializable {
         return updatabilityValues;
     }
 
-    public List<String> getCardinalitylityValues()
-    {
+    public List<String> getCardinalityValues(){
         return cardinalityValues;
     }
 

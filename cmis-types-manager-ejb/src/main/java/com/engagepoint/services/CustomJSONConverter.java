@@ -15,6 +15,8 @@ import org.apache.chemistry.opencmis.commons.impl.TypeCache;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.*;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONArray;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
@@ -27,6 +29,7 @@ import static org.apache.chemistry.opencmis.commons.impl.JSONConstants.*;
  * OpenCMIS objects to JSON converter.
  */
 public final class CustomJSONConverter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomJSONConverter.class);
 
     private CustomJSONConverter() {
     }
@@ -368,7 +371,7 @@ public final class CustomJSONConverter {
                             canCreate.add(PropertyType.fromValue(o.toString()));
                         }
                     } catch (Exception e) {
-                        // ignore
+                        LOGGER.error(e.getMessage(), e);
                     }
                 }
 
@@ -498,18 +501,15 @@ public final class CustomJSONConverter {
     @SuppressWarnings("unchecked")
     public static List<TypeDefinition> convertTypeDefinition(final Map<String, Object> jsonRaw) {
         if (jsonRaw == null) {
-            return null;
+            return Collections.EMPTY_LIST;
         }
-
         List<TypeDefinition> typeDefinitionList = new LinkedList<TypeDefinition>();
-
-        Map<String, Object> json = null;
+        Map<String, Object> json;
         if (getString(jsonRaw, JSON_TYPE_ID) != null) {
             TypeDefinition typeDefinitionOne = convertOneTypeDefinition(jsonRaw);
             typeDefinitionList.add(typeDefinitionOne);
         } else {
             List<Object> listObject = new LinkedList<Object>(jsonRaw.values());
-            int sizeOfListObject = listObject.size();
             for (Object o : listObject) {
                 json = getMap(o);
                 TypeDefinition typeDefinitionOne = convertOneTypeDefinition(json);
@@ -521,7 +521,7 @@ public final class CustomJSONConverter {
     }
 
     private static TypeDefinition convertOneTypeDefinition(final Map<String, Object> json){
-        AbstractTypeDefinition result = null;
+        AbstractTypeDefinition result;
 
         String id = getString(json, JSON_TYPE_ID);
 
