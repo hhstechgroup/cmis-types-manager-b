@@ -8,7 +8,6 @@
 
     <ui:define name="mainContent">
         <h:form id="repoInfoForm">
-            <p:panel id="repoInfoPanel" header="RepositoryInfo">
                 <h:panelGrid columns="2" cellpadding="5">
 
                     <h:outputText id="repoName" value="Name :"/>
@@ -55,7 +54,6 @@
                     <h:outputText id="repoChangesOnTypeView" disabled="true" value="#{sessionStateBean.repositoryInfo.changesOnType.toString()}"/>
 
                 </h:panelGrid>
-            </p:panel>
         </h:form>
     </ui:define>
 </ui:composition>
