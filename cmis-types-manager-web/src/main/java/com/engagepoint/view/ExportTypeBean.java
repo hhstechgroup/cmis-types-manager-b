@@ -26,6 +26,8 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 @ManagedBean
@@ -71,12 +73,15 @@ public class ExportTypeBean {
                 }
                 byte[] arr = out.toByteArray();
                 OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+
+                SimpleDateFormat sdf = new SimpleDateFormat("_dd-M-yyyy_HH-mm-SS");
+                String date = sdf.format(new Date());
                 if(xmlOrJson){
                     externalContext.setResponseContentType("application/xml");
-                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".xml", Constants.Strings.QUOTE));
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, date, ".xml", Constants.Strings.QUOTE));
                 } else {
                     externalContext.setResponseContentType("application/json");
-                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".json", Constants.Strings.QUOTE));
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, date, ".json", Constants.Strings.QUOTE));
                 }
                 responseOutputStream.write(arr);
                 IOUtils.closeQuietly(responseOutputStream);
