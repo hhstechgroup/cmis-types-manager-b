@@ -24,6 +24,8 @@ public class TypeProperty<T> {
     private Boolean isRequired;
     private Boolean isOpenChoice;
 
+    private boolean selected;
+
     public String getId() {
         return id;
     }
@@ -144,6 +146,14 @@ public class TypeProperty<T> {
         isOpenChoice = openChoice;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
     @Override
     public String toString() {
         return "TypeProperty{" +
@@ -162,6 +172,7 @@ public class TypeProperty<T> {
                 ", isOrderable=" + isOrderable +
                 ", isRequired=" + isRequired +
                 ", isOpenChoice=" + isOpenChoice +
+                ", selected=" + selected +
                 '}';
     }
 }
