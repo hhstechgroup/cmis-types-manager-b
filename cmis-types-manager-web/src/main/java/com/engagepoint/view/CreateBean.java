@@ -4,6 +4,7 @@ import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
+import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
@@ -18,6 +19,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @ManagedBean
@@ -40,15 +42,18 @@ public class CreateBean implements Serializable {
     private TypeProperty selectedTypeProperty;
 
 
+
+
     @PostConstruct
     public void init() {
+        UserInfo userInfo = login.getUserInfo();
         newTypeProperty = new TypeProperty();
         typeProperties = new ArrayList<TypeProperty>();
         newType = new Type();
         setValuesToLists();
         selectedType = sessionStateBean.getTypeProxy();
         selectedTypeProperty = new TypeProperty();
-        UserInfo userInfo = login.getUserInfo();
+
         setAttributes(userInfo);
         if (isSecondary()){
             selectedType.setId(Constants.TypesManager.CMIS_SECONDARY);
@@ -58,7 +63,6 @@ public class CreateBean implements Serializable {
             newType.setControllablePolicy(false);
         }
     }
-
     public void addNewMetaData() {
         getTypeProperties().add(newTypeProperty);
         newTypeProperty = new TypeProperty();

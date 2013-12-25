@@ -2,7 +2,7 @@ Scenario: authentification scenario
 When the user opens the default page
 When the user fills 'loginForm-login' field with 'test'
 When the user fills 'loginForm-password' field with 'test'
-When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory/atom11' using baseUrl
+When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory-0.10.0/atom11' using baseUrl
 When clicks on element with id/name/className 'loginBut'
 Then wait for element 'treeForm' is visible
 
@@ -23,6 +23,7 @@ When the user clicks on element with id/name/className 'selectCheckboxIst'
 When the user clicks on element with id/name/className 'selectCheckboxFti'
 When the user clicks on element with id/name/className 'selectCheckboxACL'
 When the user clicks on element with id/name/className 'selectCheckboxPC'
+
 When the user clicks on element with className 'ui-icon-triangle-1-e' with text 'Metadata'
 When the user clicks on element with id/name/className 'newSourceSystemButton'
 When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met1'
@@ -31,6 +32,15 @@ When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'm
 When the user fills 'createMetadataModalForm-newMetaDataQueryName' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataLocalNamespace' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataDescription' field with 'met1'
+When clicks on element with id/name/className 'createMetadataModalForm-createMetadataButton'
+When the user clicks on element with className 'ui-icon-triangle-1-e' with text 'Metadata'
+When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met2'
+When the user fills 'createMetadataModalForm-newMetaDataName' field with 'met2'
+When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'met2'
+When the user fills 'createMetadataModalForm-newMetaDataQueryName' field with 'met2'
+When the user fills 'createMetadataModalForm-newMetaDataLocalNamespace' field with 'met2'
+When the user fills 'createMetadataModalForm-newMetaDataDescription' field with 'met2'
 When clicks on element with id/name/className 'createMetadataModalForm-createMetadataButton'
 Then wait for element 'createMetadataModalDialog' is not visible
 When the user clicks on element with id/name/className 'createTypeForm-createTypeBtm'
