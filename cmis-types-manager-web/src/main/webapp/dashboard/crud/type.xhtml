@@ -13,7 +13,7 @@
     <ui:define name="mainContent">
         <h:form id="viewForm">
             <p:commandButton id="return" value="Back" action="#{backNavigationBean.goToLastPage()}" styleClass="mb20"/>
-                <p:outputLabel value="#{viewTypeBean.typeDefinition.displayName}" id="selectedTypeOutInfo"/>
+                <h:outputText value="#{viewTypeBean.typeDefinition.displayName}" id="selectedTypeOutInfo"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">

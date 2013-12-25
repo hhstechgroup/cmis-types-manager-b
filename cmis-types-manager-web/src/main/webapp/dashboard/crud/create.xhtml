@@ -84,32 +84,37 @@
             <p:dataTable var="property"
                          value="#{createBean.typeProperties}"
                          id="metadataTabel"
-                         selectionMode="single"
-                         selection="#{createBean.selectedTypeProperty}"
+                         selection="#{createBean.selectedTypeProperties}"
                          scrollable="true"
                          rowKey="#{property.id}"
                          scrollHeight="350"
                          scrollWidth="657">
 
-                <p:ajax event="rowSelect" update="-createTypeForm-accordionPanel-metadataTabel,-messages"/>
+                <p:ajax event="rowSelect" update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
+                        listener="#{createBean.onRowSelection()}"/>
 
                 <f:facet name="header">
                     <uib:gridContainer>
                         <uib:gridRow fluid="true">
                             <uib:gridColumn column="12">
                                 <h:outputText styleClass="fl-left" value="Metadata tabel"/>
-                                <p:commandButton id="newSourceSystemButton" value="Add New Line"
+                                <p:commandButton id="newSourceSystemButton"
+                                                 value="Add New Line"
                                                  styleClass="fl-right small blue"
                                                  icon="ui-icon-document"
                                                  update="-mainContent"
                                                  onclick="createMetadataModal.show();return false;"/>
-                                <p:commandButton value="Delete selected"
+                                <p:commandButton id="selectedMetadataDeleteBtn"
+                                                 value="Delete selected"
                                                  action="#{createBean.deleteMetaData()}"
+                                                 disabled="#{createBean.deleteBtnDisabled}"
                                                  update="-createTypeForm-accordionPanel-metadataTabel"
                                                  immediate="true"
                                                  styleClass="fl-right small blue"/>
-                                <p:commandButton value="Update"
+                                <p:commandButton id="selectedMetadataUpdateBtn"
+                                                 value="Update"
                                                  update="-mainContent"
+                                                 disabled="#{createBean.updateBtnDisabled}"
                                                  immediate="true"
                                                  styleClass="fl-right small blue"
                                                  oncomplete="updateMetadataModal.show()"/>
@@ -117,6 +122,8 @@
                         </uib:gridRow>
                     </uib:gridContainer>
                 </f:facet>
+
+                <p:column selectionMode="multiple" style="width:2%"/>
 
                 <p:column headerText="Id">
                     <h:outputText value="#{property.id}"/>
@@ -169,13 +176,15 @@
                     <p:selectBooleanCheckbox disabled="true"
                                              value="#{property.inherited}"/>
                 </p:column>
-                <p:column>
-                    <p:commandButton value="delete" styleClass="custom" icon="ui-icon-close"
-                                     title="Delete" alt="Delete"
-                                     immediate="true"
-                                     action="#{createBean.deleteMetaData(property)}"
-                                     update="-createTypeForm-accordionPanel-metadataTabel,-messages"/>
-                </p:column>
+                <ui:remove>
+                    <p:column>
+                        <p:commandButton value="delete" styleClass="custom" icon="ui-icon-close"
+                                         title="Delete" alt="Delete"
+                                         immediate="true"
+                                         action="#{createBean.deleteMetaData(property)}"
+                                         update="-createTypeForm-accordionPanel-metadataTabel,-messages"/>
+                    </p:column>
+                </ui:remove>
             </p:dataTable>
 
         </p:tab>
