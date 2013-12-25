@@ -93,22 +93,32 @@ public class CreateBean implements Serializable {
     }
 
     public void onRowSelection(){
-        selectedTypeProperties.get(0).setSelected(false);
-        selectedTypeProperty = selectedTypeProperties.get(0);
-        selectedTypeProperty.setSelected(true);
-        updateBtnDisabled = false;
-        if (selectedTypeProperties.size() > 1) {
-            selectedTypeProperty.setSelected(false);
-            selectedTypeProperty = null;
+        if (selectedTypeProperties.size() > 0 && selectedTypeProperties.size() < 2) {
+            for (TypeProperty property : getTypeProperties()){
+                property.setSelected(false);
+            }
+            selectedTypeProperties.get(0).setSelected(true);
+            selectedTypeProperty = selectedTypeProperties.get(0);
+            updateBtnDisabled = false;
+        } else {
+            for (TypeProperty property : selectedTypeProperties){
+                property.setSelected(true);
+            }
             updateBtnDisabled = true;
         }
         deleteBtnDisabled = false;
-        StringBuilder builder = new StringBuilder();
-        for (TypeProperty property : selectedTypeProperties){
-            builder.append(property.getId());
-            builder.append("; ");
+    }
+
+    public void onRowUnSelection(){
+        for (TypeProperty property : getTypeProperties()) {
+            if (!selectedTypeProperties.contains(property)) {
+                property.setSelected(false);
+            }
         }
-        MessageUtils.printInfo("Selected : " + builder.toString());
+        if (selectedTypeProperties.size() > 0 && selectedTypeProperties.size() < 2) {
+            updateBtnDisabled = false;
+            selectedTypeProperty = selectedTypeProperties.get(0);
+        }
     }
 
     public void onRowSelection(TypeProperty property){
@@ -117,20 +127,14 @@ public class CreateBean implements Serializable {
         } else {
             selectedTypeProperties.add(property);
         }
-        selectedTypeProperty = selectedTypeProperties.get(0);
-        updateBtnDisabled = false;
-        if (selectedTypeProperties.size() > 1) {
-            selectedTypeProperty.setSelected(false);
+        if (selectedTypeProperties.size() > 0 && selectedTypeProperties.size() < 2) {
+            selectedTypeProperty = selectedTypeProperties.get(0);
+            updateBtnDisabled = false;
+        } else {
             selectedTypeProperty = null;
             updateBtnDisabled = true;
         }
         deleteBtnDisabled = false;
-        StringBuilder builder = new StringBuilder();
-        for (TypeProperty property1 : selectedTypeProperties){
-            builder.append(property1.getId());
-            builder.append("; ");
-        }
-        MessageUtils.printInfo("Selected : " + builder.toString());
     }
 
     private void setAttributes(UserInfo usrInf) {

@@ -94,6 +94,9 @@
                 <p:ajax event="rowSelect"
                         update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
                         listener="#{createBean.onRowSelection()}"/>
+                <p:ajax event="rowUnselect"
+                        update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
+                        listener="#{createBean.onRowUnSelection()}"/>
 
                 <f:facet name="header">
                     <uib:gridContainer>
@@ -131,7 +134,6 @@
                                 update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
                                 listener="#{createBean.onRowSelection(property)}"/>
                     </p:selectBooleanCheckbox>
-                    <h:outputText id="out" value="#{property.selected}"/>
                 </p:column>
 
                 <p:column headerText="Id">
