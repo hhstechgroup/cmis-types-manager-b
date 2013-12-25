@@ -4,7 +4,6 @@ import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.*;
-import com.engagepoint.utils.StringUtils;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.PropertyType;
@@ -19,7 +18,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @ManagedBean
 @ViewScoped
@@ -67,8 +68,8 @@ public class CreateBean implements Serializable {
     }
 
     public void addNewMetaData() {
-        updateBtnDisabled = false;
-        deleteBtnDisabled = false;
+        updateBtnDisabled = true;
+        deleteBtnDisabled = true;
         getTypeProperties().add(newTypeProperty);
         newTypeProperty = new TypeProperty();
     }
@@ -92,10 +93,12 @@ public class CreateBean implements Serializable {
     }
 
     public void onRowSelection(){
-        if (selectedTypeProperties.size() == 1) {
-            selectedTypeProperty = selectedTypeProperties.get(0);
-            updateBtnDisabled = false;
-        } else {
+        selectedTypeProperties.get(0).setSelected(false);
+        selectedTypeProperty = selectedTypeProperties.get(0);
+        selectedTypeProperty.setSelected(true);
+        updateBtnDisabled = false;
+        if (selectedTypeProperties.size() > 1) {
+            selectedTypeProperty.setSelected(false);
             selectedTypeProperty = null;
             updateBtnDisabled = true;
         }
@@ -103,6 +106,28 @@ public class CreateBean implements Serializable {
         StringBuilder builder = new StringBuilder();
         for (TypeProperty property : selectedTypeProperties){
             builder.append(property.getId());
+            builder.append("; ");
+        }
+        MessageUtils.printInfo("Selected : " + builder.toString());
+    }
+
+    public void onRowSelection(TypeProperty property){
+        if (selectedTypeProperties.contains(property)) {
+            selectedTypeProperties.remove(property);
+        } else {
+            selectedTypeProperties.add(property);
+        }
+        selectedTypeProperty = selectedTypeProperties.get(0);
+        updateBtnDisabled = false;
+        if (selectedTypeProperties.size() > 1) {
+            selectedTypeProperty.setSelected(false);
+            selectedTypeProperty = null;
+            updateBtnDisabled = true;
+        }
+        deleteBtnDisabled = false;
+        StringBuilder builder = new StringBuilder();
+        for (TypeProperty property1 : selectedTypeProperties){
+            builder.append(property1.getId());
             builder.append("; ");
         }
         MessageUtils.printInfo("Selected : " + builder.toString());

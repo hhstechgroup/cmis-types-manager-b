@@ -87,10 +87,12 @@
                          selection="#{createBean.selectedTypeProperties}"
                          scrollable="true"
                          rowKey="#{property.id}"
+                         selectionMode="multiple"
                          scrollHeight="350"
                          scrollWidth="657">
 
-                <p:ajax event="rowSelect" update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
+                <p:ajax event="rowSelect"
+                        update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
                         listener="#{createBean.onRowSelection()}"/>
 
                 <f:facet name="header">
@@ -123,7 +125,14 @@
                     </uib:gridContainer>
                 </f:facet>
 
-                <p:column selectionMode="multiple" style="width:2%"/>
+                <p:column headerText="Check">
+                    <p:selectBooleanCheckbox value="#{property.selected}">
+                        <p:ajax event="change"
+                                update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
+                                listener="#{createBean.onRowSelection(property)}"/>
+                    </p:selectBooleanCheckbox>
+                    <h:outputText id="out" value="#{property.selected}"/>
+                </p:column>
 
                 <p:column headerText="Id">
                     <h:outputText value="#{property.id}"/>
@@ -192,8 +201,8 @@
     <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}"
                      update="-mainContent"
                      styleClass="mt20"/>
-    <p:button id="cancelCreateButton" value="Cancel" actionListener="#{backNavigationBean.goToLastPage()}"
-              styleClass="secondary" outcome="#{backNavigationBean.goToLastPage()}"/>
+    <p:commandButton id="cancelCreateButton" update="-mainContent" value="Cancel" action="#{backNavigationBean.goToLastPage()}"
+              styleClass="secondary" immediate="true"/>
 </h:form>
 
 
@@ -362,7 +371,7 @@
 
         <div class="fl-right">
             <p:commandButton id="updateMetadataButton" value="Update"
-                             update="-mainContent"
+                             update="-createTypeForm-accordionPanel-metadataTabel,-updateMetadataModalDialog"
                              action="#{createBean.updateSelectedMetaData()}" oncomplete="updateMetadataModal.hide()"/>
             <p:commandButton id="cancelUpdateMetadataButton" value="Cancel"
                              update="-mainContent" styleClass="secondary"
