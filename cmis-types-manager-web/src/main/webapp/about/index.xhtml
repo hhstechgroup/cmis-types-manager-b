@@ -5,7 +5,57 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 template="../template.xhtml"
                 xmlns:uib="http://engagepoint.com/uib">
+
     <ui:define name="mainContent">
-        <h:outputText value="Page under constructure"/>
+        <h:form id="repoInfoForm">
+            <p:panel id="repoInfoPanel" header="RepositoryInfo">
+                <h:panelGrid columns="2" cellpadding="5">
+
+                    <h:outputText id="repoName" value="Name :"/>
+                    <h:outputText id="repoNameView" disabled="true" value="#{sessionStateBean.repositoryInfo.name}"/>
+
+                    <h:outputText id="repoId" value="Id :"/>
+                    <h:outputText id="repoIdView" disabled="true" value="#{sessionStateBean.repositoryInfo.id}"/>
+
+                    <h:outputText id="repoDescription" value="Description :"/>
+                    <h:outputText id="repoDescriptionView" disabled="true" value="#{sessionStateBean.repositoryInfo.description}"/>
+
+                    <h:outputText id="repoVendor" value="Vendor Name :"/>
+                    <h:outputText id="repoVendorView" disabled="true" value="#{sessionStateBean.repositoryInfo.vendorName}"/>
+
+                    <h:outputText id="repoProductName" value="Product Name :"/>
+                    <h:outputText id="repoProductNameView" disabled="true" value="#{sessionStateBean.repositoryInfo.productName}"/>
+
+                    <h:outputText id="repoProductVersison" value="Product Versison :"/>
+                    <h:outputText id="repoProductVersisonView" disabled="true" value="#{sessionStateBean.repositoryInfo.productVersion}"/>
+
+                    <h:outputText id="repoVersionSupported" value="Version :"/>
+                    <h:outputText id="repoVersionSupportedView" disabled="true" value="#{sessionStateBean.repositoryInfo.cmisVersionSupported}"/>
+
+                    <h:outputText id="repoRootFolder" value="Root Folder :"/>
+                    <h:outputText id="repoRootFolderView" disabled="true" value="#{sessionStateBean.repositoryInfo.rootFolderId}"/>
+
+                    <h:outputText id="repoLatestChangeLogToken" value="Latest Change Token :"/>
+                    <h:outputText id="repoLatestChangeLogTokenView" disabled="true" value="#{sessionStateBean.repositoryInfo.latestChangeLogToken}"/>
+
+                    <h:outputText id="repoThinClientUri" value="Thin Client Uri :"/>
+                    <h:outputText id="repoThinClientUriView" disabled="true" value="#{sessionStateBean.repositoryInfo.thinClientUri}"/>
+
+                    <h:outputText id="repoPrincipalAnonymous" value="Principal Anonymous :"/>
+                    <h:outputText id="repoPrincipalAnonymousView" disabled="true" value="#{sessionStateBean.repositoryInfo.principalIdAnonymous}"/>
+
+                    <h:outputText id="repoPrincipalAnyone" value="Principal Anyone :"/>
+                    <h:outputText id="repoPrincipalAnyoneView" disabled="true" value="#{sessionStateBean.repositoryInfo.principalIdAnyone}"/>
+
+                    <h:outputText id="repoChangesIncomplete" value="Changes Incomplete:"/>
+                    <p:selectBooleanCheckbox id="repoChangesIncompleteView" disabled="true"
+                                             value="#{sessionStateBean.repositoryInfo.changesIncomplete}"/>
+
+                    <h:outputText id="repoChangesOnType" value="Changes On Type :"/>
+                    <h:outputText id="repoChangesOnTypeView" disabled="true" value="#{sessionStateBean.repositoryInfo.changesOnType.toString()}"/>
+
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>

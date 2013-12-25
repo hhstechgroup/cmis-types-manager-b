@@ -10,8 +10,8 @@ import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
+import com.engagepoint.utils.CustomStringUtils;
 import com.engagepoint.utils.MessageUtils;
-import com.engagepoint.utils.StringUtils;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public class ExportTypeBean {
     public void exportType() {
         String selectedTypeId = sessionStateBean.getTypeProxy().getId();
         String message;
-        if (StringUtils.isEmpty(selectedTypeId)) {
+        if (CustomStringUtils.isEmpty(selectedTypeId)) {
             message = Constants.Messages.SELECTED_TYPE_NOT_EMPTY;
             MessageUtils.printError(message);
             LOGGER.error(message);
@@ -73,10 +73,10 @@ public class ExportTypeBean {
                 OutputStream responseOutputStream = externalContext.getResponseOutputStream();
                 if(xmlOrJson){
                     externalContext.setResponseContentType("application/xml");
-                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".xml", Constants.Strings.QUOTE));
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".xml", Constants.Strings.QUOTE));
                 } else {
                     externalContext.setResponseContentType("application/json");
-                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, StringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".json", Constants.Strings.QUOTE));
+                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, ".json", Constants.Strings.QUOTE));
                 }
                 responseOutputStream.write(arr);
                 IOUtils.closeQuietly(responseOutputStream);

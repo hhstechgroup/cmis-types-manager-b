@@ -25,7 +25,10 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User: AlexDenisenko
@@ -293,6 +296,11 @@ public class CmisService {
         }
         typeProxy.setChildren(children);
         return typeProxy;
+    }
+
+    public RepositoryInfoImpl getRepositoryInfo(UserInfo userInfo) throws CmisException {
+        Session session = getSession(userInfo);
+        return new RepositoryInfoImpl(session.getRepositoryInfo());
     }
 
 
