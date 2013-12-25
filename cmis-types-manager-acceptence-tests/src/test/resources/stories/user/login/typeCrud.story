@@ -2,7 +2,7 @@ Scenario: authentification scenario
 When the user opens the default page
 When the user fills 'loginForm-login' field with 'test'
 When the user fills 'loginForm-password' field with 'test'
-When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory-0.10.0/atom11' using baseUrl
+When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory/atom11' using baseUrl
 When clicks on element with id/name/className 'loginBut'
 Then wait for element 'treeForm' is visible
 
