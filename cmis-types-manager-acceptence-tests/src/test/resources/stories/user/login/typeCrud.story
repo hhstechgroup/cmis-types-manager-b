@@ -2,7 +2,7 @@ Scenario: authentification scenario
 When the user opens the default page
 When the user fills 'loginForm-login' field with 'test'
 When the user fills 'loginForm-password' field with 'test'
-When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory-0.10.0/atom11' using baseUrl
+When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory/atom11' using baseUrl
 When clicks on element with id/name/className 'loginBut'
 Then wait for element 'treeForm' is visible
 
@@ -48,18 +48,6 @@ When the user fills 'createMetadataModalForm-newMetaDataDescription' field with 
 When clicks on element with id/name/className 'createMetadataModalForm-createMetadataButton'
 Then wait for element 'createMetadataModalDialog' is not visible
 Then wait for element 'createTypeForm-accordionPanel-metadataTabel_data' is visible
-When the user clicks on element with xpathOrCss '//tbody[@id="createTypeForm-accordionPanel-metadataTabel_data"]/tr[@class="ui-widget-content ui-datatable-even"]'
-When the user clicks on element with id/name/className 'selectedMetadataUpdateBtn'
-When the user fills 'updateMetadataModalForm-newMetaDataIdUpdate' field with 'met2'
-When the user fills 'updateMetadataModalForm-newMetaDataNameUpdate' field with 'met2'
-When the user fills 'updateMetadataModalForm-newMetaDataLocalNameUpdate' field with 'met2'
-When the user fills 'updateMetadataModalForm-newMetaDataQueryNameUpdate' field with 'met2'
-When the user fills 'updateMetadataModalForm-newMetaDataLocalNamespaceUpdate' field with 'met2'
-When the user fills 'updateMetadataModalForm-newMetaDataDescriptionUpdate' field with 'met2'
-When clicks on element with id/name/className 'updateMetadataModalForm-updateMetadataButton'
-Then wait for element 'updateMetadataModalDialog' is not visible
-When the user clicks on element with xpathOrCss '//tbody[@id="createTypeForm-accordionPanel-metadataTabel_data"]/tr[@class="ui-widget-content ui-datatable-even"]'
-When the user clicks on element with id/name/className 'selectedMetadataDeleteBtn'
 When the user clicks on element with id/name/className 'createTypeForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
