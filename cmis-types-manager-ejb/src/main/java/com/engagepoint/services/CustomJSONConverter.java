@@ -496,11 +496,31 @@ public final class CustomJSONConverter {
     }
 
     @SuppressWarnings("unchecked")
-    public static TypeDefinition convertTypeDefinition(final Map<String, Object> json) {
-        if (json == null) {
+    public static List<TypeDefinition> convertTypeDefinition(final Map<String, Object> jsonRaw) {
+        if (jsonRaw == null) {
             return null;
         }
 
+        List<TypeDefinition> typeDefinitionList = new LinkedList<TypeDefinition>();
+
+        Map<String, Object> json = null;
+        if (getString(jsonRaw, JSON_TYPE_ID) != null) {
+            TypeDefinition typeDefinitionOne = convertOneTypeDefinition(jsonRaw);
+            typeDefinitionList.add(typeDefinitionOne);
+        } else {
+            List<Object> listObject = new LinkedList<Object>(jsonRaw.values());
+            int sizeOfListObject = listObject.size();
+            for (Object o : listObject) {
+                json = getMap(o);
+                TypeDefinition typeDefinitionOne = convertOneTypeDefinition(json);
+                typeDefinitionList.add(typeDefinitionOne);
+            }
+        }
+
+        return typeDefinitionList;
+    }
+
+    private static TypeDefinition convertOneTypeDefinition(final Map<String, Object> json){
         AbstractTypeDefinition result = null;
 
         String id = getString(json, JSON_TYPE_ID);
@@ -1581,7 +1601,8 @@ public final class CustomJSONConverter {
     /**
      * Converts choices.
      */
-    private static <T> JSONArray convertChoices(final List<Choice<T>> choices, final Cardinality cardinality) {
+    private static <T> JSONArray convertChoices(final List<? extends Choice<?>> choices, final Cardinality cardinality) {
+        //convertChoices(final List<Choice<T>> choices, final Cardinality cardinality) {
         if (choices == null) {
             return null;
         }
@@ -1607,6 +1628,7 @@ public final class CustomJSONConverter {
 
             if (choice.getChoice() != null && !choice.getChoice().isEmpty()) {
                 jsonChoice.put(JSON_PROPERTY_TYPE_CHOICE_CHOICE, convertChoices(choice.getChoice(), cardinality));
+                //jsonChoice.put(JSON_PROPERTY_TYPE_CHOICE_CHOICE, convertChoices(choice.getChoice(), cardinality));
             }
 
             result.add(jsonChoice);
@@ -1643,9 +1665,9 @@ public final class CustomJSONConverter {
         return result;
     }
 
-    /**
+   /* *//**
      * Converts a type definition list.
-     */
+     *//*
     @SuppressWarnings({"rawtypes", "unchecked"})
     public static TypeDefinitionList convertTypeChildren(final Map<String, Object> json) {
         if (json == null) {
@@ -1672,7 +1694,7 @@ public final class CustomJSONConverter {
         convertExtension(json, result, TYPESLIST_KEYS);
 
         return result;
-    }
+    }*/
 
     /**
      * Converts a type definition container.
@@ -1701,7 +1723,7 @@ public final class CustomJSONConverter {
 
     /**
      * Converts a type definition list.
-     */
+     *//*
     @SuppressWarnings({"unchecked"})
     public static List<TypeDefinitionContainer> convertTypeDescendants(final List<Object> json) {
         if (json == null) {
@@ -1735,7 +1757,7 @@ public final class CustomJSONConverter {
         }
 
         return result;
-    }
+    }*/
 
     /**
      * Converts an object.
