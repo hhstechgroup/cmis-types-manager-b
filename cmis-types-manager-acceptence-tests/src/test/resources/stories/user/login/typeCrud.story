@@ -123,7 +123,7 @@ When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText
 When the user clicks on element with id/name/className 'ImportExportForm-import'
 When the user clicks on element with id/name/className 'importForm-importFileUpload_input'
 When the user uploads the fileName/filePath 'rel1.xml' to field with 'importForm'
-Then wait for '10' sec
+Then wait for '6' sec
 When the user clicks on element with id/name/className 'importForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user opens all tree with className 'ui-icon-triangle-1-e'
@@ -152,10 +152,12 @@ When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText
 When the user clicks on element with id/name/className 'ImportExportForm-import'
 When the user clicks on element with id/name/className 'importForm-importFileUpload_input'
 When the user uploads the fileName/filePath 'rel1.json' to field with 'importForm'
-Then wait for timeout
+Then wait for '6' sec
 When the user clicks on element with id/name/className 'importForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user opens all tree with className 'ui-icon-triangle-1-e'
+When the user opens all tree with className 'ui-icon-triangle-1-e'
+Then wait for '10' sec
 
 Scenario: logout scenario
 When clicks on element with id/name/className 'logoutForm-logoutBtn'
