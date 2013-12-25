@@ -242,12 +242,13 @@
 
 #viewForm-selectedTypeOutInfo {
     color: slategray;
-    font-size: 24px;
     cursor: default;
     text-transform: uppercase;
     font-weight: bold;
     line-height: 34px;
-    margin-left: 100px;
+    font-size: 20px;
+    margin: 0;
+    float: right;
 }
 
 #updateMetadataModalForm-createMetadataButton {

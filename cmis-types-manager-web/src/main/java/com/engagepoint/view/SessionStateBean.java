@@ -1,6 +1,7 @@
 package com.engagepoint.view;
 
 import com.engagepoint.services.TypeProxy;
+import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @SessionScoped
 public class SessionStateBean implements Serializable {
     private TypeProxy typeProxy;
+    private RepositoryInfo repositoryInfo;
 
     public TypeProxy getTypeProxy() {
         return typeProxy;
@@ -22,5 +24,17 @@ public class SessionStateBean implements Serializable {
 
     public void setTypeProxy(TypeProxy typeProxy) {
         this.typeProxy = typeProxy;
+    }
+
+    public RepositoryInfo getRepositoryInfo() {
+        return repositoryInfo;
+    }
+
+    public void setRepositoryInfo(RepositoryInfo repositoryInfo) {
+        this.repositoryInfo = repositoryInfo;
+    }
+
+    public void destroyReposytoryInfo(){
+        repositoryInfo = null;
     }
 }

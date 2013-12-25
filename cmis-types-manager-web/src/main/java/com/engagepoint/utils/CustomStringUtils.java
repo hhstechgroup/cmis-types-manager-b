@@ -6,7 +6,7 @@ package com.engagepoint.utils;
  * Time: 4:09 PM
  */
 
-public class StringUtils extends org.apache.commons.lang.StringUtils{
+public class CustomStringUtils extends org.apache.commons.lang.StringUtils{
 
     public static String concatenate(String...strings){
         StringBuilder builder = new StringBuilder();
