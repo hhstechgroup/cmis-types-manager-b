@@ -34,8 +34,7 @@ public class CustomXMLConverter {
     private static final XMLWalker<List<AbstractTypeDefinition>> TYPE_TREE_DEF_PARSER = new XMLWalker<List<AbstractTypeDefinition>>() {
         @Override
         protected List<AbstractTypeDefinition> prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            List<AbstractTypeDefinition> result = new ArrayList<AbstractTypeDefinition>();
-            return result;
+            return new ArrayList<AbstractTypeDefinition>();
         }
 
         @Override
@@ -1045,7 +1044,7 @@ public class CustomXMLConverter {
             return false;
         }
 
-    };
+    }
 
     private abstract static class PropertyStringXMLWalker<T extends AbstractPropertyData<String>> extends
             PropertyXMLWalker<T> {

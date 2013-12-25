@@ -170,10 +170,9 @@ public class CustomTypeUtils {
         }
         XMLStreamReader parser = XMLUtils.createParser(stream);
         if (!XMLUtils.findNextStartElemenet(parser)) {
-            return null;
+            throw new IllegalArgumentException("Can't find next start element");
         }
-        List<AbstractTypeDefinition> definitionList = CustomXMLConverter.convertTypeDefinitionFromTree(parser);
-        return definitionList;
+        return CustomXMLConverter.convertTypeDefinitionFromTree(parser);
     }
 
     public static List<TypeDefinition> readFromJSON(InputStream stream) throws IOException, JSONParseException {
