@@ -31,8 +31,25 @@ When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'm
 When the user fills 'createMetadataModalForm-newMetaDataQueryName' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataLocalNamespace' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataDescription' field with 'met1'
+When the user clicks on element with id/name/className 'selectCheckboxQuarylable'
+When the user clicks on element with id/name/className 'selectCheckboxOrderable'
+When the user clicks on element with id/name/className 'selectCheckboxRequeried'
+When the user clicks on element with id/name/className 'selectCheckboxInheried'
 When clicks on element with id/name/className 'createMetadataModalForm-createMetadataButton'
 Then wait for element 'createMetadataModalDialog' is not visible
+Then wait for element 'createTypeForm-accordionPanel-metadataTabel_data' is visible
+When the user clicks on element with xpathOrCss '//tbody[@id="createTypeForm-accordionPanel-metadataTabel_data"]/tr[@class="ui-widget-content ui-datatable-even"]'
+When the user clicks on element with id/name/className 'selectedMetadataUpdateBtn'
+When the user fills 'updateMetadataModalForm-newMetaDataIdUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataNameUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataLocalNameUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataQueryNameUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataLocalNamespaceUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataDescriptionUpdate' field with 'met2'
+When clicks on element with id/name/className 'updateMetadataModalForm-updateMetadataButton'
+Then wait for element 'updateMetadataModalDialog' is not visible
+When the user clicks on element with xpathOrCss '//tbody[@id="createTypeForm-accordionPanel-metadataTabel_data"]/tr[@class="ui-widget-content ui-datatable-even"]'
+When the user clicks on element with id/name/className 'selectedMetadataDeleteBtn'
 When the user clicks on element with id/name/className 'createTypeForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
