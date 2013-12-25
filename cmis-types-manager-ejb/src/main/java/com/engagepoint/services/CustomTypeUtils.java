@@ -7,7 +7,6 @@ import org.apache.chemistry.opencmis.commons.definitions.*;
 import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
 import org.apache.chemistry.opencmis.commons.enums.CmisVersion;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
-import org.apache.chemistry.opencmis.commons.impl.JSONConverter;
 import org.apache.chemistry.opencmis.commons.impl.XMLConstants;
 import org.apache.chemistry.opencmis.commons.impl.XMLConverter;
 import org.apache.chemistry.opencmis.commons.impl.XMLUtils;
@@ -177,7 +176,7 @@ public class CustomTypeUtils {
         return definitionList;
     }
 
-    public static TypeDefinition readFromJSON(InputStream stream) throws IOException, JSONParseException {
+    public static List<TypeDefinition> readFromJSON(InputStream stream) throws IOException, JSONParseException {
         if (stream == null) {
             throw new IllegalArgumentException("Input stream must be set!");
         }
@@ -189,7 +188,7 @@ public class CustomTypeUtils {
             throw new CmisRuntimeException("Invalid stream! Not a type definition!");
         }
 
-        return JSONConverter.convertTypeDefinition((Map<String, Object>) json);
+        return CustomJSONConverter.convertTypeDefinition((Map<String, Object>) json);
     }
 
     public static void writeToJSON(Session session, TypeDefinition type, OutputStream stream,
