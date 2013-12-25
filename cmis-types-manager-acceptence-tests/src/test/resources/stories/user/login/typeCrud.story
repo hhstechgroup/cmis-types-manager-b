@@ -16,14 +16,8 @@ When the user fills 'inputTextView2' field with 'rel1'
 When the user fills 'inputTextView3' field with 'rel1'
 When the user fills 'inputTextView4' field with 'rel1'
 When the user fills 'inputTextView5' field with 'rel1'
-When the user clicks on element with id/name/className 'selectCheckboxCreatabel'
-When the user clicks on element with id/name/className 'selectCheckboxFileable'
-When the user clicks on element with id/name/className 'selectCheckboxQueryable'
-When the user clicks on element with id/name/className 'selectCheckboxIst'
-When the user clicks on element with id/name/className 'selectCheckboxFti'
-When the user clicks on element with id/name/className 'selectCheckboxACL'
-When the user clicks on element with id/name/className 'selectCheckboxPC'
-
+When make 'createTypeForm-accordionPanel-selectCheckboxFileable' checked
+When make 'createTypeForm-accordionPanel-selectCheckboxFti' checked
 When the user clicks on element with className 'ui-icon-triangle-1-e' with text 'Metadata'
 When the user clicks on element with id/name/className 'newSourceSystemButton'
 When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met1'
@@ -32,22 +26,30 @@ When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'm
 When the user fills 'createMetadataModalForm-newMetaDataQueryName' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataLocalNamespace' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataDescription' field with 'met1'
-When the user clicks on element with id/name/className 'selectCheckboxQuarylable'
-When the user clicks on element with id/name/className 'selectCheckboxOrderable'
-When the user clicks on element with id/name/className 'selectCheckboxRequeried'
-When the user clicks on element with id/name/className 'selectCheckboxInheried'
+When make 'selectCheckboxQuarylable' checked
+When make 'selectCheckboxOrderable' checked
+When make 'selectCheckboxRequeried' checked
+When make 'selectCheckboxInheried' checked
 When clicks on element with id/name/className 'createMetadataModalForm-createMetadataButton'
-When the user clicks on element with className 'ui-icon-triangle-1-e' with text 'Metadata'
-When the user clicks on element with id/name/className 'newSourceSystemButton'
-When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met2'
-When the user fills 'createMetadataModalForm-newMetaDataName' field with 'met2'
-When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'met2'
-When the user fills 'createMetadataModalForm-newMetaDataQueryName' field with 'met2'
-When the user fills 'createMetadataModalForm-newMetaDataLocalNamespace' field with 'met2'
-When the user fills 'createMetadataModalForm-newMetaDataDescription' field with 'met2'
-When clicks on element with id/name/className 'createMetadataModalForm-createMetadataButton'
-Then wait for element 'createMetadataModalDialog' is not visible
 Then wait for element 'createTypeForm-accordionPanel-metadataTabel_data' is visible
+When make 'createTypeForm-accordionPanel-metadataTabel-0-j_idt28' checked
+When the user clicks on element with id/name/className 'selectedMetadataUpdateBtn'
+When the user fills 'updateMetadataModalForm-newMetaDataIdUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataNameUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataLocalNameUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataQueryNameUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataLocalNamespaceUpdate' field with 'met2'
+When the user fills 'updateMetadataModalForm-newMetaDataDescriptionUpdate' field with 'met2'
+When clicks on element with id/name/className 'updateMetadataModalForm-updateMetadataButton'
+Then wait for element 'updateMetadataModalDialog' is not visible
+When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met'
+When the user fills 'createMetadataModalForm-newMetaDataName' field with 'met'
+When clicks on element with id/name/className 'createMetadataModalForm-createMetadataButton'
+Then wait for element 'createTypeForm-accordionPanel-metadataTabel_data' is visible
+When make 'createTypeForm-accordionPanel-metadataTabel-0-j_idt28' unchecked
+When make 'createTypeForm-accordionPanel-metadataTabel-1-j_idt28' checked
+When the user clicks on element with id/name/className 'selectedMetadataDeleteBtn'
 When the user clicks on element with id/name/className 'createTypeForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
@@ -74,13 +76,6 @@ When the user fills 'inputTextView2' field with 'rel11'
 When the user fills 'inputTextView3' field with 'rel11'
 When the user fills 'inputTextView4' field with 'rel11'
 When the user fills 'inputTextView5' field with 'rel11'
-When the user clicks on element with id/name/className 'selectCheckboxCreatabel'
-When the user clicks on element with id/name/className 'selectCheckboxFileable'
-When the user clicks on element with id/name/className 'selectCheckboxQueryable'
-When the user clicks on element with id/name/className 'selectCheckboxIst'
-When the user clicks on element with id/name/className 'selectCheckboxFti'
-When the user clicks on element with id/name/className 'selectCheckboxACL'
-When the user clicks on element with id/name/className 'selectCheckboxPC'
 When clicks on element with id/name/className 'createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
@@ -98,13 +93,6 @@ When the user fills 'inputTextView2' field with 'rel12'
 When the user fills 'inputTextView3' field with 'rel12'
 When the user fills 'inputTextView4' field with 'rel12'
 When the user fills 'inputTextView5' field with 'rel12'
-When the user clicks on element with id/name/className 'selectCheckboxCreatabel'
-When the user clicks on element with id/name/className 'selectCheckboxFileable'
-When the user clicks on element with id/name/className 'selectCheckboxQueryable'
-When the user clicks on element with id/name/className 'selectCheckboxIst'
-When the user clicks on element with id/name/className 'selectCheckboxFti'
-When the user clicks on element with id/name/className 'selectCheckboxACL'
-When the user clicks on element with id/name/className 'selectCheckboxPC'
 When clicks on element with id/name/className 'createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
@@ -135,7 +123,7 @@ When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText
 When the user clicks on element with id/name/className 'ImportExportForm-import'
 When the user clicks on element with id/name/className 'importForm-importFileUpload_input'
 When the user uploads the fileName/filePath 'rel1.xml' to field with 'importForm'
-Then wait for timeout
+Then wait for '10' sec
 When the user clicks on element with id/name/className 'importForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
 When the user opens all tree with className 'ui-icon-triangle-1-e'

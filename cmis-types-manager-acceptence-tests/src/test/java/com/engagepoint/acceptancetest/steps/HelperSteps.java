@@ -184,9 +184,9 @@ public class HelperSteps extends ScenarioSteps {
         assertThat(lastDownloadedFile.length() > 0, is(equalTo(true)));
     }
 
-    @Then("wait for timeout")
-    public void waitForTimeout() {
-        uIBootstrapBasePage.waitFor(5).seconds();
+    @Then("wait for '$timeout' sec")
+    public void waitForTimeout(int timeout){
+        uIBootstrapBasePage.waitFor(timeout).seconds();
     }
 
 }
