@@ -55,8 +55,25 @@
             <type>ear</type>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0-beta-3</version>
+                <configuration>
+                    <generateReports>true</generateReports>
+                    <reportPlugins>
+                        <plugin>
+                            <groupId>net.thucydides.maven.plugins</groupId>
+                            <artifactId>maven-thucydides-plugin</artifactId>
+                            <version>${thucydides.version}</version>
+                        </plugin>
+                    </reportPlugins>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -85,6 +102,7 @@
                     <systemPropertyVariables>
                         <webdriver.driver>${webdriver.driver}</webdriver.driver>
                         <maven.test.failure.ignore>true</maven.test.failure.ignore>
+                        <buildDirectory>${project.build.directory}/site</buildDirectory>
                     </systemPropertyVariables>
                 </configuration>
                 <executions>
