@@ -47,6 +47,7 @@ public class LoginBean implements Serializable {
                 sessionID = String.valueOf(Math.random() * 1000);
                 HttpSession httpSession = getHttpSession();
                 httpSession.setAttribute(Constants.Strings.SESSION_ID_DISPLAY_NAME, sessionID);
+                loadRepositoryInfo();
                 loggedIn = true;
                 return Constants.Navigation.TO_MAIN_PAGE;
             } else {
@@ -64,6 +65,7 @@ public class LoginBean implements Serializable {
     }
 
     public String logout() {
+        destroyRepositoryInfo();
         loggedIn = false;
         userInfo.reset();
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
@@ -127,5 +129,17 @@ public class LoginBean implements Serializable {
 
     private boolean isValid() throws CmisException {
         return service.isUserExists(userInfo);
+    }
+
+    private void loadRepositoryInfo(){
+        try {
+            sessionStateBean.setRepositoryInfo(service.getRepositoryInfo(userInfo));
+        } catch (CmisException e) {
+            LOGGER.error(e.getMessage(), e);
+        }
+    }
+
+    private void destroyRepositoryInfo(){
+        sessionStateBean.destroyReposytoryInfo();
     }
 }
