@@ -67,8 +67,8 @@ public class CreateBean implements Serializable {
     }
 
     public void addNewMetaData() {
-        updateBtnDisabled = false;
-        deleteBtnDisabled = false;
+        updateBtnDisabled = true;
+        deleteBtnDisabled = true;
         getTypeProperties().add(newTypeProperty);
         newTypeProperty = new TypeProperty();
     }
@@ -106,6 +106,17 @@ public class CreateBean implements Serializable {
             builder.append("; ");
         }
         MessageUtils.printInfo("Selected : " + builder.toString());
+    }
+
+    public void onRowSelection(TypeProperty property){
+        if (selectedTypeProperties.contains(property)) {
+            property.setSelected(false);
+            selectedTypeProperties.remove(property);
+        } else {
+            property.setSelected(true);
+            selectedTypeProperties.add(property);
+        }
+        onRowSelection();
     }
 
     private void setAttributes(UserInfo usrInf) {
