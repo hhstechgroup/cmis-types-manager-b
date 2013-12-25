@@ -38,7 +38,7 @@ public class CmisService {
     @EJB
     private CmisConnection connection;
 
-    //  TODO rename this method
+
     public List<TypeProxy> getTypeInfo(UserInfo userInfo) throws CmisException {
         Session session = getSession(userInfo);
         List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
@@ -158,9 +158,9 @@ public class CmisService {
         try {
             Session session = getSession(userInfo);
             try {
-                List<AbstractTypeDefinition> typeDefinition = CustomTypeUtils.readFromJSON(stream);
+                List<TypeDefinition> typeDefinition = CustomTypeUtils.readFromJSON(stream);
                 if (typeDefinition != null) {
-                    for (AbstractTypeDefinition definition : typeDefinition) {
+                    for (TypeDefinition definition : typeDefinition) {
                         if (!definition.getId().equals(definition.getBaseTypeId().value()))
                             session.createType(definition);
                     }

@@ -176,7 +176,7 @@ public class CustomTypeUtils {
         return definitionList;
     }
 
-    public static List<AbstractTypeDefinition> readFromJSON(InputStream stream) throws IOException, JSONParseException {
+    public static List<TypeDefinition> readFromJSON(InputStream stream) throws IOException, JSONParseException {
         if (stream == null) {
             throw new IllegalArgumentException("Input stream must be set!");
         }

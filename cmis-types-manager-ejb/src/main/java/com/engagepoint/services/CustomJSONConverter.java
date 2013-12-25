@@ -496,17 +496,34 @@ public final class CustomJSONConverter {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<AbstractTypeDefinition> convertTypeDefinition(final Map<String, Object> json) {
-        if (json == null) {
+    public static List<TypeDefinition> convertTypeDefinition(final Map<String, Object> jsonRaw) {
+        if (jsonRaw == null) {
             return null;
         }
-        int sizeOfJsonMap = json.size();
-        List<AbstractTypeDefinition> result = new LinkedList<AbstractTypeDefinition>();
 
-        for(int i=0; i<sizeOfJsonMap; i++){
-        AbstractTypeDefinition typeJ = null;
+        List<TypeDefinition> typeDefinitionList = new LinkedList<TypeDefinition>();
 
-        String id = getString(json, i, JSON_TYPE_ID);
+        Map<String, Object> json = null;
+        if (getString(jsonRaw, JSON_TYPE_ID) != null) {
+            TypeDefinition typeDefinitionOne = convertOneTypeDefinition(jsonRaw);
+            typeDefinitionList.add(typeDefinitionOne);
+        } else {
+            List<Object> listObject = new LinkedList<Object>(jsonRaw.values());
+            int sizeOfListObject = listObject.size();
+            for (Object o : listObject) {
+                json = getMap(o);
+                TypeDefinition typeDefinitionOne = convertOneTypeDefinition(json);
+                typeDefinitionList.add(typeDefinitionOne);
+            }
+        }
+
+        return typeDefinitionList;
+    }
+
+    private static TypeDefinition convertOneTypeDefinition(final Map<String, Object> json){
+        AbstractTypeDefinition result = null;
+
+        String id = getString(json, JSON_TYPE_ID);
 
         // find base type
         BaseTypeId baseType = getEnum(json, JSON_TYPE_BASE_ID, BaseTypeId.class);
@@ -516,18 +533,18 @@ public final class CustomJSONConverter {
 
         switch (baseType) {
             case CMIS_FOLDER:
-                typeJ = new FolderTypeDefinitionImpl();
+                result = new FolderTypeDefinitionImpl();
                 break;
             case CMIS_DOCUMENT:
-                typeJ = new DocumentTypeDefinitionImpl();
+                result = new DocumentTypeDefinitionImpl();
 
-                ((DocumentTypeDefinitionImpl) typeJ).setContentStreamAllowed(getEnum(json,
+                ((DocumentTypeDefinitionImpl) result).setContentStreamAllowed(getEnum(json,
                         JSON_TYPE_CONTENTSTREAM_ALLOWED, ContentStreamAllowed.class));
-                ((DocumentTypeDefinitionImpl) typeJ).setIsVersionable(getBoolean(json, JSON_TYPE_VERSIONABLE));
+                ((DocumentTypeDefinitionImpl) result).setIsVersionable(getBoolean(json, JSON_TYPE_VERSIONABLE));
 
                 break;
             case CMIS_RELATIONSHIP:
-                typeJ = new RelationshipTypeDefinitionImpl();
+                result = new RelationshipTypeDefinitionImpl();
 
                 Object allowedSourceTypes = json.get(JSON_TYPE_ALLOWED_SOURCE_TYPES);
                 if (allowedSourceTypes instanceof List) {
@@ -538,7 +555,7 @@ public final class CustomJSONConverter {
                         }
                     }
 
-                    ((RelationshipTypeDefinitionImpl) typeJ).setAllowedSourceTypes(types);
+                    ((RelationshipTypeDefinitionImpl) result).setAllowedSourceTypes(types);
                 }
 
                 Object allowedTargetTypes = json.get(JSON_TYPE_ALLOWED_TARGET_TYPES);
@@ -550,38 +567,38 @@ public final class CustomJSONConverter {
                         }
                     }
 
-                    ((RelationshipTypeDefinitionImpl) typeJ).setAllowedTargetTypes(types);
+                    ((RelationshipTypeDefinitionImpl) result).setAllowedTargetTypes(types);
                 }
 
                 break;
             case CMIS_POLICY:
-                typeJ = new PolicyTypeDefinitionImpl();
+                result = new PolicyTypeDefinitionImpl();
                 break;
             case CMIS_ITEM:
-                typeJ = new ItemTypeDefinitionImpl();
+                result = new ItemTypeDefinitionImpl();
                 break;
             case CMIS_SECONDARY:
-                typeJ = new SecondaryTypeDefinitionImpl();
+                result = new SecondaryTypeDefinitionImpl();
                 break;
             default:
                 throw new CmisRuntimeException("Type '" + id + "' does not match a base type!");
         }
 
-        typeJ.setBaseTypeId(baseType);
-        typeJ.setDescription(getString(json, JSON_TYPE_DESCRIPTION));
-        typeJ.setDisplayName(getString(json, JSON_TYPE_DISPLAYNAME));
-        typeJ.setId(id);
-        typeJ.setIsControllableAcl(getBoolean(json, JSON_TYPE_CONTROLABLE_ACL));
-        typeJ.setIsControllablePolicy(getBoolean(json, JSON_TYPE_CONTROLABLE_POLICY));
-        typeJ.setIsCreatable(getBoolean(json, JSON_TYPE_CREATABLE));
-        typeJ.setIsFileable(getBoolean(json, JSON_TYPE_FILEABLE));
-        typeJ.setIsFulltextIndexed(getBoolean(json, JSON_TYPE_FULLTEXT_INDEXED));
-        typeJ.setIsIncludedInSupertypeQuery(getBoolean(json, JSON_TYPE_INCLUDE_IN_SUPERTYPE_QUERY));
-        typeJ.setIsQueryable(getBoolean(json, JSON_TYPE_QUERYABLE));
-        typeJ.setLocalName(getString(json, JSON_TYPE_LOCALNAME));
-        typeJ.setLocalNamespace(getString(json, JSON_TYPE_LOCALNAMESPACE));
-        typeJ.setParentTypeId(getString(json, JSON_TYPE_PARENT_ID));
-        typeJ.setQueryName(getString(json, JSON_TYPE_QUERYNAME));
+        result.setBaseTypeId(baseType);
+        result.setDescription(getString(json, JSON_TYPE_DESCRIPTION));
+        result.setDisplayName(getString(json, JSON_TYPE_DISPLAYNAME));
+        result.setId(id);
+        result.setIsControllableAcl(getBoolean(json, JSON_TYPE_CONTROLABLE_ACL));
+        result.setIsControllablePolicy(getBoolean(json, JSON_TYPE_CONTROLABLE_POLICY));
+        result.setIsCreatable(getBoolean(json, JSON_TYPE_CREATABLE));
+        result.setIsFileable(getBoolean(json, JSON_TYPE_FILEABLE));
+        result.setIsFulltextIndexed(getBoolean(json, JSON_TYPE_FULLTEXT_INDEXED));
+        result.setIsIncludedInSupertypeQuery(getBoolean(json, JSON_TYPE_INCLUDE_IN_SUPERTYPE_QUERY));
+        result.setIsQueryable(getBoolean(json, JSON_TYPE_QUERYABLE));
+        result.setLocalName(getString(json, JSON_TYPE_LOCALNAME));
+        result.setLocalNamespace(getString(json, JSON_TYPE_LOCALNAMESPACE));
+        result.setParentTypeId(getString(json, JSON_TYPE_PARENT_ID));
+        result.setQueryName(getString(json, JSON_TYPE_QUERYNAME));
 
         Map<String, Object> typeMutabilityJson = getMap(json.get(JSON_TYPE_TYPE_MUTABILITY));
         if (typeMutabilityJson != null) {
@@ -593,21 +610,18 @@ public final class CustomJSONConverter {
 
             convertExtension(typeMutabilityJson, typeMutability, JSON_TYPE_TYPE_MUTABILITY_KEYS);
 
-            typeJ.setTypeMutability(typeMutability);
+            result.setTypeMutability(typeMutability);
         }
 
         Map<String, Object> propertyDefinitions = getMap(json.get(JSON_TYPE_PROPERTY_DEFINITIONS));
         if (propertyDefinitions != null) {
             for (Object propDef : propertyDefinitions.values()) {
-                typeJ.addPropertyDefinition(convertPropertyDefinition(getMap(propDef)));
+                result.addPropertyDefinition(convertPropertyDefinition(getMap(propDef)));
             }
         }
 
         // handle extensions
-        convertExtension(json, typeJ, TYPE_KEYS);
-            result.add(typeJ);
-
-        }
+        convertExtension(json, result, TYPE_KEYS);
 
         return result;
     }
@@ -1588,7 +1602,6 @@ public final class CustomJSONConverter {
      * Converts choices.
      */
     private static <T> JSONArray convertChoices(final List<? extends Choice<?>> choices, final Cardinality cardinality) {
-        //todo check is it right
         //convertChoices(final List<Choice<T>> choices, final Cardinality cardinality) {
         if (choices == null) {
             return null;
@@ -1652,12 +1665,11 @@ public final class CustomJSONConverter {
         return result;
     }
 
-    /**
+   /* *//**
      * Converts a type definition list.
-     */
+     *//*
     @SuppressWarnings({"rawtypes", "unchecked"})
-    //todo resolve this method
-    /*public static TypeDefinitionList convertTypeChildren(final Map<String, Object> json) {
+    public static TypeDefinitionList convertTypeChildren(final Map<String, Object> json) {
         if (json == null) {
             return null;
         }
@@ -1711,10 +1723,9 @@ public final class CustomJSONConverter {
 
     /**
      * Converts a type definition list.
-     */
+     *//*
     @SuppressWarnings({"unchecked"})
-    //todo resolve this method
-    /*public static List<TypeDefinitionContainer> convertTypeDescendants(final List<Object> json) {
+    public static List<TypeDefinitionContainer> convertTypeDescendants(final List<Object> json) {
         if (json == null) {
             return null;
         }
@@ -2839,15 +2850,6 @@ public final class CustomJSONConverter {
 
     public static String getString(final Map<String, Object> json, final String key) {
         Object obj = json.get(key);
-        return obj == null ? null : obj.toString();
-    }
-    public static String getString(final Map<String, Object> json, int index, final String key) {
-       // Object obj = json.get(index);
-        List<Object> objects = getList(json.values());//new LinkedList<Object>(json.values());
-        Map<String, Object> typeObj = getMap(objects);//(Map<String, Object>) objects.get(index);
-        Object obj = typeObj.get(key);
-
-
         return obj == null ? null : obj.toString();
     }
 
