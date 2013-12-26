@@ -1,3 +1,9 @@
+Meta:
+
+Narrative:
+As a user
+I want to Create, Read, Delete types with attributes and metadata
+
 Scenario: authentification scenario
 When the user opens the default page
 When the user fills 'loginForm-login' field with 'test'
@@ -99,17 +105,6 @@ When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler 
 When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1_1-nodeText']' has text 'rel12'
 
-Scenario: export type to xml file scenario
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
-When the user clicks on element with id/name/className 'ImportExportForm-export'
-When the user clicks on element with xpathOrCss '//div[@id="fileExportForm-includeChildCheckbox"]/div[@class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"]'
-When the user clicks on element with xpathOrCss '//table[@id="fileExportForm-xmlOrJsonOptions"]//div[@class="ui-radiobutton-box ui-widget ui-corner-all ui-state-default ui-state-active"]'
-When the user clicks on 'fileExportForm-submitExportModalButton' export file
-Then verify that file is exported
-Then verify that length of the exported file isn't zero
-
 Scenario: delete type scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
@@ -117,47 +112,6 @@ When the user clicks on element with id/name/className 'commandForm-deleteButton
 Then wait for element 'deleteTypeDialog' is visible
 When the user clicks on element with id/name/className 'deleteForm-Yes'
 Then wait for element 'treeForm' is visible
-
-Scenario: import xml file to type scenario
-When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When the user clicks on element with id/name/className 'ImportExportForm-import'
-When the user clicks on element with id/name/className 'importForm-importFileUpload_input'
-When the user uploads the fileName/filePath 'rel1.xml' to field with 'importForm'
-Then wait for '6' sec
-When the user clicks on element with id/name/className 'importForm-createTypeBtm'
-Then wait for element 'treeForm' is visible
-When the user opens all tree with className 'ui-icon-triangle-1-e'
-
-Scenario: export type to json file scenario
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
-When the user clicks on element with id/name/className 'ImportExportForm-export'
-When the user clicks on element with xpathOrCss '//div[@id="fileExportForm-includeChildCheckbox"]/div[@class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"]'
-When the user clicks on element with xpathOrCss '//table[@id="fileExportForm-xmlOrJsonOptions"]//div[@class="ui-radiobutton-box ui-widget ui-corner-all ui-state-default"]'
-When the user clicks on 'fileExportForm-submitExportModalButton' export file
-Then verify that file is exported
-Then verify that length of the exported file isn't zero
-
-Scenario: delete type scenario
-When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
-When the user clicks on element with id/name/className 'commandForm-deleteButton'
-Then wait for element 'deleteTypeDialog' is visible
-When the user clicks on element with id/name/className 'deleteForm-Yes'
-Then wait for element 'treeForm' is visible
-
-Scenario: import json file to type scenario
-When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
-When the user clicks on element with id/name/className 'ImportExportForm-import'
-When the user clicks on element with id/name/className 'importForm-importFileUpload_input'
-When the user uploads the fileName/filePath 'rel1.json' to field with 'importForm'
-Then wait for '6' sec
-When the user clicks on element with id/name/className 'importForm-createTypeBtm'
-Then wait for element 'treeForm' is visible
-When the user opens all tree with className 'ui-icon-triangle-1-e'
-When the user opens all tree with className 'ui-icon-triangle-1-e'
-Then wait for '10' sec
 
 Scenario: logout scenario
 When clicks on element with id/name/className 'logoutForm-logoutBtn'
