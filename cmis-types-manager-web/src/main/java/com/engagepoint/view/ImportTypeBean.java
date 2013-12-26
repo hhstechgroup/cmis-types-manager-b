@@ -1,10 +1,10 @@
 package com.engagepoint.view;
 
-import com.engagepoint.utils.MessageUtils;
 import com.engagepoint.constants.Constants;
 import com.engagepoint.exceptions.CmisException;
 import com.engagepoint.services.CmisService;
 import com.engagepoint.services.UserInfo;
+import com.engagepoint.utils.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.primefaces.event.FileUploadEvent;
 import org.slf4j.Logger;
@@ -84,7 +84,7 @@ public class ImportTypeBean {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
         } catch (JSONParseException e) {
-            MessageUtils.printError(e.getMessage());
+            MessageUtils.printError(Constants.Messages.ERROR_IMPORT_TYPE);
             LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
         }
         return Constants.Navigation.TO_MAIN_PAGE;

@@ -162,11 +162,9 @@ public class CmisService {
             Session session = getSession(userInfo);
             try {
                 List<TypeDefinition> typeDefinition = CustomTypeUtils.readFromJSON(stream);
-                if (!typeDefinition.isEmpty()) {
-                    for (TypeDefinition definition : typeDefinition) {
-                        if (!definition.getId().equals(definition.getBaseTypeId().value())) {
-                            session.createType(definition);
-                        }
+                for (TypeDefinition definition : typeDefinition) {
+                    if (!definition.getId().equals(definition.getBaseTypeId().value())) {
+                        session.createType(definition);
                     }
                 }
             } finally {

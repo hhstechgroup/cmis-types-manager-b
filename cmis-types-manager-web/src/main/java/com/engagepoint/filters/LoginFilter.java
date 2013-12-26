@@ -26,14 +26,14 @@ public class LoginFilter implements Filter {
         //because we don't need the implementation of this method
     }
 
-    private void addRequestUrlToHistory(ServletRequest request ){
+    private void addRequestUrlToHistory(ServletRequest request) {
         String requestUrl = ((HttpServletRequest) request).getServletPath();
-        requestUrl = requestUrl.substring(0, requestUrl.length()-Constants.Strings.XHTML.length());
+        requestUrl = requestUrl.substring(0, requestUrl.length() - Constants.Strings.XHTML.length());
         requestUrl += "?faces-redirect=true";
         while (history.size() > 3) {
             history.removeFirst();
         }
-        if(!history.contains(requestUrl)){
+        if (!history.contains(requestUrl)) {
             history.addLast(requestUrl);
         }
 
