@@ -14,6 +14,7 @@ import java.util.List;
 public class TypePropertyModel extends ListDataModel<TypeProperty> implements SelectableDataModel<TypeProperty>, Serializable {
 
     public TypePropertyModel() {
+
     }
 
     public TypePropertyModel(List<TypeProperty> list){
