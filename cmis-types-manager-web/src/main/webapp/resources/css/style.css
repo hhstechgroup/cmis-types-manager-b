@@ -270,7 +270,7 @@
     max-height: 800px !important;
 }
 
-#updateMetadataModalDialog {
+#updateMetadataModalDialog,#repoInfoModalForm {
     width: 690px !important;
     height: auto !important;
     top: 3% !important;

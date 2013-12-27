@@ -20,15 +20,27 @@
             <uib:gridContainer rendered="#{loginBean.loggedIn}">
                 <uib:gridRow>
                     <uib:gridColumn column="6">
-                        <h:form id="changeRepositoryForm">
-                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
-                                <p:selectOneMenu value="#{repositoryBean.selectedRepoId}" id="changeRepositoryMenu">
-                                    <f:selectItems value="#{repositoryBean.repositoryList}"/>
-                                    <p:ajax event="change" update="-mainContent"
-                                            listener="#{repositoryBean.updateMainContent}"/>
-                                </p:selectOneMenu>
-                            </h:panelGrid>
-                        </h:form>
+                        <uib:gridColumn column="4">
+                            <h:form id="changeRepositoryForm">
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <p:selectOneMenu value="#{repositoryBean.selectedRepoId}" id="changeRepositoryMenu">
+                                        <f:selectItems value="#{repositoryBean.repositoryList}"/>
+                                        <p:ajax event="change" update="-mainContent"
+                                                listener="#{repositoryBean.updateMainContent}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                            </h:form>
+                        </uib:gridColumn>
+                        <uib:gridColumn column="2">
+                            <h:form id="repoInfoForm">
+                                <p:commandButton id="repoInfoBtn" styleClass="secondary"
+                                                 onclick="repoInfoModal.show(); return false;" icon="ui-icon-help"/>
+                            </h:form>
+                        </uib:gridColumn>
+                        <p:dialog id="repoInfoModalForm" header="repoInfo" widgetVar="repoInfoModal" modal="true"
+                                  resizable="false">
+                            <ui:include src="dashboard/repo.xhtml"/>
+                        </p:dialog>
                     </uib:gridColumn>
                     <uib:gridColumn column="6">
                         <h:form styleClass="fl-right" id="logoutForm">
