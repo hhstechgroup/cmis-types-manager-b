@@ -247,7 +247,7 @@
         <p:panelGrid columns="2" cellpadding="5">
             <p:outputLabel value="Cardinality" for="newMetaDataCardinality"/>
             <p:selectOneMenu id="newMetaDataCardinality" value="#{createBean.newTypeProperty.cardinality}">
-                <f:selectItems value="#{createBean.cardinalitylityValues}"
+                <f:selectItems value="#{createBean.cardinalityValues}"
                                var="cardinality"
                                itemLabel="#{cardinality}"
                                itemValue="#{cardinality}"/>
@@ -335,7 +335,7 @@
         <p:panelGrid columns="2" cellpadding="5">
             <p:outputLabel value="Cardinality" for="newMetaDataCardinalityUpdate"/>
             <p:selectOneMenu id="newMetaDataCardinalityUpdate" value="#{createBean.selectedTypeProperty.cardinality}">
-                <f:selectItems value="#{createBean.cardinalitylityValues}"
+                <f:selectItems value="#{createBean.cardinalityValues}"
                                var="cardinality"
                                itemLabel="#{cardinality}"
                                itemValue="#{cardinality}"/>
