@@ -5,11 +5,11 @@
     <h:panelGrid columns="1" styleClass="mb10">
         <h:outputText value="#{typesManagerBean.deleteMessage}"/>
     </h:panelGrid>
-    <p:commandButton value="Yes" styleClass="mr10" update="-mainContent"
+    <p:commandButton value="No" styleClass="secondary mr10"
+                     onclick="jQuery('#deleteTypeDialog').modal('hide');return false;"
+                     id="No"/>
+    <p:commandButton value="Yes" update="-mainContent"
                      action="#{typesManagerBean.deleteTypeWithSubtypes()}"
                      onclick="jQuery('#deleteTypeDialog').modal('hide');"
                      id="Yes"/>
-    <p:commandButton value="No" styleClass="secondary"
-                     onclick="jQuery('#deleteTypeDialog').modal('hide');return false;"
-                     id="No"/>
 </h:form>

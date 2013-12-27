@@ -3,16 +3,20 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://java.sun.com/jsf/core"
         id="fileExportForm">
-    <h:panelGrid columns="2">
+
+    <p:panelGrid columns="2" styleClass="col2">
         <p:outputLabel id="includeChildLable" for="includeChildCheckbox" value="Include child  " />
-        <p:selectBooleanCheckbox id="includeChildCheckbox" value="#{exportTypeBean.includeChildren}"/>
-        <p:selectOneRadio id="xmlOrJsonOptions" value="#{exportTypeBean.xmlOrJson}">
+        <p:selectBooleanCheckbox id="includeChildCheckbox" styleClass="ml10" value="#{exportTypeBean.includeChildren}"/>
+    </p:panelGrid>
+
+    <p:panelGrid columns="2">
+        <p:selectOneRadio id="xmlOrJsonOptions" layout="grid" value="#{exportTypeBean.xmlOrJson}">
             <f:selectItem itemLabel="Xml" itemValue="true"/>
             <f:selectItem itemLabel="Json" itemValue="false"/>
         </p:selectOneRadio>
-    </h:panelGrid>
-    <p:commandButton id="submitExportModalButton" value="Export" ajax="false"
-                     action="#{exportTypeBean.exportType()}" onclick="jQuery('#exportModal').modal('hide');" />
+    </p:panelGrid>
     <p:commandButton id="cancelExportModalButton" value="Cancel" update="-mainContent" styleClass="secondary" onclick="jQuery('#exportModal').modal('hide');return false;"/>
+    <p:commandButton id="submitExportModalButton" value="Export" styleClass="fl-right" ajax="false"
+                     action="#{exportTypeBean.exportType()}" onclick="jQuery('#exportModal').modal('hide');" />
 
 </h:form>

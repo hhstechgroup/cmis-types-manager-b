@@ -47,14 +47,6 @@
     font-size: 16px;
 }
 
-/*#deleteForm {
-    position: absolute;
-    z-index: 1000;
-    top: 30%;
-    left: 15%;
-    box-shadow: 1px 1px 6px #333;
-}*/
-
 .ui-tree .ui-tree-container li .ui-treenode-content:hover .ui-tree-toggler.ui-icon-triangle-1-e {
     margin: 2px 2px 0px 3px !important;
     border-top-color: transparent !important;
@@ -77,17 +69,23 @@
     width: 100%;
 }
 
-#importHeader {
-    font-size: 24px;
-    text-align: center;
+#importForm-importFileUpload{
+    width: 100%;
 }
 
-#importForm {
-    margin-top: 30px;
+#importForm-fileUploadName{
+    float: none;
+    margin: 0;
+    width: 98%;
+    margin-left: 10px;
+    margin-bottom: 5px;
 }
 
-.files {
-    margin-top: 40px;
+#importForm-importFileUpload .fileupload-content{
+    float: left;
+    line-height: 30px;
+    margin-left: 10px;
+    clear: both;
 }
 
 #importForm-fileUploadName {
@@ -185,10 +183,7 @@
 }
 
 #createTypeForm-accordionPanel-accordionTabMetadata td .ui-button, #viewForm-accordionPanel-accordionTabMetadata td .ui-button {
-    /*width: 30px;*/
-    /*position: absolute;*/
-    /*top: 16px;*/
-    /*right: 15px;*/
+
 }
 
 #createTypeForm-accordionPanel-accordionTabMetadata .ui-row-editor, #viewForm-accordionPanel-accordionTabMetadata .ui-row-editor {
@@ -238,11 +233,6 @@
 #deleteTypeDialog {
     width: 380px;
     left: 64%;
-}
-
-#createTypeForm-cancelCreateButton {
-    margin-top: 3%;
-    margin-left: 50%;
 }
 
 #viewForm-selectedTypeOutInfo {
@@ -315,13 +305,13 @@
 }
 
 #changeRepositoryForm{
-    max-width: 300px !important;
+    max-width: 500px !important;
 }
 
 #changeRepositoryForm table{
     width: 100%;
 }
 
-
-
-
+#fileExportForm-includeChildCheckbox{
+    vertical-align: middle;
+}

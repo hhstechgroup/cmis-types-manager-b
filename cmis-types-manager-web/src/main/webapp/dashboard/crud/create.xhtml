@@ -173,42 +173,32 @@
                 </p:column>
                 <p:column headerText="Quarylable">
                     <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.isQueryable}"/>
+                                             value="#{property.queryable}"/>
+                    <h:outputText value="#{property.queryable}"/>
                 </p:column>
                 <p:column headerText="Orderable">
-                    <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.isOrderable}"/>
+                    <h:outputText value="#{property.orderable}"/>
                 </p:column>
                 <p:column headerText="Requeried">
-                    <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.isRequired}"/>
+                    <h:outputText value="#{property.required}"/>
                 </p:column>
                 <p:column headerText="Inheried">
-                    <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.isInherited}"/>
+                    <h:outputText value="#{property.inherited}"/>
                 </p:column>
-                <ui:remove>
-                    <p:column>
-                        <p:commandButton value="delete" styleClass="custom" icon="ui-icon-close"
-                                         title="Delete" alt="Delete"
-                                         immediate="true"
-                                         action="#{createBean.deleteMetaData(property)}"
-                                         update="-createTypeForm-accordionPanel-metadataTabel,-messages"/>
-                    </p:column>
-                </ui:remove>
             </p:dataTable>
 
         </p:tab>
     </p:accordionPanel>
+    <p:commandButton id="cancelCreateButton" update="-mainContent" value="Cancel"
+                     action="#{backNavigationBean.goToLastPage()}"
+                     styleClass="secondary mt20 fl-left" immediate="true"/>
     <p:commandButton id="createTypeBtm" value="Create Type" action="#{createBean.createType}"
                      update="-mainContent"
-                     styleClass="mt20"/>
-    <p:commandButton id="cancelCreateButton" update="-mainContent" value="Cancel" action="#{backNavigationBean.goToLastPage()}"
-              styleClass="secondary" immediate="true"/>
+                     styleClass="mt20 fl-right"/>
 </h:form>
 
 
-<p:dialog id="createMetadataModalDialog" header="Create Metadata Line" widgetVar="createMetadataModal" modal="true"
+<p:dialog id="createMetadataModalDialog" header="Create metadata" widgetVar="createMetadataModal" modal="true"
           resizable="false">
     <h:form id="createMetadataModalForm">
         <p:panelGrid columns="2" cellpadding="5">
@@ -287,20 +277,19 @@
                                      value="#{createBean.newTypeProperty.isInherited}"/>
         </p:panelGrid>
 
-        <div class="fl-right">
-            <p:commandButton id="createMetadataButton" value="Add"
-                             update="-createTypeForm-accordionPanel-metadataTabel,-createMetadataModalDialog,-mainContent"
-                             action="#{createBean.addNewMetaData()}"
-                             oncomplete="createMetadataModal.hide()"/>
-            <p:commandButton id="cancelCreateMetadataButton" value="Cancel"
-                             update="-mainContent"
-                             styleClass="secondary"
-                             onclick="createMetadataModal.hide();return false;"/>
-        </div>
+        <p:commandButton id="cancelCreateMetadataButton" value="Cancel"
+                         update="-mainContent"
+                         styleClass="secondary"
+                         onclick="createMetadataModal.hide();return false;"/>
+        <p:commandButton id="createMetadataButton" value="Add"
+                         update="-createTypeForm-accordionPanel-metadataTabel,-createMetadataModalDialog"
+                         action="#{createBean.addNewMetaData()}"
+                         styleClass="fl-right"
+                         oncomplete="createMetadataModal.hide()"/>
     </h:form>
 </p:dialog>
 
-<p:dialog id="updateMetadataModalDialog" header="Updata Metadata Line" widgetVar="updateMetadataModal" modal="true"
+<p:dialog id="updateMetadataModalDialog" header="Updata metadata" widgetVar="updateMetadataModal" modal="true"
           resizable="false"
           width="200">
     <h:form id="updateMetadataModalForm">
@@ -377,14 +366,12 @@
                                      value="#{createBean.selectedTypeProperty.isInherited}"/>
         </p:panelGrid>
 
-        <div class="fl-right">
-            <p:commandButton id="updateMetadataButton" value="Update"
-                             update="-createTypeForm-accordionPanel-metadataTabel,-updateMetadataModalDialog"
-                             action="#{createBean.updateSelectedMetaData()}" oncomplete="updateMetadataModal.hide()"/>
-            <p:commandButton id="cancelUpdateMetadataButton" value="Cancel"
-                             update="-mainContent" styleClass="secondary"
-                             onclick="updateMetadataModal.hide();return false;"/>
-        </div>
+        <p:commandButton id="cancelUpdateMetadataButton" value="Cancel"
+                         update="-mainContent" styleClass="secondary"
+                         onclick="updateMetadataModal.hide();return false;"/>
+        <p:commandButton id="updateMetadataButton" styleClass="fl-right" value="Update"
+                         update="-createTypeForm-accordionPanel-metadataTabel,-updateMetadataModalDialog"
+                         action="#{createBean.updateSelectedMetaData()}" oncomplete="updateMetadataModal.hide()"/>
     </h:form>
 </p:dialog>
 </ui:define>
