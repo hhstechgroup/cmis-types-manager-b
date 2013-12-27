@@ -41,7 +41,7 @@
             <version>${thucydides.version}</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.chemistry.opencmis</groupId>
             <artifactId>chemistry-opencmis-server-inmemory</artifactId>
             <version>${cmis.version}</version>
@@ -53,7 +53,7 @@
             <artifactId>cmis-types-manager-ear</artifactId>
             <version>${global.version}</version>
             <type>ear</type>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>

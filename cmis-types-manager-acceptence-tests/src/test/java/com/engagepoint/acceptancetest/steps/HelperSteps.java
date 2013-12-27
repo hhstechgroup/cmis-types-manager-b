@@ -42,7 +42,6 @@ public class HelperSteps extends ScenarioSteps {
 
     private static final String XPATH_SELECTOR_SUFFIX = "')]";
     private UIBootstrapBasePage uIBootstrapBasePage;
-    private File lastDownloadedFile;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UseVariablesSteps.class);
 
@@ -62,21 +61,14 @@ public class HelperSteps extends ScenarioSteps {
         }
     }
 
-    @When("clicks on element with className '$className' with text '$text'")
-    @Alias("the user clicks on element with className '$className' with text '$text'")
+    @When("clicks on all elements with className '$className' with text '$text'")
+    @Alias("the user clicks on all elements with className '$className' with text '$text'")
     public void clickByText(String className, String text) {
         for (WebElement webElement : uIBootstrapBasePage.getDriver().findElements(By.className(className))) {
             if (webElement.getText().equalsIgnoreCase(text)) {
                 webElement.click();
             }
         }
-    }
-
-    @When("clicks on first element with className '$className'")
-    @Alias("the user clicks on first element with className '$className'")
-    public void clickOnFirstTreeElement(String className) {
-        WebElement webElement = uIBootstrapBasePage.getDriver().findElement(By.className(className));
-        webElement.click();
     }
 
     @When("clicks on first element with className '$className' with text '$text'")
@@ -139,49 +131,6 @@ public class HelperSteps extends ScenarioSteps {
         for (WebElement element : uIBootstrapBasePage.getDriver().findElements(By.cssSelector(xpathOrCss))) {
             element.click();
         }
-    }
-
-    @When("the user clicks on '$id' export file")
-    public void whenTheUserClicksOnDownloadFile(String id) throws IOException, URISyntaxException {
-        FileDownloader downloadHandler = getFileDownloaderFor(id);
-        lastDownloadedFile = downloadHandler.downloadFile();
-        uIBootstrapBasePage.element(findVisibleElementAndGetSelector(id)).click();
-    }
-
-    private FileDownloader getFileDownloaderFor(String id) throws MalformedURLException, URISyntaxException {
-        WebDriver driver = getDriver();
-        FileDownloader downloadHandler = new FileDownloader(driver);
-        By by = jbehaveBase.findVisibleElementAndGetSelector(id);
-        WebElement downloadBtn = uIBootstrapBasePage.element(by);
-        String href = downloadBtn.getAttribute("href");
-        String currentUrl = driver.getCurrentUrl();
-        if(href != null && !href.equals(currentUrl + "#")){
-            downloadHandler.setHTTPRequestMethod(RequestMethod.GET);
-            downloadHandler.setURI(href);
-        } else {
-            WebElement form = downloadBtn.findElement(By.xpath("./ancestor::form[@method='post']"));
-            List<NameValuePair> requestParams = RequestParameters.getParametersFrom(form);
-            String downloadBtnTag = downloadBtn.getTagName();
-            if("button".equals(downloadBtnTag)){
-                requestParams.addAll(RequestParameters.getParametersFrom(downloadBtn, "name"));
-            } else {
-                requestParams.addAll(RequestParameters.getParametersFrom(downloadBtn, "onclick"));
-            }
-            downloadHandler.setURI(currentUrl);
-            downloadHandler.setHTTPRequestMethod(RequestMethod.POST);
-            downloadHandler.setHttpPostRequestParams(requestParams);
-        }
-        return downloadHandler;
-    }
-
-    @Then("verify that file is exported")
-    public void thenVerifyLastDownloadedFile(){
-        assertThat(lastDownloadedFile.exists(), is(equalTo(true)));
-    }
-
-    @Then("verify that length of the exported file isn't zero")
-    public void thenVerifyLastDownloadedFileLengthNotZero(){
-        assertThat(lastDownloadedFile.length() > 0, is(equalTo(true)));
     }
 
     @Then("wait for '$timeout' sec")
