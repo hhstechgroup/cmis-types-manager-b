@@ -24,7 +24,7 @@ public class Type {
     private boolean isControllablePolicy;
     private boolean isControllableAcl;
 
-    private List<TypeProperty> properties;
+    private List<PropertyDefinitionImpl> properties;
 
 
     public String getLocalName() {
@@ -148,11 +148,11 @@ public class Type {
     }
 
 
-    public List<TypeProperty> getProperties() {
+    public List<PropertyDefinitionImpl> getProperties() {
         return properties;
     }
 
-    public void setProperties(List<TypeProperty> properties) {
+    public void setProperties(List<PropertyDefinitionImpl> properties) {
         this.properties = properties;
     }
 }

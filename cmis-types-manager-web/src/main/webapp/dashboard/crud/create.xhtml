@@ -129,7 +129,7 @@
                 </f:facet>
 
                 <p:column headerText="Check">
-                    <p:selectBooleanCheckbox value="#{property.selected}">
+                    <p:selectBooleanCheckbox value="#{property.selected}" disabled="#{property.isParent}">
                         <p:ajax event="change"
                                 update="-createTypeForm-accordionPanel-metadataTabel,-messages,selectedMetadataUpdateBtn,selectedMetadataDeleteBtn"
                                 listener="#{createBean.onRowSelection(property)}"/>
@@ -173,19 +173,19 @@
                 </p:column>
                 <p:column headerText="Quarylable">
                     <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.queryable}"/>
+                                             value="#{property.isQueryable}"/>
                 </p:column>
                 <p:column headerText="Orderable">
                     <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.orderable}"/>
+                                             value="#{property.isOrderable}"/>
                 </p:column>
                 <p:column headerText="Requeried">
                     <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.required}"/>
+                                             value="#{property.isRequired}"/>
                 </p:column>
                 <p:column headerText="Inheried">
                     <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.inherited}"/>
+                                             value="#{property.isInherited}"/>
                 </p:column>
                 <ui:remove>
                     <p:column>
@@ -272,19 +272,19 @@
         <p:panelGrid columns="2">
             <p:outputLabel value="Quarylable" for="selectCheckboxQuarylable"/>
             <p:selectBooleanCheckbox id="selectCheckboxQuarylable"
-                                     value="#{createBean.newTypeProperty.queryable}"/>
+                                     value="#{createBean.newTypeProperty.isQueryable}"/>
 
             <p:outputLabel value="Orderable" for="selectCheckboxOrderable"/>
             <p:selectBooleanCheckbox id="selectCheckboxOrderable"
-                                     value="#{createBean.newTypeProperty.orderable}"/>
+                                     value="#{createBean.newTypeProperty.isOrderable}"/>
 
             <p:outputLabel value="Requeried" for="selectCheckboxRequeried"/>
             <p:selectBooleanCheckbox id="selectCheckboxRequeried"
-                                     value="#{createBean.newTypeProperty.required}"/>
+                                     value="#{createBean.newTypeProperty.isRequired}"/>
 
             <p:outputLabel value="Inheried" for="selectCheckboxInheried"/>
             <p:selectBooleanCheckbox id="selectCheckboxInheried"
-                                     value="#{createBean.newTypeProperty.inherited}"/>
+                                     value="#{createBean.newTypeProperty.isInherited}"/>
         </p:panelGrid>
 
         <div class="fl-right">
@@ -362,19 +362,19 @@
         <p:panelGrid columns="2">
             <p:outputLabel value="Quarylable" for="selectCheckboxQuarylableUpdate"/>
             <p:selectBooleanCheckbox id="selectCheckboxQuarylableUpdate"
-                                     value="#{createBean.selectedTypeProperty.queryable}"/>
+                                     value="#{createBean.selectedTypeProperty.isQueryable}"/>
 
             <p:outputLabel value="Orderable" for="selectCheckboxOrderableUpdate"/>
             <p:selectBooleanCheckbox id="selectCheckboxOrderableUpdate"
-                                     value="#{createBean.selectedTypeProperty.orderable}"/>
+                                     value="#{createBean.selectedTypeProperty.isOrderable}"/>
 
             <p:outputLabel value="Requeried" for="selectCheckboxRequeriedUpdate"/>
             <p:selectBooleanCheckbox id="selectCheckboxRequeriedUpdate"
-                                     value="#{createBean.selectedTypeProperty.required}"/>
+                                     value="#{createBean.selectedTypeProperty.isRequired}"/>
 
             <p:outputLabel value="Inheried" for="selectCheckboxInheriedUpdate"/>
             <p:selectBooleanCheckbox id="selectCheckboxInheriedUpdate"
-                                     value="#{createBean.selectedTypeProperty.inherited}"/>
+                                     value="#{createBean.selectedTypeProperty.isInherited}"/>
         </p:panelGrid>
 
         <div class="fl-right">

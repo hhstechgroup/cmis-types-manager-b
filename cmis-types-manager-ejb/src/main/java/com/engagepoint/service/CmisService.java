@@ -3,6 +3,7 @@ package com.engagepoint.service;
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.exception.CmisTypeDeleteException;
 import org.apache.chemistry.opencmis.client.api.*;
+import org.apache.chemistry.opencmis.client.util.TypeUtils;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
@@ -76,7 +77,7 @@ public class CmisService {
         Session session = getSession(userInfo);
         TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
-            session.createType(typeDefinition);
+            session.createType(CustomTypeUtils.getCorrectTypeDefinition(session,typeDefinition));
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
@@ -110,22 +111,22 @@ public class CmisService {
         return typeDef;
     }
 
-    private Map<String, PropertyDefinition<?>> getPropertyDefinitionMap(List<TypeProperty> properties) {
+    private Map<String, PropertyDefinition<?>> getPropertyDefinitionMap(List<PropertyDefinitionImpl> properties) {
         Map<String, PropertyDefinition<?>> propertyDefinitionMap = new LinkedHashMap<String, PropertyDefinition<?>>();
-        for (TypeProperty property : properties) {
+        for (PropertyDefinitionImpl property : properties) {
             PropertyDefinitionImpl propertyDef = new PropertyDefinitionImpl();
             propertyDef.setId(property.getId());
             propertyDef.setDisplayName(property.getDisplayName());
             propertyDef.setLocalName(property.getLocalName());
             propertyDef.setDescription(property.getDescription());
             propertyDef.setQueryName(property.getQueryName());
-            propertyDef.setCardinality(Cardinality.fromValue(property.getCardinality().toLowerCase()));
-            propertyDef.setPropertyType(PropertyType.fromValue(property.getPropertyType().toLowerCase()));
-            propertyDef.setIsRequired(property.getRequired());
-            propertyDef.setIsInherited(property.getInherited());
-            propertyDef.setUpdatability(Updatability.fromValue(property.getUpdatability().toLowerCase()));
-            propertyDef.setIsQueryable(property.getQueryable());
-            propertyDef.setIsOrderable(property.getOrderable());
+            propertyDef.setCardinality(property.getCardinality());
+            propertyDef.setPropertyType(property.getPropertyType());
+            propertyDef.setIsRequired(property.isRequired());
+            propertyDef.setIsInherited(property.isInherited());
+            propertyDef.setUpdatability(property.getUpdatability());
+            propertyDef.setIsQueryable(property.isQueryable());
+            propertyDef.setIsOrderable(property.isOrderable());
             propertyDef.setLocalNamespace(property.getLocalNamespace());
             propertyDefinitionMap.put(property.getId(), propertyDef);
         }
