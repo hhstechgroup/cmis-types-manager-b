@@ -4,10 +4,15 @@
 }
 
 #logoutForm-logoutBtn {
-    margin-top: 4px;
+    margin-top: 5px;
     margin-right: 3px;
     margin-left: 20px;
 }
+#repoInfoForm-repoInfoBtn
+  {
+      margin-top: 5px;
+      margin-left: 5px;
+  }
 
 #treeForm .ui-state-highlight {
     border: 1px solid #666666;
@@ -266,11 +271,11 @@
     width: 100%;
 }
 
-#createMetadataModalDialog .ui-dialog-content {
+#createMetadataModalDialog .ui-dialog-content,#repoInfoModalDialog .ui-dialog-content{
     max-height: 800px !important;
 }
 
-#updateMetadataModalDialog,#repoInfoModalForm {
+#updateMetadataModalDialog,#repoInfoModalDialog {
     width: 690px !important;
     height: auto !important;
     top: 3% !important;
@@ -310,9 +315,13 @@
 }
 
 #changeRepositoryForm{
-    max-width: 500px !important;
+    max-width: 300px !important;
 }
 
 #changeRepositoryForm table{
     width: 100%;
 }
+
+
+
+

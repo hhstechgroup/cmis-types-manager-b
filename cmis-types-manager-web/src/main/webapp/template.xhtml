@@ -19,8 +19,13 @@
         <uib:pageHeaderUtilityBarFacet>
             <uib:gridContainer rendered="#{loginBean.loggedIn}">
                 <uib:gridRow>
-                    <uib:gridColumn column="6">
-                        <uib:gridColumn column="4">
+                    <uib:gridColumn column="1" style="margin-bottom:10px" cellpadding="5">
+                        <h:form id="repoInfoForm">
+                            <p:commandButton id="repoInfoBtn" styleClass="secondary"
+                                             onclick="repoInfoModal.show(); return false;" icon="ui-icon-help"/>
+                        </h:form>
+                    </uib:gridColumn>
+                    <uib:gridColumn column="5">
                             <h:form id="changeRepositoryForm">
                                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                                     <p:selectOneMenu value="#{repositoryBean.selectedRepoId}" id="changeRepositoryMenu">
@@ -30,18 +35,8 @@
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                             </h:form>
-                        </uib:gridColumn>
-                        <uib:gridColumn column="2">
-                            <h:form id="repoInfoForm">
-                                <p:commandButton id="repoInfoBtn" styleClass="secondary"
-                                                 onclick="repoInfoModal.show(); return false;" icon="ui-icon-help"/>
-                            </h:form>
-                        </uib:gridColumn>
-                        <p:dialog id="repoInfoModalForm" header="repoInfo" widgetVar="repoInfoModal" modal="true"
-                                  resizable="false">
-                            <ui:include src="dashboard/repo.xhtml"/>
-                        </p:dialog>
                     </uib:gridColumn>
+
                     <uib:gridColumn column="6">
                         <h:form styleClass="fl-right" id="logoutForm">
                             <h:outputText value="Welcome #{loginBean.userInfo.username}!" style="font-size: 16px"/>
@@ -61,6 +56,11 @@
             <p:outputPanel id="mainContent">
                 <p:messages id="messages" closable="true"/>
                 <ui:insert name="mainContent"/>
+
+                <p:dialog id="repoInfoModalDialog" header="Repository Information" widgetVar="repoInfoModal" modal="true" closeOnEscape="true" rendered="#{loginBean.loggedIn}">
+
+                    <ui:include src="dashboard/repo.xhtml"></ui:include>
+                </p:dialog>
             </p:outputPanel>
         </uib:pageBodyFacet>
     </uib:pageLayout>
