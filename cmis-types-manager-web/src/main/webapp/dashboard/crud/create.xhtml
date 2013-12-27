@@ -172,18 +172,16 @@
                     <h:outputText value="#{property.description}"/>
                 </p:column>
                 <p:column headerText="Quarylable">
-                    <p:selectBooleanCheckbox disabled="true"
-                                             value="#{property.queryable}"/>
-                    <h:outputText value="#{property.queryable}"/>
+                    <h:outputText value="#{property.isQueryable}"/>
                 </p:column>
                 <p:column headerText="Orderable">
-                    <h:outputText value="#{property.orderable}"/>
+                    <h:outputText value="#{property.isOrderable}"/>
                 </p:column>
                 <p:column headerText="Requeried">
-                    <h:outputText value="#{property.required}"/>
+                    <h:outputText value="#{property.isRequired}"/>
                 </p:column>
                 <p:column headerText="Inheried">
-                    <h:outputText value="#{property.inherited}"/>
+                    <h:outputText value="#{property.isInherited}"/>
                 </p:column>
             </p:dataTable>
 
