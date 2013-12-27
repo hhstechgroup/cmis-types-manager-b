@@ -37,7 +37,7 @@ Then wait for element 'createTypeForm-accordionPanel-metadataTabel_data' is visi
 Then wait for visible element '//tbody[@id="createTypeForm-accordionPanel-metadataTabel_data"]/tr[@class="ui-widget-content ui-datatable-even"]'
 When the user clicks on element with id/name/className 'createTypeBtm'
 Then wait for element 'treeForm' is visible
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel2'
 
 Scenario: logout scenario

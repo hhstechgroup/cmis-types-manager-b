@@ -119,12 +119,6 @@ public class HelperSteps extends ScenarioSteps {
         return false;
     }
 
-    @When("clicks on element with xpathOrCss '$xpathOrCss'")
-    @Alias("the user clicks on element with xpathOrCss '$xpathOrCss'")
-    public void clickElementBySelector(String xpathOrCss) {
-        uIBootstrapBasePage.element(xpathOrCss).click();
-    }
-
     @When("clicks on all elements with xpathOrCss '$xpathOrCss'")
     @Alias("the user clicks on all elements with xpathOrCss '$xpathOrCss'")
     public void openAllElementsBySelector(String xpathOrCss) {

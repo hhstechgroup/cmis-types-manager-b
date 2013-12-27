@@ -58,7 +58,7 @@ When make 'metadataTabel-1-j_idt28' checked
 When the user clicks on element with id/name/className 'selectedMetadataDeleteBtn'
 When the user clicks on element with id/name/className 'createTypeBtm'
 Then wait for element 'treeForm' is visible
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel1'
 
 Scenario: view type with metadata scenario
@@ -71,7 +71,7 @@ When the user clicks on element with id/name/className 'viewForm-return'
 Then wait for element 'treeForm' is visible
 
 Scenario: create subtype scenario
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When clicks on element with id/name/className 'commandForm-create'
@@ -84,8 +84,8 @@ When the user fills 'inputTextView4' field with 'rel11'
 When the user fills 'inputTextView5' field with 'rel11'
 When clicks on element with id/name/className 'createTypeBtm'
 Then wait for element 'treeForm' is visible
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1_0-nodeText']' has text 'rel11'
 
 Scenario: create subtype scenario
@@ -101,8 +101,8 @@ When the user fills 'inputTextView4' field with 'rel12'
 When the user fills 'inputTextView5' field with 'rel12'
 When clicks on element with id/name/className 'createTypeBtm'
 Then wait for element 'treeForm' is visible
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1_1-nodeText']' has text 'rel12'
 
 Scenario: delete type scenario
