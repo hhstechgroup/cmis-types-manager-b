@@ -213,7 +213,9 @@
     <h:form id="createMetadataModalForm">
         <p:panelGrid columns="2" cellpadding="5">
             <p:outputLabel value="Id">
-                <p:inputText id="newMetaDataId" value="#{createBean.newTypeProperty.id}"/>
+                <p:inputText id="newMetaDataId" value="#{createBean.newTypeProperty.id}"
+                             required="true"
+                             requiredMessage="Please, Id"/>
             </p:outputLabel>
 
             <p:outputLabel value="Name">
@@ -221,11 +223,15 @@
             </p:outputLabel>
 
             <p:outputLabel value="Local name">
-                <p:inputText id="newMetaDataLocalName" value="#{createBean.newTypeProperty.localName}"/>
+                <p:inputText id="newMetaDataLocalName" value="#{createBean.newTypeProperty.localName}"
+                             required="true"
+                             requiredMessage="Local name"/>
             </p:outputLabel>
 
             <p:outputLabel value="Query Name">
-                <p:inputText id="newMetaDataQueryName" value="#{createBean.newTypeProperty.queryName}"/>
+                <p:inputText id="newMetaDataQueryName" value="#{createBean.newTypeProperty.queryName}"
+                             required="true"
+                             requiredMessage="Please, enter Query Name"/>
             </p:outputLabel>
 
             <p:outputLabel value="Local name space">
@@ -283,7 +289,7 @@
 
         <div class="fl-right">
             <p:commandButton id="createMetadataButton" value="Add"
-                             update="-createTypeForm-accordionPanel-metadataTabel,-createMetadataModalDialog"
+                             update="-createTypeForm-accordionPanel-metadataTabel,-createMetadataModalDialog,-mainContent"
                              action="#{createBean.addNewMetaData()}"
                              oncomplete="createMetadataModal.hide()"/>
             <p:commandButton id="cancelCreateMetadataButton" value="Cancel"

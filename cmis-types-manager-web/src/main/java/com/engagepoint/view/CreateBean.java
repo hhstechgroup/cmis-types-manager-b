@@ -17,10 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @ManagedBean
 @ViewScoped
@@ -67,16 +64,21 @@ public class CreateBean implements Serializable {
         }
     }
 
+
     public void addNewMetaData() {
         updateBtnDisabled = true;
         deleteBtnDisabled = true;
         getTypeProperties().add(newTypeProperty);
         newTypeProperty = new TypeProperty();
+
     }
+
+
 
     public void updateSelectedMetaData(){
         System.out.println(selectedTypeProperty.toString());
     }
+
 
     public void deleteMetaData() {
         for (TypeProperty property : selectedTypeProperties) {
