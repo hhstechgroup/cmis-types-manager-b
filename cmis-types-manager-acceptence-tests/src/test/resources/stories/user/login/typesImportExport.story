@@ -19,23 +19,23 @@ When the user uploads the fileName/filePath 'cmis-types-manager-acceptence-tests
 Then element 'importForm-fileUploadName' has attribute value 'rel1.xml'
 When the user clicks on element with id/name/className 'importForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 
 Scenario: export type to xml file scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'ImportExportForm-export'
-When the user clicks on element with xpathOrCss '//div[@id="fileExportForm-includeChildCheckbox"]/div[@class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"]'
-When the user clicks on element with xpathOrCss '//table[@id="fileExportForm-xmlOrJsonOptions"]//div[@class="ui-radiobutton-box ui-widget ui-corner-all ui-state-default ui-state-active"]'
+When clicks on element by '//div[@id="fileExportForm-includeChildCheckbox"]/div[@class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"]'
+When clicks on element by '//table[@id="fileExportForm-xmlOrJsonOptions"]//div[@class="ui-radiobutton-box ui-widget ui-corner-all ui-state-default ui-state-active"]'
 When the user clicks on 'fileExportForm-submitExportModalButton' download file
 Then verify that file is downloaded
-When the user clicks on element with xpathOrCss '//div[@id="exportModal"]//button[@class="close"]'
+When clicks on element by '//div[@id="exportModal"]//button[@class="close"]'
 Then wait for element 'treeForm' is visible
 
 Scenario: delete type scenario
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-deleteButton'
@@ -50,23 +50,23 @@ When the user uploads the fileName/filePath 'cmis-types-manager-acceptence-tests
 Then element 'importForm-fileUploadName' has attribute value 'rel1.json'
 When the user clicks on element with id/name/className 'importForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 
 Scenario: export type to json file scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'ImportExportForm-export'
-When the user clicks on element with xpathOrCss '//div[@id="fileExportForm-includeChildCheckbox"]/div[@class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"]'
-When the user clicks on element with xpathOrCss '//table[@id="fileExportForm-xmlOrJsonOptions"]//div[@class="ui-radiobutton-box ui-widget ui-corner-all ui-state-default"]'
+When clicks on element by '//div[@id="fileExportForm-includeChildCheckbox"]/div[@class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"]'
+When clicks on element by '//table[@id="fileExportForm-xmlOrJsonOptions"]//div[@class="ui-radiobutton-box ui-widget ui-corner-all ui-state-default"]'
 When the user clicks on 'fileExportForm-submitExportModalButton' download file
 Then verify that file is downloaded
-When the user clicks on element with xpathOrCss '//div[@id="exportModal"]//button[@class="close"]'
+When clicks on element by '//div[@id="exportModal"]//button[@class="close"]'
 Then wait for element 'treeForm' is visible
 
 Scenario: delete type scenario
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When the user clicks on element with xpathOrCss '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-deleteButton'
@@ -77,3 +77,4 @@ Then wait for element 'treeForm' is visible
 Scenario: logout scenario
 When clicks on element with id/name/className 'logoutForm-logoutBtn'
 Then wait for element 'loginForm' is visible
+
