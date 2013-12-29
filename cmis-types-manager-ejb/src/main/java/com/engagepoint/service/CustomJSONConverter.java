@@ -1848,7 +1848,7 @@ public final class CustomJSONConverter {
                     AccessControlEntryImpl ace = new AccessControlEntryImpl();
 
                     Boolean isDirect = getBoolean(entry, JSON_ACE_IS_DIRECT);
-                    ace.setDirect(isDirect != null ? isDirect.booleanValue() : true);
+                    ace.setDirect((isDirect == null) || isDirect);
 
                     List<Object> jsonPermissions = getList(entry.get(JSON_ACE_PERMISSIONS));
                     if (jsonPermissions != null) {
@@ -1901,7 +1901,7 @@ public final class CustomJSONConverter {
 
         for (Action action : Action.values()) {
             Boolean value = getBoolean(json, action.value());
-            if (value != null && value.booleanValue()) {
+            if (value != null && value) {
                 allowableActions.add(action);
             }
         }

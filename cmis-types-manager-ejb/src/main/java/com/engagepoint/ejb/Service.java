@@ -1,7 +1,8 @@
-package com.engagepoint.service;
+package com.engagepoint.ejb;
 
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.exception.CmisTypeDeleteException;
+import com.engagepoint.service.*;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
@@ -24,10 +25,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * User: AlexDenisenko
@@ -36,8 +34,8 @@ import java.util.Map;
  */
 @Stateless
 @LocalBean
-public class CmisService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CmisService.class);
+public class Service {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
     @EJB
     private CmisConnection connection;
 
@@ -72,11 +70,11 @@ public class CmisService {
         return folders;
     }
 
-    public void createType(UserInfo userInfo, Type type) throws CmisException {
+    public void createType(UserInfo userInfo, TypeDefinitionImpl type) throws CmisException {
         Session session = getSession(userInfo);
-        TypeDefinition typeDefinition = getTypeDefinition(type);
+//        TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
-            session.createType(typeDefinition);
+            session.createType(type);
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
@@ -246,8 +244,8 @@ public class CmisService {
     }
 
     public String getDefaultRepository(UserInfo userInfo) throws CmisException {
-        List<Repository> repositories = getRepositories(userInfo);
-        return repositories.get(0).getId();
+        Map<String, Repository> repositories = getRepositories(userInfo);
+        return repositories.values().iterator().next().getId();
     }
 
     public boolean isUserExists(UserInfo userInfo) throws CmisException {
@@ -255,16 +253,16 @@ public class CmisService {
     }
 
     //  TODO change the logic to retrieve the parameters and check when it call
-    public List<Repository> getRepositories(UserInfo userInfo) throws CmisException {
+    public Map<String, Repository> getRepositories(UserInfo userInfo) throws CmisException {
         Map<String, String> parameters = userInfo.getAtomPubParameters();
-        List<Repository> repositories;
+        List<Repository> repositoryList;
         try {
-            repositories = connection.getSessionFactory().getRepositories(parameters);
+            repositoryList = connection.getSessionFactory().getRepositories(parameters);
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
-        return repositories;
+        return collectionToMap(repositoryList);
     }
 
     private Session getSession(UserInfo userInfo) throws CmisException {
@@ -305,6 +303,15 @@ public class CmisService {
         Session session = getSession(userInfo);
         return new RepositoryInfoImpl(session.getRepositoryInfo());
     }
+
+    private Map<String, Repository> collectionToMap(Collection<Repository> list) {
+        Map<String, Repository> map = new LinkedHashMap<String, Repository>();
+        for (Repository el : list) {
+            map.put(el.getId(), el);
+        }
+        return map;
+    }
+
 
 
 }

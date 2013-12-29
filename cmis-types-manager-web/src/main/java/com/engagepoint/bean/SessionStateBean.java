@@ -18,23 +18,11 @@ public class SessionStateBean implements Serializable {
     private TypeProxy typeProxy;
     private RepositoryInfo repositoryInfo;
 
-    public TypeProxy getTypeProxy() {
+    public TypeProxy getType() {
         return typeProxy;
     }
 
-    public void setTypeProxy(TypeProxy typeProxy) {
+    public void setType(TypeProxy typeProxy) {
         this.typeProxy = typeProxy;
-    }
-
-    public RepositoryInfo getRepositoryInfo() {
-        return repositoryInfo;
-    }
-
-    public void setRepositoryInfo(RepositoryInfo repositoryInfo) {
-        this.repositoryInfo = repositoryInfo;
-    }
-
-    public void destroyReposytoryInfo(){
-        repositoryInfo = null;
     }
 }

@@ -1,9 +1,9 @@
 package com.engagepoint.bean;
 
+import com.engagepoint.ejb.Service;
 import com.engagepoint.util.MessageUtils;
 import com.engagepoint.constant.Constants;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.CmisService;
 import com.engagepoint.service.TypeProxy;
 import com.engagepoint.service.UserInfo;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
@@ -31,7 +31,7 @@ import java.util.List;
 public class ViewTypeBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewTypeBean.class);
     @EJB
-    private CmisService service;
+    private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private TypeDefinition typeDefinition;
@@ -42,7 +42,7 @@ public class ViewTypeBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            TypeProxy selectedType = sessionStateBean.getTypeProxy();
+            TypeProxy selectedType = sessionStateBean.getType();
             UserInfo userInfo = login.getUserInfo();
             typeDefinition = service.getTypeDefinition(userInfo, selectedType);
         } catch (CmisException e) {

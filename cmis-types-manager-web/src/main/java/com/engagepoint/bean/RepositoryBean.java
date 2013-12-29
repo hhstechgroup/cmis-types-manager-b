@@ -1,10 +1,11 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.util.MessageUtils;
 import com.engagepoint.constant.Constants;
+import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.CmisService;
+import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.client.api.Repository;
+import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: arkadiy.sychov (arkadiy.sychov@engagepoint.com )
@@ -28,29 +30,30 @@ import java.util.List;
 public class RepositoryBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(RepositoryBean.class);
     @EJB
-    private CmisService service;
+    private Service service;
     private String selectedRepoId;
-    private List<SelectItem> repositoryList;
+    private List<SelectItem> selectItems;
+    private Map<String, Repository> repositories;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean loginBean;
 
     @PostConstruct
     public void init() {
         try {
-            List<Repository> repositories = service.getRepositories(loginBean.getUserInfo());
-            repositoryList = new ArrayList<SelectItem>();
-            for (Repository repo : repositories) {
-                repositoryList.add(new SelectItem(repo.getId(), repo.getName()));
+            repositories = service.getRepositories(loginBean.getUserInfo());
+            selectItems = new ArrayList<SelectItem>();
+            for (Repository repo : repositories.values()) {
+                selectItems.add(new SelectItem(repo.getId(), repo.getName()));
             }
-            selectedRepoId = repositories.get(0).getId();
+            selectedRepoId = repositories.values().iterator().next().getId();
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_INIT_REPO, e);
         }
     }
 
-    public void updateMainContent() {
-        loginBean.getUserInfo().setRepository(getSelectedRepoId());
+    public void changeRepository() {
+        loginBean.getUserInfo().setRepository(selectedRepoId);
         MessageUtils.printInfo(Constants.RepoManager.REPO_CHANGED);
     }
 
@@ -62,12 +65,16 @@ public class RepositoryBean implements Serializable {
         this.selectedRepoId = selectedRepoId;
     }
 
-    public List<SelectItem> getRepositoryList() {
-        return repositoryList;
+    public List<SelectItem> getSelectItems() {
+        return selectItems;
     }
 
-    public void setRepositoryList(List<SelectItem> repositoryList) {
-        this.repositoryList = repositoryList;
+    public void setSelectItems(List<SelectItem> selectItems) {
+        this.selectItems = selectItems;
+    }
+
+    public RepositoryInfo getInfo() {
+        return repositories.get(selectedRepoId);
     }
 
     public LoginBean getLoginBean() {
@@ -77,5 +84,6 @@ public class RepositoryBean implements Serializable {
     public void setLoginBean(LoginBean loginBean) {
         this.loginBean = loginBean;
     }
+
 }
 
