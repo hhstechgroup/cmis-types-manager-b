@@ -103,7 +103,7 @@
                         <uib:gridRow fluid="true">
                             <uib:gridColumn column="12">
                                 <h:outputText styleClass="fl-left" value="Metadata tabel"/>
-                                <p:commandButton id="newSourceSystemButton"
+                                <p:commandButton id="addNewLineMetadataBtn"
                                                  value="Add New Line"
                                                  styleClass="fl-right small blue"
                                                  icon="ui-icon-document"
@@ -280,7 +280,7 @@
                          styleClass="secondary"
                          onclick="createMetadataModal.hide();return false;"/>
         <p:commandButton id="createMetadataButton" value="Add"
-                         update="-createTypeForm-accordionPanel-metadataTabel,-createMetadataModalDialog"
+                         update="-createTypeForm-accordionPanel-metadataTabel,-createMetadataModalDialog,-messages"
                          action="#{createTypeBean.addNewMetaData()}"
                          styleClass="fl-right"
                          oncomplete="createMetadataModal.hide()"/>

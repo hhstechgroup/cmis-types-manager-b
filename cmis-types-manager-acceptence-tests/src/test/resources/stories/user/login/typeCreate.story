@@ -27,7 +27,7 @@ When the user fills 'inputTextView5' field with 'rel1'
 When make 'selectCheckboxFileable' checked
 When make 'selectCheckboxFti' checked
 When the user clicks on first element with className 'ui-icon-triangle-1-e' with text 'Metadata'
-When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user clicks on element with id/name/className 'addNewLineMetadataBtn'
 When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataName' field with 'met1'
 When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'met1'
@@ -50,7 +50,7 @@ When the user fills 'updateMetadataModalForm-newMetaDataLocalNamespaceUpdate' fi
 When the user fills 'updateMetadataModalForm-newMetaDataDescriptionUpdate' field with 'met2'
 When clicks on element with id/name/className 'updateMetadataModalForm-updateMetadataButton'
 Then wait for element 'updateMetadataModalDialog' is not visible
-When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user clicks on element with id/name/className 'addNewLineMetadataBtn'
 When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met'
 When the user fills 'createMetadataModalForm-newMetaDataName' field with 'met'
 When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'met'

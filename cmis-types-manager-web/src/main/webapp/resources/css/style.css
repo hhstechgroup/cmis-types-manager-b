@@ -211,12 +211,12 @@
     margin-top: -40px;
 }
 
-#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton, #createTypeForm-accordionPanel-metadataTabel-selectedMetadataUpdateBtn, #createTypeForm-accordionPanel-metadataTabel-selectedMetadataDeleteBtn {
+#createTypeForm-accordionPanel-metadataTabel-addNewLineMetadataBtn, #createTypeForm-accordionPanel-metadataTabel-selectedMetadataUpdateBtn, #createTypeForm-accordionPanel-metadataTabel-selectedMetadataDeleteBtn {
     z-index: 100;
     position: absolute;
 }
 
-#createTypeForm-accordionPanel-metadataTabel-newSourceSystemButton {
+#createTypeForm-accordionPanel-metadataTabel-addNewLineMetadataBtn {
     right: 45px;
 }
 
