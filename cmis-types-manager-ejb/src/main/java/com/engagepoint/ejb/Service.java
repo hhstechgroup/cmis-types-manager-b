@@ -42,7 +42,7 @@ public class Service {
 
     public List<TypeProxy> getTypeInfo(UserInfo userInfo) throws CmisException {
         Session session = getSession(userInfo);
-        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, true);
+        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, false);
         return getTypeProxies(descendants);
     }
 
