@@ -5,8 +5,8 @@ import com.engagepoint.constant.Constants;
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.exception.CmisTypeDeleteException;
-import com.engagepoint.service.TypeProxy;
-import com.engagepoint.service.UserInfo;
+import com.engagepoint.pojo.TypeProxy;
+import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.CustomStringUtils;
 import com.engagepoint.util.MessageUtils;
 import org.primefaces.event.NodeSelectEvent;
@@ -37,20 +37,20 @@ public class TypesManagerBean implements Serializable {
     private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{sessionStateBean}")
-    private SessionStateBean sessionStateBean;
+    @ManagedProperty(value = "#{selectedTypeHolder}")
+    private SelectedTypeHolder selectedTypeHolder;
     private UserInfo userInfo;
     private TreeNode root;
     private TreeNode selectedNode;
     private TypeProxy selectedType;
-
+    private List<TypeProxy> types;
 
     @PostConstruct
     public void init() {
         userInfo = login.getUserInfo();
-        List<TypeProxy> types = getTypes();
-        setSelectedType(types);
-        initTree(types);
+        types = getTypes();
+        setTypeToHolder();
+        initTree();
     }
 
     public TreeNode getRoot() {
@@ -67,42 +67,14 @@ public class TypesManagerBean implements Serializable {
 
     public void onNodeSelect(NodeSelectEvent event) {
         selectedType = (TypeProxy) event.getTreeNode().getData();
-        sessionStateBean.setType(selectedType);
-    }
-
-    public LoginBean getLogin() {
-        return login;
-    }
-
-    public void setLogin(LoginBean login) {
-        this.login = login;
+        selectedTypeHolder.setType(selectedType);
     }
 
     public void deleteType() {
         try {
             service.deleteType(userInfo, selectedType);
             MessageUtils.printInfo(Constants.Messages.TYPE_DELETED + selectedType.getDisplayName());
-        } catch (CmisException e) {
-            MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.ERROR_DELETE_TYPE, e);
-        } catch (CmisTypeDeleteException e) {
-            MessageUtils.printError(CustomStringUtils.concatenate(Constants.Messages.DELETE_MESSAGE_PREFFIX, selectedType.getDisplayName(), Constants.Messages.DELETE_MESSAGE_SUFFIX));
-            LOGGER.error(Constants.Messages.UNABLE_DELETE_TYPE, e);
-        }
-    }
-
-    private void deleteType(UserInfo userInfo, TypeProxy selectedType) {
-        try {
-            if (!(selectedType.getTypeMutability().canDelete())) {
-                MessageUtils.printError(CustomStringUtils.concatenate(Constants.Messages.DELETE_MESSAGE_PREFFIX, selectedType.getDisplayName(), Constants.Messages.DELETE_MESSAGE_SUFFIX));
-            } else {
-                List<TypeProxy> selectedTypeChildren = selectedType.getChildren();
-                for (TypeProxy selectedTypeChild : selectedTypeChildren) {
-                    deleteType(userInfo, selectedTypeChild);
-                }
-                service.deleteType(userInfo, selectedType);
-                MessageUtils.printInfo(Constants.Messages.TYPE_DELETED + selectedType.getDisplayName());
-            }
+            setDefaultTypeToHolder();
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.ERROR_DELETE_TYPE, e);
@@ -118,7 +90,7 @@ public class TypesManagerBean implements Serializable {
         } else {
             deleteType();
         }
-        initTree(getTypes());
+        initTree();
     }
 
     public boolean typeHasSubtypes(TypeProxy proxy) {
@@ -135,7 +107,7 @@ public class TypesManagerBean implements Serializable {
 
     public List<TypeProxy> getTypes() {
         try {
-            List<TypeProxy> typeProxies = service.getTypeInfo(userInfo);
+            List<TypeProxy> typeProxies = service.getAllTypes(userInfo);
             return typeProxies;
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
@@ -144,12 +116,12 @@ public class TypesManagerBean implements Serializable {
         return Collections.EMPTY_LIST;
     }
 
-    public SessionStateBean getSessionStateBean() {
-        return sessionStateBean;
+    public SelectedTypeHolder getSelectedTypeHolder() {
+        return selectedTypeHolder;
     }
 
-    public void setSessionStateBean(SessionStateBean sessionStateBean) {
-        this.sessionStateBean = sessionStateBean;
+    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 
     public String getDeleteMessage() {
@@ -160,22 +132,51 @@ public class TypesManagerBean implements Serializable {
         }
     }
 
-    private void initTree(List<TypeProxy> types) {
+    public LoginBean getLogin() {
+        return login;
+    }
+
+    public void setLogin(LoginBean login) {
+        this.login = login;
+    }
+
+    private void deleteType(UserInfo userInfo, TypeProxy selectedType) {
+        try {
+            if (!(selectedType.getTypeMutability().canDelete())) {
+                MessageUtils.printError(CustomStringUtils.concatenate(Constants.Messages.DELETE_MESSAGE_PREFFIX, selectedType.getDisplayName(), Constants.Messages.DELETE_MESSAGE_SUFFIX));
+            } else {
+                List<TypeProxy> selectedTypeChildren = selectedType.getChildren();
+                for (TypeProxy selectedTypeChild : selectedTypeChildren) {
+                    deleteType(userInfo, selectedTypeChild);
+                }
+                service.deleteType(userInfo, selectedType);
+                MessageUtils.printInfo(Constants.Messages.TYPE_DELETED + selectedType.getDisplayName());
+                setDefaultTypeToHolder();
+            }
+        } catch (CmisException e) {
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.ERROR_DELETE_TYPE, e);
+        } catch (CmisTypeDeleteException e) {
+            MessageUtils.printError(CustomStringUtils.concatenate(Constants.Messages.DELETE_MESSAGE_PREFFIX, selectedType.getDisplayName(), Constants.Messages.DELETE_MESSAGE_SUFFIX));
+            LOGGER.error(Constants.Messages.UNABLE_DELETE_TYPE, e);
+        }
+    }
+
+    private void initTree() {
         root = new DefaultTreeNode(Constants.TypesManager.TREE_DATA, null);
         addTypesToTree(types, root);
     }
 
-    private void setSelectedType(List<TypeProxy> types) {
-        if (sessionStateBean.getType() == null) {
-            selectedType = types.get(Constants.Integers.ZERO);
-            sessionStateBean.setType(selectedType);
+    private void setTypeToHolder() {
+        if (selectedTypeHolder.getType() == null) {
+            setDefaultTypeToHolder();
         } else {
-            selectedType = sessionStateBean.getType();
+            selectedType = selectedTypeHolder.getType();
         }
     }
 
     private void addTypesToTree(List<TypeProxy> types, TreeNode parent) {
-        TypeProxy selectType = sessionStateBean.getType();
+        TypeProxy selectType = selectedTypeHolder.getType();
         for (TypeProxy type : types) {
             TreeNode node = new DefaultTreeNode(type, parent);
             if (type.getId().equals(selectType.getId())) {
@@ -194,5 +195,10 @@ public class TypesManagerBean implements Serializable {
             treeNode.getParent().setExpanded(true);
             treeNode = treeNode.getParent();
         }
+    }
+
+    private void setDefaultTypeToHolder() {
+        selectedType = types.get(Constants.Integers.ZERO);
+        selectedTypeHolder.setType(selectedType);
     }
 }

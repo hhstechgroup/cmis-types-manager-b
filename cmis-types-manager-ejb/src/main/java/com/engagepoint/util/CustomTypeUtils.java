@@ -1,4 +1,4 @@
-package com.engagepoint.service;
+package com.engagepoint.util;
 
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.client.api.Session;

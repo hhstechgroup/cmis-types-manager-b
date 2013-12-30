@@ -3,9 +3,16 @@ package com.engagepoint.bean;
 import com.engagepoint.constant.Constants;
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.*;
+import com.engagepoint.pojo.PropertyDefinitionImpl;
+import com.engagepoint.pojo.Type;
+import com.engagepoint.pojo.TypeProxy;
+import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
-import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
+import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
+import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
+import org.apache.chemistry.opencmis.commons.enums.Cardinality;
+import org.apache.chemistry.opencmis.commons.enums.PropertyType;
+import org.apache.chemistry.opencmis.commons.enums.Updatability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +22,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @ManagedBean
@@ -25,40 +34,170 @@ public class CreateTypeBean implements Serializable {
     private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{sessionStateBean}")
-    private SessionStateBean sessionStateBean;
-    private TypeDefinitionImpl newType;
-    private List<PropertyDefinitionImpl> propertyDefinitions;
+    @ManagedProperty(value = "#{selectedTypeHolder}")
+    private SelectedTypeHolder selectedTypeHolder;
+    private Type newType;
+    private List<PropertyDefinitionImpl> typeProperties;
     private TypeProxy selectedType;
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
     private PropertyDefinitionImpl newTypeProperty;
-    private TypeProperty selectedTypeProperty;
-    private List<TypeProperty> selectedTypeProperties;
-    private TypeDelegate typeDelegate;
+    private PropertyDefinitionImpl selectedTypeProperty;
+    private List<PropertyDefinitionImpl> selectedTypeProperties;
+    private boolean updateBtnDisabled;
+    private boolean deleteBtnDisabled;
+    private TypeDefinition typeDefinition;
+
 
     @PostConstruct
     public void init() {
-        newType = new TypeDefinitionImpl();
-        selectedType = sessionStateBean.getType();
-        typeDelegate = new TypeDelegate(newType);
 
+        newTypeProperty = new PropertyDefinitionImpl();
+        newTypeProperty.setParent(false);
+        selectedTypeProperties = new ArrayList<PropertyDefinitionImpl>();
+        updateBtnDisabled = true;
+        deleteBtnDisabled = true;
+        newType = new Type();
+        setValuesToLists();
+        selectedType = selectedTypeHolder.getType();
+        selectedTypeProperty = new PropertyDefinitionImpl();
+        UserInfo userInfo = login.getUserInfo();
+        try {
+            typeDefinition = service.getTypeDefinitionById(userInfo, selectedType);
+        } catch (CmisException e) {
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
+        }
+        typeProperties = convert(getPropertyDefinitions());
+        setAttributes(userInfo);
+        if (isSecondary()) {
+            selectedType.setId(Constants.TypesManager.CMIS_SECONDARY);
+            newType.setCreatable(false);
+            newType.setFileable(false);
+            newType.setControllableAcl(false);
+            newType.setControllablePolicy(false);
+        }
     }
 
-    public TypeDelegate getTypeDelegate() {
-        return typeDelegate;
+    public List<PropertyDefinition> getPropertyDefinitions() {
+        Collection<PropertyDefinition<?>> values = typeDefinition.getPropertyDefinitions().values();
+        return new ArrayList<PropertyDefinition>(values);
     }
 
-    public void setTypeDelegate(TypeDelegate typeDelegate) {
-        this.typeDelegate = typeDelegate;
+    public void addNewMetaData() {
+        updateBtnDisabled = true;
+        deleteBtnDisabled = true;
+        List<String> propertyIdList = new ArrayList<String>();
+        for (PropertyDefinitionImpl propertyDefinition : typeProperties) {
+            propertyIdList.add(propertyDefinition.getId());
+        }
+        if (!propertyIdList.contains(newTypeProperty.getId())) {
+            typeProperties.add(newTypeProperty);
+            newTypeProperty = new PropertyDefinitionImpl();
+            newTypeProperty.setParent(false);
+        } else {
+            MessageUtils.printError("This Id already exists");
+        }
+    }
+
+    public void updateSelectedMetaData() {
+        LOGGER.info(selectedTypeProperty.toString());
+    }
+
+    public void deleteMetaData() {
+        for (PropertyDefinitionImpl property : selectedTypeProperties) {
+            typeProperties.remove(property);
+        }
+        selectedTypeProperties.clear();
+        if (typeProperties.isEmpty()) {
+            updateBtnDisabled = true;
+            deleteBtnDisabled = true;
+        } else if (selectedTypeProperties.size() == 1) {
+            updateBtnDisabled = false;
+            deleteBtnDisabled = true;
+        }
+    }
+
+    public void onRowSelection() {
+        //  TODO change the logic to retrieve the parameters and check when it call
+        if (!selectedTypeProperties.isEmpty() && selectedTypeProperties.size() < 2) {
+            for (PropertyDefinitionImpl property : getTypeProperties()) {
+                property.setSelected(false);
+            }
+            if (!selectedTypeProperties.get(0).getIsParent()) {
+                selectedTypeProperties.get(0).setSelected(true);
+                selectedTypeProperty = selectedTypeProperties.get(0);
+                updateBtnDisabled = false;
+                deleteBtnDisabled = false;
+            } else {
+                deleteBtnDisabled = true;
+                updateBtnDisabled = true;
+            }
+        } else {
+            for (PropertyDefinitionImpl property : selectedTypeProperties) {
+                if (!property.getIsParent()) {
+                    property.setSelected(true);
+                    deleteBtnDisabled = false;
+                } else {
+                    deleteBtnDisabled = true;
+                }
+            }
+            updateBtnDisabled = true;
+        }
+       // deleteBtnDisabled = false;
+    }
+
+    public void onRowUnSelection() {
+        for (PropertyDefinitionImpl property : getTypeProperties()) {
+            if (!selectedTypeProperties.contains(property)) {
+                property.setSelected(false);
+            }
+        }
+        if (!selectedTypeProperties.isEmpty() && selectedTypeProperties.size() < 2) {
+            updateBtnDisabled = false;
+            selectedTypeProperty = selectedTypeProperties.get(0);
+        }
+    }
+
+    public void onRowSelection(PropertyDefinitionImpl property) {
+        if (selectedTypeProperties.contains(property)) {
+            selectedTypeProperties.remove(property);
+        } else {
+            selectedTypeProperties.add(property);
+        }
+        if (!selectedTypeProperties.isEmpty() && selectedTypeProperties.size() < 2) {
+            selectedTypeProperty = selectedTypeProperties.get(0);
+            updateBtnDisabled = false;
+        } else {
+            selectedTypeProperty = null;
+            updateBtnDisabled = true;
+        }
+        deleteBtnDisabled = false;
+    }
+
+    private void setAttributes(UserInfo usrInf) {
+        try {
+            TypeDefinition typeDefinition = service.getTypeDefinitionById(usrInf, selectedType);
+            newType.setCreatable(typeDefinition.isCreatable());
+            newType.setFileable(typeDefinition.isFileable());
+            newType.setQueryable(typeDefinition.isQueryable());
+            newType.setIncludedInSupertypeQuery(typeDefinition.isIncludedInSupertypeQuery());
+            newType.setFulltextIndexed(typeDefinition.isFulltextIndexed());
+            newType.setControllableAcl(typeDefinition.isControllableAcl());
+            newType.setControllablePolicy(typeDefinition.isControllablePolicy());
+        } catch (CmisException e) {
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
+        }
     }
 
     public String createType() {
         try {
             UserInfo userInfo = login.getUserInfo();
-            newType.setBaseTypeId(BaseTypeId.fromValue(selectedType.getBaseType()));
+            newType.setBaseTypeId(selectedType.getBaseType());
             newType.setParentTypeId(selectedType.getId());
+            newType.setProperties(typeProperties);
             service.createType(userInfo, newType);
             MessageUtils.printInfo(newType.getDisplayName() + Constants.Messages.TYPE_CREATED);
             return Constants.Navigation.TO_MAIN_PAGE;
@@ -69,11 +208,30 @@ public class CreateTypeBean implements Serializable {
         return Constants.Navigation.TO_CURRENT_PAGE;
     }
 
-    public TypeDefinitionImpl getTypeDefinition() {
+    private void setValuesToLists() {
+        cardinalityValues = getValuesForSelectOneMenu(Cardinality.values());
+        updatabilityValues = getValuesForSelectOneMenu(Updatability.values());
+        propertyTypeValues = getValuesForSelectOneMenu(PropertyType.values());
+    }
+
+    private List<String> getValuesForSelectOneMenu(Enum[] values) {
+        List<String> list = new ArrayList<String>();
+        for (Enum value : values) {
+            list.add(value.name());
+        }
+        return list;
+    }
+
+    public boolean isSecondary() {
+        return selectedType.getBaseType().equals(Constants.TypesManager.CMIS_SECONDARY);
+    }
+
+
+    public Type getType() {
         return newType;
     }
 
-    public void setTypeDefinition(TypeDefinitionImpl type) {
+    public void setType(Type type) {
         newType = type;
     }
 
@@ -93,80 +251,103 @@ public class CreateTypeBean implements Serializable {
         this.login = login;
     }
 
-    public SessionStateBean getSessionStateBean() {
-        return sessionStateBean;
+    public SelectedTypeHolder getSelectedTypeHolder() {
+        return selectedTypeHolder;
     }
 
-    public void setSessionStateBean(SessionStateBean sessionStateBean) {
-        this.sessionStateBean = sessionStateBean;
+    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 
-    public final class TypeDelegate {
-        private TypeDefinitionImpl typeDefinition;
+    public void deleteAction(PropertyDefinitionImpl property) {
+        typeProperties.remove(property);
+    }
 
-        private TypeDelegate(TypeDefinitionImpl typeDefinition) {
-            this.typeDefinition = typeDefinition;
+    public List<PropertyDefinitionImpl> getTypeProperties() {
+        return typeProperties;
+    }
+
+    public List<String> getUpdatabilityValues() {
+
+        return updatabilityValues;
+    }
+
+    public List<String> getCardinalityValues() {
+        return cardinalityValues;
+    }
+
+    public List<String> getPropertyTypeValuesValues() {
+        return propertyTypeValues;
+    }
+
+    public PropertyDefinitionImpl getNewTypeProperty() {
+        return newTypeProperty;
+    }
+
+    public void setNewTypeProperty(PropertyDefinitionImpl newTypeProperty) {
+        this.newTypeProperty = newTypeProperty;
+    }
+
+    public PropertyDefinitionImpl getSelectedTypeProperty() {
+        return selectedTypeProperty;
+    }
+
+    public void setSelectedTypeProperty(PropertyDefinitionImpl selectedTypeProperty) {
+        this.selectedTypeProperty = selectedTypeProperty;
+    }
+
+    public List<PropertyDefinitionImpl> getSelectedTypeProperties() {
+        return selectedTypeProperties;
+    }
+
+    public void setSelectedTypeProperties(List<PropertyDefinitionImpl> selectedTypeProperties) {
+        this.selectedTypeProperties = selectedTypeProperties;
+    }
+
+    public boolean isUpdateBtnDisabled() {
+        return updateBtnDisabled;
+    }
+
+    public void setUpdateBtnDisabled(boolean updateBtnDisabled) {
+        this.updateBtnDisabled = updateBtnDisabled;
+    }
+
+    public boolean isDeleteBtnDisabled() {
+        return deleteBtnDisabled;
+    }
+
+    public void setDeleteBtnDisabled(boolean deleteBtnDisabled) {
+        this.deleteBtnDisabled = deleteBtnDisabled;
+    }
+
+    public TypeDefinition getTypeDefinition() {
+        return typeDefinition;
+    }
+
+    public void setTypeDefinition(TypeDefinition typeDefinition) {
+        this.typeDefinition = typeDefinition;
+    }
+
+    private List<PropertyDefinitionImpl> convert(List<PropertyDefinition> definition) {
+        List<PropertyDefinitionImpl> definitionList = new ArrayList<PropertyDefinitionImpl>();
+        for (PropertyDefinition element : definition) {
+            PropertyDefinitionImpl propertyDefinition = new PropertyDefinitionImpl();
+            propertyDefinition.setId(element.getId());
+            propertyDefinition.setDisplayName(element.getDisplayName());
+            propertyDefinition.setLocalName(element.getLocalName());
+            propertyDefinition.setLocalNamespace(element.getLocalNamespace());
+            propertyDefinition.setCardinality(element.getCardinality());
+            propertyDefinition.setDescription(element.getDescription());
+            propertyDefinition.setPropertyType(element.getPropertyType());
+            propertyDefinition.setQueryName(element.getQueryName());
+            propertyDefinition.setUpdatability(element.getUpdatability());
+            propertyDefinition.setIsInherited(element.isInherited());
+            propertyDefinition.setIsOrderable(element.isOrderable());
+            propertyDefinition.setIsRequired(element.isRequired());
+            propertyDefinition.setIsQueryable(element.isQueryable());
+            propertyDefinition.setParent(true);
+            definitionList.add(propertyDefinition);
         }
-
-        public boolean isCreatable() {
-            return is(typeDefinition.isCreatable());
-        }
-
-        public void setCreatable(boolean creatable) {
-            typeDefinition.setIsCreatable(creatable);
-        }
-
-        public boolean isFileable() {
-            return is(typeDefinition.isFileable());
-        }
-
-        public void setFileable(boolean fileable) {
-            typeDefinition.setIsFileable(fileable);
-        }
-
-        public boolean isQueryable() {
-            return is(typeDefinition.isQueryable());
-        }
-
-        public void setQueryable(boolean queryable) {
-            typeDefinition.setIsQueryable(queryable);
-        }
-
-        public boolean isFulltextIndexed() {
-            return is(typeDefinition.isFulltextIndexed());
-        }
-
-        public void setFulltextIndexed(boolean fulltextIndexed) {
-            typeDefinition.setIsFulltextIndexed(fulltextIndexed);
-        }
-
-        public boolean isIncludedInSupertypeQuery() {
-            return is(typeDefinition.isIncludedInSupertypeQuery());
-        }
-
-        public void setIncludedInSupertypeQuery(boolean includedInSupertypeQuery) {
-            typeDefinition.setIsIncludedInSupertypeQuery(includedInSupertypeQuery);
-        }
-
-        public boolean isControllablePolicy() {
-            return is(typeDefinition.isControllablePolicy());
-        }
-
-        public void setControllablePolicy(boolean controllablePolicy) {
-            typeDefinition.setIsControllablePolicy(controllablePolicy);
-        }
-
-        public boolean isControllableAcl() {
-            return is(typeDefinition.isControllableAcl());
-        }
-
-        public void setControllableAcl(boolean controllableAcl) {
-            typeDefinition.setIsControllableAcl(controllableAcl);
-        }
-
-        public boolean is(Boolean b) {
-            return b != null && b;
-        }
-
+        return definitionList;
     }
 }

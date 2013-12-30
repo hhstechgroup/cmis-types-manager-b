@@ -1,4 +1,4 @@
-package com.engagepoint.service;
+package com.engagepoint.pojo;
 
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractPropertyDefinition;

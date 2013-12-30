@@ -1,6 +1,6 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.service.TypeProxy;
+import com.engagepoint.pojo.TypeProxy;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @ManagedBean
 @SessionScoped
-public class SessionStateBean implements Serializable {
+public class SelectedTypeHolder implements Serializable {
     private TypeProxy typeProxy;
 
     public TypeProxy getType() {

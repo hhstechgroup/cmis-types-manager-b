@@ -1,4 +1,4 @@
-package com.engagepoint.service;
+package com.engagepoint.util;
 
 import com.engagepoint.ejb.Service;
 import org.apache.chemistry.opencmis.commons.data.*;
