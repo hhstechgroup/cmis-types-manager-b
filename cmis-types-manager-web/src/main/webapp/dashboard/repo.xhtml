@@ -7,54 +7,54 @@
     <h:panelGrid columns="2" cellpadding="5">
 
         <h:outputText id="repoName" value="Name :"/>
-        <h:outputText id="repoNameView" disabled="true" value="#{sessionStateBean.repositoryInfo.name}"/>
+        <h:outputText id="repoNameView" disabled="true" value="#{repositoryBean.info.name}"/>
 
         <h:outputText id="repoId" value="Id :"/>
-        <h:outputText id="repoIdView" disabled="true" value="#{sessionStateBean.repositoryInfo.id}"/>
+        <h:outputText id="repoIdView" disabled="true" value="#{repositoryBean.info.id}"/>
 
         <h:outputText id="repoDescription" value="Description :"/>
-        <h:outputText id="repoDescriptionView" disabled="true" value="#{sessionStateBean.repositoryInfo.description}"/>
+        <h:outputText id="repoDescriptionView" disabled="true" value="#{repositoryBean.info.description}"/>
 
         <h:outputText id="repoVendor" value="Vendor Name :"/>
-        <h:outputText id="repoVendorView" disabled="true" value="#{sessionStateBean.repositoryInfo.vendorName}"/>
+        <h:outputText id="repoVendorView" disabled="true" value="#{repositoryBean.info.vendorName}"/>
 
         <h:outputText id="repoProductName" value="Product Name :"/>
-        <h:outputText id="repoProductNameView" disabled="true" value="#{sessionStateBean.repositoryInfo.productName}"/>
+        <h:outputText id="repoProductNameView" disabled="true" value="#{repositoryBean.info.productName}"/>
 
         <h:outputText id="repoProductVersison" value="Product Versison :"/>
         <h:outputText id="repoProductVersisonView" disabled="true"
-                      value="#{sessionStateBean.repositoryInfo.productVersion}"/>
+                      value="#{repositoryBean.info.productVersion}"/>
 
         <h:outputText id="repoVersionSupported" value="Version :"/>
         <h:outputText id="repoVersionSupportedView" disabled="true"
-                      value="#{sessionStateBean.repositoryInfo.cmisVersionSupported}"/>
+                      value="#{repositoryBean.info.cmisVersionSupported}"/>
 
         <h:outputText id="repoRootFolder" value="Root Folder :"/>
-        <h:outputText id="repoRootFolderView" disabled="true" value="#{sessionStateBean.repositoryInfo.rootFolderId}"/>
+        <h:outputText id="repoRootFolderView" disabled="true" value="#{repositoryBean.info.rootFolderId}"/>
 
         <h:outputText id="repoLatestChangeLogToken" value="Latest Change Token :"/>
         <h:outputText id="repoLatestChangeLogTokenView" disabled="true"
-                      value="#{sessionStateBean.repositoryInfo.latestChangeLogToken}"/>
+                      value="#{repositoryBean.info.latestChangeLogToken}"/>
 
         <h:outputText id="repoThinClientUri" value="Thin Client Uri :"/>
         <h:outputText id="repoThinClientUriView" disabled="true"
-                      value="#{sessionStateBean.repositoryInfo.thinClientUri}"/>
+                      value="#{repositoryBean.info.thinClientUri}"/>
 
         <h:outputText id="repoPrincipalAnonymous" value="Principal Anonymous :"/>
         <h:outputText id="repoPrincipalAnonymousView" disabled="true"
-                      value="#{sessionStateBean.repositoryInfo.principalIdAnonymous}"/>
+                      value="#{repositoryBean.info.principalIdAnonymous}"/>
 
         <h:outputText id="repoPrincipalAnyone" value="Principal Anyone :"/>
         <h:outputText id="repoPrincipalAnyoneView" disabled="true"
-                      value="#{sessionStateBean.repositoryInfo.principalIdAnyone}"/>
+                      value="#{repositoryBean.info.principalIdAnyone}"/>
 
         <h:outputText id="repoChangesIncomplete" value="Changes Incomplete:"/>
         <p:selectBooleanCheckbox id="repoChangesIncompleteView" disabled="true"
-                                 value="#{sessionStateBean.repositoryInfo.changesIncomplete}"/>
+                                 value="#{repositoryBean.info.changesIncomplete}"/>
 
         <h:outputText id="repoChangesOnType" value="Changes On Type :"/>
         <h:outputText id="repoChangesOnTypeView" disabled="true"
-                      value="#{sessionStateBean.repositoryInfo.changesOnType.toString()}"/>
+                      value="#{repositoryBean.info.changesOnType.toString()}"/>
 
     </h:panelGrid>
     <p:commandButton id="cancelRepoInfoButton" value="Cancel" styleClass="secondary" onclick="repoInfoModal.hide(); return false;"/>

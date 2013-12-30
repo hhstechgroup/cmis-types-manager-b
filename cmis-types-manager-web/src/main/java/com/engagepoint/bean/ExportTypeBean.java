@@ -7,9 +7,9 @@ package com.engagepoint.bean;
  */
 
 import com.engagepoint.constant.Constants;
+import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.CmisService;
-import com.engagepoint.service.UserInfo;
+import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.CustomStringUtils;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
@@ -35,14 +35,14 @@ import java.util.Date;
 public class ExportTypeBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExportTypeBean.class);
     @EJB
-    private CmisService service;
+    private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
 
     private UserInfo userInfo;
 
-    @ManagedProperty(value = "#{sessionStateBean}")
-    private SessionStateBean sessionStateBean;
+    @ManagedProperty(value = "#{selectedTypeHolder}")
+    private SelectedTypeHolder selectedTypeHolder;
 
     private boolean xmlOrJson;
     private boolean includeChildren;
@@ -55,7 +55,7 @@ public class ExportTypeBean {
     }
 
     public void exportType() {
-        String selectedTypeId = sessionStateBean.getTypeProxy().getId();
+        String selectedTypeId = selectedTypeHolder.getType().getId();
         String message;
         if (CustomStringUtils.isEmpty(selectedTypeId)) {
             message = Constants.Messages.SELECTED_TYPE_NOT_EMPTY;
@@ -111,12 +111,12 @@ public class ExportTypeBean {
         this.login = login;
     }
 
-    public SessionStateBean getSessionStateBean() {
-        return sessionStateBean;
+    public SelectedTypeHolder getSelectedTypeHolder() {
+        return selectedTypeHolder;
     }
 
-    public void setSessionStateBean(SessionStateBean sessionStateBean) {
-        this.sessionStateBean = sessionStateBean;
+    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 
     public boolean isXmlOrJson() {

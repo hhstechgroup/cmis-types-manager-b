@@ -1,4 +1,4 @@
-package com.engagepoint.service;
+package com.engagepoint.pojo;
 
 import java.util.List;
 

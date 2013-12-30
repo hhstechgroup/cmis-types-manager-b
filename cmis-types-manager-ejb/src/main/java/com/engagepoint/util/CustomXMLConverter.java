@@ -1,5 +1,6 @@
-package com.engagepoint.service;
+package com.engagepoint.util;
 
+import com.engagepoint.ejb.Service;
 import org.apache.chemistry.opencmis.commons.data.*;
 import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisInvalidArgumentException;
@@ -22,7 +23,7 @@ import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
 
 public class CustomXMLConverter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CmisService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
 
     private CustomXMLConverter() {
     }
@@ -611,7 +612,7 @@ public class CustomXMLConverter {
         protected abstract void addValue(XMLStreamReader parser, ChoiceImpl<T> target) throws XMLStreamException;
 
         protected abstract void addChoice(XMLStreamReader parser, ChoiceImpl<T> target) throws XMLStreamException;
-    };
+    }
 
     // ---------------------------------
     // --- objects and lists parsers ---

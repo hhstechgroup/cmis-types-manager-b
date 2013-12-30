@@ -1,8 +1,12 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.constant.Constants;
+import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.*;
+import com.engagepoint.pojo.PropertyDefinitionImpl;
+import com.engagepoint.pojo.Type;
+import com.engagepoint.pojo.TypeProxy;
+import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
@@ -24,14 +28,14 @@ import java.util.List;
 
 @ManagedBean
 @ViewScoped
-public class CreateBean implements Serializable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CreateBean.class);
+public class CreateTypeBean implements Serializable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateTypeBean.class);
     @EJB
-    private CmisService service;
+    private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{sessionStateBean}")
-    private SessionStateBean sessionStateBean;
+    @ManagedProperty(value = "#{selectedTypeHolder}")
+    private SelectedTypeHolder selectedTypeHolder;
     private Type newType;
     private List<PropertyDefinitionImpl> typeProperties;
     private TypeProxy selectedType;
@@ -56,11 +60,11 @@ public class CreateBean implements Serializable {
         deleteBtnDisabled = true;
         newType = new Type();
         setValuesToLists();
-        selectedType = sessionStateBean.getTypeProxy();
+        selectedType = selectedTypeHolder.getType();
         selectedTypeProperty = new PropertyDefinitionImpl();
         UserInfo userInfo = login.getUserInfo();
         try {
-            typeDefinition = service.getTypeDefinition(userInfo, selectedType);
+            typeDefinition = service.getTypeDefinitionById(userInfo, selectedType);
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
@@ -174,7 +178,7 @@ public class CreateBean implements Serializable {
 
     private void setAttributes(UserInfo usrInf) {
         try {
-            TypeDefinition typeDefinition = service.getTypeDefinition(usrInf, selectedType);
+            TypeDefinition typeDefinition = service.getTypeDefinitionById(usrInf, selectedType);
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());
@@ -247,12 +251,12 @@ public class CreateBean implements Serializable {
         this.login = login;
     }
 
-    public SessionStateBean getSessionStateBean() {
-        return sessionStateBean;
+    public SelectedTypeHolder getSelectedTypeHolder() {
+        return selectedTypeHolder;
     }
 
-    public void setSessionStateBean(SessionStateBean sessionStateBean) {
-        this.sessionStateBean = sessionStateBean;
+    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 
     public void deleteAction(PropertyDefinitionImpl property) {
