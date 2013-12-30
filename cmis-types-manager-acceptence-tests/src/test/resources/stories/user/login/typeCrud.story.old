@@ -51,8 +51,8 @@ Then wait for element 'updateMetadataModalDialog' is not visible
 When the user clicks on element with id/name/className 'newSourceSystemButton'
 When the user fills 'createMetadataModalForm-newMetaDataId' field with 'met'
 When the user fills 'createMetadataModalForm-newMetaDataName' field with 'met'
-When the user fills 'updateMetadataModalForm-newMetaDataLocalNameUpdate' field with 'met'
-When the user fills 'updateMetadataModalForm-newMetaDataQueryNameUpdate' field with 'met'
+When the user fills 'createMetadataModalForm-newMetaDataLocalName' field with 'met'
+When the user fills 'createMetadataModalForm-newMetaDataQueryName' field with 'met'
 When clicks on element with id/name/className 'createMetadataButton'
 Then wait for element 'createTypeForm-accordionPanel-metadataTabel_data' is visible
 When make 'metadataTabel-0-j_idt29' unchecked
