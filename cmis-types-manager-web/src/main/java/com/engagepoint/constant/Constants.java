@@ -102,7 +102,7 @@ public class Constants {
 
         public static final String INFO_MID = "info";
         public static final String INFO_ROOT_VIEW = "/about/";
-        public static final String INFO_LABEL = "Repository Info";
+        public static final String INFO_LABEL = "About";
 
         public static final String STYLE_CLASS_ACTIVE = "active";
     }
