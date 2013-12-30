@@ -1,6 +1,6 @@
 package com.engagepoint.model;
 
-import com.engagepoint.service.PropertyDefinitionImpl;
+import com.engagepoint.pojo.PropertyDefinitionImpl;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.model.SelectableDataModel;
 

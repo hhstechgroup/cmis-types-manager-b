@@ -29,9 +29,9 @@
                             <h:form id="changeRepositoryForm">
                                 <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
                                     <p:selectOneMenu value="#{repositoryBean.selectedRepoId}" id="changeRepositoryMenu">
-                                        <f:selectItems value="#{repositoryBean.repositoryList}"/>
+                                        <f:selectItems value="#{repositoryBean.selectItems}"/>
                                         <p:ajax event="change" update="-mainContent"
-                                                listener="#{repositoryBean.updateMainContent}"/>
+                                                listener="#{repositoryBean.changeRepository}"/>
                                     </p:selectOneMenu>
                                 </h:panelGrid>
                             </h:form>

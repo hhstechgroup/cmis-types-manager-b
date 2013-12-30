@@ -1,11 +1,11 @@
 package com.engagepoint.bean;
 
+import com.engagepoint.ejb.Service;
 import com.engagepoint.util.MessageUtils;
 import com.engagepoint.constant.Constants;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.CmisService;
-import com.engagepoint.service.TypeProxy;
-import com.engagepoint.service.UserInfo;
+import com.engagepoint.pojo.TypeProxy;
+import com.engagepoint.pojo.UserInfo;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.slf4j.Logger;
@@ -31,20 +31,20 @@ import java.util.List;
 public class ViewTypeBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ViewTypeBean.class);
     @EJB
-    private CmisService service;
+    private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private TypeDefinition typeDefinition;
 
-    @ManagedProperty(value = "#{sessionStateBean}")
-    private SessionStateBean sessionStateBean;
+    @ManagedProperty(value = "#{selectedTypeHolder}")
+    private SelectedTypeHolder selectedTypeHolder;
 
     @PostConstruct
     public void init() {
         try {
-            TypeProxy selectedType = sessionStateBean.getTypeProxy();
+            TypeProxy selectedType = selectedTypeHolder.getType();
             UserInfo userInfo = login.getUserInfo();
-            typeDefinition = service.getTypeDefinition(userInfo, selectedType);
+            typeDefinition = service.getTypeDefinitionById(userInfo, selectedType);
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
@@ -82,12 +82,12 @@ public class ViewTypeBean implements Serializable {
         return typeDefinition;
     }
 
-    public SessionStateBean getSessionStateBean() {
-        return sessionStateBean;
+    public SelectedTypeHolder getSelectedTypeHolder() {
+        return selectedTypeHolder;
     }
 
-    public void setSessionStateBean(SessionStateBean sessionStateBean) {
-        this.sessionStateBean = sessionStateBean;
+    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 }
 

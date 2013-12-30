@@ -1,9 +1,9 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.constant.Constants;
+import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.CmisService;
-import com.engagepoint.service.UserInfo;
+import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.primefaces.event.FileUploadEvent;
@@ -29,13 +29,13 @@ import java.io.InputStream;
 public class ImportTypeBean {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImportTypeBean.class);
     @EJB
-    private CmisService service;
+    private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private InputStream stream;
     private String fileName;
-    @ManagedProperty(value = "#{sessionStateBean}")
-    private SessionStateBean sessionStateBean;
+    @ManagedProperty(value = "#{selectedTypeHolder}")
+    private SelectedTypeHolder selectedTypeHolder;
     private boolean importButtonDisabled;
 
     @PostConstruct
@@ -98,12 +98,12 @@ public class ImportTypeBean {
         this.login = login;
     }
 
-    public SessionStateBean getSessionStateBean() {
-        return sessionStateBean;
+    public SelectedTypeHolder getSelectedTypeHolder() {
+        return selectedTypeHolder;
     }
 
-    public void setSessionStateBean(SessionStateBean sessionStateBean) {
-        this.sessionStateBean = sessionStateBean;
+    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 
     public boolean isImportButtonDisabled() {

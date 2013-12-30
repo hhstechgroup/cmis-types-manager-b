@@ -1,4 +1,4 @@
-package com.engagepoint.service;
+package com.engagepoint.pojo;
 
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractTypeDefinition;
 
@@ -8,4 +8,5 @@ import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractTypeDefini
  * Time: 17:25
  */
 public class TypeDefinitionImpl extends AbstractTypeDefinition {
+
 }
