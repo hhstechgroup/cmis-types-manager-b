@@ -188,7 +188,7 @@
         </p:tab>
     </p:accordionPanel>
     <p:commandButton id="cancelCreateButton" update="-mainContent" value="Cancel"
-                     action="#{backNavigationBean.goToLastPage()}"
+                     action="/dashboard/index?faces-redirect=true"
                      styleClass="secondary mt20 fl-left" immediate="true"/>
     <p:commandButton id="createTypeBtm" value="Create Type" action="#{createTypeBean.createType}"
                      update="-mainContent"
