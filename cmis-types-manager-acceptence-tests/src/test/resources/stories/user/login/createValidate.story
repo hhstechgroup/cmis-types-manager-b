@@ -28,17 +28,41 @@ Then element id/name/className 'ui-messages-error-summary' has text 'Please, ent
 When the user fills 'inputTextView' field with 'rel2'
 When the user clicks on first element with className 'ui-icon-triangle-1-e' with text 'Metadata'
 When the user clicks on element with id/name/className 'newSourceSystemButton'
-When the user fills 'newMetaDataId' field with 'met2'
-When the user fills 'newMetaDataName' field with 'met2'
-When the user fills 'newMetaDataLocalName' field with 'met2'
-When the user fills 'newMetaDataQueryName' field with 'met2'
+When the user fills 'newMetaDataId' field with ''
+When the user fills 'newMetaDataLocalName' field with 'rmet'
+When the user fills 'newMetaDataQueryName' field with 'rmet'
+When clicks on element with id/name/className 'createMetadataButton'
+Then element id/name/className 'ui-messages-error-summary' has text 'Please, Id'
+When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user fills 'newMetaDataId' field with 'rmet'
+When the user fills 'newMetaDataLocalName' field with ''
+When the user fills 'newMetaDataQueryName' field with 'rmet'
+When clicks on element with id/name/className 'createMetadataButton'
+Then element id/name/className 'ui-messages-error-summary' has text 'Local name'
+When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user fills 'newMetaDataId' field with 'rmet'
+When the user fills 'newMetaDataLocalName' field with 'rmet'
+When the user fills 'newMetaDataQueryName' field with 'Please, enter Query Name'
+When the user clicks on element with id/name/className 'newSourceSystemButton'
+When the user fills 'newMetaDataId' field with 'rmet'
+When the user fills 'newMetaDataName' field with 'rmet'
+When the user fills 'newMetaDataLocalName' field with 'rmet'
+When the user fills 'newMetaDataQueryName' field with 'rmet'
 When clicks on element with id/name/className 'createMetadataButton'
 Then wait for element 'createTypeForm-accordionPanel-metadataTabel_data' is visible
-Then wait for visible element '//tbody[@id="createTypeForm-accordionPanel-metadataTabel_data"]/tr[@class="ui-widget-content ui-datatable-even"]'
+Then wait for visible element '//tr[@data-rk='rmet']'
 When the user clicks on element with id/name/className 'createTypeBtm'
 Then wait for element 'treeForm' is visible
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel2'
+
+Scenario: delete type scenario
+When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
+When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
+When the user clicks on element with id/name/className 'commandForm-deleteButton'
+Then wait for element 'deleteTypeDialog' is visible
+When the user clicks on element with id/name/className 'deleteForm-Yes'
+Then wait for element 'treeForm' is visible
 
 Scenario: logout scenario
 When clicks on element with id/name/className 'logoutForm-logoutBtn'

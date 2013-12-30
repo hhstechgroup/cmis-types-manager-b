@@ -89,7 +89,7 @@ public class CreateBean implements Serializable {
             propertyIdList.add(propertyDefinition.getId());
         }
         if (!propertyIdList.contains(newTypeProperty.getId())) {
-            typeProperties.add(newTypeProperty);
+            typeProperties.add(0,newTypeProperty);
             newTypeProperty = new PropertyDefinitionImpl();
             newTypeProperty.setParent(false);
         } else {
