@@ -1,9 +1,9 @@
 package com.engagepoint.bean;
 
+import com.engagepoint.ejb.Service;
 import com.engagepoint.util.MessageUtils;
 import com.engagepoint.constant.Constants;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.service.CmisService;
 import com.engagepoint.service.UserInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 public class LoginBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginBean.class);
     @EJB
-    private CmisService service;
+    private Service service;
     @ManagedProperty(value = "#{sessionStateBean}")
     private SessionStateBean sessionStateBean;
     private UserInfo userInfo;
@@ -47,7 +47,6 @@ public class LoginBean implements Serializable {
                 sessionID = String.valueOf(Math.random() * 1000);
                 HttpSession httpSession = getHttpSession();
                 httpSession.setAttribute(Constants.Strings.SESSION_ID_DISPLAY_NAME, sessionID);
-                loadRepositoryInfo();
                 loggedIn = true;
                 return Constants.Navigation.TO_MAIN_PAGE;
             } else {
@@ -65,7 +64,6 @@ public class LoginBean implements Serializable {
     }
 
     public String logout() {
-        destroyRepositoryInfo();
         loggedIn = false;
         userInfo.reset();
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
@@ -131,15 +129,5 @@ public class LoginBean implements Serializable {
         return service.isUserExists(userInfo);
     }
 
-    private void loadRepositoryInfo(){
-        try {
-            sessionStateBean.setRepositoryInfo(service.getRepositoryInfo(userInfo));
-        } catch (CmisException e) {
-            LOGGER.error(e.getMessage(), e);
-        }
-    }
 
-    private void destroyRepositoryInfo(){
-        sessionStateBean.destroyReposytoryInfo();
-    }
 }

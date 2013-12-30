@@ -1,4 +1,4 @@
-package com.engagepoint.service;
+package com.engagepoint.ejb;
 
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
