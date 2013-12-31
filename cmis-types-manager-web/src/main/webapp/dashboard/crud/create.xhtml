@@ -19,14 +19,14 @@
 
                 <p:outputLabel id="outputTextView" for="inputTextView" value="Display name :"/>
                 <p:inputText id="inputTextView" value="#{createTypeBean.type.displayName}" required="true"
-                             requiredMessage="Please, enter display name"/>
+                             requiredMessage="Please, enter attribute Display name"/>
 
                 <p:outputLabel id="outputTextView1" for="inputTextView1" value="Description :"/>
                 <p:inputText id="inputTextView1" value="#{createTypeBean.type.description}"/>
 
                 <p:outputLabel id="outputTextView2" for="inputTextView2" value="Id :"/>
                 <p:inputText id="inputTextView2" value="#{createTypeBean.type.id}" required="true"
-                             requiredMessage="Please, enter id"/>
+                             requiredMessage="Please, enter attribute ID"/>
 
                 <p:outputLabel id="outputTextView3" for="inputTextView3" value="Local Namespace :"/>
                 <p:inputText id="inputTextView3" value="#{createTypeBean.type.localNamespace}"/>
@@ -203,7 +203,7 @@
             <p:outputLabel value="Id">
                 <p:inputText id="newMetaDataId" value="#{createTypeBean.newTypeProperty.id}"
                              required="true"
-                             requiredMessage="Please, Id"/>
+                             requiredMessage="Please, enter metadata ID"/>
             </p:outputLabel>
 
             <p:outputLabel value="Name">
@@ -213,13 +213,13 @@
             <p:outputLabel value="Local name">
                 <p:inputText id="newMetaDataLocalName" value="#{createTypeBean.newTypeProperty.localName}"
                              required="true"
-                             requiredMessage="Local name"/>
+                             requiredMessage="Please, enter metadata Local name"/>
             </p:outputLabel>
 
             <p:outputLabel value="Query Name">
                 <p:inputText id="newMetaDataQueryName" value="#{createTypeBean.newTypeProperty.queryName}"
                              required="true"
-                             requiredMessage="Please, enter Query Name"/>
+                             requiredMessage="Please, enter metadata Query Name"/>
             </p:outputLabel>
 
             <p:outputLabel value="Local name space">
