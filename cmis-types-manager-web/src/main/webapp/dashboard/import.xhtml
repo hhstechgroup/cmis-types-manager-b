@@ -3,21 +3,22 @@
         xmlns:p="http://primefaces.org/ui"
         xmlns:uib="http://engagepoint.com/uib" id="importForm" enctype="multipart/form-data">
 
+    <h:outputLabel styleClass="ui-outputlabel" id="fileUploadNameHeader" value="File name"/>
+    <h:outputLabel styleClass="ui-outputlabel" id="importFileSizeHeader" value="File size"/>
     <p:inputText disabled="true" readonly="true" id="fileUploadName" value="#{importTypeBean.fileName}"/>
+    <h:inputText readonly="true" disabled="true" id="importFileSize" value="#{importTypeBean.fileSize}"/>
 
     <p:fileUpload id="importFileUpload" fileUploadListener="#{importTypeBean.upload}" label="Select file"
                   mode="advanced"
                   dragDropSupport="true"
                   auto="true" update="-importForm,fileUploadName" sizeLimit="1000000"
                   allowTypes="/(\.|\/)(xml|json)$/"/>
-
     <p:commandButton id="cancelImportModalDialog" value="Cancel" update="-mainContent" styleClass="secondary"
                      onclick="jQuery('#importModal').modal('hide');return false;"/>
 
     <p:commandButton styleClass="fl-right" disabled="#{importTypeBean.importButtonDisabled}" id="createTypeBtm"
                      value="Import" action="#{importTypeBean.importTypes}"
                      update="-mainContent"/>
-
 
 </h:form>
 

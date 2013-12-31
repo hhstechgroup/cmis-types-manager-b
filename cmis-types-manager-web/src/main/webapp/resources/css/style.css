@@ -70,13 +70,14 @@
 }
 
 #importForm-importFileUpload{
+    margin-top: 20px;
     width: 100%;
 }
 
 #importForm-fileUploadName{
     float: none;
     margin: 0;
-    width: 98%;
+    width: 80%;
     margin-left: 10px;
     margin-bottom: 5px;
 }
@@ -89,7 +90,23 @@
 }
 
 #importForm-fileUploadName {
+    float: left;
+}
+
+#importForm-importFileSize {
+    width: 17%;
     float: right;
+}
+
+#importForm-fileUploadNameHeader {
+    margin-left: 10px;
+    margin-bottom: 10px;
+    width: 80%;
+}
+
+#importForm-importFileSizeHeader {
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 #importForm-j_idt34 {

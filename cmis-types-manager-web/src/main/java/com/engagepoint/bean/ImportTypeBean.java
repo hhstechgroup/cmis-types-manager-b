@@ -6,7 +6,9 @@ import com.engagepoint.exception.CmisException;
 import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
+import org.apache.commons.lang.StringUtils;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +19,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * User: AlexDenisenko
@@ -32,46 +33,37 @@ public class ImportTypeBean {
     private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    private InputStream stream;
-    private String fileName;
+    private UploadedFile file;
     @ManagedProperty(value = "#{selectedTypeHolder}")
     private SelectedTypeHolder selectedTypeHolder;
     private boolean importButtonDisabled;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         importButtonDisabled = true;
     }
 
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
     public void upload(FileUploadEvent event) {
-        try {
-            fileName = event.getFile().getFileName();
-            stream = event.getFile().getInputstream();
-            importButtonDisabled = false;
-        } catch (IOException e) {
-            importButtonDisabled = true;
-            fileName = Constants.Strings.EMPTY_STRING;
-            MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_UPLOAD_FILE, e);
-        }
+        file = event.getFile();
+        importButtonDisabled = false;
+    }
+
+    public String getFileName() {
+        return file != null ? file.getFileName() : StringUtils.EMPTY;
+    }
+
+    public String getFileSize() {
+        return file != null ? getFileSizeInKilobytes(file.getSize()) : StringUtils.EMPTY;
     }
 
     public String importTypes() {
         try {
-            if (stream != null) {
+            if (file.getInputstream() != null) {
                 UserInfo userInfo = login.getUserInfo();
-                if (fileName.contains(Constants.Strings.XML_PATTERN)) {
-                    service.importTypeFromXml(userInfo, stream);
+                if (file.getFileName().contains(Constants.Strings.XML_PATTERN)) {
+                    service.importTypeFromXml(userInfo, file.getInputstream());
                 } else {
-                    service.importTypeFromJson(userInfo, stream);
+                    service.importTypeFromJson(userInfo, file.getInputstream());
                 }
                 MessageUtils.printInfo(Constants.Messages.SUCCESS_IMPORT_TYPE);
             } else {
@@ -86,6 +78,10 @@ public class ImportTypeBean {
         } catch (JSONParseException e) {
             MessageUtils.printError(Constants.Messages.ERROR_IMPORT_TYPE);
             LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
+        } catch (IOException e) {
+            importButtonDisabled = true;
+            MessageUtils.printError(e.getMessage());
+            LOGGER.error(Constants.Messages.UNABLE_UPLOAD_FILE, e);
         }
         return Constants.Navigation.TO_MAIN_PAGE;
     }
@@ -112,5 +108,9 @@ public class ImportTypeBean {
 
     public void setImportButtonDisabled(boolean importButtonDisabled) {
         this.importButtonDisabled = importButtonDisabled;
+    }
+
+    private String getFileSizeInKilobytes(long size) {
+        return String.format("%.2f KB", size / 1000.0);
     }
 }
