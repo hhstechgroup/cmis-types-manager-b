@@ -18,7 +18,7 @@
     <properties>
         <version.maven-release-plugin>2.3.2</version.maven-release-plugin>
         <version.maven-deploy-plugin>2.7</version.maven-deploy-plugin>
-        <global.version>1.0.2-RELEASE</global.version>
+        <global.version>1.0-SNAPSHOT</global.version>
         <utf-8.encoding>UTF-8</utf-8.encoding>
     </properties>
 
