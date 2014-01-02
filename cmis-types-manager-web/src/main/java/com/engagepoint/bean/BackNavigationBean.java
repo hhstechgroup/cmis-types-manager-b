@@ -14,7 +14,7 @@ import java.io.Serializable;
 @ManagedBean
 @RequestScoped
 public class BackNavigationBean implements Serializable {
-
+//  TODO Change this crap
     public String getHistory(){
         return LoginFilter.history.toString();
     }

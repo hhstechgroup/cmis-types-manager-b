@@ -183,13 +183,13 @@ public class Service {
         }
     }
 
-    public Map<String, Repository> getRepositories(UserInfo userInfo) throws CmisException {
+    public List<Repository> getRepositories(UserInfo userInfo) throws CmisException {
         return connection.getRepositories(userInfo);
     }
 
     public String getDefaultRepository(UserInfo userInfo) throws CmisException {
-        Map<String, Repository> repositories = getRepositories(userInfo);
-        return repositories.values().iterator().next().getId();
+        List<Repository> repositories = getRepositories(userInfo);
+        return repositories.get(0).getId();
     }
 
     public boolean isUserExists(UserInfo userInfo) throws CmisException {

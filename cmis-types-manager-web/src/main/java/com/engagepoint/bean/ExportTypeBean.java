@@ -6,10 +6,8 @@ package com.engagepoint.bean;
  * Time: 16:26 AM
  */
 
-import com.engagepoint.constant.Constants;
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.CustomStringUtils;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
@@ -29,6 +27,10 @@ import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.engagepoint.constant.FileConstants.*;
+import static com.engagepoint.constant.MessageConstants.*;
+import static com.engagepoint.constant.NavigationConstants.TO_CURRENT_PAGE;
+
 
 @ManagedBean
 @ViewScoped
@@ -38,69 +40,56 @@ public class ExportTypeBean {
     private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-
-    private UserInfo userInfo;
-
-    @ManagedProperty(value = "#{selectedTypeHolder}")
-    private SelectedTypeHolder selectedTypeHolder;
-
-    private boolean xmlOrJson;
+    @ManagedProperty(value = "#{selectedTypeHolderBean}")
+    private SelectedTypeHolderBean selectedTypeHolder;
     private boolean includeChildren;
-
+    private String fileType;
 
     @PostConstruct
     public void init() {
-        userInfo = login.getUserInfo();
-        xmlOrJson = true;
+        fileType = XML_PATTERN;
     }
 
     public void exportType() {
-        String selectedTypeId = selectedTypeHolder.getType().getId();
-        String message;
-        if (CustomStringUtils.isEmpty(selectedTypeId)) {
-            message = Constants.Messages.SELECTED_TYPE_NOT_EMPTY;
-            MessageUtils.printError(message);
-            LOGGER.error(message);
-        } else {
-            FacesContext facesContext = FacesContext.getCurrentInstance();
-            ExternalContext externalContext = facesContext.getExternalContext();
+        if (selectedTypeHolder.getType() != null) {
             try {
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                if (xmlOrJson) {
-                    service.exportTypeToXML(userInfo, out, selectedTypeId, includeChildren);
-                } else {
-                    service.exportTypeToJSON(userInfo, out, selectedTypeId, includeChildren);
+                if (fileType.equals(XML_PATTERN)) {
+                    exportToXml();
+                } else if (fileType.equals(JSON_PATTERN)) {
+                    exportToJson();
                 }
-                byte[] arr = out.toByteArray();
-                OutputStream responseOutputStream = externalContext.getResponseOutputStream();
-
-                SimpleDateFormat sdf = new SimpleDateFormat("_dd-M-yyyy_HH-mm-SS");
-                String date = sdf.format(new Date());
-                if(xmlOrJson){
-                    externalContext.setResponseContentType("application/xml");
-                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, date, ".xml", Constants.Strings.QUOTE));
-                } else {
-                    externalContext.setResponseContentType("application/json");
-                    externalContext.setResponseHeader(Constants.Strings.DISPOSITION, CustomStringUtils.concatenate(Constants.Strings.ATTACHMENT_FILE_NAME, selectedTypeId, date, ".json", Constants.Strings.QUOTE));
-                }
-                responseOutputStream.write(arr);
-                IOUtils.closeQuietly(responseOutputStream);
-                message = Constants.Messages.EXPORT_SUCCESSFULL;
-                LOGGER.info(message);
             } catch (IOException e) {
                 MessageUtils.printError(e.getMessage());
-                LOGGER.error(Constants.Messages.ERROR_EXPORT_TYPE, e);
+                LOGGER.error(ERROR_EXPORT_TYPE, e);
             } catch (CmisException e) {
                 MessageUtils.printError(e.getMessage());
-                LOGGER.error(Constants.Messages.ERROR_EXPORT_TYPE, e);
-            } finally {
-                facesContext.responseComplete();
+                LOGGER.error(ERROR_EXPORT_TYPE, e);
             }
+        } else {
+            MessageUtils.printError(SELECTED_TYPE_NOT_EMPTY);
+            LOGGER.error(SELECTED_TYPE_NOT_EMPTY);
         }
+
     }
 
-    public String redirect(){
-        return Constants.Navigation.TO_CURRENT_PAGE;
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
+    public boolean isIncludeChildren() {
+        return includeChildren;
+    }
+
+    public void setIncludeChildren(boolean includeChildren) {
+        this.includeChildren = includeChildren;
+    }
+
+    public String redirect() {
+        return TO_CURRENT_PAGE;
     }
 
     public LoginBean getLogin() {
@@ -111,27 +100,49 @@ public class ExportTypeBean {
         this.login = login;
     }
 
-    public SelectedTypeHolder getSelectedTypeHolder() {
+    public SelectedTypeHolderBean getSelectedTypeHolder() {
         return selectedTypeHolder;
     }
 
-    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+    public void setSelectedTypeHolder(SelectedTypeHolderBean selectedTypeHolder) {
         this.selectedTypeHolder = selectedTypeHolder;
     }
 
-    public boolean isXmlOrJson() {
-        return xmlOrJson;
+    private void exportToXml() throws CmisException, IOException {
+        String typeId = selectedTypeHolder.getType().getId();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        service.exportTypeToXML(login.getUserInfo(), out, typeId, includeChildren);
+        exportFile(out, getFileName(typeId, XML_PATTERN));
     }
 
-    public void setXmlOrJson(boolean xmlOrJson) {
-        this.xmlOrJson = xmlOrJson;
+    private void exportToJson() throws CmisException, IOException {
+        String typeId = selectedTypeHolder.getType().getId();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        service.exportTypeToJSON(login.getUserInfo(), out, typeId, includeChildren);
+        exportFile(out, getFileName(typeId, JSON_PATTERN));
     }
 
-    public boolean isIncludeChildren() {
-        return includeChildren;
+    private void exportFile(ByteArrayOutputStream out, String fileName) throws IOException {
+        try {
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            OutputStream responseOutputStream = externalContext.getResponseOutputStream();
+            externalContext.setResponseContentType(CONTENT_TYPE);
+            externalContext.setResponseHeader(DISPOSITION, fileName);
+            responseOutputStream.write(out.toByteArray());
+            IOUtils.closeQuietly(responseOutputStream);
+        } finally {
+            FacesContext.getCurrentInstance().responseComplete();
+            LOGGER.info(EXPORT_SUCCESSFUL);
+        }
     }
 
-    public void setIncludeChildren(boolean includeChildren) {
-        this.includeChildren = includeChildren;
+    private String getFileName(String typeName, String typeExtension) {
+        return CustomStringUtils.concat(ATTACHMENT_FILE_NAME, typeName, getCurrentTime(), ".", typeExtension, QUOTE);
     }
+
+    private String getCurrentTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATA_PATTERN);
+        return dateFormat.format(new Date());
+    }
+
 }

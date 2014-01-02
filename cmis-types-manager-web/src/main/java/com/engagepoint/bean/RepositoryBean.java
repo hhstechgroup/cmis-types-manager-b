@@ -1,6 +1,5 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.constant.Constants;
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.util.MessageUtils;
@@ -17,8 +16,12 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.engagepoint.constant.MessageConstants.REPO_CHANGED;
+import static com.engagepoint.constant.MessageConstants.UNABLE_INIT_REPO;
 
 /**
  * User: arkadiy.sychov (arkadiy.sychov@engagepoint.com )
@@ -40,7 +43,7 @@ public class RepositoryBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            repositories = service.getRepositories(loginBean.getUserInfo());
+            repositories = getRepositoryMapOf(service.getRepositories(loginBean.getUserInfo()));
             selectItems = new ArrayList<SelectItem>();
             for (Repository repo : repositories.values()) {
                 selectItems.add(new SelectItem(repo.getId(), repo.getName()));
@@ -48,13 +51,13 @@ public class RepositoryBean implements Serializable {
             selectedRepoId = repositories.values().iterator().next().getId();
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_INIT_REPO, e);
+            LOGGER.error(UNABLE_INIT_REPO, e);
         }
     }
 
     public void changeRepository() {
         loginBean.getUserInfo().setRepository(selectedRepoId);
-        MessageUtils.printInfo(Constants.RepoManager.REPO_CHANGED);
+        MessageUtils.printInfo(REPO_CHANGED);
     }
 
     public String getSelectedRepoId() {
@@ -83,6 +86,14 @@ public class RepositoryBean implements Serializable {
 
     public void setLoginBean(LoginBean loginBean) {
         this.loginBean = loginBean;
+    }
+
+    private Map<String, Repository> getRepositoryMapOf(List<Repository> list) {
+        Map<String, Repository> map = new LinkedHashMap<String, Repository>();
+        for (Repository el : list) {
+            map.put(el.getId(), el);
+        }
+        return map;
     }
 
 }

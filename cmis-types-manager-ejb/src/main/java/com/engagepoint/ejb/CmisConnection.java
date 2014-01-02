@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +38,7 @@ public class CmisConnection {
         return session;
     }
 
-    public Map<String, Repository> getRepositories(UserInfo userInfo) throws CmisException {
+    public List<Repository> getRepositories(UserInfo userInfo) throws CmisException {
         Map<String, String> parameters = userInfo.getAtomPubParameters();
         List<Repository> repositoryList;
         try {
@@ -48,14 +47,6 @@ public class CmisConnection {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
-        return listToMap(repositoryList);
-    }
-
-    private Map<String, Repository> listToMap(List<Repository> list) {
-        Map<String, Repository> map = new LinkedHashMap<String, Repository>();
-        for (Repository el : list) {
-            map.put(el.getId(), el);
-        }
-        return map;
+        return repositoryList;
     }
 }
