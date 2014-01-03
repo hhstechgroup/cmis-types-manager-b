@@ -9,6 +9,7 @@ import com.engagepoint.services.CmisService;
 import com.engagepoint.services.TypeProxy;
 import com.engagepoint.services.UserInfo;
 import com.engagepoint.utils.StringUtils;
+import org.primefaces.component.tree.TreeRenderer;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
@@ -41,6 +42,7 @@ public class TypesManagerBean implements Serializable {
 
     private UserInfo userInfo;
     private TreeNode root;
+    private TreeRenderer treeRenderer;
     private TreeNode selectedNode;
     private TypeProxy selectedType;
     private List<TypeProxy> typeProxies;
@@ -54,6 +56,8 @@ public class TypesManagerBean implements Serializable {
 
     private void initTree() {
             root = new DefaultTreeNode(Constants.TypesManager.TREE_DATA, null);
+        /*root.isLeaf();
+        treeRenderer.encodeTreeNode();*/
             setSelectedType();
             addTypesToTree(typeProxies, root);
     }
