@@ -15,6 +15,38 @@
         <module>cmis-types-manager-acceptence-tests</module>
     </modules>
 
+    <properties>
+        <version.maven-release-plugin>2.3.2</version.maven-release-plugin>
+        <version.maven-deploy-plugin>2.7</version.maven-deploy-plugin>
+        <global.version>1.0-SNAPSHOT</global.version>
+        <utf-8.encoding>UTF-8</utf-8.encoding>
+    </properties>
+
+    <scm>
+        <url>https://github.com/engagepoint/cmis-types-manager-b</url>
+        <connection>scm:git:git@github.com:engagepoint/cmis-types-manager-b.git</connection>
+        <developerConnection>scm:git:git@github.com:engagepoint/cmis-types-manager-b.git</developerConnection>
+        <tag>${global.version}</tag>
+    </scm>
+
+    <distributionManagement>
+        <!-- use the following if you're not using a snapshot version. -->
+        <repository>
+            <id>central</id>
+            <name>libs-release</name>
+            <!--<url>http://192.168.32.242:8081/artifactory/libs-release</url>-->
+            <url>file:///${env.USERPROFILE}/.m2/libs-release</url>
+        </repository>
+        <!-- use the following if you are using a snapshot version. -->
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>libs-snapshot</name>
+            <!--<url>http://192.168.32.242:8081/artifactory/libs-snapshot</url>-->
+            <url>file:///${env.USERPROFILE}/.m2/libs-snapshot</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
     <repositories>
         <repository>
             <id>maven2-repository.dev.java.net</id>
@@ -30,19 +62,13 @@
     </repositories>
 
     <dependencies>
-    <dependency>
-        <groupId>javaee</groupId>
-        <artifactId>javaee-api</artifactId>
-        <version>5</version>
-        <scope>provided</scope>
-    </dependency>
-</dependencies>
-
-
-    <properties>
-        <global.version>1.0.2-SNAPSHOT</global.version>
-        <utf-8.encoding>UTF-8</utf-8.encoding>
-    </properties>
+        <dependency>
+            <groupId>javaee</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>5</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -120,6 +146,25 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-deploy-plugin</artifactId>
+                    <version>${version.maven-deploy-plugin}</version>
+                    <configuration>
+                        <updateReleaseInfo>true</updateReleaseInfo>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${version.maven-release-plugin}</version>
+                    <configuration>
+                        <tagNameFormat>v${project.version}</tagNameFormat>
+                        <autoVersionSubmodules>true</autoVersionSubmodules>
+                    </configuration>
+                </plugin>
+
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-site-plugin</artifactId>
