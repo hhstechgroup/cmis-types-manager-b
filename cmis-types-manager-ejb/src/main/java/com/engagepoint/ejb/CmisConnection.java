@@ -49,4 +49,9 @@ public class CmisConnection {
         }
         return repositoryList;
     }
+
+    @Deprecated
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 }
