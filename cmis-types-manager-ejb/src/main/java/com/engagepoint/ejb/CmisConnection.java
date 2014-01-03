@@ -58,4 +58,9 @@ public class CmisConnection {
         }
         return map;
     }
+
+    @Deprecated
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 }
