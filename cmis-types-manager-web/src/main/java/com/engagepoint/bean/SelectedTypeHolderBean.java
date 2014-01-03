@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @ManagedBean
 @SessionScoped
-public class SelectedTypeHolder implements Serializable {
+public class SelectedTypeHolderBean implements Serializable {
     private TypeProxy typeProxy;
 
     public TypeProxy getType() {

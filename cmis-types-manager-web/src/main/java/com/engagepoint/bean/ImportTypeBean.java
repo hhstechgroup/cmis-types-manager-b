@@ -1,14 +1,16 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.constant.Constants;
+import com.engagepoint.constant.R;
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.apache.commons.lang.StringUtils;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.util.ComponentUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +19,15 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+
+import static com.engagepoint.constant.FileConstants.JSON_PATTERN;
+import static com.engagepoint.constant.FileConstants.XML_PATTERN;
+import static com.engagepoint.constant.MessageConstants.*;
+import static com.engagepoint.constant.NavigationConstants.TO_MAIN_PAGE;
 
 /**
  * User: AlexDenisenko
@@ -34,18 +43,19 @@ public class ImportTypeBean {
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
     private UploadedFile file;
-    @ManagedProperty(value = "#{selectedTypeHolder}")
-    private SelectedTypeHolder selectedTypeHolder;
-    private boolean importButtonDisabled;
+    @ManagedProperty(value = "#{selectedTypeHolderBean}")
+    private SelectedTypeHolderBean selectedTypeHolder;
 
     @PostConstruct
     public void init() {
-        importButtonDisabled = true;
+        final CommandButton importTypeButton = (CommandButton) findComponentById(R.Id.CREATE_TYPE_BTM);
+        importTypeButton.setDisabled(true);
     }
 
     public void upload(FileUploadEvent event) {
         file = event.getFile();
-        importButtonDisabled = false;
+        final CommandButton importTypeButton = (CommandButton) findComponentById(R.Id.CREATE_TYPE_BTM);
+        importTypeButton.setDisabled(false);
     }
 
     public String getFileName() {
@@ -58,32 +68,40 @@ public class ImportTypeBean {
 
     public String importTypes() {
         try {
-            if (file.getInputstream() != null) {
+            if (file != null) {
                 UserInfo userInfo = login.getUserInfo();
-                if (file.getFileName().contains(Constants.Strings.XML_PATTERN)) {
+                if (file.getFileName().contains(XML_PATTERN)) {
                     service.importTypeFromXml(userInfo, file.getInputstream());
-                } else {
+                    MessageUtils.printInfo(SUCCESS_IMPORT_TYPE);
+                } else if (file.getFileName().contains(JSON_PATTERN)) {
                     service.importTypeFromJson(userInfo, file.getInputstream());
+                    MessageUtils.printInfo(SUCCESS_IMPORT_TYPE);
                 }
-                MessageUtils.printInfo(Constants.Messages.SUCCESS_IMPORT_TYPE);
             } else {
-                MessageUtils.printInfo(Constants.Messages.NOT_SELECTED_FILE);
+                MessageUtils.printInfo(NOT_SELECTED_FILE);
             }
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
+            LOGGER.error(ERROR_IMPORT_TYPE, e);
         } catch (XMLStreamException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
+            LOGGER.error(ERROR_IMPORT_TYPE, e);
         } catch (JSONParseException e) {
-            MessageUtils.printError(Constants.Messages.ERROR_IMPORT_TYPE);
-            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
+            MessageUtils.printError(ERROR_IMPORT_TYPE);
+            LOGGER.error(ERROR_IMPORT_TYPE, e);
         } catch (IOException e) {
-            importButtonDisabled = true;
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_UPLOAD_FILE, e);
+            LOGGER.error(UNABLE_UPLOAD_FILE, e);
         }
-        return Constants.Navigation.TO_MAIN_PAGE;
+        return TO_MAIN_PAGE;
+    }
+
+    public SelectedTypeHolderBean getSelectedTypeHolder() {
+        return selectedTypeHolder;
+    }
+
+    public void setSelectedTypeHolder(SelectedTypeHolderBean selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 
     public LoginBean getLogin() {
@@ -94,23 +112,13 @@ public class ImportTypeBean {
         this.login = login;
     }
 
-    public SelectedTypeHolder getSelectedTypeHolder() {
-        return selectedTypeHolder;
-    }
-
-    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
-        this.selectedTypeHolder = selectedTypeHolder;
-    }
-
-    public boolean isImportButtonDisabled() {
-        return importButtonDisabled;
-    }
-
-    public void setImportButtonDisabled(boolean importButtonDisabled) {
-        this.importButtonDisabled = importButtonDisabled;
-    }
-
     private String getFileSizeInKilobytes(long size) {
         return String.format("%.2f KB", size / 1000.0);
     }
+
+    private UIComponent findComponentById(String id) {
+        UIComponent root = FacesContext.getCurrentInstance().getViewRoot();
+        return ComponentUtils.findComponent(root, id);
+    }
+
 }

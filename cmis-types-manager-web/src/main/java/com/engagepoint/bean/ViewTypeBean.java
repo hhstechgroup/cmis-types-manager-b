@@ -1,11 +1,10 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
-import com.engagepoint.util.MessageUtils;
-import com.engagepoint.constant.Constants;
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.pojo.TypeProxy;
 import com.engagepoint.pojo.UserInfo;
+import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.slf4j.Logger;
@@ -20,6 +19,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import static com.engagepoint.constant.MessageConstants.UNABLE_INIT_TYPE_VIEW;
+import static com.engagepoint.constant.NameConstants.*;
 
 /**
  * User: AlexDenisenko
@@ -36,8 +38,8 @@ public class ViewTypeBean implements Serializable {
     private LoginBean login;
     private TypeDefinition typeDefinition;
 
-    @ManagedProperty(value = "#{selectedTypeHolder}")
-    private SelectedTypeHolder selectedTypeHolder;
+    @ManagedProperty(value = "#{selectedTypeHolderBean}")
+    private SelectedTypeHolderBean selectedTypeHolder;
 
     @PostConstruct
     public void init() {
@@ -47,20 +49,20 @@ public class ViewTypeBean implements Serializable {
             typeDefinition = service.getTypeDefinitionById(userInfo, selectedType);
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
+            LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
         }
     }
 
     public String mutabilityToString(){
         StringBuilder builder = new StringBuilder();
         if(typeDefinition.getTypeMutability().canDelete()){
-            builder.append(Constants.TypesManager.MUTABILITY_DELETE_DISPLAY_NAME);
+            builder.append(MUTABILITY_DELETE_DISPLAY_NAME);
         }
         if ( typeDefinition.getTypeMutability().canCreate()){
-            builder.append(Constants.TypesManager.MUTABILITY_CREATE_DISPLAY_NAME);
+            builder.append(MUTABILITY_CREATE_DISPLAY_NAME);
         }
         if ( typeDefinition.getTypeMutability().canUpdate()){
-            builder.append(Constants.TypesManager.MUTABILITY_UPDATE_DISPLAY_NAME);
+            builder.append(MUTABILITY_UPDATE_DISPLAY_NAME);
         }
         return builder.toString();
     }
@@ -82,11 +84,11 @@ public class ViewTypeBean implements Serializable {
         return typeDefinition;
     }
 
-    public SelectedTypeHolder getSelectedTypeHolder() {
+    public SelectedTypeHolderBean getSelectedTypeHolder() {
         return selectedTypeHolder;
     }
 
-    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+    public void setSelectedTypeHolder(SelectedTypeHolderBean selectedTypeHolder) {
         this.selectedTypeHolder = selectedTypeHolder;
     }
 }

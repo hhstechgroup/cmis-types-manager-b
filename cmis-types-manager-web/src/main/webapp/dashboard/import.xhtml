@@ -16,8 +16,7 @@
     <p:commandButton id="cancelImportModalDialog" value="Cancel" update="-mainContent" styleClass="secondary"
                      onclick="jQuery('#importModal').modal('hide');return false;"/>
 
-    <p:commandButton styleClass="fl-right" disabled="#{importTypeBean.importButtonDisabled}" id="createTypeBtm"
-                     value="Import" action="#{importTypeBean.importTypes}"
+    <p:commandButton styleClass="fl-right" id="createTypeBtm" value="Import" action="#{importTypeBean.importTypes}"
                      update="-mainContent"/>
 
 </h:form>

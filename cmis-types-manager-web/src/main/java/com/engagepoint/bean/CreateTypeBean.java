@@ -1,6 +1,5 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.constant.Constants;
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.pojo.PropertyDefinitionImpl;
@@ -26,6 +25,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.engagepoint.constant.MessageConstants.*;
+import static com.engagepoint.constant.NameConstants.CMIS_SECONDARY;
+import static com.engagepoint.constant.NavigationConstants.TO_CURRENT_PAGE;
+import static com.engagepoint.constant.NavigationConstants.TO_MAIN_PAGE;
+
 @ManagedBean
 @ViewScoped
 public class CreateTypeBean implements Serializable {
@@ -34,8 +38,8 @@ public class CreateTypeBean implements Serializable {
     private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    @ManagedProperty(value = "#{selectedTypeHolder}")
-    private SelectedTypeHolder selectedTypeHolder;
+    @ManagedProperty(value = "#{selectedTypeHolderBean}")
+    private SelectedTypeHolderBean selectedTypeHolder;
     private Type newType;
     private List<PropertyDefinitionImpl> typeProperties;
     private TypeProxy selectedType;
@@ -49,10 +53,8 @@ public class CreateTypeBean implements Serializable {
     private boolean deleteBtnDisabled;
     private TypeDefinition typeDefinition;
 
-
     @PostConstruct
     public void init() {
-
         newTypeProperty = new PropertyDefinitionImpl();
         newTypeProperty.setParent(false);
         selectedTypeProperties = new ArrayList<PropertyDefinitionImpl>();
@@ -67,12 +69,12 @@ public class CreateTypeBean implements Serializable {
             typeDefinition = service.getTypeDefinitionById(userInfo, selectedType);
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
+            LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
         }
         typeProperties = convert(getPropertyDefinitions());
         setAttributes(userInfo);
         if (isSecondary()) {
-            selectedType.setId(Constants.TypesManager.CMIS_SECONDARY);
+            selectedType.setId(CMIS_SECONDARY);
             newType.setCreatable(false);
             newType.setFileable(false);
             newType.setControllableAcl(false);
@@ -84,7 +86,7 @@ public class CreateTypeBean implements Serializable {
         Collection<PropertyDefinition<?>> values = typeDefinition.getPropertyDefinitions().values();
         return new ArrayList<PropertyDefinition>(values);
     }
-
+//  TODO redividing
     public void addNewMetaData() {
         updateBtnDisabled = true;
         deleteBtnDisabled = true;
@@ -97,7 +99,7 @@ public class CreateTypeBean implements Serializable {
             newTypeProperty = new PropertyDefinitionImpl();
             newTypeProperty.setParent(false);
         } else {
-            MessageUtils.printError("This Id already exists");
+            MessageUtils.printError(ID_ALREADY_EXISTS);
         }
     }
 
@@ -188,24 +190,23 @@ public class CreateTypeBean implements Serializable {
             newType.setControllablePolicy(typeDefinition.isControllablePolicy());
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_INIT_TYPE_VIEW, e);
+            LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
         }
     }
 
     public String createType() {
         try {
-            UserInfo userInfo = login.getUserInfo();
             newType.setBaseTypeId(selectedType.getBaseType());
             newType.setParentTypeId(selectedType.getId());
             newType.setProperties(typeProperties);
-            service.createType(userInfo, newType);
-            MessageUtils.printInfo(newType.getDisplayName() + Constants.Messages.TYPE_CREATED);
-            return Constants.Navigation.TO_MAIN_PAGE;
+            service.createType(login.getUserInfo(), newType);
+            MessageUtils.printInfo(newType.getDisplayName() + TYPE_CREATED);
+            return TO_MAIN_PAGE;
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_CREATE_TYPE, e);
+            LOGGER.error(UNABLE_CREATE_TYPE, e);
         }
-        return Constants.Navigation.TO_CURRENT_PAGE;
+        return TO_CURRENT_PAGE;
     }
 
     private void setValuesToLists() {
@@ -223,7 +224,7 @@ public class CreateTypeBean implements Serializable {
     }
 
     public boolean isSecondary() {
-        return selectedType.getBaseType().equals(Constants.TypesManager.CMIS_SECONDARY);
+        return selectedType.getBaseType().equals(CMIS_SECONDARY);
     }
 
 
@@ -251,11 +252,11 @@ public class CreateTypeBean implements Serializable {
         this.login = login;
     }
 
-    public SelectedTypeHolder getSelectedTypeHolder() {
+    public SelectedTypeHolderBean getSelectedTypeHolder() {
         return selectedTypeHolder;
     }
 
-    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
+    public void setSelectedTypeHolder(SelectedTypeHolderBean selectedTypeHolder) {
         this.selectedTypeHolder = selectedTypeHolder;
     }
 
