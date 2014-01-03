@@ -51,7 +51,7 @@ public class ExportTypeBean {
     }
 
     public void exportType() {
-        if (selectedTypeHolder.getType() != null) {
+        if (isTypeCorrect()) {
             try {
                 if (fileType.equals(XML_PATTERN)) {
                     exportToXml();
@@ -138,6 +138,10 @@ public class ExportTypeBean {
 
     private String getFileName(String typeName, String typeExtension) {
         return CustomStringUtils.concat(ATTACHMENT_FILE_NAME, typeName, getCurrentTime(), ".", typeExtension, QUOTE);
+    }
+
+    private boolean isTypeCorrect() {
+        return (selectedTypeHolder.getType() != null) && (fileType != null);
     }
 
     private String getCurrentTime() {
