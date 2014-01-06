@@ -19,7 +19,7 @@
         <version.maven-release-plugin>2.3.2</version.maven-release-plugin>
         <version.maven-deploy-plugin>2.7</version.maven-deploy-plugin>
         <global.version>1.0-SNAPSHOT</global.version>
-        <utf-8.encoding>UTF-8</utf-8.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <scm>
@@ -196,7 +196,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>2.3.2</version>
                     <configuration>
-                        <encoding>${utf-8.encoding}</encoding>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
 
@@ -223,7 +223,7 @@
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>2.6</version>
                     <configuration>
-                        <encoding>${utf-8.encoding}</encoding>
+                        <encoding>${project.build.sourceEncoding}</encoding>
                     </configuration>
                 </plugin>
 
