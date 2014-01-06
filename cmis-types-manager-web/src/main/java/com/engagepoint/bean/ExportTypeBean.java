@@ -51,7 +51,7 @@ public class ExportTypeBean {
     }
 
     public void exportType() {
-        if (isTypeCorrect()) {
+        if (checkNotNull()) {
             try {
                 if (fileType.equals(XML_PATTERN)) {
                     exportToXml();
@@ -114,7 +114,7 @@ public class ExportTypeBean {
         service.exportTypeToXML(login.getUserInfo(), out, typeId, includeChildren);
         exportFile(out, getFileName(typeId, XML_PATTERN));
     }
-
+    //TODO get knowledge of stream
     private void exportToJson() throws CmisException, IOException {
         String typeId = selectedTypeHolder.getType().getId();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -140,7 +140,7 @@ public class ExportTypeBean {
         return CustomStringUtils.concat(ATTACHMENT_FILE_NAME, typeName, getCurrentTime(), ".", typeExtension, QUOTE);
     }
 
-    private boolean isTypeCorrect() {
+    private boolean checkNotNull() {
         return (selectedTypeHolder.getType() != null) && (fileType != null);
     }
 

@@ -13,64 +13,64 @@
     <ui:define name="mainContent">
         <h:form id="viewForm">
             <p:commandButton id="return" value="Back" action="/dashboard/index?faces-redirect=true" styleClass="mb20"/>
-                <h:outputText value="#{viewTypeBean.typeDefinition.displayName}" id="selectedTypeOutInfo"/>
+                <h:outputText value="#{viewTypeBean.type.displayName}" id="selectedTypeOutInfo"/>
             <p:accordionPanel id="accordionPanel" multiple="true">
                 <p:tab id="accordionTabAttributes" title="Attributes">
                     <h:panelGrid columns="2" cellpadding="5">
 
                         <h:outputText id="outputTextView" value="Display name :"/>
                         <h:outputText id="inputTextView" disabled="true"
-                                      value="#{viewTypeBean.typeDefinition.displayName}"/>
+                                      value="#{viewTypeBean.type.displayName}"/>
 
                         <h:outputText id="outputTextView1" value="Description :"/>
                         <h:outputText id="inputTextView1" disabled="true"
-                                      value="#{viewTypeBean.typeDefinition.description}"/>
+                                      value="#{viewTypeBean.type.description}"/>
 
                         <h:outputText id="outputTextView2" value="Id :"/>
-                        <h:outputText id="inputTextView2" disabled="true" value="#{viewTypeBean.typeDefinition.id}"/>
+                        <h:outputText id="inputTextView2" disabled="true" value="#{viewTypeBean.type.id}"/>
 
                         <h:outputText id="outputTextView3" value="Local Namespace :"/>
                         <h:outputText id="inputTextView3" disabled="true"
-                                      value="#{viewTypeBean.typeDefinition.localNamespace}"/>
+                                      value="#{viewTypeBean.type.localNamespace}"/>
 
                         <h:outputText id="outputTextView4" value="Local Name :"/>
                         <h:outputText id="inputTextView4" disabled="true"
-                                      value="#{viewTypeBean.typeDefinition.localName}"/>
+                                      value="#{viewTypeBean.type.localName}"/>
 
                         <h:outputText id="outputTextView5" value="Querty Name :"/>
                         <h:outputText id="inputTextView5" disabled="true"
-                                      value="#{viewTypeBean.typeDefinition.queryName}"/>
+                                      value="#{viewTypeBean.type.queryName}"/>
 
                         <h:outputText id="outputTextView6" value="Base Type"/>
-                        <h:outputText id="inputTextView6" value="#{viewTypeBean.typeDefinition.baseTypeId}"/>
+                        <h:outputText id="inputTextView6" value="#{viewTypeBean.type.baseTypeId}"/>
 
                         <h:outputText id="outputTextView7" value="Creatable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxCreatabel" disabled="true"
-                                                 value="#{viewTypeBean.typeDefinition.isCreatable()}"/>
+                                                 value="#{viewTypeBean.type.isCreatable()}"/>
 
                         <h:outputText id="outputTextView8" value="Fileable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxFileable" disabled="true"
-                                                 value="#{viewTypeBean.typeDefinition.isFileable()}}"/>
+                                                 value="#{viewTypeBean.type.isFileable()}}"/>
 
                         <h:outputText id="outputTextView9" value="Queryable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxQueryable" disabled="true"
-                                                 value="#{viewTypeBean.typeDefinition.isQueryable()}"/>
+                                                 value="#{viewTypeBean.type.isQueryable()}"/>
 
                         <h:outputText id="outputTextView10" value="Included in super type queries :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxIst" disabled="true"
-                                                 value="#{viewTypeBean.typeDefinition.isIncludedInSupertypeQuery()}"/>
+                                                 value="#{viewTypeBean.type.isIncludedInSupertypeQuery()}"/>
 
                         <h:outputText id="outputTextView11" value="Full text indexed :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxFti" disabled="true"
-                                                 value="#{viewTypeBean.typeDefinition.isFulltextIndexed()}"/>
+                                                 value="#{viewTypeBean.type.isFulltextIndexed()}"/>
 
                         <h:outputText id="outputTextView12" value="ACL Contronable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxACL" disabled="true"
-                                                 value="#{viewTypeBean.typeDefinition.isControllableAcl()}"/>
+                                                 value="#{viewTypeBean.type.isControllableAcl()}"/>
 
                         <h:outputText id="outputTextView13" value="Policy contronable :"/>
                         <p:selectBooleanCheckbox id="selectCheckboxPC" disabled="true"
-                                                 value="#{viewTypeBean.typeDefinition.isControllablePolicy()}"/>
+                                                 value="#{viewTypeBean.type.isControllablePolicy()}"/>
 
                         <h:outputText id="outputTextView14" value="Type mutability"/>
                         <h:outputText value="#{viewTypeBean.mutabilityToString()}"/>

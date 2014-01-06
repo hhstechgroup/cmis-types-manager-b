@@ -1,6 +1,6 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.pojo.TypeProxy;
+import com.engagepoint.pojo.Type;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -14,17 +14,17 @@ import java.io.Serializable;
 @ManagedBean
 @SessionScoped
 public class SelectedTypeHolderBean implements Serializable {
-    private TypeProxy typeProxy;
+    private Type type;
 
-    public TypeProxy getType() {
-        return typeProxy;
+    public Type getType() {
+        return type;
     }
 
-    public void setType(TypeProxy typeProxy) {
-        this.typeProxy = typeProxy;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void clearType() {
-        typeProxy = null;
+        type = null;
     }
 }

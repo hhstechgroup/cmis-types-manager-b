@@ -2,8 +2,7 @@ package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.pojo.TypeProxy;
-import com.engagepoint.pojo.UserInfo;
+import com.engagepoint.pojo.Type;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
@@ -36,7 +35,7 @@ public class ViewTypeBean implements Serializable {
     private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    private TypeDefinition typeDefinition;
+    private TypeDefinition type;
 
     @ManagedProperty(value = "#{selectedTypeHolderBean}")
     private SelectedTypeHolderBean selectedTypeHolder;
@@ -44,9 +43,8 @@ public class ViewTypeBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            TypeProxy selectedType = selectedTypeHolder.getType();
-            UserInfo userInfo = login.getUserInfo();
-            typeDefinition = service.getTypeDefinitionById(userInfo, selectedType);
+            Type selectedType = selectedTypeHolder.getType();
+            type = service.findTypeById(login.getUserInfo(), selectedType.getId());
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
@@ -55,13 +53,13 @@ public class ViewTypeBean implements Serializable {
 
     public String mutabilityToString(){
         StringBuilder builder = new StringBuilder();
-        if(typeDefinition.getTypeMutability().canDelete()){
+        if(type.getTypeMutability().canDelete()){
             builder.append(MUTABILITY_DELETE_DISPLAY_NAME);
         }
-        if ( typeDefinition.getTypeMutability().canCreate()){
+        if ( type.getTypeMutability().canCreate()){
             builder.append(MUTABILITY_CREATE_DISPLAY_NAME);
         }
-        if ( typeDefinition.getTypeMutability().canUpdate()){
+        if ( type.getTypeMutability().canUpdate()){
             builder.append(MUTABILITY_UPDATE_DISPLAY_NAME);
         }
         return builder.toString();
@@ -76,12 +74,12 @@ public class ViewTypeBean implements Serializable {
     }
 
     public List<PropertyDefinition> getPropertyDefinitions() {
-        Collection<PropertyDefinition<?>> values = typeDefinition.getPropertyDefinitions().values();
+        Collection<PropertyDefinition<?>> values = type.getPropertyDefinitions().values();
         return new ArrayList<PropertyDefinition>(values);
     }
 
-    public TypeDefinition getTypeDefinition() {
-        return typeDefinition;
+    public TypeDefinition getType() {
+        return type;
     }
 
     public SelectedTypeHolderBean getSelectedTypeHolder() {

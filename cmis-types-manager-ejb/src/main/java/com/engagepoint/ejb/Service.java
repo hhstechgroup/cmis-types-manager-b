@@ -51,12 +51,12 @@ public class Service {
         }
     }
 
-    public void deleteType(UserInfo userInfo, TypeProxy proxy) throws CmisException, CmisTypeDeleteException {
+    public void deleteType(UserInfo userInfo, String id) throws CmisException, CmisTypeDeleteException {
         Session session = connection.getSession(userInfo);
         try {
-            ObjectType type = session.getTypeDefinition(proxy.getId());
+            ObjectType type = session.getTypeDefinition(id);
             TypeMutability typeMutability = type.getTypeMutability();
-            if (typeMutability != null && Boolean.TRUE.equals(typeMutability.canDelete())) {
+            if (typeMutability != null && typeMutability.canDelete()) {
                 session.deleteType(type.getId());
             } else {
                 throw new CmisTypeDeleteException("Type is not deleted");
@@ -121,6 +121,25 @@ public class Service {
         }
     }
 
+    public List<Type> findAllTypes(UserInfo userInfo) throws CmisException {
+        Session session = connection.getSession(userInfo);
+        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, false);
+        return getTypesFromTreeList(descendants);
+    }
+
+    public TypeDefinition findTypeById(UserInfo userInfo, String id) throws CmisException {
+        Session session = connection.getSession(userInfo);
+        try {
+            return session.getTypeDefinition(id);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        }
+    }
+
     public void exportTypeToXML(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException {
         Session session = connection.getSession(userInfo);
         List<Tree<ObjectType>> typeDescendants = null;
@@ -164,25 +183,6 @@ public class Service {
 
     }
 
-    public List<TypeProxy> getAllTypes(UserInfo userInfo) throws CmisException {
-        Session session = connection.getSession(userInfo);
-        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, false);
-        return getTypeProxies(descendants);
-    }
-
-    public TypeDefinition getTypeDefinitionById(UserInfo userInfo, TypeProxy type) throws CmisException {
-        Session session = connection.getSession(userInfo);
-        try {
-            return session.getTypeDefinition(type.getId());
-        } catch (IllegalArgumentException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        }
-    }
-
     public List<Repository> getRepositories(UserInfo userInfo) throws CmisException {
         return connection.getRepositories(userInfo);
     }
@@ -220,10 +220,10 @@ public class Service {
         return typeDef;
     }
 
-    private List<TypeProxy> getTypeProxies(List<Tree<ObjectType>> treeList) {
-        List<TypeProxy> cmisTypeList = new ArrayList<TypeProxy>();
+    private List<Type> getTypesFromTreeList(List<Tree<ObjectType>> treeList) {
+        List<Type> cmisTypeList = new ArrayList<Type>();
         for (Tree<ObjectType> tree : treeList) {
-            cmisTypeList.add(getTypeProxyFromCmis(tree.getItem()));
+            cmisTypeList.add(getTypeFromObjectType(tree.getItem()));
         }
         return cmisTypeList;
     }
@@ -250,18 +250,18 @@ public class Service {
         return propertyDefinitionMap;
     }
 
-    private TypeProxy getTypeProxyFromCmis(ObjectType objectType) {
-        TypeProxy typeProxy = new TypeProxy();
-        typeProxy.setId(objectType.getId());
-        typeProxy.setDisplayName(objectType.getDisplayName());
-        typeProxy.setBaseType(objectType.getBaseTypeId().value());
-        typeProxy.setTypeMutability(objectType.getTypeMutability());
-        List<TypeProxy> children = new ArrayList<TypeProxy>();
+    private Type getTypeFromObjectType(ObjectType objectType) {
+        Type type = new Type();
+        type.setId(objectType.getId());
+        type.setDisplayName(objectType.getDisplayName());
+        type.setBaseTypeId(objectType.getBaseTypeId().value());
+        type.setTypeMutability(objectType.getTypeMutability());
+        List<Type> children = new ArrayList<Type>();
         for (ObjectType child : objectType.getChildren()) {
-            children.add(getTypeProxyFromCmis(child));
+            children.add(getTypeFromObjectType(child));
         }
-        typeProxy.setChildren(children);
-        return typeProxy;
+        type.setChildren(children);
+        return type;
     }
 
 }

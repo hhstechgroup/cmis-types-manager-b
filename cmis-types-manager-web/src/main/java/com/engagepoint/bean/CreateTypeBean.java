@@ -4,7 +4,6 @@ import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
 import com.engagepoint.pojo.PropertyDefinitionImpl;
 import com.engagepoint.pojo.Type;
-import com.engagepoint.pojo.TypeProxy;
 import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
@@ -23,6 +22,7 @@ import javax.faces.bean.ViewScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static com.engagepoint.constant.MessageConstants.*;
@@ -42,7 +42,7 @@ public class CreateTypeBean implements Serializable {
     private SelectedTypeHolderBean selectedTypeHolder;
     private Type newType;
     private List<PropertyDefinitionImpl> typeProperties;
-    private TypeProxy selectedType;
+    private Type selectedType;
     private List<String> cardinalityValues;
     private List<String> propertyTypeValues;
     private List<String> updatabilityValues;
@@ -66,7 +66,7 @@ public class CreateTypeBean implements Serializable {
         selectedTypeProperty = new PropertyDefinitionImpl();
         UserInfo userInfo = login.getUserInfo();
         try {
-            typeDefinition = service.getTypeDefinitionById(userInfo, selectedType);
+            typeDefinition = service.findTypeById(userInfo, selectedType.getId());
         } catch (CmisException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
@@ -180,7 +180,7 @@ public class CreateTypeBean implements Serializable {
 
     private void setAttributes(UserInfo usrInf) {
         try {
-            TypeDefinition typeDefinition = service.getTypeDefinitionById(usrInf, selectedType);
+            TypeDefinition typeDefinition = service.findTypeById(usrInf, selectedType.getId());
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());
@@ -196,10 +196,12 @@ public class CreateTypeBean implements Serializable {
 
     public String createType() {
         try {
-            newType.setBaseTypeId(selectedType.getBaseType());
+            newType.setBaseTypeId(selectedType.getBaseTypeId());
             newType.setParentTypeId(selectedType.getId());
             newType.setProperties(typeProperties);
+            newType.setChildren(Collections.EMPTY_LIST);
             service.createType(login.getUserInfo(), newType);
+//            selectedTypeHolder.setType(newType);
             MessageUtils.printInfo(newType.getDisplayName() + TYPE_CREATED);
             return TO_MAIN_PAGE;
         } catch (CmisException e) {
@@ -224,7 +226,7 @@ public class CreateTypeBean implements Serializable {
     }
 
     public boolean isSecondary() {
-        return selectedType.getBaseType().equals(CMIS_SECONDARY);
+        return selectedType.getBaseTypeId().equals(CMIS_SECONDARY);
     }
 
 
@@ -237,7 +239,7 @@ public class CreateTypeBean implements Serializable {
     }
 
     public String getBaseType() {
-        return selectedType.getBaseType();
+        return selectedType.getBaseTypeId();
     }
 
     public String getParentType() {

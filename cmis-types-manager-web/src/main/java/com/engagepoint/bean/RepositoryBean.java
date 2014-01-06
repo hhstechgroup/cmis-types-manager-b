@@ -43,7 +43,7 @@ public class RepositoryBean implements Serializable {
     @PostConstruct
     public void init() {
         try {
-            repositories = getRepositoryMapOf(service.getRepositories(loginBean.getUserInfo()));
+            repositories = getRepositoryMapFrom(service.getRepositories(loginBean.getUserInfo()));
             selectItems = new ArrayList<SelectItem>();
             for (Repository repo : repositories.values()) {
                 selectItems.add(new SelectItem(repo.getId(), repo.getName()));
@@ -88,7 +88,7 @@ public class RepositoryBean implements Serializable {
         this.loginBean = loginBean;
     }
 
-    private Map<String, Repository> getRepositoryMapOf(List<Repository> list) {
+    private Map<String, Repository> getRepositoryMapFrom(List<Repository> list) {
         Map<String, Repository> map = new LinkedHashMap<String, Repository>();
         for (Repository el : list) {
             map.put(el.getId(), el);

@@ -9,7 +9,7 @@
                      onclick="jQuery('#deleteTypeDialog').modal('hide');return false;"
                      id="No"/>
     <p:commandButton value="Yes" update="-mainContent"
-                     action="#{typesManagerBean.deleteTypeWithSubtypes()}"
+                     action="#{typesManagerBean.deleteType()}"
                      onclick="jQuery('#deleteTypeDialog').modal('hide');"
                      id="Yes"/>
 </h:form>

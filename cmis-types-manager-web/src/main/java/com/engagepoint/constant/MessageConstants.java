@@ -24,8 +24,9 @@ public final class MessageConstants {
     public static final String UNABLE_CREATE_TYPE = "Unable to create type";
     public static final String TYPE_CREATED = " type created!";
 
-    public static final String DELETE_MESSAGE_PREFIX = "The type <";
-    public static final String DELETE_MESSAGE_SUFFIX = "> cannot be deleted";
+    public static final String CAN_NOT_DELETE = "The type <%s> can not be delete";
+    public static final String DELETE_WITH_SUBTYPES = "<%s> type has children. Are you sure you want to delete?";
+    public static final String DELETE_WITHOUT_SUBTYPES = "Are you sure you want to <%s> delete type?";
     public static final String EXPORT_SUCCESSFUL = "Selected type is exported successfully";
     public static final String SELECTED_TYPE_NOT_EMPTY = "Selected type can't be Null or Empty string";
     public static final String REPO_CHANGED = "Repository changed successfully";
