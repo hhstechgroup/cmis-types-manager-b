@@ -71,6 +71,25 @@ public class Service {
 
     }
 
+    public List<Type> findAllTypes(UserInfo userInfo) throws CmisException {
+        Session session = connection.getSession(userInfo);
+        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, false);
+        return getTypesFromTreeList(descendants);
+    }
+
+    public TypeDefinition findTypeById(UserInfo userInfo, String id) throws CmisException {
+        Session session = connection.getSession(userInfo);
+        try {
+            return session.getTypeDefinition(id);
+        } catch (IllegalArgumentException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        } catch (CmisBaseException e) {
+            LOGGER.error(e.getMessage(), e);
+            throw new CmisException(e.getMessage());
+        }
+    }
+
     public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws CmisException, XMLStreamException {
         try {
             Session session = connection.getSession(userInfo);
@@ -116,25 +135,6 @@ public class Service {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        }
-    }
-
-    public List<Type> findAllTypes(UserInfo userInfo) throws CmisException {
-        Session session = connection.getSession(userInfo);
-        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, false);
-        return getTypesFromTreeList(descendants);
-    }
-
-    public TypeDefinition findTypeById(UserInfo userInfo, String id) throws CmisException {
-        Session session = connection.getSession(userInfo);
-        try {
-            return session.getTypeDefinition(id);
-        } catch (IllegalArgumentException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
-        } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
         }
@@ -215,7 +215,7 @@ public class Service {
         typeDef.setLocalNamespace(type.getLocalNamespace());
 
         if (type.getProperties() != null) {
-            typeDef.setPropertyDefinitions(getPropertyDefinitionMap(type.getProperties()));
+            typeDef.setPropertyDefinitions(getPropertyDefinitionMapFrom(type.getProperties()));
         }
         return typeDef;
     }
@@ -228,7 +228,7 @@ public class Service {
         return cmisTypeList;
     }
 
-    private Map<String, PropertyDefinition<?>> getPropertyDefinitionMap(List<PropertyDefinitionImpl> properties) {
+    private Map<String, PropertyDefinition<?>> getPropertyDefinitionMapFrom(List<PropertyDefinitionImpl> properties) {
         Map<String, PropertyDefinition<?>> propertyDefinitionMap = new LinkedHashMap<String, PropertyDefinition<?>>();
         for (PropertyDefinitionImpl property : properties) {
             PropertyDefinitionImpl propertyDef = new PropertyDefinitionImpl();

@@ -8,7 +8,6 @@ package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.CmisException;
-import com.engagepoint.util.CustomStringUtils;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -137,7 +136,14 @@ public class ExportTypeBean {
     }
 
     private String getFileName(String typeName, String typeExtension) {
-        return CustomStringUtils.concat(ATTACHMENT_FILE_NAME, typeName, getCurrentTime(), ".", typeExtension, QUOTE);
+        StringBuilder builder = new StringBuilder();
+        builder.append(ATTACHMENT_FILE_NAME);
+        builder.append(typeName);
+        builder.append(getCurrentTime());
+        builder.append(".");
+        builder.append(typeExtension);
+        builder.append(QUOTE);
+        return builder.toString();
     }
 
     private boolean checkNotNull() {

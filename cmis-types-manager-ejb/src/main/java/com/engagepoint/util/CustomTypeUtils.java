@@ -23,6 +23,7 @@ import java.io.*;
 import java.util.*;
 
 import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
+import static org.apache.commons.lang.Validate.notNull;
 
 /**
  * User: AlexDenisenko
@@ -35,12 +36,8 @@ public class CustomTypeUtils {
 
     public static void writeToXML(Session session, TypeDefinition type, OutputStream stream,
                                   List<Tree<ObjectType>> typeDescendants) throws XMLStreamException {
-        if (type == null) {
-            throw new IllegalArgumentException("Type must be set!");
-        }
-        if (stream == null) {
-            throw new IllegalArgumentException("Output stream must be set!");
-        }
+        notNull(type, "Type must be set!");
+        notNull(stream, "Output stream must be set!");
         XMLStreamWriter writer = XMLUtils.createWriter(stream);
         XMLUtils.startXmlDocument(writer);
         writeTypeTreeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, type, typeDescendants);
@@ -187,7 +184,7 @@ public class CustomTypeUtils {
             throw new CmisRuntimeException("Invalid stream! Not a type definition!");
         }
 
-        return CustomJSONConverter.convertTypeDefinition((Map<String, Object>) json);
+        return CustomJSONConverter.convertTypeDefinitions((Map<String, Object>) json);
     }
 
     public static void writeToJSON(Session session, TypeDefinition type, OutputStream stream,
