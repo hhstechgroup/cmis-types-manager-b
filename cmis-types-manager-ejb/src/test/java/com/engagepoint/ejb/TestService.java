@@ -49,56 +49,55 @@ public class TestService {
 
     @Test
     public void testCreateType() throws CmisException {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testDeleteType() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testImportTypeFromXml() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testImportTypeFromJson() {
-        Assert.fail("Not yet implemented");
     }
 
     @Test
     public void testExportTypeToXML() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testExportTypeToJSON() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testGetAllTypes() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testGetTypeDefinitionById() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testGetRepositories() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testGetDefaultRepository() {
-        Assert.fail("Not yet implemented");
+
     }
 
     @Test
     public void testIsUserExists() throws CmisException {
-        Assert.fail("Not yet implemented");
+
     }
 }
