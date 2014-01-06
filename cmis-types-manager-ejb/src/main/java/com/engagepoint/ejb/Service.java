@@ -264,4 +264,8 @@ public class Service {
         return type;
     }
 
+    @Deprecated
+    public void setConnection(CmisConnection connection) {
+        this.connection = connection;
+    }
 }
