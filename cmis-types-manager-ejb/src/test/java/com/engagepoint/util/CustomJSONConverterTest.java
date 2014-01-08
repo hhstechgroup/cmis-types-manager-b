@@ -2,14 +2,12 @@ package com.engagepoint.util;
 
 
 import com.engagepoint.ejb.CmisConnection;
-import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.TypeDefinitionImpl;
 import com.engagepoint.pojo.UserInfo;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.api.Tree;
-import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParser;
 import org.junit.Assert;
@@ -18,12 +16,10 @@ import org.junit.Test;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 /**
@@ -39,12 +35,19 @@ public class CustomJSONConverterTest {
     private TypeDefinitionImpl typeDefinition;
     private List mockedRepositoryList;
     private List<Tree<ObjectType>> typeDescendants;
-    private Map<String, Object> map;
+    private Map<String, Object> mockedMap;
     private static final String CHARSET_NAME = "UTF-8";
-    Object json;
+    private Object json;
+    private List<String> expectedList;
+    private List<String> actualList;
 
     @Before
     public void beforeRun() {
+        expectedList = new ArrayList<String>();
+        actualList = new ArrayList<String>();
+        expectedList.add("rel1");
+        expectedList.add("rel11");
+        expectedList.add("rel12");
         typeDefinition = new TypeDefinitionImpl();
         typeDefinition.setId("MyType");
         typeDefinition.setDisplayName("MyTypeName");
@@ -66,7 +69,7 @@ public class CustomJSONConverterTest {
         } catch (JSONParseException e) {
             e.printStackTrace();
         }
-
+        mockedMap = (Map<String, Object>) json;
     }
 
     @Test
@@ -82,22 +85,15 @@ public class CustomJSONConverterTest {
 
     @Test
     public void testConvertTypeDefinitionsHasMap() {
-        Assert.assertNotNull(CustomJSONConverter.convertTypeDefinitions(map));
+        Assert.assertNotNull(CustomJSONConverter.convertTypeDefinitions(mockedMap));
     }
 
     @Test
     public void testConvertTypeDefinitionsEqualsKey() {
-
-        map = (Map<String, Object>) json;
-        List<String> list = new ArrayList<String>();
-        List<String> list1 = new ArrayList<String>();
-        list.add("rel1");
-        list.add("rel11");
-        list.add("rel12");
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            list1.add(entry.getKey());
+        for (Map.Entry<String, Object> entry : mockedMap.entrySet()) {
+            actualList.add(entry.getKey());
         }
-        Assert.assertEquals(list, list1);
+        Assert.assertEquals(expectedList, actualList);
 
     }
 
