@@ -15,7 +15,7 @@ Then element id/name/className 'ui-messages-error-summary' has text 'URL: Valida
 When the user fills 'loginForm-URL' field with 'http'
 When clicks on element with id/name/className 'loginBut'
 Then wait for element 'messages' is visible
-Then element id/name/className 'ui-messages-error-summary' has text 'Url validation failed.'
+Then element id/name/className 'ui-messages-error-summary' has text 'URL validation failed.'
 When the user fills 'loginForm-URL' field with '' using baseUrl
 When clicks on element with id/name/className 'loginBut'
 Then wait for element 'messages' is visible
