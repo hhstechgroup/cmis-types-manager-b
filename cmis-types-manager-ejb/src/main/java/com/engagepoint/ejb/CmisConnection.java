@@ -1,6 +1,6 @@
 package com.engagepoint.ejb;
 
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.UserInfo;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,35 +26,32 @@ public class CmisConnection {
     private static final Logger LOGGER = LoggerFactory.getLogger(CmisConnection.class);
     private SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
 
-    public Session getSession(UserInfo userInfo) throws CmisException {
+    public Session getSession(UserInfo userInfo) throws AppException {
         Map<String, String> parameters = userInfo.getAtomPubParameters();
         Session session;
         try {
             session = sessionFactory.createSession(parameters);
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
+            throw new AppException(e.getMessage());
         }
         return session;
     }
 
-    public Map<String, Repository> getRepositories(UserInfo userInfo) throws CmisException {
+    public List<Repository> getRepositories(UserInfo userInfo) throws AppException {
         Map<String, String> parameters = userInfo.getAtomPubParameters();
         List<Repository> repositoryList;
         try {
             repositoryList = sessionFactory.getRepositories(parameters);
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
+            throw new AppException(e.getMessage());
         }
-        return listToMap(repositoryList);
+        return repositoryList;
     }
 
-    private Map<String, Repository> listToMap(List<Repository> list) {
-        Map<String, Repository> map = new LinkedHashMap<String, Repository>();
-        for (Repository el : list) {
-            map.put(el.getId(), el);
-        }
-        return map;
+    @Deprecated
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }

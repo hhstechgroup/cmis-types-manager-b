@@ -188,13 +188,6 @@
                             <cargo.servlet.port>17081</cargo.servlet.port>
                             <cargo.rmi.port>17082</cargo.rmi.port>
                             <cargo.glassfish.admin.port>17080</cargo.glassfish.admin.port>
-                            <!--for using debug-->
-                            <cargo.jvmargs>
-                                <!--Xdebug-->
-                                <!--Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=18000-->
-                                <!--Xnoagent-->
-                                <!--Djava.compiler=NONE-->
-                            </cargo.jvmargs>
                         </properties>
                     </configuration>
 
