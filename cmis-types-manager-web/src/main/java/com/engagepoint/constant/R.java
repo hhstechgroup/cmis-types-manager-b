@@ -10,9 +10,8 @@ public final class R {
 
     }
 
-    public final class Id {
+    public static final class Id {
         public static final String CREATE_TYPE_BTM = "createTypeBtm";
-        public static final String XML_OR_JSON_OPTIONS = "xmlOrJsonOptions";
         private Id() {
 
         }

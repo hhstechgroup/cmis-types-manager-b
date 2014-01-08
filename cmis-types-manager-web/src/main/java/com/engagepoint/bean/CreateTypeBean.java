@@ -1,7 +1,7 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.PropertyDefinitionImpl;
 import com.engagepoint.pojo.Type;
 import com.engagepoint.pojo.UserInfo;
@@ -29,6 +29,12 @@ import static com.engagepoint.constant.MessageConstants.*;
 import static com.engagepoint.constant.NameConstants.CMIS_SECONDARY;
 import static com.engagepoint.constant.NavigationConstants.TO_CURRENT_PAGE;
 import static com.engagepoint.constant.NavigationConstants.TO_MAIN_PAGE;
+
+/**
+ * User: AlexDenisenko
+ * Date: 11.12.13
+ * Time: 12:03
+ */
 
 @ManagedBean
 @ViewScoped
@@ -67,7 +73,7 @@ public class CreateTypeBean implements Serializable {
         UserInfo userInfo = login.getUserInfo();
         try {
             typeDefinition = service.findTypeById(userInfo, selectedType.getId());
-        } catch (CmisException e) {
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
         }
@@ -188,7 +194,7 @@ public class CreateTypeBean implements Serializable {
             newType.setFulltextIndexed(typeDefinition.isFulltextIndexed());
             newType.setControllableAcl(typeDefinition.isControllableAcl());
             newType.setControllablePolicy(typeDefinition.isControllablePolicy());
-        } catch (CmisException e) {
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
         }
@@ -204,7 +210,7 @@ public class CreateTypeBean implements Serializable {
 //            selectedTypeHolder.setType(newType);
             MessageUtils.printInfo(newType.getDisplayName() + TYPE_CREATED);
             return TO_MAIN_PAGE;
-        } catch (CmisException e) {
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_CREATE_TYPE, e);
         }

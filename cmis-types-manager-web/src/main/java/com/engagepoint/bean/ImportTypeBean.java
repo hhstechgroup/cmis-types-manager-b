@@ -2,10 +2,9 @@ package com.engagepoint.bean;
 
 import com.engagepoint.constant.R;
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
-import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.event.FileUploadEvent;
@@ -21,7 +20,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 
 import static com.engagepoint.constant.FileConstants.JSON_PATTERN;
@@ -78,18 +76,12 @@ public class ImportTypeBean {
                     MessageUtils.printInfo(SUCCESS_IMPORT_TYPE);
                 }
             } else {
-                MessageUtils.printInfo(NOT_SELECTED_FILE);
+                MessageUtils.printInfo(FILE_NOT_SELECTED);
             }
-        } catch (CmisException e) {
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(ERROR_IMPORT_TYPE, e);
-        } catch (XMLStreamException e) {
-            MessageUtils.printError(e.getMessage());
-            LOGGER.error(ERROR_IMPORT_TYPE, e);
-        } catch (JSONParseException e) {
-            MessageUtils.printError(ERROR_IMPORT_TYPE);
-            LOGGER.error(ERROR_IMPORT_TYPE, e);
-        } catch (IOException e) {
+        }  catch (IOException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_UPLOAD_FILE, e);
         }

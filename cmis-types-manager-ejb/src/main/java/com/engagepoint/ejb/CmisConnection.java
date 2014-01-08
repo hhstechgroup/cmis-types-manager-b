@@ -1,6 +1,6 @@
 package com.engagepoint.ejb;
 
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.UserInfo;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -26,26 +26,26 @@ public class CmisConnection {
     private static final Logger LOGGER = LoggerFactory.getLogger(CmisConnection.class);
     private SessionFactory sessionFactory = SessionFactoryImpl.newInstance();
 
-    public Session getSession(UserInfo userInfo) throws CmisException {
+    public Session getSession(UserInfo userInfo) throws AppException {
         Map<String, String> parameters = userInfo.getAtomPubParameters();
         Session session;
         try {
             session = sessionFactory.createSession(parameters);
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
+            throw new AppException(e.getMessage());
         }
         return session;
     }
 
-    public List<Repository> getRepositories(UserInfo userInfo) throws CmisException {
+    public List<Repository> getRepositories(UserInfo userInfo) throws AppException {
         Map<String, String> parameters = userInfo.getAtomPubParameters();
         List<Repository> repositoryList;
         try {
             repositoryList = sessionFactory.getRepositories(parameters);
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
-            throw new CmisException(e.getMessage());
+            throw new AppException(e.getMessage());
         }
         return repositoryList;
     }

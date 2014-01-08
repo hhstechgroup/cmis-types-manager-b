@@ -9,18 +9,20 @@ import javax.faces.bean.RequestScoped;
 import java.io.Serializable;
 
 /**
- * Created by michael.vakulik on 12/18/13.
+ * User: michael.vakulik
+ * Date: 12/18/13
+ * Time: 17:24
  */
+
 @ManagedBean
 @RequestScoped
 public class BackNavigationBean implements Serializable {
-//  TODO Change this
     public String getHistory(){
-        return LoginFilter.history.toString();
+        return LoginFilter.HISTORY.toString();
     }
 
     public String goToLastPage() {
-        return LoginFilter.history.getFirst();
+        return LoginFilter.HISTORY.getFirst();
     }
 
 }

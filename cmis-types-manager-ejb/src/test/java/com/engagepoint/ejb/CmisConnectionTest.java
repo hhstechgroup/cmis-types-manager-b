@@ -1,6 +1,6 @@
 package com.engagepoint.ejb;
 
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.UserInfo;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
@@ -38,13 +38,13 @@ public class CmisConnectionTest {
     }
 
     @Test
-    public void testGetSession() throws CmisException {
+    public void testGetSession() throws AppException {
         when(sessionFactoryMock.createSession(userInfoMock.getAtomPubParameters())).thenReturn(mockedSession);
         Assert.assertEquals("Session is wrong", mockedSession, cmisConnection.getSession(userInfoMock));
     }
 
     @Test
-    public void testGetRepositories() throws CmisException {
+    public void testGetRepositories() throws AppException {
         when(sessionFactoryMock.getRepositories(userInfoMock.getAtomPubParameters())).thenReturn(mockedRepositoryList);
         Assert.assertEquals("Repository list is wrong", mockedRepositoryList, cmisConnection.getRepositories(userInfoMock));
     }

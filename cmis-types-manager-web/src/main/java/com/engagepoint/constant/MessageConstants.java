@@ -18,7 +18,7 @@ public final class MessageConstants {
     public static final String UNABLE_UPLOAD_FILE = "Unable to upload file";
 
     public static final String SUCCESS_IMPORT_TYPE = "Type imported successful!";
-    public static final String NOT_SELECTED_FILE = "File is not selected";
+    public static final String FILE_NOT_SELECTED = "File is not selected";
     public static final String ERROR_IMPORT_TYPE = "Error while import type";
     public static final String ERROR_EXPORT_TYPE = "Error while exporting type";
     public static final String UNABLE_CREATE_TYPE = "Unable to create type";

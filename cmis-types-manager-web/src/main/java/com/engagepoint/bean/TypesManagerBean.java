@@ -2,8 +2,7 @@ package com.engagepoint.bean;
 
 
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
-import com.engagepoint.exception.CmisTypeDeleteException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.Type;
 import com.engagepoint.util.MessageUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -29,6 +28,7 @@ import static com.engagepoint.constant.NameConstants.TREE_DATA;
  * Date: 11/24/13
  * Time: 0:24 PM
  */
+
 @ManagedBean
 @ViewScoped
 public class TypesManagerBean implements Serializable {
@@ -111,10 +111,7 @@ public class TypesManagerBean implements Serializable {
             } else {
                 MessageUtils.printError(String.format(CAN_NOT_DELETE, selectedType.getDisplayName()));
             }
-        } catch (CmisException e) {
-            MessageUtils.printError(e.getMessage());
-            LOGGER.error(ERROR_DELETE_TYPE, e);
-        } catch (CmisTypeDeleteException e) {
+        } catch (AppException e) {
             MessageUtils.printError(String.format(CAN_NOT_DELETE, selectedType.getDisplayName()));
             LOGGER.error(UNABLE_DELETE_TYPE, e);
         }
@@ -130,8 +127,8 @@ public class TypesManagerBean implements Serializable {
 
     private void refreshTypes() {
         try {
-            types = service.findAllTypes(login.getUserInfo());
-        } catch (CmisException e) {
+            types = service.findAllTypes(login.getUserInfo(), false);
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_SET_SELECTED_TYPE, e);
         }
@@ -155,6 +152,7 @@ public class TypesManagerBean implements Serializable {
         for (Type type : types) {
             TreeNode node = new DefaultTreeNode(type, parent);
             if (type.getId().equals(selectType.getId())) {
+                node.setSelected(true);
                 expandNodes(node);
             }
             if (!type.getChildren().isEmpty()) {
@@ -165,7 +163,6 @@ public class TypesManagerBean implements Serializable {
 
     private void expandNodes(TreeNode node) {
         TreeNode treeNode = node;
-        treeNode.setSelected(true);
         while (treeNode.getParent() != null) {
             treeNode.getParent().setExpanded(true);
             treeNode = treeNode.getParent();

@@ -5,9 +5,9 @@ package com.engagepoint.exception;
  * Date: 11/27/13
  * Time: 6:59 PM
  */
-public class CmisException extends Exception {
+public class AppException extends Exception {
 
-    public CmisException(String message) {
+    public AppException(String message) {
         super(message);
     }
 }
