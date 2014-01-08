@@ -1,7 +1,7 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.Type;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
@@ -27,6 +27,7 @@ import static com.engagepoint.constant.NameConstants.*;
  * Date: 01.12.13
  * Time: 11:46
  */
+
 @ManagedBean
 @ViewScoped
 public class ViewTypeBean implements Serializable {
@@ -45,7 +46,7 @@ public class ViewTypeBean implements Serializable {
         try {
             Type selectedType = selectedTypeHolder.getType();
             type = service.findTypeById(login.getUserInfo(), selectedType.getId());
-        } catch (CmisException e) {
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
         }

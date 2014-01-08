@@ -16,8 +16,8 @@ import java.util.regex.Pattern;
  */
 public class UrlValidator implements Validator {
     private static final String URL_PATTERN = "\\(?\\b(http://|www[.])[-A-Za-z0-9+&@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&@#/%=~_()|]";
-    private static final String SUMMARY = "Url validation failed.";
-    private static final String DETAIL = "Invalid Url format.";
+    private static final String SUMMARY = "URL validation failed.";
+    private static final String DETAIL = "Invalid URL format.";
     private Pattern pattern;
 
     public UrlValidator() {

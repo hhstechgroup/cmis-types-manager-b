@@ -20,10 +20,7 @@ public class UserInfo {
 
 
     public UserInfo() {
-        username = StringUtils.EMPTY;
-        password = StringUtils.EMPTY;
-        url = StringUtils.EMPTY;
-        repositoryId = StringUtils.EMPTY;
+        reset();
     }
 
     public String getUsername() {
@@ -63,6 +60,7 @@ public class UserInfo {
         username = StringUtils.EMPTY;
         password = StringUtils.EMPTY;
         url = StringUtils.EMPTY;
+        repositoryId = StringUtils.EMPTY;
     }
 //  TODO change the connection method
     public Map<String, String> getAtomPubParameters() {

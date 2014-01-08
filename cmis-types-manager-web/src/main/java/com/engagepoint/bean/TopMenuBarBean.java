@@ -18,6 +18,7 @@ import static com.engagepoint.constant.NavigationConstants.*;
  * Date: 11/18/13
  * Time: 6:06 PM
  */
+
 @ManagedBean
 @RequestScoped
 public class TopMenuBarBean {

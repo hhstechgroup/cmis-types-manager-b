@@ -22,7 +22,7 @@ import static com.engagepoint.constant.NavigationConstants.*;
 
 
 public class LoginFilter implements Filter {
-    public static final Deque<String> history = new LinkedList<String>();
+    public static final Deque<String> HISTORY = new LinkedList<String>();
 
 
     @Override
@@ -34,11 +34,11 @@ public class LoginFilter implements Filter {
         String requestUrl = ((HttpServletRequest) request).getServletPath();
         requestUrl = requestUrl.substring(0, requestUrl.length() - XHTML.length());
         requestUrl += REDIRECT_TRUE;
-        while (history.size() > 3) {
-            history.removeFirst();
+        while (HISTORY.size() > 3) {
+            HISTORY.removeFirst();
         }
-        if (!history.contains(requestUrl)) {
-            history.addLast(requestUrl);
+        if (!HISTORY.contains(requestUrl)) {
+            HISTORY.addLast(requestUrl);
         }
 
     }

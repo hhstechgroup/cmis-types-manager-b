@@ -6,11 +6,8 @@ import org.apache.chemistry.opencmis.client.api.Tree;
 import org.apache.chemistry.opencmis.commons.definitions.*;
 import org.apache.chemistry.opencmis.commons.impl.JSONConverter;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,38 +17,34 @@ import static org.apache.chemistry.opencmis.commons.impl.JSONConstants.*;
  * OpenCMIS objects to JSON converter.
  */
 public final class CustomJSONConverter {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CustomJSONConverter.class);
 
     private CustomJSONConverter() {
     }
 
     public static List<TypeDefinition> convertTypeDefinitions(final Map<String, Object> jsonRaw) {
+        List<TypeDefinition> typeDefinitionList = new ArrayList<TypeDefinition>();
         if (jsonRaw == null) {
-            return Collections.EMPTY_LIST;
+            return typeDefinitionList;
         }
-        List<TypeDefinition> typeDefinitionList = new LinkedList<TypeDefinition>();
         Map<String, Object> json;
         if (JSONConverter.getString(jsonRaw, JSON_TYPE_ID) != null) {
             TypeDefinition typeDefinitionOne = JSONConverter.convertTypeDefinition(jsonRaw);
             typeDefinitionList.add(typeDefinitionOne);
         } else {
-            List<Object> listObject = new LinkedList<Object>(jsonRaw.values());
+            List<Object> listObject = new ArrayList<Object>(jsonRaw.values());
             for (Object o : listObject) {
                 json = JSONConverter.getMap(o);
                 TypeDefinition typeDefinitionOne = JSONConverter.convertTypeDefinition(json);
                 typeDefinitionList.add(typeDefinitionOne);
             }
         }
-
         return typeDefinitionList;
     }
-
 
     public static JSONObject convert(final TypeDefinition type, Session session) {
         if (type == null) {
             return null;
         }
-
         JSONObject result = new JSONObject();
         result.put(JSON_TYPE_ID, type.getId());
         result.put(JSON_TYPE_LOCALNAME, type.getLocalName());
@@ -97,10 +90,9 @@ public final class CustomJSONConverter {
 
         if ((type.getPropertyDefinitions() != null) && (!type.getPropertyDefinitions().isEmpty())) {
             JSONObject propertyDefs = new JSONObject();
-
-            for (PropertyDefinition<?> pd : CustomTypeUtils.getCorrectPropertyMapWithoutChangeTypeDefinition(session, type).values()) {
-                if(pd != null){
-                     propertyDefs.put(pd.getId(), JSONConverter.convert(pd));
+            for (PropertyDefinition<?> pd : CmisTypeUtils.getCorrectPropertyMapWithoutChangeTypeDefinition(session, type).values()) {
+                if (pd != null) {
+                    propertyDefs.put(pd.getId(), JSONConverter.convert(pd));
                 }
             }
 
@@ -112,28 +104,27 @@ public final class CustomJSONConverter {
         return result;
     }
 
-    public static JSONObject convert(Session session, final TypeDefinition type, List<Tree<ObjectType>> treeList) {
-        if (type == null) {
-            return null;
+    public static JSONObject writeTypeDefinitions(Session session, final TypeDefinition type, List<Tree<ObjectType>> treeList) {
+        JSONObject result = null;
+        if (type != null) {
+            result = convert(type, session);
+            if (treeList != null && !treeList.isEmpty()) {
+                JSONObject object = new JSONObject();
+                object.put(type.getId(), result);
+                writeChildrenType(object, session, treeList);
+                result = object;
+            }
         }
-
-        if (treeList == null || treeList.isEmpty()) {
-            return convert(type, session);
-        }
-
-        JSONObject result = new JSONObject();
-        result.put(type.getId(), convert(type, session));
-        convertTypeChildren(result, session, treeList);
         return result;
     }
 
-    public static void convertTypeChildren(JSONObject result, Session session, List<Tree<ObjectType>> treeList) {
+    public static void writeChildrenType(JSONObject result, Session session, List<Tree<ObjectType>> treeList) {
         for (Tree<ObjectType> node : treeList) {
             result.put(node.getItem().getId(), convert(node.getItem(), session));
             if (node.getChildren() != null) {
-                convertTypeChildren(result, session, node.getChildren());
+                writeChildrenType(result, session, node.getChildren());
             }
         }
     }
 
-    }
+}

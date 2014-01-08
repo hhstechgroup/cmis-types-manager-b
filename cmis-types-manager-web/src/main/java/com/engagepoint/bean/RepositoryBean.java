@@ -1,7 +1,7 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
@@ -49,7 +49,7 @@ public class RepositoryBean implements Serializable {
                 selectItems.add(new SelectItem(repo.getId(), repo.getName()));
             }
             selectedRepoId = repositories.values().iterator().next().getId();
-        } catch (CmisException e) {
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_REPO, e);
         }
@@ -78,14 +78,6 @@ public class RepositoryBean implements Serializable {
 
     public RepositoryInfo getInfo() {
         return repositories.get(selectedRepoId);
-    }
-
-    public LoginBean getLoginBean() {
-        return loginBean;
-    }
-
-    public void setLoginBean(LoginBean loginBean) {
-        this.loginBean = loginBean;
     }
 
     private Map<String, Repository> getRepositoryMapFrom(List<Repository> list) {

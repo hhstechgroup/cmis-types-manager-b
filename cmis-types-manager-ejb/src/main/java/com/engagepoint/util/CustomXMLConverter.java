@@ -1,9 +1,17 @@
 package com.engagepoint.util;
 
 import com.engagepoint.ejb.Service;
+import org.apache.chemistry.opencmis.client.api.ObjectType;
+import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.api.Tree;
 import org.apache.chemistry.opencmis.commons.data.*;
+import org.apache.chemistry.opencmis.commons.definitions.*;
 import org.apache.chemistry.opencmis.commons.enums.*;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisInvalidArgumentException;
+import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
+import org.apache.chemistry.opencmis.commons.impl.XMLConstants;
+import org.apache.chemistry.opencmis.commons.impl.XMLConverter;
+import org.apache.chemistry.opencmis.commons.impl.XMLUtils;
 import org.apache.chemistry.opencmis.commons.impl.XMLWalker;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.*;
 import org.slf4j.Logger;
@@ -12,24 +20,23 @@ import org.slf4j.LoggerFactory;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.apache.chemistry.opencmis.commons.impl.XMLConstants.*;
 
 public class CustomXMLConverter {
-
+    private static final String TAG_TYPE_DEFINITIONS = "typeDefinitions";
     private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
 
     private CustomXMLConverter() {
     }
 
-    public static List<AbstractTypeDefinition> convertTypeDefinitionFromTree(XMLStreamReader parser) throws XMLStreamException {
-        return TYPE_TREE_DEF_PARSER.walk(parser);
+    public static List<AbstractTypeDefinition> convertTypeDefinition(XMLStreamReader parser) throws XMLStreamException {
+        return parser.getNamespaceURI().equals(NAMESPACE_APACHE_CHEMISTRY) ?
+                TYPE_TREE_DEF_PARSER.walk(parser) : Arrays.asList(TYPE_DEF_PARSER.walk(parser));
     }
 
     private static final XMLWalker<List<AbstractTypeDefinition>> TYPE_TREE_DEF_PARSER = new XMLWalker<List<AbstractTypeDefinition>>() {
@@ -614,321 +621,6 @@ public class CustomXMLConverter {
         protected abstract void addChoice(XMLStreamReader parser, ChoiceImpl<T> target) throws XMLStreamException;
     }
 
-    // ---------------------------------
-    // --- objects and lists parsers ---
-    // ---------------------------------
-
-    private static final XMLWalker<ObjectDataImpl> OBJECT_PARSER = new XMLWalker<ObjectDataImpl>() {
-        @Override
-        protected ObjectDataImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new ObjectDataImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, ObjectDataImpl target) throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_OBJECT_PROPERTIES)) {
-                    target.setProperties(PROPERTIES_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_OBJECT_ALLOWABLE_ACTIONS)) {
-                    target.setAllowableActions(ALLOWABLE_ACTIONS_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_OBJECT_RELATIONSHIP)) {
-                    target.setRelationships(addToList(target.getRelationships(), OBJECT_PARSER.walk(parser)));
-                    return true;
-                }
-
-                if (isTag(name, TAG_OBJECT_CHANGE_EVENT_INFO)) {
-                    target.setChangeEventInfo(CHANGE_EVENT_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_OBJECT_ACL)) {
-                    target.setAcl(ACL_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_OBJECT_EXACT_ACL)) {
-                    target.setIsExactAcl(readBoolean(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_OBJECT_POLICY_IDS)) {
-                    target.setPolicyIds(POLICY_IDS_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_OBJECT_RENDITION)) {
-                    target.setRenditions(addToList(target.getRenditions(), RENDITION_PARSER.walk(parser)));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<PropertiesImpl> PROPERTIES_PARSER = new XMLWalker<PropertiesImpl>() {
-        @Override
-        protected PropertiesImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new PropertiesImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, PropertiesImpl target) throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_PROP_STRING)) {
-                    target.addProperty(PROPERTY_STRING_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_PROP_ID)) {
-                    target.addProperty(PROPERTY_ID_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_PROP_BOOLEAN)) {
-                    target.addProperty(PROPERTY_BOOLEAN_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_PROP_INTEGER)) {
-                    target.addProperty(PROPERTY_INTEGER_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_PROP_DATETIME)) {
-                    target.addProperty(PROPERTY_DATETIME_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_PROP_DECIMAL)) {
-                    target.addProperty(PROPERTY_DECIMAL_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_PROP_HTML)) {
-                    target.addProperty(PROPERTY_HTML_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_PROP_URI)) {
-                    target.addProperty(PROPERTY_URI_PARSER.walk(parser));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<AllowableActionsImpl> ALLOWABLE_ACTIONS_PARSER = new XMLWalker<AllowableActionsImpl>() {
-        @Override
-        protected AllowableActionsImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new AllowableActionsImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, AllowableActionsImpl target)
-                throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                try {
-                    Action action = Action.fromValue(name.getLocalPart());
-
-                    Set<Action> actions = target.getAllowableActions();
-
-                    if (Boolean.TRUE.equals(readBoolean(parser))) {
-                        actions.add(action);
-                    }
-
-                    return true;
-                } catch (IllegalArgumentException e) {
-                    LOGGER.error(e.getMessage(), e);
-                    throw new XMLStreamException(e.getMessage());
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<ChangeEventInfoDataImpl> CHANGE_EVENT_PARSER = new XMLWalker<ChangeEventInfoDataImpl>() {
-        @Override
-        protected ChangeEventInfoDataImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new ChangeEventInfoDataImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, ChangeEventInfoDataImpl target)
-                throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_CHANGE_EVENT_TYPE)) {
-                    target.setChangeType(readEnum(parser, ChangeType.class));
-                    return true;
-                }
-
-                if (isTag(name, TAG_CHANGE_EVENT_TIME)) {
-                    target.setChangeTime(readDateTime(parser));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<AccessControlListImpl> ACL_PARSER = new XMLWalker<AccessControlListImpl>() {
-        @Override
-        protected AccessControlListImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new AccessControlListImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, AccessControlListImpl target)
-                throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_ACL_PERMISSISONS)) {
-                    target.setAces(addToList(target.getAces(), ACE_PARSER.walk(parser)));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<AccessControlEntryImpl> ACE_PARSER = new XMLWalker<AccessControlEntryImpl>() {
-        @Override
-        protected AccessControlEntryImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new AccessControlEntryImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, AccessControlEntryImpl target)
-                throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_ACE_PRINCIPAL)) {
-                    target.setPrincipal(PRINCIPAL_PARSER.walk(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_ACE_PERMISSIONS)) {
-                    target.setPermissions(addToList(target.getPermissions(), readText(parser)));
-                    return true;
-                }
-
-                if (isTag(name, TAG_ACE_IS_DIRECT)) {
-                    target.setDirect(readBoolean(parser));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<AccessControlPrincipalDataImpl> PRINCIPAL_PARSER = new XMLWalker<AccessControlPrincipalDataImpl>() {
-        @Override
-        protected AccessControlPrincipalDataImpl prepareTarget(XMLStreamReader parser, QName name)
-                throws XMLStreamException {
-            return new AccessControlPrincipalDataImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, AccessControlPrincipalDataImpl target)
-                throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_ACE_PRINCIPAL_ID)) {
-                    target.setPrincipalId(readText(parser));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<PolicyIdListImpl> POLICY_IDS_PARSER = new XMLWalker<PolicyIdListImpl>() {
-        @Override
-        protected PolicyIdListImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new PolicyIdListImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, PolicyIdListImpl target) throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_POLICY_ID)) {
-                    target.setPolicyIds(addToList(target.getPolicyIds(), readText(parser)));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    private static final XMLWalker<RenditionDataImpl> RENDITION_PARSER = new XMLWalker<RenditionDataImpl>() {
-        @Override
-        protected RenditionDataImpl prepareTarget(XMLStreamReader parser, QName name) throws XMLStreamException {
-            return new RenditionDataImpl();
-        }
-
-        @Override
-        protected boolean read(XMLStreamReader parser, QName name, RenditionDataImpl target) throws XMLStreamException {
-            if (isCmisNamespace(name)) {
-                if (isTag(name, TAG_RENDITION_STREAM_ID)) {
-                    target.setStreamId(readText(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_RENDITION_MIMETYPE)) {
-                    target.setMimeType(readText(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_RENDITION_LENGTH)) {
-                    target.setBigLength(readInteger(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_RENDITION_KIND)) {
-                    target.setKind(readText(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_RENDITION_TITLE)) {
-                    target.setTitle(readText(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_RENDITION_HEIGHT)) {
-                    target.setBigHeight(readInteger(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_RENDITION_WIDTH)) {
-                    target.setBigWidth(readInteger(parser));
-                    return true;
-                }
-
-                if (isTag(name, TAG_RENDITION_DOCUMENT_ID)) {
-                    target.setRenditionDocumentId(readText(parser));
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    };
-
-    // ------------------------
-    // --- property parsers ---
-    // ------------------------
-
     private static final PropertyXMLWalker<PropertyStringImpl> PROPERTY_STRING_PARSER = new PropertyStringXMLWalker<PropertyStringImpl>() {
         @Override
         protected PropertyStringImpl createTarget(XMLStreamReader parser, QName name) {
@@ -1004,6 +696,120 @@ public class CustomXMLConverter {
             target.setValues(addToList(target.getValues(), readDateTime(parser)));
         }
     };
+
+    public static void writeTypeDefinitions(Session session, XMLStreamWriter writer, TypeDefinition source,
+                                            List<Tree<ObjectType>> typeDescendants) throws XMLStreamException {
+        if (source == null) {
+            return;
+        }
+        if (source.getBaseTypeId() == BaseTypeId.CMIS_ITEM) {
+            LOGGER.warn("Receiver only understands CMIS 1.0. It may not able to handle an Item type definition.");
+        } else if (source.getBaseTypeId() == BaseTypeId.CMIS_SECONDARY) {
+            LOGGER.warn("Receiver only understands CMIS 1.0. It may not able to handle a Secondary type definition.");
+        }
+        if (typeDescendants != null) {
+            writer.writeStartElement(XMLConstants.NAMESPACE_APACHE_CHEMISTRY, TAG_TYPE_DEFINITIONS);
+            writer.writeNamespace(PREFIX_RESTATOM, XMLConstants.NAMESPACE_RESTATOM);
+            writer.writeNamespace(PREFIX_XSI, XMLConstants.NAMESPACE_XSI);
+            writer.writeNamespace(PREFIX_APACHE_CHEMISTY, XMLConstants.NAMESPACE_APACHE_CHEMISTRY);
+            writer.writeNamespace(PREFIX_CMIS, XMLConstants.NAMESPACE_CMIS);
+            writeTypeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, source, typeDescendants, true);
+            XMLConverter.writeExtensions(writer, source);
+            writer.writeEndElement();
+        } else {
+            writeTypeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, source, typeDescendants, false);
+        }
+    }
+
+    private static void writeTypeDefinition(Session session, XMLStreamWriter writer, CmisVersion cmisVersion, String namespace,
+                                           TypeDefinition source, List<Tree<ObjectType>> typeDescendants,
+                                           boolean includeChildren) throws XMLStreamException {
+        writer.writeStartElement(namespace, TAG_TYPE);
+        if (!includeChildren) {
+            writer.writeNamespace(XMLConstants.PREFIX_XSI, XMLConstants.NAMESPACE_XSI);
+            writer.writeNamespace(PREFIX_CMIS, XMLConstants.NAMESPACE_CMIS);
+        }
+        if (source.getBaseTypeId() == BaseTypeId.CMIS_DOCUMENT) {
+            writer.writeAttribute(PREFIX_XSI, NAMESPACE_XSI, "type", PREFIX_CMIS + ":" + ATTR_DOCUMENT_TYPE);
+        } else if (source.getBaseTypeId() == BaseTypeId.CMIS_FOLDER) {
+            writer.writeAttribute(PREFIX_XSI, NAMESPACE_XSI, "type", PREFIX_CMIS + ":" + ATTR_FOLDER_TYPE);
+        } else if (source.getBaseTypeId() == BaseTypeId.CMIS_RELATIONSHIP) {
+            writer.writeAttribute(PREFIX_XSI, NAMESPACE_XSI, "type", PREFIX_CMIS + ":" + ATTR_RELATIONSHIP_TYPE);
+        } else if (source.getBaseTypeId() == BaseTypeId.CMIS_POLICY) {
+            writer.writeAttribute(PREFIX_XSI, NAMESPACE_XSI, "type", PREFIX_CMIS + ":" + ATTR_POLICY_TYPE);
+        } else if (source.getBaseTypeId() == BaseTypeId.CMIS_ITEM) {
+            writer.writeAttribute(PREFIX_XSI, NAMESPACE_XSI, "type", PREFIX_CMIS + ":" + ATTR_ITEM_TYPE);
+        } else if (source.getBaseTypeId() == BaseTypeId.CMIS_SECONDARY) {
+            writer.writeAttribute(PREFIX_XSI, NAMESPACE_XSI, "type", PREFIX_CMIS + ":" + ATTR_SECONDARY_TYPE);
+        } else {
+            throw new CmisRuntimeException("Type definition has no base type id!");
+        }
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_ID, source.getId());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_LOCALNAME, source.getLocalName());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_LOCALNAMESPACE, source.getLocalNamespace());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_DISPLAYNAME, source.getDisplayName());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_QUERYNAME, source.getQueryName());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_DESCRIPTION, source.getDescription());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_BASE_ID, source.getBaseTypeId());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_PARENT_ID, source.getParentTypeId());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_CREATABLE, source.isCreatable());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_FILEABLE, source.isFileable());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_QUERYABLE, source.isQueryable());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_FULLTEXT_INDEXED, source.isFulltextIndexed());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_INCLUDE_IN_SUPERTYPE_QUERY,
+                source.isIncludedInSupertypeQuery());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_CONTROLABLE_POLICY, source.isControllablePolicy());
+        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_CONTROLABLE_ACL, source.isControllableAcl());
+
+        if (cmisVersion != CmisVersion.CMIS_1_0 && source.getTypeMutability() != null) {
+            TypeMutability tm = source.getTypeMutability();
+            writer.writeStartElement(PREFIX_CMIS, TAG_TYPE_TYPE_MUTABILITY, NAMESPACE_CMIS);
+            XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_TYPE_MUTABILITY_CREATE, tm.canCreate());
+            XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_TYPE_MUTABILITY_UPDATE, tm.canUpdate());
+            XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_TYPE_MUTABILITY_DELETE, tm.canDelete());
+            XMLConverter.writeExtensions(writer, tm);
+            writer.writeEndElement();
+        }
+        if (source.getPropertyDefinitions() != null) {
+            for (PropertyDefinition<?> pd : CmisTypeUtils.getCorrectPropertyMapWithoutChangeTypeDefinition(session, source).values()) {
+                XMLConverter.writePropertyDefinition(writer, cmisVersion, pd);
+            }
+        }
+
+        if (source instanceof DocumentTypeDefinition) {
+            DocumentTypeDefinition docDef = (DocumentTypeDefinition) source;
+            XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_VERSIONABLE, docDef.isVersionable());
+            XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_CONTENTSTREAM_ALLOWED,
+                    docDef.getContentStreamAllowed());
+        }
+
+        if (source instanceof RelationshipTypeDefinition) {
+            RelationshipTypeDefinition relDef = (RelationshipTypeDefinition) source;
+            if (relDef.getAllowedSourceTypeIds() != null) {
+                for (String id : relDef.getAllowedSourceTypeIds()) {
+                    if (id != null) {
+                        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_ALLOWED_SOURCE_TYPES, id);
+                    }
+                }
+            }
+            if (relDef.getAllowedTargetTypeIds() != null) {
+                for (String id : relDef.getAllowedTargetTypeIds()) {
+                    if (id != null) {
+                        XMLUtils.write(writer, PREFIX_CMIS, NAMESPACE_CMIS, TAG_TYPE_ALLOWED_TARGET_TYPES, id);
+                    }
+                }
+            }
+        }
+        XMLConverter.writeExtensions(writer, source);
+        writer.writeEndElement();
+
+        if (typeDescendants != null) {
+            for (Tree<ObjectType> node : typeDescendants) {
+                writeTypeDefinition(session, writer, CmisVersion.CMIS_1_1, XMLConstants.NAMESPACE_CMIS, node.getItem(),
+                        node.getChildren(), true);
+            }
+        }
+    }
 
     private abstract static class PropertyXMLWalker<T extends AbstractPropertyData<?>> extends XMLWalker<T> {
 

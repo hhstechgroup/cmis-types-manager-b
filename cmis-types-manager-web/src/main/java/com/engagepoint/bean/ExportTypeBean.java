@@ -1,13 +1,7 @@
 package com.engagepoint.bean;
 
-/**
- * User: vyacheslav.polulyakh (vyacheslav.polulyakh@engagepoint.com )
- * Date: 12/12/13
- * Time: 16:26 AM
- */
-
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.commons.io.output.ByteArrayOutputStream;
@@ -30,6 +24,11 @@ import static com.engagepoint.constant.FileConstants.*;
 import static com.engagepoint.constant.MessageConstants.*;
 import static com.engagepoint.constant.NavigationConstants.TO_CURRENT_PAGE;
 
+/**
+ * User: vyacheslav.polulyakh (vyacheslav.polulyakh@engagepoint.com )
+ * Date: 12/12/13
+ * Time: 16:26 AM
+ */
 
 @ManagedBean
 @ViewScoped
@@ -60,7 +59,7 @@ public class ExportTypeBean {
             } catch (IOException e) {
                 MessageUtils.printError(e.getMessage());
                 LOGGER.error(ERROR_EXPORT_TYPE, e);
-            } catch (CmisException e) {
+            } catch (AppException e) {
                 MessageUtils.printError(e.getMessage());
                 LOGGER.error(ERROR_EXPORT_TYPE, e);
             }
@@ -107,14 +106,14 @@ public class ExportTypeBean {
         this.selectedTypeHolder = selectedTypeHolder;
     }
 
-    private void exportToXml() throws CmisException, IOException {
+    private void exportToXml() throws AppException, IOException {
         String typeId = selectedTypeHolder.getType().getId();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         service.exportTypeToXML(login.getUserInfo(), out, typeId, includeChildren);
         exportFile(out, getFileName(typeId, XML_PATTERN));
     }
     //TODO get knowledge of stream
-    private void exportToJson() throws CmisException, IOException {
+    private void exportToJson() throws AppException, IOException {
         String typeId = selectedTypeHolder.getType().getId();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         service.exportTypeToJSON(login.getUserInfo(), out, typeId, includeChildren);

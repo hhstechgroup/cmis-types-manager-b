@@ -1,7 +1,7 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +27,7 @@ import static com.engagepoint.constant.NavigationConstants.TO_MAIN_PAGE;
  * Date: 15/11/13
  * Time: 2:29 AM
  */
+
 @ManagedBean
 @SessionScoped
 public class LoginBean implements Serializable {
@@ -78,7 +79,7 @@ public class LoginBean implements Serializable {
             } else {
                 return TO_LOGIN;
             }
-        } catch (CmisException e) {
+        } catch (AppException e) {
             String message = e.getMessage();
             if (UNEXPECTED_DOCUMENT.equals(message) || NOT_FOUND.equals(message)) {
                 message = REPO_NOT_EXISTS;
@@ -119,7 +120,7 @@ public class LoginBean implements Serializable {
         return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     }
 
-    private boolean isUserValid() throws CmisException {
+    private boolean isUserValid() throws AppException {
         return service.isUserExists(userInfo);
     }
 
