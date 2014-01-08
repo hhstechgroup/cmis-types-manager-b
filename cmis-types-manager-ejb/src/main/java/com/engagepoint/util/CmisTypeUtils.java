@@ -69,6 +69,7 @@ public final class CmisTypeUtils {
             if (!(json instanceof Map)) {
                 throw new AppException("Invalid stream! Not a type definition!");
             }
+
             return CustomJSONConverter.convertTypeDefinitions((Map<String, Object>) json);
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
