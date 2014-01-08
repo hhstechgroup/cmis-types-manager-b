@@ -80,6 +80,14 @@ public class RepositoryBean implements Serializable {
         return repositories.get(selectedRepoId);
     }
 
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
+    }
+
     private Map<String, Repository> getRepositoryMapFrom(List<Repository> list) {
         Map<String, Repository> map = new LinkedHashMap<String, Repository>();
         for (Repository el : list) {
