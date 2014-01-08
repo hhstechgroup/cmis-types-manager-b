@@ -90,7 +90,7 @@ public final class CustomJSONConverter {
 
         if ((type.getPropertyDefinitions() != null) && (!type.getPropertyDefinitions().isEmpty())) {
             JSONObject propertyDefs = new JSONObject();
-            for (PropertyDefinition<?> pd : CMISTypeUtils.getCorrectPropertyMapWithoutChangeTypeDefinition(session, type).values()) {
+            for (PropertyDefinition<?> pd : CmisTypeUtils.getCorrectPropertyMapWithoutChangeTypeDefinition(session, type).values()) {
                 if (pd != null) {
                     propertyDefs.put(pd.getId(), JSONConverter.convert(pd));
                 }
