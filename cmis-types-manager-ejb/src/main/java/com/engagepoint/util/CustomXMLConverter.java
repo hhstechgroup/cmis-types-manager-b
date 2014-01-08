@@ -771,7 +771,7 @@ public class CustomXMLConverter {
             writer.writeEndElement();
         }
         if (source.getPropertyDefinitions() != null) {
-            for (PropertyDefinition<?> pd : CmisTypeUtils.getCorrectPropertyMapWithoutChangeTypeDefinition(session, source).values()) {
+            for (PropertyDefinition<?> pd : CMISTypeUtils.getCorrectPropertyMapWithoutChangeTypeDefinition(session, source).values()) {
                 XMLConverter.writePropertyDefinition(writer, cmisVersion, pd);
             }
         }

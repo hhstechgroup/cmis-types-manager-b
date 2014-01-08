@@ -27,11 +27,11 @@ import static org.apache.commons.lang.Validate.notNull;
  * Date: 13.12.13
  * Time: 13:34
  */
-public final class CmisTypeUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CmisTypeUtils.class);
+public final class CMISTypeUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CMISTypeUtils.class);
     public static final String CHARSET_NAME = "UTF-8";
 
-    private CmisTypeUtils() {
+    private CMISTypeUtils() {
     }
 
     public static List<AbstractTypeDefinition> readFromXML(InputStream stream) throws AppException {

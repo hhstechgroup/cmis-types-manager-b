@@ -5,7 +5,7 @@ import com.engagepoint.pojo.PropertyDefinitionImpl;
 import com.engagepoint.pojo.Type;
 import com.engagepoint.pojo.TypeDefinitionImpl;
 import com.engagepoint.pojo.UserInfo;
-import com.engagepoint.util.CmisTypeUtils;
+import com.engagepoint.util.CMISTypeUtils;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -48,7 +48,7 @@ public class Service {
         Session session = connection.getSession(userInfo);
         TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
-            session.createType(CmisTypeUtils.getCorrectTypeDefinition(session, typeDefinition));
+            session.createType(CMISTypeUtils.getCorrectTypeDefinition(session, typeDefinition));
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
@@ -102,11 +102,11 @@ public class Service {
             Session session = connection.getSession(userInfo);
             List<AbstractTypeDefinition> definitionList;
             try {
-                definitionList = CmisTypeUtils.readFromXML(stream);
+                definitionList = CMISTypeUtils.readFromXML(stream);
                 if (definitionList != null) {
                     for (AbstractTypeDefinition definition : definitionList) {
                         if (!definition.getId().equals(definition.getBaseTypeId().value())) {
-                            session.createType(CmisTypeUtils.getCorrectTypeDefinition(session, definition));
+                            session.createType(CMISTypeUtils.getCorrectTypeDefinition(session, definition));
                         }
                     }
                 }
@@ -126,7 +126,7 @@ public class Service {
         try {
             Session session = connection.getSession(userInfo);
             try {
-                List<TypeDefinition> typeDefinition = CmisTypeUtils.readFromJSON(stream);
+                List<TypeDefinition> typeDefinition = CMISTypeUtils.readFromJSON(stream);
                 for (TypeDefinition definition : typeDefinition) {
                     if (!definition.getId().equals(definition.getBaseTypeId().value())) {
                         session.createType(definition);
@@ -151,7 +151,7 @@ public class Service {
             typeDescendants = session.getTypeDescendants(typeId, -1, true);
         }
         try {
-            CmisTypeUtils.writeToXML(session, session.getTypeDefinition(typeId), out, typeDescendants);
+            CMISTypeUtils.writeToXML(session, session.getTypeDefinition(typeId), out, typeDescendants);
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
@@ -171,7 +171,7 @@ public class Service {
             typeDescendants = session.getTypeDescendants(typeId, -1, true);
         }
         try {
-            CmisTypeUtils.writeToJSON(session, session.getTypeDefinition(typeId), out, typeDescendants);
+            CMISTypeUtils.writeToJSON(session, session.getTypeDefinition(typeId), out, typeDescendants);
         } catch (IllegalArgumentException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
