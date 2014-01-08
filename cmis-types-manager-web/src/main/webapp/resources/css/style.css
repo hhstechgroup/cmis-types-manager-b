@@ -8,11 +8,11 @@
     margin-right: 3px;
     margin-left: 20px;
 }
-#repoInfoForm-repoInfoBtn
-  {
-      margin-top: 5px;
-      margin-left: 5px;
-  }
+
+#repoInfoForm-repoInfoBtn {
+    margin-top: 5px;
+    margin-left: 5px;
+}
 
 #treeForm .ui-state-highlight {
     border: 1px solid #666666;
@@ -69,12 +69,12 @@
     width: 100%;
 }
 
-#importForm-importFileUpload{
+#importForm-importFileUpload {
     margin-top: 20px;
     width: 100%;
 }
 
-#importForm-fileUploadName{
+#importForm-fileUploadName {
     float: none;
     margin: 0;
     width: 80%;
@@ -82,7 +82,7 @@
     margin-bottom: 5px;
 }
 
-#importForm-importFileUpload .fileupload-content{
+#importForm-importFileUpload .fileupload-content {
     float: left;
     line-height: 30px;
     margin-left: 10px;
@@ -189,7 +189,7 @@
     width: 100px;
 }
 
-#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span.ui-chkbox-icon, #viewForm-accordionPanel-accordionTabMetadata thead tr th span.ui-chkbox-icon{
+#createTypeForm-accordionPanel-accordionTabMetadata thead tr th span.ui-chkbox-icon, #viewForm-accordionPanel-accordionTabMetadata thead tr th span.ui-chkbox-icon {
     width: 16px;
     display: inline-block;
 }
@@ -274,15 +274,15 @@
     left: 25% !important;
 }
 
-#createMetadataModalDialog .ui-outputlabel, #updateMetadataModalDialog .ui-outputlabel{
+#createMetadataModalDialog .ui-outputlabel, #updateMetadataModalDialog .ui-outputlabel {
     width: 100%;
 }
 
-#createMetadataModalDialog .ui-dialog-content,#repoInfoModalDialog .ui-dialog-content{
+#createMetadataModalDialog .ui-dialog-content, #repoInfoModalDialog .ui-dialog-content {
     max-height: 800px !important;
 }
 
-#updateMetadataModalDialog,#repoInfoModalDialog {
+#updateMetadataModalDialog, #repoInfoModalDialog {
     width: 690px !important;
     height: auto !important;
     top: 3% !important;
@@ -297,7 +297,7 @@
     max-height: 800px !important;
 }
 
-#createTypeForm-accordionPanel-metadataTabel_data tr.ui-state-highlight, #createTypeForm-accordionPanel-metadataTabel_data tr.ui-state-hover{
+#createTypeForm-accordionPanel-metadataTabel_data tr.ui-state-highlight, #createTypeForm-accordionPanel-metadataTabel_data tr.ui-state-hover {
     background: #0075AC !important;
     background: #0075AC linear-gradient(top, #026292, #85b2cb) !important;
     background: #0075AC -webkit-gradient(linear, left top, left bottom, from(#026292), to(#85b2cb)) !important;
@@ -307,28 +307,32 @@
     border: none;
 }
 
-#createTypeForm-accordionPanel-metadataTabel_data tr td{
+#createTypeForm-accordionPanel-metadataTabel_data tr td {
     background: inherit;
     color: inherit;
     font: inherit;
 }
 
-#createTypeForm-accordionPanel-metadataTabel_data .ui-chkbox{
+#createTypeForm-accordionPanel-metadataTabel_data .ui-chkbox {
     vertical-align: middle;
 }
 
-#createMetadataModalForm-createMetadataButton, #updateMetadataModalForm-updateMetadataButton{
+#createMetadataModalForm-createMetadataButton, #updateMetadataModalForm-updateMetadataButton {
     margin-right: 10px;
 }
 
-#changeRepositoryForm{
+#changeRepositoryForm {
     max-width: 500px !important;
 }
 
-#changeRepositoryForm table{
+#changeRepositoryForm table {
     width: 100%;
 }
 
-#fileExportForm-includeChildCheckbox{
+#fileExportForm-includeChildCheckbox {
     vertical-align: middle;
+}
+
+#fileExportForm-radioGrid {
+    clear: both;
 }
