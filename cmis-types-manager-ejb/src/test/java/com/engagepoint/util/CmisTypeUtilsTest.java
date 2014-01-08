@@ -33,7 +33,6 @@ public class CmisTypeUtilsTest {
     @Before
     public void before() {
         list = new ArrayList<AbstractTypeDefinition>();
-//        mockStatic(XMLUtils.class);
     }
 
     @Test
@@ -73,7 +72,7 @@ public class CmisTypeUtilsTest {
     }
 
     @Test
-    public void testReadFromXML(){
+    public void testWriteToXML(){
 
     }
 }
