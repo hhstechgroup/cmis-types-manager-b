@@ -13,7 +13,6 @@ public final class R {
     public static final class Id {
         public static final String CREATE_TYPE_BTM = "createTypeBtm";
         private Id() {
-
         }
     }
 }
