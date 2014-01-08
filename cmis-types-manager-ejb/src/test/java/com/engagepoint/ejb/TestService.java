@@ -1,12 +1,10 @@
 package com.engagepoint.ejb;
 
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.Type;
 import com.engagepoint.pojo.UserInfo;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 
 import static org.mockito.Mockito.mock;
 
@@ -21,7 +19,7 @@ public class TestService {
     private Type type;
 
     @Before
-    public void before() throws CmisException {
+    public void before() throws AppException {
         mockedService = mock(Service.class);
         mockedService.setConnection(new CmisConnection());
         mockedUserInfo = mock(UserInfo.class);
@@ -48,7 +46,7 @@ public class TestService {
     }
 
     @Test
-    public void testCreateType() throws CmisException {
+    public void testCreateType() throws AppException {
 
     }
 
@@ -97,7 +95,7 @@ public class TestService {
     }
 
     @Test
-    public void testIsUserExists() throws CmisException {
+    public void testIsUserExists() throws AppException {
 
     }
 }
