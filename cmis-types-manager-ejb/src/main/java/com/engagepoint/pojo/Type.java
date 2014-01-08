@@ -1,5 +1,7 @@
 package com.engagepoint.pojo;
 
+import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
+
 import java.util.List;
 
 /**
@@ -23,9 +25,10 @@ public class Type {
     private boolean isIncludedInSupertypeQuery;
     private boolean isControllablePolicy;
     private boolean isControllableAcl;
+    private TypeMutability typeMutability;
 
     private List<PropertyDefinitionImpl> properties;
-
+    private List<Type> children;
 
     public String getLocalName() {
         return localName;
@@ -147,6 +150,13 @@ public class Type {
         isControllableAcl = controllableAcl;
     }
 
+    public TypeMutability getTypeMutability() {
+        return typeMutability;
+    }
+
+    public void setTypeMutability(TypeMutability typeMutability) {
+        this.typeMutability = typeMutability;
+    }
 
     public List<PropertyDefinitionImpl> getProperties() {
         return properties;
@@ -154,5 +164,13 @@ public class Type {
 
     public void setProperties(List<PropertyDefinitionImpl> properties) {
         this.properties = properties;
+    }
+
+    public List<Type> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Type> children) {
+        this.children = children;
     }
 }

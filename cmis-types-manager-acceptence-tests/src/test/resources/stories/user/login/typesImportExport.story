@@ -21,6 +21,18 @@ When the user clicks on element with id/name/className 'importForm-createTypeBtm
 Then wait for element 'treeForm' is visible
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel1'
+Then element with '//span[@id='treeForm-tree-0_1_0-nodeText']' has text 'rel11'
+Then element with '//span[@id='treeForm-tree-0_1_1-nodeText']' has text 'rel12'
+
+Scenario: view type with metadata scenario
+When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
+When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
+When the user clicks on element with id/name/className 'commandForm-view'
+Then wait for element 'viewForm' is visible
+When the user clicks on first element with className 'ui-icon-triangle-1-e' with text 'Metadata'
+When the user clicks on element with id/name/className 'viewForm-return'
+Then wait for element 'treeForm' is visible
 
 Scenario: export type to xml file scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
@@ -34,7 +46,6 @@ When clicks on element by '//div[@id="exportModal"]//button[@class="close"]'
 Then wait for element 'treeForm' is visible
 
 Scenario: delete type scenario
-When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
@@ -52,6 +63,18 @@ When the user clicks on element with id/name/className 'importForm-createTypeBtm
 Then wait for element 'treeForm' is visible
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
+Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel1'
+Then element with '//span[@id='treeForm-tree-0_1_0-nodeText']' has text 'rel11'
+Then element with '//span[@id='treeForm-tree-0_1_1-nodeText']' has text 'rel12'
+
+Scenario: view type with metadata scenario
+When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
+When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
+When the user clicks on element with id/name/className 'commandForm-view'
+Then wait for element 'viewForm' is visible
+When the user clicks on first element with className 'ui-icon-triangle-1-e' with text 'Metadata'
+When the user clicks on element with id/name/className 'viewForm-return'
+Then wait for element 'treeForm' is visible
 
 Scenario: export type to json file scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
@@ -65,7 +88,6 @@ When clicks on element by '//div[@id="exportModal"]//button[@class="close"]'
 Then wait for element 'treeForm' is visible
 
 Scenario: delete type scenario
-When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'

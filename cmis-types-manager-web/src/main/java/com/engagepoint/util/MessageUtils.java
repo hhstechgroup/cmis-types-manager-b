@@ -36,15 +36,15 @@ public class MessageUtils {
         getFacesContext().addMessage(null, getWarnMessage(text, detail));
     }
 
-    private static FacesMessage getWarnMessage(String text, String detail) {
+    public static FacesMessage getWarnMessage(String text, String detail) {
         return new FacesMessage(FacesMessage.SEVERITY_WARN, text, detail);
     }
 
-    private static FacesMessage getErrorMessage(String text, String detail) {
+    public static FacesMessage getErrorMessage(String text, String detail) {
         return new FacesMessage(FacesMessage.SEVERITY_ERROR, text, detail);
     }
 
-    private static FacesMessage getInfoMessage(String text, String detail) {
+    public static FacesMessage getInfoMessage(String text, String detail) {
         return new FacesMessage(FacesMessage.SEVERITY_INFO, text, detail);
     }
 

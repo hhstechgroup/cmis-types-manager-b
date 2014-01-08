@@ -5,18 +5,18 @@
         id="fileExportForm">
 
     <p:panelGrid columns="2" styleClass="col2">
-        <p:outputLabel id="includeChildLable" for="includeChildCheckbox" value="Include child  " />
+        <p:outputLabel id="includeChildLable" for="includeChildCheckbox" value="Include children" />
         <p:selectBooleanCheckbox id="includeChildCheckbox" styleClass="ml10" value="#{exportTypeBean.includeChildren}"/>
     </p:panelGrid>
 
     <p:panelGrid columns="2">
-        <p:selectOneRadio id="xmlOrJsonOptions" layout="grid" value="#{exportTypeBean.xmlOrJson}">
-            <f:selectItem itemLabel="Xml" itemValue="true"/>
-            <f:selectItem itemLabel="Json" itemValue="false"/>
+        <p:selectOneRadio id="xmlOrJsonOptions" layout="grid" value="#{exportTypeBean.fileType}"  >
+            <f:selectItem itemLabel="Xml" itemValue="xml"/>
+            <f:selectItem itemLabel="Json" itemValue="json"/>
         </p:selectOneRadio>
     </p:panelGrid>
     <p:commandButton id="cancelExportModalButton" value="Cancel" update="-mainContent" styleClass="secondary" onclick="jQuery('#exportModal').modal('hide');return false;"/>
-    <p:commandButton id="submitExportModalButton" value="Export" styleClass="fl-right" ajax="false"
+    <p:commandButton id="submitExportModalButton" value="Export" update="-mainContent" styleClass="fl-right" ajax="false"
                      action="#{exportTypeBean.exportType()}" onclick="jQuery('#exportModal').modal('hide');" />
 
 </h:form>

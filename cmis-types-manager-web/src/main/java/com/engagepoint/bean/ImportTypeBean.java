@@ -1,12 +1,15 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.constant.Constants;
+import com.engagepoint.constant.R;
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
-import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
+import org.apache.commons.lang.StringUtils;
+import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
+import org.primefaces.util.ComponentUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,9 +18,14 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.xml.stream.XMLStreamException;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 import java.io.IOException;
-import java.io.InputStream;
+
+import static com.engagepoint.constant.FileConstants.JSON_PATTERN;
+import static com.engagepoint.constant.FileConstants.XML_PATTERN;
+import static com.engagepoint.constant.MessageConstants.*;
+import static com.engagepoint.constant.NavigationConstants.TO_MAIN_PAGE;
 
 /**
  * User: AlexDenisenko
@@ -32,62 +40,60 @@ public class ImportTypeBean {
     private Service service;
     @ManagedProperty(value = "#{loginBean}")
     private LoginBean login;
-    private InputStream stream;
-    private String fileName;
-    @ManagedProperty(value = "#{selectedTypeHolder}")
-    private SelectedTypeHolder selectedTypeHolder;
-    private boolean importButtonDisabled;
+    private UploadedFile file;
+    @ManagedProperty(value = "#{selectedTypeHolderBean}")
+    private SelectedTypeHolderBean selectedTypeHolder;
 
     @PostConstruct
-    public void init(){
-        importButtonDisabled = true;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void init() {
+        final CommandButton importTypeButton = (CommandButton) findComponentById(R.Id.CREATE_TYPE_BTM);
+        importTypeButton.setDisabled(true);
     }
 
     public void upload(FileUploadEvent event) {
-        try {
-            fileName = event.getFile().getFileName();
-            stream = event.getFile().getInputstream();
-            importButtonDisabled = false;
-        } catch (IOException e) {
-            importButtonDisabled = true;
-            fileName = Constants.Strings.EMPTY_STRING;
-            MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.UNABLE_UPLOAD_FILE, e);
-        }
+        file = event.getFile();
+        final CommandButton importTypeButton = (CommandButton) findComponentById(R.Id.CREATE_TYPE_BTM);
+        importTypeButton.setDisabled(false);
+    }
+
+    public String getFileName() {
+        return file != null ? file.getFileName() : StringUtils.EMPTY;
+    }
+
+    public String getFileSize() {
+        return file != null ? getFileSizeInKilobytes(file.getSize()) : StringUtils.EMPTY;
     }
 
     public String importTypes() {
         try {
-            if (stream != null) {
+            if (file != null) {
                 UserInfo userInfo = login.getUserInfo();
-                if (fileName.contains(Constants.Strings.XML_PATTERN)) {
-                    service.importTypeFromXml(userInfo, stream);
-                } else {
-                    service.importTypeFromJson(userInfo, stream);
+                if (file.getFileName().contains(XML_PATTERN)) {
+                    service.importTypeFromXml(userInfo, file.getInputstream());
+                    MessageUtils.printInfo(SUCCESS_IMPORT_TYPE);
+                } else if (file.getFileName().contains(JSON_PATTERN)) {
+                    service.importTypeFromJson(userInfo, file.getInputstream());
+                    MessageUtils.printInfo(SUCCESS_IMPORT_TYPE);
                 }
-                MessageUtils.printInfo(Constants.Messages.SUCCESS_IMPORT_TYPE);
             } else {
-                MessageUtils.printInfo(Constants.Messages.NOT_SELECTED_FILE);
+                MessageUtils.printInfo(FILE_NOT_SELECTED);
             }
-        } catch (CmisException e) {
+        } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
-        } catch (XMLStreamException e) {
+            LOGGER.error(ERROR_IMPORT_TYPE, e);
+        }  catch (IOException e) {
             MessageUtils.printError(e.getMessage());
-            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
-        } catch (JSONParseException e) {
-            MessageUtils.printError(Constants.Messages.ERROR_IMPORT_TYPE);
-            LOGGER.error(Constants.Messages.ERROR_IMPORT_TYPE, e);
+            LOGGER.error(UNABLE_UPLOAD_FILE, e);
         }
-        return Constants.Navigation.TO_MAIN_PAGE;
+        return TO_MAIN_PAGE;
+    }
+
+    public SelectedTypeHolderBean getSelectedTypeHolder() {
+        return selectedTypeHolder;
+    }
+
+    public void setSelectedTypeHolder(SelectedTypeHolderBean selectedTypeHolder) {
+        this.selectedTypeHolder = selectedTypeHolder;
     }
 
     public LoginBean getLogin() {
@@ -98,19 +104,13 @@ public class ImportTypeBean {
         this.login = login;
     }
 
-    public SelectedTypeHolder getSelectedTypeHolder() {
-        return selectedTypeHolder;
+    private String getFileSizeInKilobytes(long size) {
+        return String.format("%.2f KB", size / 1000.0);
     }
 
-    public void setSelectedTypeHolder(SelectedTypeHolder selectedTypeHolder) {
-        this.selectedTypeHolder = selectedTypeHolder;
+    private UIComponent findComponentById(String id) {
+        UIComponent root = FacesContext.getCurrentInstance().getViewRoot();
+        return ComponentUtils.findComponent(root, id);
     }
 
-    public boolean isImportButtonDisabled() {
-        return importButtonDisabled;
-    }
-
-    public void setImportButtonDisabled(boolean importButtonDisabled) {
-        this.importButtonDisabled = importButtonDisabled;
-    }
 }

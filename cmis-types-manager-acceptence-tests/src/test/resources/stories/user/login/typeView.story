@@ -1,3 +1,9 @@
+Meta:
+
+Narrative:
+As a user
+I want to View types with attributes and metadata
+
 Scenario: authentification scenario
 When the user opens the default page
 When the user fills 'loginForm-login' field with 'test'
@@ -13,13 +19,19 @@ When the user uploads the fileName/filePath 'cmis-types-manager-acceptence-tests
 Then element 'importForm-fileUploadName' has attribute value 'rel1.xml'
 When the user clicks on element with id/name/className 'importForm-createTypeBtm'
 Then wait for element 'treeForm' is visible
+
+Scenario: view type with metadata scenario
 When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
-Then element with '//span[@id='treeForm-tree-0_1-nodeText']' has text 'rel1'
-Then element with '//span[@id='treeForm-tree-0_1_0-nodeText']' has text 'rel11'
-Then element with '//span[@id='treeForm-tree-0_1_1-nodeText']' has text 'rel12'
+When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
+When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
+When the user clicks on element with id/name/className 'commandForm-view'
+Then wait for element 'viewForm' is visible
+When the user clicks on first element with className 'ui-icon-triangle-1-e' with text 'Metadata'
+When the user clicks on element with id/name/className 'viewForm-return'
+Then wait for element 'treeForm' is visible
 
 Scenario: delete type scenario
+When clicks on element by '//span[@class="ui-tree-toggler ui-icon ui-icon-triangle-1-e"]'
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'treeForm-tree-0_1-nodeText'
 When the user clicks on element with id/name/className 'commandForm-deleteButton'
