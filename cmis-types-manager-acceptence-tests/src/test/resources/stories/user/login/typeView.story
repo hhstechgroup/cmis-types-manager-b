@@ -15,7 +15,7 @@ Then wait for element 'treeForm' is visible
 Scenario: import xml file to type scenario
 When the user clicks on element with id/name/className 'treeForm-tree-0-nodeText'
 When the user clicks on element with id/name/className 'ImportExportForm-import'
-When the user uploads the fileName/filePath 'cmis-types-manager-acceptence-tests/src/test/resources/files/rel1.xml' to field with 'importForm-importFileUpload_input'
+When the user uploads the fileName/filePath 'src/test/resources/files/rel1.xml' to field with 'importForm-importFileUpload_input'
 Then element 'importForm-fileUploadName' has attribute value 'rel1.xml'
 When the user clicks on element with id/name/className 'importForm-createTypeBtm'
 Then wait for element 'treeForm' is visible

@@ -25,7 +25,7 @@ public class TestService {
         mockedUserInfo = mock(UserInfo.class);
         mockedUserInfo.setUsername("test");
         mockedUserInfo.setPassword("test");
-        mockedUserInfo.setUrl("http://lab16:8080/chemistry-opencmis-server-inmemory-0.10.0/atom11");
+        mockedUserInfo.setUrl("http://localhost:8080/chemistry-opencmis-server-inmemory-0.10.0/atom11");
 
         type = new Type();
         type.setId("test");

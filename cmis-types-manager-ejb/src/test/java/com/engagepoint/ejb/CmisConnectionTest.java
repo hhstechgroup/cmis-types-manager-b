@@ -30,7 +30,7 @@ public class CmisConnectionTest {
         userInfoMock = new UserInfo();
         userInfoMock.setUsername("test");
         userInfoMock.setPassword("test");
-        userInfoMock.setUrl("http://lab16:8080/chemistry-opencmis-server-inmemory-0.10.0/atom11");
+        userInfoMock.setUrl("http://localhost:8080/chemistry-opencmis-server-inmemory-0.10.0/atom11");
         sessionFactoryMock = mock(SessionFactory.class);
         mockedSession = mock(Session.class);
         mockedRepositoryList = mock(List.class);
