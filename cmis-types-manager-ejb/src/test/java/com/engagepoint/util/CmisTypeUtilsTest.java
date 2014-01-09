@@ -53,8 +53,8 @@ public class CmisTypeUtilsTest {
 
     @Test
     public void testReadFromXML() throws AppException {
-        Assert.assertNotNull(getClass().getResource("/files/rel1.xml"));
-        xmlStream = getClass().getResourceAsStream("/files/rel1.xml");
+        Assert.assertNotNull(getClass().getResource("/files/testTreeTypeXML.xml"));
+        xmlStream = getClass().getResourceAsStream("/files/testTreeTypeXML.xml");
         Assert.assertNotNull(xmlStream);
         mockStatic(CmisTypeUtils.class);
         when(CmisTypeUtils.readFromXML(xmlStream)).thenReturn(xmlList);
@@ -63,15 +63,15 @@ public class CmisTypeUtilsTest {
 
     @Test(expected = NullPointerException.class)
     public void testWriteToXML() throws FileNotFoundException, AppException {
-        OutputStream stream1 = new FileOutputStream(new File(getClass().getResource("/files/rel1.xml").getFile()));
+        OutputStream stream1 = new FileOutputStream(new File(getClass().getResource("/files/testTreeTypeXML.xml").getFile()));
         Session session = mock(Session.class);
         CmisTypeUtils.writeToXML(session, type, stream1, session.getTypeDescendants(null, 0, false));
     }
 
     @Test
     public void testReadFromJSON() throws AppException {
-        Assert.assertNotNull(getClass().getResource("/files/rel1.json"));
-        jsonStream = getClass().getResourceAsStream("/files/rel1.json");
+        Assert.assertNotNull(getClass().getResource("/files/testTypeJSON.json"));
+        jsonStream = getClass().getResourceAsStream("/files/testTypeJSON.json");
         Assert.assertNotNull(jsonStream);
         mockStatic(CmisTypeUtils.class);
         when(CmisTypeUtils.readFromJSON(jsonStream)).thenReturn(jsonList);

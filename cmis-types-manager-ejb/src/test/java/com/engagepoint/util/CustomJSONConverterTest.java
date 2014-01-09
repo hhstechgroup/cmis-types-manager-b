@@ -60,7 +60,7 @@ public class CustomJSONConverterTest {
         mockedSession = mock(Session.class);
         cmisConnection.setSessionFactory(sessionFactoryMock);
         try {
-            InputStream stream = getClass().getResourceAsStream("/files/rel1.json");
+            InputStream stream = getClass().getResourceAsStream("/files/testTypeJSON.json");
             JSONParser parser = new JSONParser();
             json = parser.parse(new InputStreamReader(stream, CHARSET_NAME));
             stream.close();
@@ -74,7 +74,7 @@ public class CustomJSONConverterTest {
 
     @Test
     public void getJSONFromTypeInByteArrayIsTestFileExists() {
-        Assert.assertNotNull(getClass().getResource("/files/rel1.json"));
+        Assert.assertNotNull(getClass().getResource("/files/testTypeJSON.json"));
 
     }
 
