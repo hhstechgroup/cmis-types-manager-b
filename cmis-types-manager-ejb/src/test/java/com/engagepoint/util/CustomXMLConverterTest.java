@@ -65,6 +65,12 @@ public class CustomXMLConverterTest {
             testAbstractTypeDefinitionList = CustomXMLConverter.convertTypeDefinition(mockedXmlStreamReader);
         } catch (XMLStreamException e) {
             Assert.fail("XMLStreamException : " + e.getMessage());
+        } finally {
+            try {
+                mockedXmlStreamReader.close();
+            } catch (XMLStreamException e) {
+                Assert.fail("IOException : " + e.getMessage());
+            }
         }
 
         Assert.assertEquals("Uncorrected list length", testAbstractTypeDefinitionList.size(), 3);
@@ -86,6 +92,12 @@ public class CustomXMLConverterTest {
             testAbstractTypeDefinitionList = CustomXMLConverter.convertTypeDefinition(mockedXmlStreamReader);
         } catch (XMLStreamException e) {
             Assert.fail("XMLStreamException : " + e.getMessage());
+        } finally {
+            try {
+                mockedXmlStreamReader.close();
+            } catch (XMLStreamException e) {
+                Assert.fail("IOException : " + e.getMessage());
+            }
         }
 
         Assert.assertEquals("Uncorrected list length", testAbstractTypeDefinitionList.size(), 1);

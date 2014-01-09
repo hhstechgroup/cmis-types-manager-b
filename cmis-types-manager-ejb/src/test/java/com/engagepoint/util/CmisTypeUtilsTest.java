@@ -59,6 +59,11 @@ public class CmisTypeUtilsTest {
         mockStatic(CmisTypeUtils.class);
         when(CmisTypeUtils.readFromXML(xmlStream)).thenReturn(xmlList);
         Assert.assertEquals(xmlList, CmisTypeUtils.readFromXML(xmlStream));
+        try {
+            xmlStream.close();
+        } catch (IOException e) {
+            Assert.fail("IOException : " + e.getMessage());
+        }
     }
 
     @Test(expected = NullPointerException.class)
@@ -76,6 +81,11 @@ public class CmisTypeUtilsTest {
         mockStatic(CmisTypeUtils.class);
         when(CmisTypeUtils.readFromJSON(jsonStream)).thenReturn(jsonList);
         Assert.assertEquals(jsonList, CmisTypeUtils.readFromJSON(jsonStream));
+        try {
+            jsonStream.close();
+        } catch (IOException e) {
+            Assert.fail("IOException : " + e.getMessage());
+        }
     }
 
     @Test
