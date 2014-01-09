@@ -1,9 +1,8 @@
 package com.engagepoint.ejb;
 
-import com.engagepoint.exception.CmisException;
-import com.engagepoint.exception.CmisTypeDeleteException;
+import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.*;
-import com.engagepoint.util.CustomTypeUtils;
+import com.engagepoint.util.CmisTypeUtils;
 import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
