@@ -12,6 +12,7 @@ When the user fills 'loginForm-login' field with 'test'
 When the user fills 'loginForm-password' field with 'test'
 When the user fills 'loginForm-URL' field with 'chemistry-opencmis-server-inmemory/atom11' using baseUrl
 When clicks on element with id/name/className 'loginBut'
+Then wait for '2' sec
 Then wait for element 'treeForm' is visible
 
 Scenario: create type with metadata scenario
