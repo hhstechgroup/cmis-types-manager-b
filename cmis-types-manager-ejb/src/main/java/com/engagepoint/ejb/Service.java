@@ -1,27 +1,26 @@
 package com.engagepoint.ejb;
 
-import com.engagepoint.exception.AppException;
-import com.engagepoint.pojo.PropertyDefinitionImpl;
-import com.engagepoint.pojo.Type;
-import com.engagepoint.pojo.TypeDefinitionImpl;
-import com.engagepoint.pojo.UserInfo;
-import com.engagepoint.util.CmisTypeUtils;
-import org.apache.chemistry.opencmis.client.api.ObjectType;
-import org.apache.chemistry.opencmis.client.api.Repository;
-import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.client.api.Tree;
+import com.engagepoint.exception.CmisException;
+import com.engagepoint.exception.CmisTypeDeleteException;
+import com.engagepoint.pojo.*;
+import com.engagepoint.util.CustomTypeUtils;
+import org.apache.chemistry.opencmis.client.api.*;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeDefinition;
 import org.apache.chemistry.opencmis.commons.definitions.TypeMutability;
 import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisBaseException;
+import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.AbstractTypeDefinition;
+import org.apache.chemistry.opencmis.commons.impl.json.parser.JSONParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.xml.stream.XMLStreamException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -55,6 +54,8 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
@@ -74,6 +75,8 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
 
     }
@@ -81,7 +84,12 @@ public class Service {
     public List<Type> findAllTypes(UserInfo userInfo, boolean includePropertyDefinition) throws AppException {
         Session session = connection.getSession(userInfo);
         List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, includePropertyDefinition);
-        return getTypesFromTreeList(descendants);
+        try {
+            descendants = session.getTypeDescendants(null, -1, false);
+            return getTypesFromTreeList(descendants);
+        } finally {
+            session.getBinding().close();
+        }
     }
 
     public TypeDefinition findTypeById(UserInfo userInfo, String id) throws AppException {
@@ -94,12 +102,14 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
     public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws AppException {
+        Session session = connection.getSession(userInfo);
         try {
-            Session session = connection.getSession(userInfo);
             List<AbstractTypeDefinition> definitionList;
             try {
                 definitionList = CmisTypeUtils.readFromXML(stream);
@@ -119,12 +129,14 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
     public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws AppException {
+        Session session = connection.getSession(userInfo);
         try {
-            Session session = connection.getSession(userInfo);
             try {
                 List<TypeDefinition> typeDefinition = CmisTypeUtils.readFromJSON(stream);
                 for (TypeDefinition definition : typeDefinition) {
@@ -141,6 +153,8 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new AppException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
@@ -160,6 +174,7 @@ public class Service {
             throw new AppException(e.getMessage());
         } finally {
             closeQuietly(out);
+            session.getBinding().close();
         }
 
     }
@@ -177,6 +192,7 @@ public class Service {
             throw new AppException(e.getMessage());
         } finally {
             closeQuietly(out);
+            session.getBinding().close();
         }
 
     }
