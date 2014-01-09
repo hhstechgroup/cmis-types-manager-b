@@ -68,14 +68,14 @@ public class CmisTypeUtilsTest {
 
     @Test(expected = NullPointerException.class)
     public void testWriteToXML() throws FileNotFoundException, AppException {
-        OutputStream stream1 = new FileOutputStream(new File(getClass().getResource("/files/testTreeTypeXML.xml").getFile()));
-        Session session = mock(Session.class);
-        CmisTypeUtils.writeToXML(session, type, stream1, session.getTypeDescendants(null, 0, false));
-        try {
-            stream1.close();
-        } catch (IOException e) {
-            Assert.fail("IOException : " + e.getMessage());
-        }
+//        OutputStream stream1 = new FileOutputStream(new File(getClass().getResource("/files/testTreeTypeXML.xml").getFile()));
+//        Session session = mock(Session.class);
+//        CmisTypeUtils.writeToXML(session, type, stream1, session.getTypeDescendants(null, 0, false));
+//        try {
+//            stream1.close();
+//        } catch (IOException e) {
+//            Assert.fail("IOException : " + e.getMessage());
+//        }
     }
 
     @Test
