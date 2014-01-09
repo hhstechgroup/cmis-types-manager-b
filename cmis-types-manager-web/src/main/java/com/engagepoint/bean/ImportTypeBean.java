@@ -3,7 +3,6 @@ package com.engagepoint.bean;
 import com.engagepoint.constant.R;
 import com.engagepoint.ejb.Service;
 import com.engagepoint.exception.AppException;
-import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.component.commandbutton.CommandButton;
@@ -67,12 +66,11 @@ public class ImportTypeBean {
     public String importTypes() {
         try {
             if (file != null) {
-                UserInfo userInfo = login.getUserInfo();
                 if (file.getFileName().contains(XML_PATTERN)) {
-                    service.importTypeFromXml(userInfo, file.getInputstream());
+                    service.importTypeFromXml(login.getClientSession().getSession(), file.getInputstream());
                     MessageUtils.printInfo(SUCCESS_IMPORT_TYPE);
                 } else if (file.getFileName().contains(JSON_PATTERN)) {
-                    service.importTypeFromJson(userInfo, file.getInputstream());
+                    service.importTypeFromJson(login.getClientSession().getSession(), file.getInputstream());
                     MessageUtils.printInfo(SUCCESS_IMPORT_TYPE);
                 }
             } else {

@@ -72,7 +72,7 @@ public class CreateTypeBean implements Serializable {
         selectedTypeProperty = new PropertyDefinitionImpl();
         UserInfo userInfo = login.getUserInfo();
         try {
-            typeDefinition = service.findTypeById(userInfo, selectedType.getId());
+            typeDefinition = service.findTypeById(login.getClientSession().getSession(), selectedType.getId());
         } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);
@@ -186,7 +186,7 @@ public class CreateTypeBean implements Serializable {
 
     private void setAttributes(UserInfo usrInf) {
         try {
-            TypeDefinition typeDefinition = service.findTypeById(usrInf, selectedType.getId());
+            TypeDefinition typeDefinition = service.findTypeById(login.getClientSession().getSession(), selectedType.getId());
             newType.setCreatable(typeDefinition.isCreatable());
             newType.setFileable(typeDefinition.isFileable());
             newType.setQueryable(typeDefinition.isQueryable());
@@ -206,7 +206,7 @@ public class CreateTypeBean implements Serializable {
             newType.setParentTypeId(selectedType.getId());
             newType.setProperties(typeProperties);
             newType.setChildren(Collections.EMPTY_LIST);
-            service.createType(login.getUserInfo(), newType);
+            service.createType(login.getClientSession().getSession(), newType);
 //            selectedTypeHolder.setType(newType);
             MessageUtils.printInfo(newType.getDisplayName() + TYPE_CREATED);
             return TO_MAIN_PAGE;

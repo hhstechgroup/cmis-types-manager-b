@@ -106,7 +106,7 @@ public class TypesManagerBean implements Serializable {
                 for (Type selectedTypeChild : selectedTypeChildren) {
                     deleteTypeWithSubtypes(selectedTypeChild);
                 }
-                service.deleteType(login.getUserInfo(), selectedType.getId());
+                service.deleteType(login.getClientSession().getSession(), selectedType.getId());
                 MessageUtils.printInfo(TYPE_DELETED + selectedType.getDisplayName());
             } else {
                 MessageUtils.printError(String.format(CAN_NOT_DELETE, selectedType.getDisplayName()));
@@ -127,7 +127,7 @@ public class TypesManagerBean implements Serializable {
 
     private void refreshTypes() {
         try {
-            types = service.findAllTypes(login.getUserInfo(), false);
+            types = service.findAllTypes(login.getClientSession().getSession(), false);
         } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_SET_SELECTED_TYPE, e);

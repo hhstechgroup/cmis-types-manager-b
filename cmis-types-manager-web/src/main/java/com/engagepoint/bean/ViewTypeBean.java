@@ -45,7 +45,7 @@ public class ViewTypeBean implements Serializable {
     public void init() {
         try {
             Type selectedType = selectedTypeHolder.getType();
-            type = service.findTypeById(login.getUserInfo(), selectedType.getId());
+            type = service.findTypeById(login.getClientSession().getSession(), selectedType.getId());
         } catch (AppException e) {
             MessageUtils.printError(e.getMessage());
             LOGGER.error(UNABLE_INIT_TYPE_VIEW, e);

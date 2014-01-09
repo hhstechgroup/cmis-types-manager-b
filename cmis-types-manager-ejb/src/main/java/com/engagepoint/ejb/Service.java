@@ -4,10 +4,8 @@ import com.engagepoint.exception.AppException;
 import com.engagepoint.pojo.PropertyDefinitionImpl;
 import com.engagepoint.pojo.Type;
 import com.engagepoint.pojo.TypeDefinitionImpl;
-import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.CmisTypeUtils;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
-import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.Tree;
 import org.apache.chemistry.opencmis.commons.definitions.PropertyDefinition;
@@ -44,8 +42,7 @@ public class Service {
     @EJB
     private CmisConnection connection;
 
-    public void createType(UserInfo userInfo, Type type) throws AppException {
-        Session session = connection.getSession(userInfo);
+    public void createType(Session session, Type type) throws AppException {
         TypeDefinition typeDefinition = getTypeDefinition(type);
         try {
             session.createType(CmisTypeUtils.getCorrectTypeDefinition(session, typeDefinition));
@@ -58,8 +55,7 @@ public class Service {
         }
     }
 
-    public void deleteType(UserInfo userInfo, String id) throws AppException {
-        Session session = connection.getSession(userInfo);
+    public void deleteType(Session session, String id) throws AppException {
         try {
             ObjectType type = session.getTypeDefinition(id);
             TypeMutability typeMutability = type.getTypeMutability();
@@ -78,14 +74,12 @@ public class Service {
 
     }
 
-    public List<Type> findAllTypes(UserInfo userInfo, boolean includePropertyDefinition) throws AppException {
-        Session session = connection.getSession(userInfo);
+    public List<Type> findAllTypes(Session session, boolean includePropertyDefinition) throws AppException {
         List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, includePropertyDefinition);
         return getTypesFromTreeList(descendants);
     }
 
-    public TypeDefinition findTypeById(UserInfo userInfo, String id) throws AppException {
-        Session session = connection.getSession(userInfo);
+    public TypeDefinition findTypeById(Session session, String id) throws AppException {
         try {
             return session.getTypeDefinition(id);
         } catch (IllegalArgumentException e) {
@@ -97,9 +91,8 @@ public class Service {
         }
     }
 
-    public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws AppException {
+    public void importTypeFromXml(Session session, InputStream stream) throws AppException {
         try {
-            Session session = connection.getSession(userInfo);
             List<AbstractTypeDefinition> definitionList;
             try {
                 definitionList = CmisTypeUtils.readFromXML(stream);
@@ -122,9 +115,8 @@ public class Service {
         }
     }
 
-    public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws AppException {
+    public void importTypeFromJson(Session session, InputStream stream) throws AppException {
         try {
-            Session session = connection.getSession(userInfo);
             try {
                 List<TypeDefinition> typeDefinition = CmisTypeUtils.readFromJSON(stream);
                 for (TypeDefinition definition : typeDefinition) {
@@ -144,8 +136,7 @@ public class Service {
         }
     }
 
-    public void exportTypeToXML(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws AppException {
-        Session session = connection.getSession(userInfo);
+    public void exportTypeToXML(Session session, OutputStream out, String typeId, boolean includeChildren) throws AppException {
         List<Tree<ObjectType>> typeDescendants = null;
         if (includeChildren) {
             typeDescendants = session.getTypeDescendants(typeId, -1, true);
@@ -164,8 +155,7 @@ public class Service {
 
     }
 
-    public void exportTypeToJSON(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws AppException {
-        Session session = connection.getSession(userInfo);
+    public void exportTypeToJSON(Session session, OutputStream out, String typeId, boolean includeChildren) throws AppException {
         List<Tree<ObjectType>> typeDescendants = null;
         if (includeChildren) {
             typeDescendants = session.getTypeDescendants(typeId, -1, true);
@@ -179,19 +169,6 @@ public class Service {
             closeQuietly(out);
         }
 
-    }
-
-    public List<Repository> getRepositories(UserInfo userInfo) throws AppException {
-        return connection.getRepositories(userInfo);
-    }
-
-    public String getDefaultRepository(UserInfo userInfo) throws AppException {
-        List<Repository> repositories = getRepositories(userInfo);
-        return repositories.get(0).getId();
-    }
-
-    public boolean isUserExists(UserInfo userInfo) throws AppException {
-        return connection.getSession(userInfo) != null;
     }
 
     private TypeDefinition getTypeDefinition(Type type) {

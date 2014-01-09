@@ -43,9 +43,5 @@ public class CmisConnectionTest {
         Assert.assertEquals("Session is wrong", mockedSession, cmisConnection.getSession(userInfoMock));
     }
 
-    @Test
-    public void testGetRepositories() throws AppException {
-        when(sessionFactoryMock.getRepositories(userInfoMock.getAtomPubParameters())).thenReturn(mockedRepositoryList);
-        Assert.assertEquals("Repository list is wrong", mockedRepositoryList, cmisConnection.getRepositories(userInfoMock));
-    }
+
 }

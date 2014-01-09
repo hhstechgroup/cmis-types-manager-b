@@ -1,7 +1,6 @@
 package com.engagepoint.bean;
 
 import com.engagepoint.ejb.Service;
-import com.engagepoint.exception.AppException;
 import com.engagepoint.util.MessageUtils;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.commons.data.RepositoryInfo;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.engagepoint.constant.MessageConstants.REPO_CHANGED;
-import static com.engagepoint.constant.MessageConstants.UNABLE_INIT_REPO;
 
 /**
  * User: arkadiy.sychov (arkadiy.sychov@engagepoint.com )
@@ -42,17 +40,12 @@ public class RepositoryBean implements Serializable {
 
     @PostConstruct
     public void init() {
-        try {
-            repositories = getRepositoryMapFrom(service.getRepositories(loginBean.getUserInfo()));
-            selectItems = new ArrayList<SelectItem>();
-            for (Repository repo : repositories.values()) {
-                selectItems.add(new SelectItem(repo.getId(), repo.getName()));
-            }
-            selectedRepoId = repositories.values().iterator().next().getId();
-        } catch (AppException e) {
-            MessageUtils.printError(e.getMessage());
-            LOGGER.error(UNABLE_INIT_REPO, e);
+        repositories = getRepositoryMapFrom(loginBean.getClientSession().getRepositories());
+        selectItems = new ArrayList<SelectItem>();
+        for (Repository repo : repositories.values()) {
+            selectItems.add(new SelectItem(repo.getId(), repo.getName()));
         }
+        selectedRepoId = repositories.values().iterator().next().getId();
     }
 
     public void changeRepository() {

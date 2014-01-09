@@ -109,14 +109,14 @@ public class ExportTypeBean {
     private void exportToXml() throws AppException, IOException {
         String typeId = selectedTypeHolder.getType().getId();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        service.exportTypeToXML(login.getUserInfo(), out, typeId, includeChildren);
+        service.exportTypeToXML(login.getClientSession().getSession(), out, typeId, includeChildren);
         exportFile(out, getFileName(typeId, XML_PATTERN));
     }
     //TODO get knowledge of stream
     private void exportToJson() throws AppException, IOException {
         String typeId = selectedTypeHolder.getType().getId();
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        service.exportTypeToJSON(login.getUserInfo(), out, typeId, includeChildren);
+        service.exportTypeToJSON(login.getClientSession().getSession(), out, typeId, includeChildren);
         exportFile(out, getFileName(typeId, JSON_PATTERN));
     }
 

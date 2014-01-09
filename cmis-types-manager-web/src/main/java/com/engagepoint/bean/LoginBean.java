@@ -1,9 +1,13 @@
 package com.engagepoint.bean;
 
-import com.engagepoint.ejb.Service;
+import com.engagepoint.ejb.CmisConnection;
 import com.engagepoint.exception.AppException;
+import com.engagepoint.pojo.ClientSession;
 import com.engagepoint.pojo.UserInfo;
 import com.engagepoint.util.MessageUtils;
+import org.apache.chemistry.opencmis.client.api.Repository;
+import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +19,9 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.engagepoint.constant.MessageConstants.*;
 import static com.engagepoint.constant.NameConstants.SESSION_DISPLAY_NAME;
@@ -33,10 +40,13 @@ import static com.engagepoint.constant.NavigationConstants.TO_MAIN_PAGE;
 public class LoginBean implements Serializable {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginBean.class);
     @EJB
-    private Service service;
+    private CmisConnection connection;
     private UserInfo userInfo;
     private String sessionID;
     private boolean loggedIn;
+    private ClientSession clientSession;
+
+
 
     @PostConstruct
     public void init() {
@@ -69,16 +79,14 @@ public class LoginBean implements Serializable {
 
     public String doLogin() {
         try {
-            userInfo.setRepository(service.getDefaultRepository(userInfo));
-            if (isUserValid()) {
-                sessionID = String.valueOf(Math.random() * 1000);
-                HttpSession httpSession = getHttpSession();
-                httpSession.setAttribute(SESSION_DISPLAY_NAME, sessionID);
-                setLoggedIn(true);
-                return TO_MAIN_PAGE;
-            } else {
-                return TO_LOGIN;
-            }
+            List<Repository> repositories = connection.getRepositories(getSessionParameters());
+            clientSession = new ClientSession(repositories);
+            clientSession.createSession(0);
+            sessionID = String.valueOf(Math.random() * 1000);
+            HttpSession httpSession = getHttpSession();
+            httpSession.setAttribute(SESSION_DISPLAY_NAME, sessionID);
+            setLoggedIn(true);
+            return TO_MAIN_PAGE;
         } catch (AppException e) {
             String message = e.getMessage();
             if (UNEXPECTED_DOCUMENT.equals(message) || NOT_FOUND.equals(message)) {
@@ -100,12 +108,29 @@ public class LoginBean implements Serializable {
         return TO_LOGIN;
     }
 
+    private Map<String, String> getSessionParameters() {
+        LinkedHashMap<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put(SessionParameter.USER, userInfo.getUsername());
+        parameters.put(SessionParameter.PASSWORD, userInfo.getPassword());
+        parameters.put(SessionParameter.ATOMPUB_URL, userInfo.getUrl());
+        parameters.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
+        return parameters;
+    }
+
     public boolean isLoggedIn() {
         return loggedIn;
     }
 
     public void setLoggedIn(boolean loggedIn) {
         this.loggedIn = loggedIn;
+    }
+
+    public ClientSession getClientSession() {
+        return clientSession;
+    }
+
+    public void setClientSession(ClientSession clientSession) {
+        this.clientSession = clientSession;
     }
 
     public UserInfo getUserInfo() {
@@ -120,9 +145,6 @@ public class LoginBean implements Serializable {
         return (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
     }
 
-    private boolean isUserValid() throws AppException {
-        return service.isUserExists(userInfo);
-    }
 
 
 }
