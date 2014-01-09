@@ -118,7 +118,7 @@ public final class CustomJSONConverter {
         return result;
     }
 
-    public static void writeChildrenType(JSONObject result, Session session, List<Tree<ObjectType>> treeList) {
+    private static void writeChildrenType(JSONObject result, Session session, List<Tree<ObjectType>> treeList) {
         for (Tree<ObjectType> node : treeList) {
             result.put(node.getItem().getId(), convert(node.getItem(), session));
             if (node.getChildren() != null) {
