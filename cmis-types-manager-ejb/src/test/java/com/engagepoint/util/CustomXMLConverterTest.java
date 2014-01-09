@@ -55,6 +55,7 @@ public class CustomXMLConverterTest {
     @Test
     public void testConvertTypeDefinitionTree() {
         String[] testTypeIdList = {"rel1", "rel11", "rel12"};
+
         try {
             Assert.assertNotNull(getClass().getResourceAsStream("/files/testTreeTypeXML.xml"));
             mockedXmlStreamReader = XMLUtils.createParser(getClass().getResourceAsStream("/files/testTreeTypeXML.xml"));
@@ -65,6 +66,7 @@ public class CustomXMLConverterTest {
         } catch (XMLStreamException e) {
             Assert.fail("XMLStreamException : " + e.getMessage());
         }
+
         Assert.assertEquals("Uncorrected list length", testAbstractTypeDefinitionList.size(), 3);
         int index = 0;
         for (AbstractTypeDefinition typeDefinition : testAbstractTypeDefinitionList) {
@@ -74,6 +76,7 @@ public class CustomXMLConverterTest {
 
     @Test
     public void testConvertTypeDefinition() {
+
         Assert.assertNotNull(getClass().getResourceAsStream("/files/testTypeXML.xml"));
         try {
             mockedXmlStreamReader = XMLUtils.createParser(getClass().getResourceAsStream("/files/testTypeXML.xml"));
@@ -84,6 +87,7 @@ public class CustomXMLConverterTest {
         } catch (XMLStreamException e) {
             Assert.fail("XMLStreamException : " + e.getMessage());
         }
+
         Assert.assertEquals("Uncorrected list length", testAbstractTypeDefinitionList.size(), 1);
         for (AbstractTypeDefinition typeDefinition : testAbstractTypeDefinitionList) {
             Assert.assertEquals("Type Id not equals", typeDefinition.getId(), "cmis:folder");
@@ -95,15 +99,6 @@ public class CustomXMLConverterTest {
         try {
             typeDescendants = mock(List.class);
             CustomXMLConverter.writeTypeDefinitions(mockedSession, mockedWriter, typeDefinition, typeDescendants);
-        } catch (XMLStreamException e) {
-            Assert.fail("XMLStreamException : " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testWriteTypeDefinitionsWithoutChildren() {
-        try {
-            CustomXMLConverter.writeTypeDefinitions(mockedSession, mockedWriter, typeDefinition, null);
         } catch (XMLStreamException e) {
             Assert.fail("XMLStreamException : " + e.getMessage());
         }
