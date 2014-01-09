@@ -48,6 +48,8 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
@@ -67,14 +69,21 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
 
     }
 
     public List<Type> findAllTypes(UserInfo userInfo) throws CmisException {
         Session session = connection.getSession(userInfo);
-        List<Tree<ObjectType>> descendants = session.getTypeDescendants(null, -1, false);
-        return getTypesFromTreeList(descendants);
+        List<Tree<ObjectType>> descendants;
+        try {
+            descendants = session.getTypeDescendants(null, -1, false);
+            return getTypesFromTreeList(descendants);
+        } finally {
+            session.getBinding().close();
+        }
     }
 
     public TypeDefinition findTypeById(UserInfo userInfo, String id) throws CmisException {
@@ -87,12 +96,14 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
     public void importTypeFromXml(UserInfo userInfo, InputStream stream) throws CmisException, XMLStreamException {
+        Session session = connection.getSession(userInfo);
         try {
-            Session session = connection.getSession(userInfo);
             List<AbstractTypeDefinition> definitionList;
             try {
                 definitionList = CustomTypeUtils.readFromXML(stream);
@@ -112,12 +123,15 @@ public class Service {
         } catch (CmisBaseException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
     public void importTypeFromJson(UserInfo userInfo, InputStream stream) throws CmisException, JSONParseException {
+        Session session = connection.getSession(userInfo);
+
         try {
-            Session session = connection.getSession(userInfo);
             try {
                 List<TypeDefinition> typeDefinition = CustomTypeUtils.readFromJSON(stream);
                 for (TypeDefinition definition : typeDefinition) {
@@ -137,6 +151,8 @@ public class Service {
         } catch (IOException e) {
             LOGGER.error(e.getMessage(), e);
             throw new CmisException(e.getMessage());
+        } finally {
+            session.getBinding().close();
         }
     }
 
@@ -159,8 +175,8 @@ public class Service {
             throw new CmisException(e.getMessage());
         } finally {
             IOUtils.closeQuietly(out);
+            session.getBinding().close();
         }
-
     }
 
     public void exportTypeToJSON(UserInfo userInfo, OutputStream out, String typeId, boolean includeChildren) throws CmisException {
@@ -179,6 +195,7 @@ public class Service {
             throw new CmisException(e.getMessage());
         } finally {
             IOUtils.closeQuietly(out);
+            session.getBinding().close();
         }
 
     }
