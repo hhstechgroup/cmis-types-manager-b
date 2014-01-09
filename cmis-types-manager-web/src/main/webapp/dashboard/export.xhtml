@@ -9,7 +9,7 @@
         <p:selectBooleanCheckbox id="includeChildCheckbox" styleClass="ml10" value="#{exportTypeBean.includeChildren}"/>
     </p:panelGrid>
 
-    <p:panelGrid columns="2">
+    <p:panelGrid columns="2" style="margin-left: auto">
         <p:selectOneRadio id="xmlOrJsonOptions" layout="grid" value="#{exportTypeBean.fileType}"  >
             <f:selectItem itemLabel="Xml" itemValue="xml"/>
             <f:selectItem itemLabel="Json" itemValue="json"/>
