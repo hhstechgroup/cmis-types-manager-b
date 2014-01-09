@@ -38,12 +38,12 @@ public class CmisTypeUtilsTest {
 
     @Test
     public void assertResourceXmlFile() {
-        Assert.assertNotNull(getClass().getResource("/files/rel1.xml"));
+        Assert.assertNotNull(getClass().getResource("/files/testTreeTypeXML.xml"));
     }
 
     @Test
     public void verifyGetStream() {
-        stream = getClass().getResourceAsStream("/files/rel1.xml");
+        stream = getClass().getResourceAsStream("/files/testTreeTypeXML.xml");
         Assert.assertNotNull(stream);
     }
 
